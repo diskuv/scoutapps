@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="204dp"
+        android:layout_height="71dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="72dp"
+        android:text="Start Scouting" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="204dp"
+        android:layout_height="71dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="87dp"
+        android:layout_marginTop="188dp"
+        android:text="pit scouting" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="204dp"
+        android:layout_height="71dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="279dp"
+        android:text="History" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="204dp"
+        android:layout_height="71dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="81dp"
+        android:layout_marginTop="366dp"
+        android:text="settings" />
+
+    <EditText
+        android:id="@+id/scouterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/button6"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="78dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="170dp"
+        android:ems="10"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="125dp"
+        android:layout_height="73dp"
+        android:layout_below="@+id/button6"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="-3dp"
+        android:layout_marginBottom="131dp"
+        android:layout_toStartOf="@+id/scouterName"
+        android:text="NAME:"
+        android:textSize="20dp" />
+</RelativeLayout>

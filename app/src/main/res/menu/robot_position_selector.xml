@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/START_SCOUTING_RED_1"
+        android:title="RED_1"/>
+    <item android:id="@+id/START_SCOUTING_RED_2"
+        android:title="RED_2"/>
+    <item android:id="@+id/START_SCOUTING_RED_3"
+        android:title="RED_3"/>
+
+    <item android:id="@+id/START_SCOUTING_BLUE_1"
+        android:title="BLUE_1"/>
+    <item android:id="@+id/START_SCOUTING_BLUE_2"
+        android:title="BLUE_2"/>
+    <item android:id="@+id/START_SCOUTING_BLUE_3"
+        android:title="BLUE_3"/>
+
+
+
+</menu>

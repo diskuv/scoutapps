@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--    <shape xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/listview_background_shape">-->
+
+
+<!--    <solid android:color="@color/black"/>-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <item >
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <solid android:color="#657985"/>
+            <stroke android:width="1dp"/>
+        </shape>
+    </item>
+
+
+    <item >
+
+    <vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:height="100dp"
+        android:width="100dp"
+        android:viewportHeight="100"
+        android:viewportWidth="100" >
+        <group
+            android:name="triableGroup">
+            <path
+                android:name="triangle"
+                android:fillColor="#FF0000"
+                android:pathData="m 50,10 l 40,80 -80,0 z" />
+        </group>
+    </vector>
+
+    </item>
+
+
+
+
+</layer-list>
+
+<!--</shape>-->

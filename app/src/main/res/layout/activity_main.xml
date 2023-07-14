@@ -7,77 +7,90 @@
     tools:context=".MainActivity">
 
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="204dp"
-        android:layout_height="71dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="600dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="72dp"
-        android:text="Start Scouting" />
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+
+
+
+        <Button
+            android:id="@+id/START_SCOUTING"
+            android:layout_width="350dp"
+            android:layout_height="125dp"
+
+            android:layout_marginTop="50dp"
+
+            android:layout_gravity="center"
+            android:text="START SCOUTING" />
+
+        <Button
+            android:id="@+id/PIT_SCOUTING"
+            android:layout_width="250dp"
+            android:layout_height="73dp"
+
+            android:layout_marginTop="50dp"
+
+            android:layout_gravity="center"
+            android:text="PIT SCOUTING" />
+
+        <Button
+            android:id="@+id/HISTORY"
+            android:layout_width="250dp"
+            android:layout_height="73dp"
+
+            android:layout_marginTop="50dp"
+
+            android:layout_gravity="center"
+            android:text="HISTORY" />
+
+        <EditText
+            android:id="@+id/SCOUTER_NAME"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+
+            android:layout_marginTop="50dp"
+
+            android:layout_marginRight="40dp"
+            android:layout_gravity="right"
+
+            />
+
+        <TextView
+            android:id="@+id/NAME_TEXTVIEW"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="-50dp"
+            android:layout_gravity="left"
+
+
+            android:layout_marginLeft="25dp"
+            android:text="NAME:"
+            android:textSize="25dp"
+
+
+            />
+
+
+
+    </LinearLayout>
+
 
     <Button
-        android:id="@+id/button4"
-        android:layout_width="204dp"
-        android:layout_height="71dp"
-        android:layout_alignParentStart="true"
+        android:id="@+id/SETTINGS"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="87dp"
-        android:layout_marginTop="188dp"
-        android:text="pit scouting" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="204dp"
-        android:layout_height="71dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="279dp"
-        android:text="History" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="204dp"
-        android:layout_height="71dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="81dp"
-        android:layout_marginTop="366dp"
-        android:text="settings" />
-
-    <EditText
-        android:id="@+id/scouterName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_below="@+id/button6"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="78dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="170dp"
-        android:ems="10"
-        android:inputType="text" />
+        android:layout_marginEnd="4dp"
+        android:text="S"
+        />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="125dp"
-        android:layout_height="73dp"
-        android:layout_below="@+id/button6"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="-3dp"
-        android:layout_marginBottom="131dp"
-        android:layout_toStartOf="@+id/scouterName"
-        android:text="NAME:"
-        android:textSize="20dp" />
 </RelativeLayout>

@@ -2,17 +2,56 @@
  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkGrey"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <LinearLayout
+        android:id="@+id/Main_Card_H"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/Title_Card_H"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TITLE"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="     START SCOUTING"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="40sp" />
+
+            <Button
+                android:id="@+id/SETTINGS"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center|right"
+                android:backgroundTint="@color/green"
+                android:text=":"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/START_SCOUTING_MATCH_SELECTOR_CARD"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/START_SCOUTING_MATCH_SELECTOR_CARD"
 
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
 
@@ -21,71 +60,64 @@
             app:cardElevation="10dp">
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/rectangle"
-                    android:backgroundTint="#F39665"
-                    android:text="Choose Match:"
-                    android:textSize="25dp"
-                    android:textAlignment="center"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="#F39665"
+                android:text="Choose Match:"
+                android:textAlignment="center"
 
-                    android:layout_marginRight="10dp"/>
+                android:textSize="25dp" />
 
-                <include
-                    layout="@layout/counter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right" />
+            <include
+                layout="@layout/counter"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right" />
 
 
         </androidx.cardview.widget.CardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="#B5CAD7"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
 
-        android:layout_below="@+id/START_SCOUTING_MATCH_SELECTOR_CARD"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
 
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="#B5CAD7"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp">
+                android:background="@android:color/darker_gray"
+                android:text="ROBOT POSITION:"
+                android:textAlignment="center"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
+                android:textSize="25dp" />
 
-            android:text="ROBOT POSITION:"
-            android:textSize="25dp"
-            android:textAlignment="center"
-
-            android:layout_marginRight="10dp"/>
-
-        <Button
-            android:id="@+id/START_SCOUTING_ROBOT_POSITION_BUTTON"
-            android:layout_width="wrap_content"
-            android:minWidth="150dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:text="RED_1"
+            <Button
+                android:id="@+id/START_SCOUTING_ROBOT_POSITION_BUTTON"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:minWidth="150dp"
+                android:text="RED_1"
 
 
-            />
+                />
 
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
-
-
-
-
+    </LinearLayout>
 
 
 </RelativeLayout>

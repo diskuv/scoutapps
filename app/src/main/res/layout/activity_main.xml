@@ -4,93 +4,182 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkGrey"
     tools:context=".MainActivity">
 
 
-
-
     <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="600dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:id="@+id/Main_Card"
+        android:layout_width="696dp"
+        android:layout_height="1173dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
+        <!-- Settings Layout -->
+        <LinearLayout
+            android:id="@+id/Title_Card_H"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/TITLE"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="  HOME SCREEN"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="40sp" />
 
+            <Button
+                android:id="@+id/SETTINGS"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center|right"
+                android:backgroundTint="@color/green"
+                android:text=":"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+        </LinearLayout>
 
+        <!-- Start Scouting Button -->
         <Button
             android:id="@+id/START_SCOUTING"
             android:layout_width="350dp"
             android:layout_height="125dp"
-
-            android:layout_marginTop="50dp"
-
             android:layout_gravity="center"
-            android:text="START SCOUTING" />
+            android:layout_marginTop="50dp"
+            android:backgroundTint="@color/green"
+            android:text="START SCOUTING"
+            android:textColor="@color/black"
+            android:textSize="35sp" />
 
+        <!-- Pit Scouting Button -->
         <Button
             android:id="@+id/PIT_SCOUTING"
-            android:layout_width="250dp"
-            android:layout_height="73dp"
-
-            android:layout_marginTop="50dp"
-
+            android:layout_width="300dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:text="PIT SCOUTING" />
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/lightGrey"
+            android:text="PIT SCOUTING"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
+        <!-- Share Pit scouting Button -->
+        <Button
+            android:id="@+id/SHARE_PIT_SCOUTING"
+            android:layout_width="250dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="SHARE PIT SCOUT DATA" />
+
+        <!-- View History Button -->
         <Button
             android:id="@+id/HISTORY"
             android:layout_width="250dp"
             android:layout_height="73dp"
 
-            android:layout_marginTop="50dp"
-
             android:layout_gravity="center"
+
+            android:layout_marginTop="30dp"
             android:text="HISTORY" />
 
-        <EditText
-            android:id="@+id/SCOUTER_NAME"
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-
+        <!-- Scout Name Layout -->
+        <LinearLayout
+            android:id="@+id/Name_Card_H"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
             android:layout_marginTop="50dp"
-
-            android:layout_marginRight="40dp"
-            android:layout_gravity="right"
-
-            />
-
-        <TextView
-            android:id="@+id/NAME_TEXTVIEW"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="-50dp"
-            android:layout_gravity="left"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
 
 
-            android:layout_marginLeft="25dp"
-            android:text="NAME:"
-            android:textSize="25dp"
+            <TextView
+                android:id="@+id/Name_Label"
+                android:layout_width="175dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="-40sp"
+                android:text="SCOUT NAME:"
+                android:textAlignment="center"
+                android:textSize="25sp"
+
+                />
+
+            <EditText
+                android:id="@+id/Name_Input"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="Name..."
+                android:inputType="text"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <!-- Team Name Layout -->
+        <LinearLayout
+            android:id="@+id/TeamName_Card_H"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TeamNum_Label"
+                android:layout_width="175dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="-25dp"
+                android:text="TEAM #:"
+                android:textAlignment="center"
+                android:textSize="25sp"
 
 
-            />
+                />
 
+            <EditText
+                android:id="@+id/TeamNum_Input"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-30dp"
+                android:ems="15"
+                android:hint="Team #..."
+                android:inputType="number"
+                android:textSize="25sp" />
+
+        </LinearLayout>
+
+        <!-- Nuke Data Button -->
+        <Button
+            android:id="@+id/NUKE_DATA"
+            android:layout_width="250dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/brown"
+            android:text="Nuke All Data"
+            android:textSize="25sp" />
 
 
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/SETTINGS"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-
-
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="4dp"
-        android:text="S"
-        />
 
 </RelativeLayout>

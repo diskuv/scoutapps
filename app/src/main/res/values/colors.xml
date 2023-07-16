@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- theme colors -->
+    <color name="lightGrey">#C2C4C3</color>
+    <color name="orange">#FA9C1B</color>
+    <color name="offwhite">#D1CAC3</color>
+    <color name="green">#00A685</color>
+    <color name="darkGrey">#676767</color>
+    <color name="blue">#779ECC</color>
+    <color name="brown">#260101</color>
 </resources>

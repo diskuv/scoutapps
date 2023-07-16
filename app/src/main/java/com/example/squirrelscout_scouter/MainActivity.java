@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             history = findViewById(R.id.HISTORY);
             history.setOnClickListener(this);
 
-            settings = findViewById(R.id.SETTINGS);
-            settings.setOnClickListener(this);
-
             scouterNameI = (EditText) findViewById(R.id.Name_Input);
             teamNameI = (EditText) findViewById(R.id.TeamNum_Input);
 
@@ -63,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startHistorylogic();
         } else if(clickedID == R.id.PIT_SCOUTING){
             startPitScoutingLogic();
-        } else if(clickedID == R.id.SETTINGS) {
-            startSettingsLogic();
         }
 
     }

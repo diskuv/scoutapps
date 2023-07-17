@@ -6,26 +6,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button startScoutingButton;
-    Button pitScouting;
-    Button history;
-
-    Button settings;
-
-    EditText scouterNameI;
-    EditText teamNameI;
+    //instances
+    Button startScoutingButton, pitScouting, history, sharePitScouting, nukeData;
+    View firstCard, secondCard;
+    EditText scouterNameI,teamNameI;
+    TextView title, titleSecondary, nameText, teamText;
 
     //variables
-    String ScoutName;
-    String TeamNum;
+    String ScoutName, TeamNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +41,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             history = findViewById(R.id.HISTORY);
             history.setOnClickListener(this);
 
+            sharePitScouting = findViewById(R.id.SHARE_PIT_SCOUTING);
+            nukeData = findViewById(R.id.NUKE_DATA);
             scouterNameI = (EditText) findViewById(R.id.Name_Input);
             teamNameI = (EditText) findViewById(R.id.TeamNum_Input);
+            title = findViewById(R.id.textView2);
+            titleSecondary = findViewById(R.id.textView3);
+            teamText = findViewById(R.id.TeamNum_Label);
+            nameText = findViewById(R.id.Name_Label);
+            firstCard = findViewById(R.id.view2);
+            secondCard = findViewById(R.id.view3);
+
+            //start animation
+            animationStart();
 
     }
 
@@ -87,5 +96,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(MainActivity.this, ScoutName, Toast.LENGTH_SHORT).show();
             Toast.makeText(MainActivity.this, TeamNum, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void animationStart(){
+        //animations
+        firstCard.setTranslationY(1500);
+        firstCard.setAlpha(0f);
+        secondCard.setTranslationY(1500);
+        secondCard.setAlpha(0f);
+        startScoutingButton.setAlpha(0f);
+        startScoutingButton.setTranslationY(50);
+        history.setAlpha(0f);
+        history.setTranslationY(50);
+        pitScouting.setAlpha(0f);
+        pitScouting.setTranslationY(50);
+        sharePitScouting.setAlpha(0f);
+        sharePitScouting.setTranslationY(50);
+        nukeData.setAlpha(0f);
+        nukeData.setTranslationY(50);
+        title.setTranslationX(-200f);
+        title.setAlpha(0f);
+        titleSecondary.setTranslationX(-200f);
+        titleSecondary.setAlpha(0f);
+        nameText.setTranslationX(200f);
+        nameText.setAlpha(0f);
+        teamText.setTranslationX(200f);
+        teamText.setAlpha(0f);
+        scouterNameI.setTranslationX(200f);
+        scouterNameI.setAlpha(0f);
+        teamNameI.setTranslationX(200f);
+        teamNameI.setAlpha(0f);
+        firstCard.animate().alpha(1f).translationYBy(-1500).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+            secondCard.animate().alpha(1f).translationYBy(-1500).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+                startScoutingButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                history.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                pitScouting.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                sharePitScouting.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                nukeData.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                title.animate().alpha(1f).translationXBy(200f).setDuration(300);
+                titleSecondary.animate().alpha(1f).translationXBy(200f).setDuration(750);
+                nameText.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+                teamText.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+                teamNameI.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+                scouterNameI.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+            }).start();
+        }).start();
     }
 }

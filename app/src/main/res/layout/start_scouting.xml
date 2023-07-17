@@ -39,7 +39,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center|right"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/lightGrey"
                 android:text=":"
                 android:textColor="@color/white"
                 android:textSize="30sp" />

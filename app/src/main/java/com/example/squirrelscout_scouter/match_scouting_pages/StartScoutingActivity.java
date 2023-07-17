@@ -32,7 +32,7 @@ public class StartScoutingActivity extends Activity {
 
         //dropdown
         AutoCompleteTextView dropdown = findViewById(R.id.dropdown);
-        String[] items = new String[]{"Item 1", "Item 2", "Item 3"};
+        String[] items = new String[]{"Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
         dropdown.setAdapter(adapter);
         dropdown.setKeyListener(null);

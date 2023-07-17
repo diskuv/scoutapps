@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:drawable="@color/lightGrey" />
-    <item android:drawable="@color/white" />
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white" /> <!-- Set the background color -->
+
+    <stroke
+        android:color="@color/lightGrey"
+        android:width="0dp"
+    />
+</shape>

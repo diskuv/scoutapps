@@ -48,7 +48,29 @@
         android:textColor="@color/Text"
         android:textSize="60sp"/>
 
-
+    <!-- Robot Image Layout-->
+    <TextView
+        android:id="@+id/Robot_Selected"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="top|center"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginTop="225dp"
+        android:text="Team # :"
+        android:textColor="@color/Text"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="50sp"
+        />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="285dp"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <!-- Choose match Layout-->
     <TextView
@@ -83,13 +105,13 @@
             android:backgroundTint="@color/white"
             android:ems="10"
             android:hint="Choose Match..."
-            android:inputType="text"
+            android:inputType="number"
             android:maxLines="1"
             android:padding="0dp"
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
 
         <Button
             android:id="@+id/MATCH_INCREMENT"
@@ -117,18 +139,63 @@
     </LinearLayout>
 
     <!-- Robot Position Layout -->
+    <TextView
+        android:id="@+id/Robot_Position_Label"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="top|center"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginTop="750dp"
+        android:text="Robot Position :"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        />
     <AutoCompleteTextView
         android:id="@+id/dropdown"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginStart="75dp"
         android:layout_marginEnd="75dp"
-        android:layout_marginTop="800dp"
+        android:layout_marginTop="820dp"
         android:hint="Select an item"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textColor="@color/background"
         android:background="@drawable/dropdown_background"
-        android:backgroundTint="@color/white"
-        android:inputType="none"
-        android:padding="8dp" />
+        android:inputType="none"/>
 
+    <!-- Start Button -->
+    <Button
+        android:id="@+id/START"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="940dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:backgroundTint="@color/accent"
+        android:background="@drawable/rounded_rectangle_subtle"
+        app:backgroundTint="@null"
+        android:text="Start"
+        android:textColor="@color/Text"
+        android:textSize="40sp" />
+
+    <!-- Go Back Button -->
+    <Button
+        android:id="@+id/BACK"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="1050dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginEnd="75dp"
+        android:backgroundTint="@color/offwhite"
+        android:background="@drawable/rounded_rectangle_subtle"
+        app:backgroundTint="@null"
+        android:text="Return Home"
+        android:textColor="@color/background"
+        android:textStyle="bold"
+        android:textSize="35sp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

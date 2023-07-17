@@ -14,4 +14,5 @@
     <color name="orange">#FF5722 </color>
     <color name="thirdButton">#DED6CE</color>
     <color name="secondary">#03263a</color>
+    <color name="error">#F2110C</color>
 </resources>

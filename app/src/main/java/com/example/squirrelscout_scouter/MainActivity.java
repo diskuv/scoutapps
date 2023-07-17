@@ -1,9 +1,13 @@
 package com.example.squirrelscout_scouter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        animateButton((Button) view);
         int clickedID = view.getId();
 
         if (clickedID == R.id.START_SCOUTING) {
@@ -87,14 +92,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void startScoutingLogic(){
         ScoutName = scouterNameI.getText().toString();
         TeamNum = teamNameI.getText().toString();
-        if(ScoutName.equals("") || TeamNum.equals("")){
+        if(ScoutName.isEmpty() || TeamNum.isEmpty()){
            Log.d("d", "name is blank");
            Toast.makeText(MainActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
-        } else {
-            startActivity(new Intent(MainActivity.this, StartScoutingActivity.class));
-            Log.d("d", "scouter name: " + ScoutName);
-            Toast.makeText(MainActivity.this, ScoutName, Toast.LENGTH_SHORT).show();
-            Toast.makeText(MainActivity.this, TeamNum, Toast.LENGTH_SHORT).show();
+           if (ScoutName.isEmpty()){
+               scouterNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
+            }
+           if(TeamNum.isEmpty()){
+               teamNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
+           }
+        }else {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                startActivity(new Intent(MainActivity.this, StartScoutingActivity.class));
+                Log.d("d", "scouter name: " + ScoutName);
+                Toast.makeText(MainActivity.this, ScoutName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, TeamNum, Toast.LENGTH_SHORT).show();
+            }, 500);
         }
     }
 
@@ -140,6 +153,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 teamNameI.animate().alpha(1f).translationXBy(-200f).setDuration(500);
                 scouterNameI.animate().alpha(1f).translationXBy(-200f).setDuration(500);
             }).start();
+        }).start();
+    }
+
+    //user response button
+    private void animateButton(Button button){
+        button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(250).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+            button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
         }).start();
     }
 }

@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SquirrelScout_Scouter</string>
+    <string-array name="languages">
+        <item>English</item>
+        <item>German</item>
+        <item>Chinese</item>
+    </string-array>
 </resources>

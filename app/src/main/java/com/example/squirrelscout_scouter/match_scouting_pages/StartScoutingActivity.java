@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 
@@ -24,40 +27,25 @@ public class StartScoutingActivity extends Activity {
         setContentView(R.layout.start_scouting);
 
         //initializing all buttons to a component
-        robotPositionButton = findViewById(R.id.START_SCOUTING_ROBOT_POSITION_BUTTON);
-        settingButton = findViewById(R.id.SETTINGS);
+//        robotPositionButton = findViewById(R.id.START_SCOUTING_ROBOT_POSITION_BUTTON);
+//        settingButton = findViewById(R.id.SETTINGS);
+
+        //dropdown
+        AutoCompleteTextView dropdown = findViewById(R.id.dropdown);
+        String[] items = new String[]{"Item 1", "Item 2", "Item 3"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setKeyListener(null);
+        dropdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dropdown.showDropDown();
+            }
+        });
+
 
 
         //giving actions to the buttons
-        robotPositionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopUp();
-            }
-        });
-
-        settingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(StartScoutingActivity.this, MainActivity.class));
-                Log.d("e", "Going back to home");
-            }
-        });
-    }
-
-    private void showPopUp(){
-        PopupMenu popup = new PopupMenu(StartScoutingActivity.this, findViewById(R.id.START_SCOUTING_ROBOT_POSITION_BUTTON));
-        popup.inflate(R.menu.robot_position_selector);
-        popup.show();
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                robotPositionButton.setText(menuItem.getTitle());
-
-                return true;
-            }
-        });
     }
 
 

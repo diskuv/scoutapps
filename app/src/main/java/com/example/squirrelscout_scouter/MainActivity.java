@@ -2,7 +2,6 @@ package com.example.squirrelscout_scouter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,17 +35,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             setContentView(R.layout.activity_main);
 
+            //buttons
             startScoutingButton = findViewById(R.id.START_SCOUTING);
             startScoutingButton.setOnClickListener(this);
-
             pitScouting = findViewById(R.id.PIT_SCOUTING);
             pitScouting.setOnClickListener(this);
-
             history = findViewById(R.id.HISTORY);
             history.setOnClickListener(this);
-
             sharePitScouting = findViewById(R.id.SHARE_PIT_SCOUTING);
+            sharePitScouting.setOnClickListener(this);
             nukeData = findViewById(R.id.NUKE_DATA);
+            nukeData.setOnClickListener(this);
+
+            //others
             scouterNameI = (EditText) findViewById(R.id.Name_Input);
             teamNameI = (EditText) findViewById(R.id.TeamNum_Input);
             title = findViewById(R.id.textView2);
@@ -67,40 +68,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         animateButton((Button) view);
         int clickedID = view.getId();
+        Log.d("d", "button clicked");
 
         if (clickedID == R.id.START_SCOUTING) {
             startScoutingLogic();
-        } else if(clickedID == R.id.HISTORY){
-            startHistorylogic();
         } else if(clickedID == R.id.PIT_SCOUTING){
             startPitScoutingLogic();
+        } else if(clickedID == R.id.SHARE_PIT_SCOUTING){
+            sharePitScouting();
+        }
+        else if(clickedID == R.id.HISTORY){
+            startHistorylogic();
+        }
+        else if(clickedID == R.id.NUKE_DATA){
+            nukeDataLogic();
         }
 
     }
 
-    private void startSettingsLogic() {
-    }
 
-    private void startPitScoutingLogic() {
-
-    }
-
-    private void startHistorylogic() {
-
-    }
 
     public void startScoutingLogic(){
         ScoutName = scouterNameI.getText().toString();
         TeamNum = teamNameI.getText().toString();
         if(ScoutName.isEmpty() || TeamNum.isEmpty()){
-           Log.d("d", "name is blank");
-           Toast.makeText(MainActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
-           if (ScoutName.isEmpty()){
-               scouterNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
+            Log.d("d", "name is blank");
+            Toast.makeText(MainActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
+            if (ScoutName.isEmpty()){
+                scouterNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
             }
-           if(TeamNum.isEmpty()){
-               teamNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
-           }
+            if(TeamNum.isEmpty()){
+                teamNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
+            }
         }else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 startActivity(new Intent(MainActivity.this, StartScoutingActivity.class));
@@ -109,6 +108,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, TeamNum, Toast.LENGTH_SHORT).show();
             }, 500);
         }
+    }
+    private void startPitScoutingLogic() {
+
+    }
+    private void sharePitScouting() {
+
+    }
+    private void startHistorylogic() {
+
+    }
+    private void nukeDataLogic() {
+        Toast.makeText(MainActivity.this, "Data Nuked", Toast.LENGTH_SHORT).show();
     }
 
     private void animationStart(){

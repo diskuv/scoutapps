@@ -109,6 +109,7 @@
             android:maxLines="1"
             android:padding="0dp"
             android:singleLine="true"
+            android:text=""
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="25sp" />
@@ -178,7 +179,7 @@
         android:backgroundTint="@color/accent"
         android:background="@drawable/rounded_rectangle_subtle"
         app:backgroundTint="@null"
-        android:text="Start"
+        android:text="Choose Robot"
         android:textColor="@color/Text"
         android:textSize="40sp" />
 
@@ -190,10 +191,10 @@
         android:layout_marginTop="1050dp"
         android:layout_marginStart="75dp"
         android:layout_marginEnd="75dp"
-        android:backgroundTint="@color/offwhite"
+        android:backgroundTint="@color/thirdButton"
         android:background="@drawable/rounded_rectangle_subtle"
         app:backgroundTint="@null"
-        android:text="Return Home"
+        android:text="Return Home "
         android:textColor="@color/background"
         android:textStyle="bold"
         android:textSize="35sp" />

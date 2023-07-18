@@ -25,6 +25,19 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             setContentView(R.layout.autonomous_scouting);
+
+        //dropdown
+        AutoCompleteTextView dropdown = findViewById(R.id.dropdown);
+        String[] items = new String[]{"Docked", "Engaged", "No Attempt"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setKeyListener(null);
+        dropdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dropdown.showDropDown();
+            }
+        });
     }
 
     public void onClick(View view){

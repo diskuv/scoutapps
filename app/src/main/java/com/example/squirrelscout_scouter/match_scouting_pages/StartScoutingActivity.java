@@ -6,15 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -44,10 +41,12 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         decrementMatch.setOnClickListener(this);
         startButton = (Button) findViewById(R.id.START);
         startButton.setOnClickListener(this);
-        robotPositionI = (AutoCompleteTextView) findViewById(R.id.dropdown);
+        backButton = (Button) findViewById(R.id.BACK);
+        backButton.setOnClickListener(this);
 
         //others
         chooseMatchI = (EditText) findViewById(R.id.Choose_Match_Input);
+        robotPositionI = (AutoCompleteTextView) findViewById(R.id.dropdown);
 
         //dropdown
         AutoCompleteTextView dropdown = findViewById(R.id.dropdown);
@@ -75,6 +74,9 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         }
         else if(clickedID == R.id.START){
             startLogic();
+        }
+        else if(clickedID == R.id.BACK){
+            backLogic();
         }
     }
 
@@ -130,6 +132,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         else if(startButton.getText().toString().equals("Choose Robot")){
             startButton.setText("Start Scouting");
             startButton.setTextColor(ContextCompat.getColor(this, R.color.black));
+            startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -138,6 +141,12 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
                 Toast.makeText(StartScoutingActivity.this, robotPosition, Toast.LENGTH_SHORT).show();
             }, 500);
         }
+    }
+
+    private void backLogic(){
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            startActivity(new Intent(StartScoutingActivity.this, MainActivity.class));
+        }, 500);
     }
 
     //user feedback when clicking button

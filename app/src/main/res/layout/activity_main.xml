@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -16,6 +17,7 @@
         android:layout_marginTop="100dp"
         android:background="@drawable/rounded_rectangle"
         android:backgroundTint="@color/secondary" />
+
     <View
         android:id="@+id/view3"
         android:layout_width="wrap_content"
@@ -35,10 +37,11 @@
         android:gravity="center"
         android:text="Home Screen"
         android:textAllCaps="true"
-        android:textStyle="bold"
         android:textColor="@color/Text"
         android:textSize="50sp"
+        android:textStyle="bold"
         android:visibility="visible" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
@@ -61,8 +64,8 @@
         android:layout_marginTop="360dp"
         android:text="Scout Name :"
         android:textColor="@color/black"
-        android:textSize="25sp"
-        />
+        android:textSize="25sp" />
+
     <EditText
         android:id="@+id/Name_Input"
         android:layout_width="match_parent"
@@ -74,11 +77,11 @@
         android:backgroundTint="@color/white"
         android:ems="10"
         android:hint="Name ..."
+        android:inputType="text"
         android:maxLines="1"
         android:padding="22dp"
-        android:textAlignment="gravity"
-        android:inputType="text"
         android:singleLine="true"
+        android:textAlignment="gravity"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -92,23 +95,23 @@
         android:layout_marginTop="500dp"
         android:text="Team Number # :"
         android:textColor="@color/black"
-        android:textSize="25sp"
-        />
+        android:textSize="25sp" />
+
     <EditText
         android:id="@+id/TeamNum_Input"
         android:layout_width="match_parent"
         android:layout_height="75dp"
+        android:layout_marginStart="75dp"
         android:layout_marginTop="540dp"
         android:layout_marginEnd="75dp"
-        android:layout_marginStart="75dp"
         android:background="@drawable/rounded_rectangle_subtle"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"
         android:ems="10"
         android:hint="Team Number ..."
+        android:inputType="number"
         android:maxLines="1"
         android:padding="22dp"
-        android:inputType="number"
+        android:textColor="@color/black"
         android:textSize="20sp" />
 
     <!-- Start Scouting Button -->
@@ -116,72 +119,72 @@
         android:id="@+id/START_SCOUTING"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="650dp"
         android:layout_marginStart="75dp"
+        android:layout_marginTop="650dp"
         android:layout_marginEnd="75dp"
-        android:backgroundTint="@color/accent"
         android:background="@drawable/rounded_rectangle_subtle"
-        app:backgroundTint="@null"
+        android:backgroundTint="@color/accent"
         android:text="Start Scouting"
         android:textColor="@color/Text"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        app:backgroundTint="@null" />
 
     <!-- Pit Scouting Button -->
     <Button
         android:id="@+id/PIT_SCOUTING"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="760dp"
         android:layout_marginStart="75dp"
+        android:layout_marginTop="760dp"
         android:layout_marginEnd="75dp"
         android:background="@drawable/button_border"
-        app:backgroundTint="@null"
         android:text="Pit Scouting"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:backgroundTint="@null" />
 
     <!-- Share Pit scouting Button -->
     <Button
         android:id="@+id/SHARE_PIT_SCOUTING"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="860dp"
         android:layout_marginStart="75dp"
+        android:layout_marginTop="860dp"
         android:layout_marginEnd="75dp"
         android:background="@drawable/button_border"
-        app:backgroundTint="@null"
         android:text="Share Pit Scouting Data"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:backgroundTint="@null" />
 
     <!-- View History Button -->
     <Button
         android:id="@+id/HISTORY"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="960dp"
         android:layout_marginStart="75dp"
+        android:layout_marginTop="960dp"
         android:layout_marginEnd="75dp"
         android:background="@drawable/button_border"
-        app:backgroundTint="@null"
         android:text="History"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:backgroundTint="@null" />
 
     <!-- Nuke Data Button -->
     <Button
         android:id="@+id/NUKE_DATA"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="1060dp"
         android:layout_marginStart="75dp"
+        android:layout_marginTop="1060dp"
         android:layout_marginEnd="75dp"
-        android:backgroundTint="@color/offwhite"
         android:background="@drawable/rounded_rectangle_subtle"
-        app:backgroundTint="@null"
+        android:backgroundTint="@color/offwhite"
         android:text="NUKE DATA"
         android:textColor="@color/background"
+        android:textSize="35sp"
         android:textStyle="bold"
-        android:textSize="35sp" />
+        app:backgroundTint="@null" />
 
 </RelativeLayout>

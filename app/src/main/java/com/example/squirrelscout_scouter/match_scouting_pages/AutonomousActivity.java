@@ -22,9 +22,9 @@ import com.example.squirrelscout_scouter.R;
 
 public class AutonomousActivity extends Activity implements View.OnClickListener {
 
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.autonomous_scouting);
+            setContentView(R.layout.autonomous_scouting);
     }
 
     public void onClick(View view){

@@ -136,7 +136,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                //startActivity(new Intent(StartScoutingActivity.this, StartScoutingActivity.class));
+                startActivity(new Intent(StartScoutingActivity.this, AutonomousActivity.class));
                 Toast.makeText(StartScoutingActivity.this, m, Toast.LENGTH_SHORT).show();
                 Toast.makeText(StartScoutingActivity.this, robotPosition, Toast.LENGTH_SHORT).show();
             }, 500);

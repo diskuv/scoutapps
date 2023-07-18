@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.squirrelscout_scouter.match_scouting_pages.AutonomousActivity;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

@@ -22,26 +22,31 @@ import androidx.core.content.ContextCompat;
 import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.R;
 
-public class AutonomousActivity extends Activity implements View.OnClickListener {
+public class TeleopActivity extends Activity implements View.OnClickListener {
 
     //instances
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
-    Button yesMobility, noMobility, nextButton;
+    Button yesDefense, noDefense, yesIncap, noIncap,nextButton;
     TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow;
     AutoCompleteTextView dropdown;
 
     //variables
-    boolean mobilityBool;
+    boolean defenseBool, incapBool;
 
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            setContentView(R.layout.autonomous_scouting);
+        setContentView(R.layout.teleop_scouting);
 
         //Buttons
-        yesMobility = (Button) findViewById(R.id.MOBILITY_YES);
-        yesMobility.setOnClickListener(this);
-        noMobility = (Button) findViewById(R.id.MOBILITY_NO);
-        noMobility.setOnClickListener(this);
+        yesDefense = (Button) findViewById(R.id.DEFENSE_YES);
+        yesDefense.setOnClickListener(this);
+        noDefense = (Button) findViewById(R.id.DEFENSE_NO);
+        noDefense.setOnClickListener(this);
+        yesIncap = (Button) findViewById(R.id.INCAP_YES);
+        yesIncap.setOnClickListener(this);
+        noIncap = (Button) findViewById(R.id.INCAP_NO);
+        noIncap.setOnClickListener(this);
         nextButton = (Button) findViewById(R.id.NEXT);
         nextButton.setOnClickListener(this);
         //...
@@ -93,18 +98,31 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //...
+            }
+        });
+        dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 nextPageCheck();
             }
         });
+
     }
 
-    public void onClick(View view){
+    public   void onClick(View view){
         int clickedId = view.getId();
-        if(clickedId == R.id.MOBILITY_YES){
-            mobilityYesLogic();
+        if(clickedId == R.id.DEFENSE_YES){
+            defenseYesLogic();
         }
-        else if(clickedId == R.id.MOBILITY_NO){
-            mobilityNoLogic();
+        else if(clickedId == R.id.DEFENSE_NO){
+            defenseNoLogic();
+        }
+        else if(clickedId == R.id.INCAP_YES){
+            incapYesLogic();
+        }
+        else if(clickedId == R.id.INCAP_NO){
+            incapNoLogic();
         }
         else if(clickedId == R.id.NEXT){
             animateButton((Button) view);
@@ -146,46 +164,69 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         else if(clickedId == R.id.CUBE_LOW_DECREMENT){
             counterDecrementLogic(cubeLow);
         }
-
     }
 
-    //mobility logic
-    private void mobilityYesLogic(){
+    //defense logic
+    private void defenseYesLogic(){
         //if not selected
-        if(yesMobility.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            yesMobility.setTextColor(ContextCompat.getColor(this, R.color.white));
-            yesMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            noMobility.setTextColor(ContextCompat.getColor(this, R.color.black));
-            noMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            mobilityBool = true;
+        if(yesDefense.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            yesDefense.setTextColor(ContextCompat.getColor(this, R.color.white));
+            yesDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            noDefense.setTextColor(ContextCompat.getColor(this, R.color.black));
+            noDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+            defenseBool = true;
             nextPageCheck();
         }
     }
-    private void mobilityNoLogic(){
+    private void defenseNoLogic(){
         //if not selected
-        if(noMobility.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            yesMobility.setTextColor(ContextCompat.getColor(this, R.color.black));
-            yesMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            noMobility.setTextColor(ContextCompat.getColor(this, R.color.white));
-            noMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-            mobilityBool = false;
+        if(noDefense.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            yesDefense.setTextColor(ContextCompat.getColor(this, R.color.black));
+            yesDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+            noDefense.setTextColor(ContextCompat.getColor(this, R.color.white));
+            noDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+            defenseBool = false;
+            nextPageCheck();
+        }
+    }
+
+    //incap logic
+    private void incapYesLogic(){
+        //if not selected
+        if(yesIncap.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            yesIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
+            yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            noIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
+            noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+            defenseBool = true;
+            nextPageCheck();
+        }
+    }
+    private void incapNoLogic(){
+        //if not selected
+        if(noIncap.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            yesIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
+            yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+            noIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
+            noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+            defenseBool = false;
             nextPageCheck();
         }
     }
 
     //next page logic
     private void nextPageCheck(){
-        if(yesMobility.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown.getText().toString().isEmpty())){
+        if(yesDefense.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown.getText().toString().isEmpty()) && yesIncap.getTextColors() != ContextCompat.getColorStateList(this, R.color.green)){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");
-            Toast.makeText(AutonomousActivity.this, dropdown.getText().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(TeleopActivity.this, dropdown.getText().toString(), Toast.LENGTH_SHORT).show();
         }
     }
     private void nextPageLogic(){
         if(nextButton.getText().toString().equals("NEXT PAGE")){
-            Toast.makeText(AutonomousActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(AutonomousActivity.this, TeleopActivity.class));
+            Toast.makeText(TeleopActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
+            //startActivity(new Intent(TeleopActivity.this, TeleopActivity.class));
         }
     }
 

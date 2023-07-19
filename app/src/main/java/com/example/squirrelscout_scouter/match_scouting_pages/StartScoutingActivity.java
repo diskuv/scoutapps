@@ -25,7 +25,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
     //instances
     Button incrementMatch, decrementMatch, startButton, backButton;
     EditText chooseMatchI;
-    AutoCompleteTextView robotPositionI;
+    AutoCompleteTextView dropdown;
 
     String robotPosition, m;
     int match;
@@ -46,10 +46,9 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
 
         //others
         chooseMatchI = (EditText) findViewById(R.id.Choose_Match_Input);
-        robotPositionI = (AutoCompleteTextView) findViewById(R.id.dropdown);
 
         //dropdown
-        AutoCompleteTextView dropdown = findViewById(R.id.dropdown);
+        dropdown = findViewById(R.id.dropdown);
         String[] items = new String[]{"Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
         dropdown.setAdapter(adapter);
@@ -64,7 +63,6 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
 
     //button functions
     public void onClick(View view){
-        animateButton((Button) view);
         int clickedID = view.getId();
         if(clickedID == R.id.MATCH_INCREMENT){
             matchIncrementLogic();
@@ -73,13 +71,16 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
             matchDecrementLogic();
         }
         else if(clickedID == R.id.START){
+            animateButton((Button) view);
             startLogic();
         }
         else if(clickedID == R.id.BACK){
+            animateButton((Button) view);
             backLogic();
         }
     }
 
+    //match counter logic
     private void matchIncrementLogic() {
         if (chooseMatchI.getText().toString().isEmpty()) {
             chooseMatchI.setText("1");
@@ -95,7 +96,6 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
             }
         }
     }
-
     private void matchDecrementLogic() {
         if (chooseMatchI.getText().toString().isEmpty()) {
             chooseMatchI.setText("1");
@@ -116,9 +116,10 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         }
     }
 
+    //start scouting logic
     private void startLogic(){
         m = chooseMatchI.getText().toString();
-        robotPosition = robotPositionI.getText().toString();
+        robotPosition = dropdown.getText().toString();
         if(m.isEmpty() || robotPosition.isEmpty()){
             Log.d("d", "name is blank");
             Toast.makeText(StartScoutingActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
@@ -126,7 +127,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
                 chooseMatchI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
             }
             if(robotPosition.isEmpty()){
-                robotPositionI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
+                dropdown.setHintTextColor(ContextCompat.getColor(this, R.color.error));
             }
         }
         else if(startButton.getText().toString().equals("Choose Robot")){
@@ -143,6 +144,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         }
     }
 
+    //go back home logic
     private void backLogic(){
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             startActivity(new Intent(StartScoutingActivity.this, MainActivity.class));

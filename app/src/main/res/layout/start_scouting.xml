@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/start_scouting_page"
     android:layout_width="match_parent"
@@ -11,12 +11,15 @@
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="@dimen/_39sdp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/rounded_rectangle_subtle"
-        android:backgroundTint="@color/secondary" />
+        android:backgroundTint="@color/secondary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:id="@+id/view2"
@@ -24,7 +27,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:background="@drawable/rounded_rectangle"
-        android:backgroundTint="@color/secondary" />
+        android:backgroundTint="@color/secondary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:id="@+id/view3"
@@ -33,7 +39,10 @@
         android:layout_marginTop="550dp"
         android:layout_marginBottom="-100dp"
         android:background="@drawable/rounded_rectangle"
-        android:backgroundTint="@color/offwhite" />
+        android:backgroundTint="@color/offwhite"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Title -->
     <TextView
@@ -48,7 +57,10 @@
         android:textAllCaps="true"
         android:textColor="@color/Text"
         android:textSize="60sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Robot Image Layout-->
     <TextView
@@ -63,7 +75,10 @@
         android:textAlignment="center"
         android:textColor="@color/Text"
         android:textSize="50sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -72,7 +87,10 @@
         android:layout_marginStart="75dp"
         android:layout_marginTop="285dp"
         android:layout_marginEnd="75dp"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
+        app:srcCompat="@android:drawable/ic_menu_gallery"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Choose match Layout-->
     <TextView
@@ -87,7 +105,10 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/lay1"
@@ -96,7 +117,10 @@
         android:layout_marginStart="75dp"
         android:layout_marginTop="660dp"
         android:layout_marginEnd="75dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" >
 
         <EditText
             android:id="@+id/Choose_Match_Input"
@@ -115,7 +139,10 @@
             android:text=""
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/MATCH_INCREMENT"
@@ -127,7 +154,10 @@
             android:text="+"
             android:textColor="@color/accent"
             android:textSize="40sp"
-            app:backgroundTint="@null" />
+            app:backgroundTint="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/MATCH_DECREMENT"
@@ -140,7 +170,10 @@
             android:textColor="@color/accent"
             android:textSize="40sp"
             android:textStyle="bold"
-            app:backgroundTint="@null" />
+            app:backgroundTint="@null"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </LinearLayout>
 
     <!-- Robot Position Layout -->
@@ -156,7 +189,10 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/dropdown"
@@ -170,7 +206,10 @@
         android:inputType="none"
         android:textAlignment="center"
         android:textColor="@color/background"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Start Button -->
     <Button
@@ -185,7 +224,10 @@
         android:text="Choose Robot"
         android:textColor="@color/Text"
         android:textSize="40sp"
-        app:backgroundTint="@null" />
+        app:backgroundTint="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Go Back Button -->
     <Button
@@ -201,6 +243,9 @@
         android:textColor="@color/background"
         android:textSize="35sp"
         android:textStyle="bold"
-        app:backgroundTint="@null" />
+        app:backgroundTint="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

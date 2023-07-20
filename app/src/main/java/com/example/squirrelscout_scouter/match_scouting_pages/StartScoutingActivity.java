@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,12 +23,18 @@ import androidx.core.content.ContextCompat;
 import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.R;
 
+import org.w3c.dom.Text;
+
 public class StartScoutingActivity extends Activity implements  View.OnClickListener{
 
     //instances
     Button incrementMatch, decrementMatch, startButton, backButton;
     EditText chooseMatchI;
     AutoCompleteTextView dropdown;
+    View firstCard, secondCard, topCard;
+    TextView title, selectMatchTitle, selectPositionTitle, teamTitle;
+    LinearLayout layout;
+    ImageView robotImage;
 
     String robotPosition, m;
     int match;
@@ -46,6 +55,15 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
 
         //others
         chooseMatchI = (EditText) findViewById(R.id.Choose_Match_Input);
+        firstCard = (View) findViewById(R.id.view2);
+        secondCard = (View) findViewById(R.id.view3);
+        topCard = (View) findViewById(R.id.view);
+        title = (TextView) findViewById(R.id.textView2);
+        layout = (LinearLayout) findViewById(R.id.lay1);
+        selectMatchTitle = (TextView) findViewById(R.id.Choose_Match_Label);
+        selectPositionTitle = (TextView) findViewById(R.id.Robot_Position_Label);
+        teamTitle = (TextView) findViewById(R.id.Robot_Selected);
+        robotImage = (ImageView) findViewById(R.id.imageView) ;
 
         //dropdown
         dropdown = findViewById(R.id.dropdown);
@@ -59,6 +77,9 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
                 dropdown.showDropDown();
             }
         });
+
+        //animate
+        animationStart();
     }
 
     //button functions
@@ -158,5 +179,45 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         }).start();
     }
 
-
+    private void animationStart(){
+        //animations
+        firstCard.setTranslationY(1501);
+        firstCard.setAlpha(0f);
+        secondCard.setTranslationY(1500);
+        secondCard.setAlpha(0f);
+        topCard.setTranslationY(-500);
+        topCard.setAlpha(0f);
+        startButton.setAlpha(0f);
+        startButton.setTranslationY(50);
+        backButton.setAlpha(0f);
+        backButton.setTranslationY(50);
+        dropdown.setAlpha(0f);
+        dropdown.setTranslationY(50);
+        layout.setAlpha(0f);
+        layout.setTranslationY(50);
+        selectMatchTitle.setAlpha(0f);
+        selectMatchTitle.setTranslationY(50);
+        title.setAlpha(0f);
+        selectPositionTitle.setTranslationY(50f);
+        selectPositionTitle.setAlpha(0f);
+        teamTitle.setTranslationX(200f);
+        teamTitle.setAlpha(0f);
+        robotImage.setTranslationX(200f);
+        robotImage.setAlpha(0f);
+        firstCard.animate().alpha(1f).translationYBy(-1500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+            secondCard.animate().alpha(1f).translationYBy(-1500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+                topCard.animate().alpha(1f).translationYBy(500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+                    startButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    backButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    dropdown.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    layout.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    selectMatchTitle.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    title.animate().alpha(1f).setDuration(300);
+                    selectPositionTitle.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    teamTitle.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+                    robotImage.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+                }).start();
+            }).start();
+        }).start();
+    }
 }

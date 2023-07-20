@@ -174,8 +174,8 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
 
     //user feedback when clicking button
     private void animateButton(Button button){
-        button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(250).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
-            button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
+        button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+            button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(150);
         }).start();
     }
 

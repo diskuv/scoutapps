@@ -147,7 +147,7 @@
         android:drawablePadding="@dimen/_4sdp"
         android:text="Start Scouting"
         android:textColor="@color/Text"
-        android:textSize="@dimen/_16ssp"
+        android:textSize="@dimen/_15ssp"
         app:backgroundTint="@null"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

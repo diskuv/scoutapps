@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("d", "scouter name: " + ScoutName);
                 Toast.makeText(MainActivity.this, ScoutName, Toast.LENGTH_SHORT).show();
                 Toast.makeText(MainActivity.this, TeamNum, Toast.LENGTH_SHORT).show();
-            }, 500);
+            }, 250);
         }
     }
     private void startPitScoutingLogic() {
@@ -170,8 +170,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //user response button
     private void animateButton(Button button){
-        button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(250).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
-            button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
+        button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+            button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(150);
         }).start();
     }
 }

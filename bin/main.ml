@@ -1,7 +1,9 @@
+let db = Sqlite3.db_open "test.db"
+
 module DB_operation_utils = struct
   let int64_of_bool = function false -> 0L | true -> 1L
 
-  let formatted_error_message error message db =
+  let formatted_error_message db error message =
     prerr_endline
       ("**ERROR** \n *error code: " ^ Sqlite3.Rc.to_string error
      ^ "\n *last db error message: " ^ Sqlite3.errmsg db ^ "\n *debug message: "
@@ -126,34 +128,34 @@ module Raw_match_data_table = struct
 
   type raw_match_data_table_record = {
     (* team *)
-    team_number : int64;
+    team_number : int;
     team_name : string;
-    match_number : int64;
+    match_number : int;
     scouter_name : string;
     (* auto *)
     auto_mobility : bool;
     auto_climb : climb;
-    auto_cone_high : int64;
-    auto_cone_mid : int64;
-    auto_cone_low : int64;
-    auto_cube_high : int64;
-    auto_cube_mid : int64;
-    auto_cube_low : int64;
+    auto_cone_high : int;
+    auto_cone_mid : int;
+    auto_cone_low : int;
+    auto_cube_high : int;
+    auto_cube_mid : int;
+    auto_cube_low : int;
     (* tele *)
     tele_climb : climb;
-    tele_cone_high : int64;
-    tele_cone_mid : int64;
-    tele_cone_low : int64;
-    tele_cube_high : int64;
-    tele_cube_mid : int64;
-    tele_cube_low : int64;
+    tele_cone_high : int;
+    tele_cone_mid : int;
+    tele_cone_low : int;
+    tele_cube_high : int;
+    tele_cube_mid : int;
+    tele_cube_low : int;
     (* misc *)
     incap : bool;
     playing_defense : bool;
     notes : string;
   }
 
-  let create_table db =
+  let create_table =
     let initial_sql = "CREATE TABLE " ^ table_name ^ "(" in
 
     let rec table_colums_as_string_list i list =
@@ -173,15 +175,11 @@ module Raw_match_data_table = struct
       ^ "," ^ primary_keys ^ ") STRICT"
     in
 
-    match Sqlite3.exec db finilazed_sql with
-    | Sqlite3.Rc.OK -> print_endline (table_name ^ "--- SUCCESSFULLY CREATED")
-    | r ->
-        print_endline (Sqlite3.Rc.to_string r);
-        print_endline (Sqlite3.errmsg db)
+    DB_operation_utils.create_table_helper db finilazed_sql table_name
 
   (* upsert *)
   (* return primary key option None or primary key *)
-  let insert_db_record data db =
+  let insert_db_record data =
     let open Sqlite3 in
     let open DB_operation_utils in
     let insert_sql =
@@ -196,33 +194,33 @@ module Raw_match_data_table = struct
       DB_operation_utils.bind_insert_statement insert_stmt db
     in
 
-    bind_insert_stmt 1 (Data.INT data.team_number);
+    bind_insert_stmt 1 (Data.INT (Int64.of_int data.team_number));
     bind_insert_stmt 2 (Data.TEXT data.team_name);
-    bind_insert_stmt 3 (Data.INT data.match_number);
+    bind_insert_stmt 3 (Data.INT (Int64.of_int data.match_number));
     bind_insert_stmt 4 (Data.TEXT data.scouter_name);
 
     (* auto *)
     bind_insert_stmt 5 (Data.INT (int64_of_bool data.auto_mobility));
     bind_insert_stmt 6 (Data.TEXT (climb_to_string data.auto_climb));
 
-    bind_insert_stmt 7 (Data.INT data.auto_cone_high);
-    bind_insert_stmt 8 (Data.INT data.auto_cone_mid);
-    bind_insert_stmt 9 (Data.INT data.auto_cone_low);
+    bind_insert_stmt 7 (Data.INT (Int64.of_int data.auto_cone_high));
+    bind_insert_stmt 8 (Data.INT (Int64.of_int data.auto_cone_mid));
+    bind_insert_stmt 9 (Data.INT (Int64.of_int data.auto_cone_low));
 
-    bind_insert_stmt 10 (Data.INT data.auto_cube_high);
-    bind_insert_stmt 11 (Data.INT data.auto_cube_mid);
-    bind_insert_stmt 12 (Data.INT data.auto_cube_low);
+    bind_insert_stmt 10 (Data.INT (Int64.of_int data.auto_cube_high));
+    bind_insert_stmt 11 (Data.INT (Int64.of_int data.auto_cube_mid));
+    bind_insert_stmt 12 (Data.INT (Int64.of_int data.auto_cube_low));
 
     (* tele *)
     bind_insert_stmt 13 (Data.TEXT (climb_to_string data.tele_climb));
 
-    bind_insert_stmt 14 (Data.INT data.tele_cone_high);
-    bind_insert_stmt 15 (Data.INT data.tele_cone_mid);
-    bind_insert_stmt 16 (Data.INT data.tele_cone_low);
+    bind_insert_stmt 14 (Data.INT (Int64.of_int data.tele_cone_high));
+    bind_insert_stmt 15 (Data.INT (Int64.of_int data.tele_cone_mid));
+    bind_insert_stmt 16 (Data.INT (Int64.of_int data.tele_cone_low));
 
-    bind_insert_stmt 17 (Data.INT data.tele_cube_high);
-    bind_insert_stmt 18 (Data.INT data.tele_cube_mid);
-    bind_insert_stmt 19 (Data.INT data.tele_cube_low);
+    bind_insert_stmt 17 (Data.INT (Int64.of_int data.tele_cube_high));
+    bind_insert_stmt 18 (Data.INT (Int64.of_int data.tele_cube_mid));
+    bind_insert_stmt 19 (Data.INT (Int64.of_int data.tele_cube_low));
 
     (* misc *)
     bind_insert_stmt 20 (Data.INT (int64_of_bool data.incap));
@@ -232,11 +230,20 @@ module Raw_match_data_table = struct
     match step insert_stmt with
     | Rc.DONE ->
         let row_id = Sqlite3.last_insert_rowid db in
-        print_endline
-          ("Successfully added record... Row ID: " ^ Int64.to_string row_id)
+        Printf.printf
+          "SUCCESSFULLY INSERTED RECORD INTO: \n\
+          \          *TABLE=%S \n\
+          \          *row_id=%d\n\
+          \          *team_number=%d \n\
+          \          *match_number=%d \n\
+          \          *scouter_name=%s \n" table_name (Int64.to_int row_id)
+          data.team_number data.match_number data.scouter_name;
+
+        Some (data.team_number, data.match_number, data.scouter_name)
     | r ->
-        prerr_endline (Rc.to_string r);
-        prerr_endline (errmsg db)
+        DB_operation_utils.formatted_error_message db r
+          ("Failed to insert record into " ^ table_name);
+        None
 
   (* get data functions *)
 end
@@ -255,28 +262,25 @@ module Match_schudle_table = struct
     | Blue_3 -> "blue_3"
 
   type match_schudle_record = {
-    match_number : int64;
-    red_1 : int64;
-    red_2 : int64;
-    red_3 : int64;
-    blue_1 : int64;
-    blue_2 : int64;
-    blue_3 : int64;
+    match_number : int;
+    red_1 : int;
+    red_2 : int;
+    red_3 : int;
+    blue_1 : int;
+    blue_2 : int;
+    blue_3 : int;
   }
 
-  let create_table db =
+  let create_table =
     let sql =
       "CREATE TABLE " ^ table_name
-      ^ "(match_number INT, red_1 INT, red_2 INT, red_3 INT, blue_1 INT, \
+      ^ "(match_number INT PRIMARY KEY, red_1 INT, red_2 INT, red_3 INT, blue_1 INT, \
          blue_2 INT, blue_3 INT)"
     in
-    match Sqlite3.exec db sql with
-    | Sqlite3.Rc.OK -> print_endline (table_name ^ "--- SUCCESSFULLY CREATED")
-    | _ ->
-        print_endline
-          (table_name ^ "----- already exists---- continuing with program")
 
-  let insert_match_schudle_record db match_schudle_record =
+    DB_operation_utils.create_table_helper db sql table_name
+
+  let insert_match_schudle_record match_schudle_record =
     let open Sqlite3 in
     let sql = "INSERT INTO " ^ table_name ^ " VALUES(?,?,?,?,?,?,?)" in
     let insert_stmt = prepare db sql in
@@ -285,27 +289,35 @@ module Match_schudle_table = struct
       DB_operation_utils.bind_insert_statement insert_stmt db
     in
 
-    bind_insert_stmt 1 (Data.INT match_schudle_record.match_number);
+    bind_insert_stmt 1
+      (Data.INT (Int64.of_int match_schudle_record.match_number));
 
-    bind_insert_stmt 2 (Data.INT match_schudle_record.red_1);
-    bind_insert_stmt 3 (Data.INT match_schudle_record.red_2);
-    bind_insert_stmt 4 (Data.INT match_schudle_record.red_3);
+    bind_insert_stmt 2 (Data.INT (Int64.of_int match_schudle_record.red_1));
+    bind_insert_stmt 3 (Data.INT (Int64.of_int match_schudle_record.red_2));
+    bind_insert_stmt 4 (Data.INT (Int64.of_int match_schudle_record.red_3));
 
-    bind_insert_stmt 5 (Data.INT match_schudle_record.blue_1);
-    bind_insert_stmt 6 (Data.INT match_schudle_record.blue_2);
-    bind_insert_stmt 7 (Data.INT match_schudle_record.blue_3);
+    bind_insert_stmt 5 (Data.INT (Int64.of_int match_schudle_record.blue_1));
+    bind_insert_stmt 6 (Data.INT (Int64.of_int match_schudle_record.blue_2));
+    bind_insert_stmt 7 (Data.INT (Int64.of_int match_schudle_record.blue_3));
 
     match step insert_stmt with
     | Rc.DONE ->
         let row_id = Sqlite3.last_insert_rowid db in
-        print_endline
-          ("Successfully added record... Row ID: " ^ Int64.to_string row_id)
+        Printf.printf
+          "SUCCESSFULLY INSERTED RECORD INTO: \n\
+          \          *TABLE=%S \n\
+          \          *row_id=%d\n\
+          \          *match_number=%d \n "
+          table_name (Int64.to_int row_id) match_schudle_record.match_number;
+
+        Some match_schudle_record.match_number
     | r ->
-        prerr_endline (Rc.to_string r);
-        prerr_endline (errmsg db)
+        DB_operation_utils.formatted_error_message db r ("failed to insert record into " ^ table_name);
+        None
+
 
   (* getting data functions *)
-  let get_team_for_match_and_position db match_number position =
+  let get_team_for_match_and_position match_number position =
     let open DB_operation_utils in
     let sql =
       Printf.sprintf "SELECT %s FROM %s WHERE match_number=%d"
@@ -319,22 +331,18 @@ module Match_schudle_table = struct
 end
 
 module Robot_pictures = struct
-  let table_name = "robot_pictures"
+  let table_name = "robot_pictures_table"
 
-  type robot_picture_record = {
-    team_number : int;
-    image : string 
-  }
+  type robot_picture_record = { team_number : int; image : string }
 
-  let create_table db =
+  let create_table =
     let sql =
       "CREATE TABLE " ^ table_name ^ "(team_number INT PRIMARY KEY, image BLOB)"
     in
 
     DB_operation_utils.create_table_helper db sql table_name
 
-
-  let insert_robot_picture_record db record = 
+  let insert_robot_picture_record record =
     let open Sqlite3 in
     let sql = "INSERT INTO " ^ table_name ^ " VALUES(?,?)" in
     let insert_stmt = prepare db sql in
@@ -345,64 +353,90 @@ module Robot_pictures = struct
 
     bind_insert_stmt 1 (Data.INT (Int64.of_int record.team_number));
     bind_insert_stmt 2 (Data.BLOB record.image);
-    
 
     match step insert_stmt with
     | Rc.DONE ->
         let row_id = Sqlite3.last_insert_rowid db in
-        print_endline
-          ("Successfully added record... Row ID: " ^ Int64.to_string row_id)
+        Printf.printf "SUCCESSFULLY INSERTED RECORD INTO: \n\
+          \          *TABLE=%S \n\
+          \          *row_id=%d\n\
+          \          *team_number=%d \n " 
+          table_name (Int64.to_int row_id) record.team_number;
+        
+        Some record.team_number  
     | r ->
-        prerr_endline (Rc.to_string r);
-        prerr_endline (errmsg db)
+        DB_operation_utils.formatted_error_message db r ("failed to insert record into " ^ table_name);
+        None
 
-  let get_robot_picture db team_number =
-     let sql =
-       Printf.sprintf "SELECT image FROM %s WHERE team_number=%d" table_name
-         team_number
-     in
+  let get_robot_picture team_number =
+    let sql =
+      Printf.sprintf "SELECT image FROM %s WHERE team_number=%d" table_name
+        team_number
+    in
 
-     let result = DB_operation_utils.get_blob_or_text_result_list_for_query db sql in
-     
-     match result with 
-     | Some (t :: []) -> Some t
-     | _ -> None
+    let result =
+      DB_operation_utils.get_blob_or_text_result_list_for_query db sql
+    in
+
+    match result with Some (t :: []) -> Some t | _ -> None
 end
 
 
-open Sqlite3
 
-let db = db_open "test.db"
 
-let sample_data : Raw_match_data_table.raw_match_data_table_record =
+
+
+
+
+
+
+
+
+
+
+
+
+let sample_scouted_data : Raw_match_data_table.raw_match_data_table_record =
   {
-    team_number = 2930L;
+    team_number = 2930;
     team_name = "sonic_squirrels";
-    match_number = 5L;
+    match_number = 5;
     scouter_name = "Keyush(2930)";
     auto_mobility = true;
     auto_climb = Engaged;
-    auto_cone_high = 1L;
-    auto_cone_mid = 1L;
-    auto_cone_low = 1L;
-    auto_cube_high = 1L;
-    auto_cube_mid = 1L;
-    auto_cube_low = 1L;
+    auto_cone_high = 1;
+    auto_cone_mid = 1;
+    auto_cone_low = 1;
+    auto_cube_high = 1;
+    auto_cube_mid = 1;
+    auto_cube_low = 1;
     (* tele *)
     tele_climb = Engaged;
-    tele_cone_high = 4L;
-    tele_cone_mid = 4L;
-    tele_cone_low = 4L;
-    tele_cube_high = 4L;
-    tele_cube_mid = 4L;
-    tele_cube_low = 4L;
+    tele_cone_high = 4;
+    tele_cone_mid = 4;
+    tele_cone_low = 4;
+    tele_cube_high = 4;
+    tele_cube_mid = 4;
+    tele_cube_low = 4;
     (* misc *)
     incap = false;
     playing_defense = false;
     notes = "fast cycler";
   }
 
-let sql = "SELECT * FROM raw_match_data WHERE rowid=3"
+let sample_match_schudle_data : Match_schudle_table.match_schudle_record =
+  {
+    match_number = 1;
+    red_1 = 2930;
+    red_2 = 2910;
+    red_3 = 254;
+    blue_1 = 1678;
+    blue_2 = 2056;
+    blue_3 = 118;
+  }
+
+let sample_robot_image_data : Robot_pictures.robot_picture_record =
+  { team_number = 2930; image = "dsadsadwasdhawdhsakdhqwiyd" }
 
 let print_to_console_cb row headers =
   let n = Array.length row - 1 in
@@ -413,40 +447,6 @@ let print_to_console_cb row headers =
     done
   in
   print_endline ""
-
-(* let get_whole_table cb =
-   let sql = "SELECT * FROM " ^ table_name in
-   match exec db ~cb sql with
-   | Rc.OK -> print_endline "successfully accessed whole table"
-   | r -> formatted_error_message r "failed to get whole table" *)
-
-(* let execute_select_sql cb sql =
-   match exec db ~cb sql with
-   | Rc.OK -> print_endline ("successfully executed SQL STATEMENT || " ^ sql ^ " ||")
-   | r -> formatted_error_message r ("failed sql || " ^ sql ^ " ||") *)
-
-(* let create_table =
-   let sql = get_create_table_sql table_colums_arr in *)
-
-(* match exec db sql with
-   | Rc.OK -> print_endline "CREATED TABLE"
-   | _ -> print_endline ("--- TABLE ALREADY EXISTS --- continuing forward with program") *)
-
-(* let accept_qr_code_data json : string    *)
-
-(*
-   let () = create_table;
-     insert_db_record sample_data;
-     execute_select_sql print_to_console_cb ("SELECT team_number, team_name, match FROM " ^ table_name ^ " WHERE notes='fast cycler'")
-*)
-
-(* let () = Raw_match_data_table.insert_db_record sample_data db; Raw_match_data_table.insert_db_record sample_data db; Raw_match_data_table.insert_db_record sample_data db *)
-
-(* let () = Match_schudle_table.create_table db  *)
-
-(* Raw_match_data_table.insert_db_record sample_data db   *)
-
-(* let () = Match_schudle_table.create_table db  *)
 
 (* QR CODE CODEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE *)
 
@@ -478,3 +478,18 @@ let print_to_console_cb row headers =
    match x with
    | Some y -> print_endline ("TEAM NUMBER " ^ string_of_int y)
    | None -> print_endline("NO RESULT") *)
+
+let create_all_tables =     
+  Raw_match_data_table.create_table;
+  Match_schudle_table.create_table;
+  Robot_pictures.create_table
+
+let test_insert_records =
+  let _ = Raw_match_data_table.insert_db_record sample_scouted_data in
+  let _ = Match_schudle_table.insert_match_schudle_record sample_match_schudle_data in 
+  let _ = Robot_pictures.insert_robot_picture_record sample_robot_image_data in 
+  () 
+
+let () =
+  create_all_tables;
+  test_insert_records

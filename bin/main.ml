@@ -251,7 +251,7 @@ end
 module Match_schudle_table = struct
   let table_name = "match_schudle_table"
 
-  type robot_position = Red_1 | Red_2 | Red_3 | Blue_1 | Blue_2 | Blue_3
+  type robot_position = Red_1 | Red_2 | Red_3 | Blue_1 | Blue_2 | Blue_3 
 
   let robot_position_to_string = function
     | Red_1 -> "red_1"
@@ -269,7 +269,11 @@ module Match_schudle_table = struct
     blue_1 : int;
     blue_2 : int;
     blue_3 : int;
-  }
+  } [@@deriving yojson]
+
+  type json_input_data = {
+    records : match_schudle_record list
+  } [@@deriving yojson]
 
   let create_table =
     let sql =
@@ -328,6 +332,20 @@ module Match_schudle_table = struct
     let result = get_int_result_list_for_query db sql in
 
     match result with Some (t :: []) -> Some t | _ -> None
+
+
+  let load_database_from_json data = 
+    let native_record = json_input_data_of_yojson (Yojson.Safe.from_string data) in 
+
+    let records = match native_record with
+    | Result.Ok s -> s 
+    | Result.Error r -> failwith ("failed: " ^ r) in 
+
+    List.iter (fun a ->  match insert_match_schudle_record a with | Some _ -> print_endline "yes" | None -> print_endline "no"  ) records.records
+
+
+
+
 end
 
 module Robot_pictures = struct
@@ -479,17 +497,31 @@ let print_to_console_cb row headers =
    | Some y -> print_endline ("TEAM NUMBER " ^ string_of_int y)
    | None -> print_endline("NO RESULT") *)
 
-let create_all_tables =     
+(* let create_all_tables =     
   Raw_match_data_table.create_table;
   Match_schudle_table.create_table;
-  Robot_pictures.create_table
+  Robot_pictures.create_table *)
 
-let test_insert_records =
+(* let test_insert_records =
   let _ = Raw_match_data_table.insert_db_record sample_scouted_data in
   let _ = Match_schudle_table.insert_match_schudle_record sample_match_schudle_data in 
   let _ = Robot_pictures.insert_robot_picture_record sample_robot_image_data in 
-  () 
+  ()  *)
+
+
+
+
+  let () = 
+  Match_schudle_table.create_table;
+
+  let str = Core.In_channel.read_all "./match_schedule.json" in 
+  Match_schudle_table.load_database_from_json str
+
+  (* test_insert_records; *)
+
+
+  (* 
 
 let () =
   create_all_tables;
-  test_insert_records
+  test_insert_records *)

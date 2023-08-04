@@ -3,7 +3,5 @@
  (name main)
  (libraries db sqlite3 qrc vector yojson core ppx_deriving_yojson.runtime)
  ; (libraries  yojson core ppx_deriving_yojson.runtime)
-(preprocess (pps ppx_deriving_yojson))
- 
- )
-
+ (preprocess
+  (pps ppx_deriving_yojson)))

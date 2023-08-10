@@ -1,4 +1,32 @@
-let db = Sqlite3.db_open "test.db"
+[@@@ocaml.warning "-32-37"]
+
+(* module Foo = Foo.Make Capnp.BytesMessage *)
+
+
+(* module Foo = Foo.Make( Capnp.BytesMessage ) *)
+
+(* module Foo = Foo.Make(Capnp.BytesMessage) *)
+(* 
+module Foo = Foo.Make(Capnp.BytesMessage)
+
+let encode =  
+
+  let rw = Foo.Builder.Person.init_root () in 
+
+  Foo.Builder.Person.num_set_exn rw 31;
+
+  let message = Foo.Builder.Person.to_message rw in 
+
+  Capnp.Codecs.serialize ~compression:`None message *)
+
+
+
+
+
+
+
+
+(* let db = Sqlite3.db_open "test.db" *)
 
 module DB_operation_utils = struct
   let int64_of_bool = function false -> 0L | true -> 1L
@@ -155,7 +183,7 @@ module Raw_match_data_table = struct
     notes : string;
   }
 
-  let create_table =
+  let create_table db =
     let initial_sql = "CREATE TABLE " ^ table_name ^ "(" in
 
     let rec table_colums_as_string_list i list =
@@ -179,7 +207,7 @@ module Raw_match_data_table = struct
 
   (* upsert *)
   (* return primary key option None or primary key *)
-  let insert_db_record data =
+  let insert_db_record db data =
     let open Sqlite3 in
     let open DB_operation_utils in
     let insert_sql =
@@ -275,7 +303,7 @@ module Match_schudle_table = struct
     records : match_schudle_record list
   } [@@deriving yojson]
 
-  let create_table =
+  let create_table db =
     let sql =
       "CREATE TABLE " ^ table_name
       ^ "(match_number INT PRIMARY KEY, red_1 INT, red_2 INT, red_3 INT, blue_1 INT, \
@@ -284,7 +312,7 @@ module Match_schudle_table = struct
 
     DB_operation_utils.create_table_helper db sql table_name
 
-  let insert_match_schudle_record match_schudle_record =
+  let insert_match_schudle_record db match_schudle_record =
     let open Sqlite3 in
     let sql = "INSERT INTO " ^ table_name ^ " VALUES(?,?,?,?,?,?,?)" in
     let insert_stmt = prepare db sql in
@@ -321,12 +349,13 @@ module Match_schudle_table = struct
 
 
   (* getting data functions *)
-  let get_team_for_match_and_position match_number position =
+  let get_team_for_match_and_position db match_number position =
     let open DB_operation_utils in
     let sql =
       Printf.sprintf "SELECT %s FROM %s WHERE match_number=%d"
         (robot_position_to_string position)
-        table_name match_number
+        table_name 
+        match_number
     in
 
     let result = get_int_result_list_for_query db sql in
@@ -334,14 +363,14 @@ module Match_schudle_table = struct
     match result with Some (t :: []) -> Some t | _ -> None
 
 
-  let load_database_from_json data = 
+  let load_database_from_json db data = 
     let native_record = json_input_data_of_yojson (Yojson.Safe.from_string data) in 
 
     let records = match native_record with
     | Result.Ok s -> s 
     | Result.Error r -> failwith ("failed: " ^ r) in 
 
-    List.iter (fun a ->  match insert_match_schudle_record a with | Some _ -> print_endline "yes" | None -> print_endline "no"  ) records.records
+    List.iter (fun a ->  match insert_match_schudle_record db a with | Some _ -> print_endline "yes" | None -> print_endline "no"  ) records.records
 
 
 
@@ -353,14 +382,14 @@ module Robot_pictures = struct
 
   type robot_picture_record = { team_number : int; image : string }
 
-  let create_table =
+  let create_table db =
     let sql =
       "CREATE TABLE " ^ table_name ^ "(team_number INT PRIMARY KEY, image BLOB)"
     in
 
     DB_operation_utils.create_table_helper db sql table_name
 
-  let insert_robot_picture_record record =
+  let insert_robot_picture_record db record =
     let open Sqlite3 in
     let sql = "INSERT INTO " ^ table_name ^ " VALUES(?,?)" in
     let insert_stmt = prepare db sql in
@@ -386,7 +415,7 @@ module Robot_pictures = struct
         DB_operation_utils.formatted_error_message db r ("failed to insert record into " ^ table_name);
         None
 
-  let get_robot_picture team_number =
+  let get_robot_picture db team_number =
     let sql =
       Printf.sprintf "SELECT image FROM %s WHERE team_number=%d" table_name
         team_number
@@ -497,10 +526,10 @@ let print_to_console_cb row headers =
    | Some y -> print_endline ("TEAM NUMBER " ^ string_of_int y)
    | None -> print_endline("NO RESULT") *)
 
-(* let create_all_tables =     
-  Raw_match_data_table.create_table;
-  Match_schudle_table.create_table;
-  Robot_pictures.create_table *)
+let create_all_tables db =     
+  Raw_match_data_table.create_table db;
+  Match_schudle_table.create_table db ;
+  Robot_pictures.create_table db
 
 (* let test_insert_records =
   let _ = Raw_match_data_table.insert_db_record sample_scouted_data in
@@ -511,17 +540,38 @@ let print_to_console_cb row headers =
 
 
 
-  let () = 
+  (* let () = 
   Match_schudle_table.create_table;
 
   let str = Core.In_channel.read_all "./match_schedule.json" in 
-  Match_schudle_table.load_database_from_json str
+  Match_schudle_table.load_database_from_json str *)
+
+(* 
+  let () = 
+    let command = "aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/992642541356/test_queue --message-body " ^ encode in 
+    let _ = Sys.command command  in 
+    print_endline "done" *)
+
+
 
   (* test_insert_records; *)
 
 
-  (* 
+  
 
 let () =
-  create_all_tables;
-  test_insert_records *)
+  let db = Sqlite3.db_open "test.db" in 
+  create_all_tables db
+
+  (* let () = 
+    let str = encode in 
+    let by = Bytes.of_string str in 
+
+    for i = 0 to Bytes.length by do 
+      let b = Bytes.get by 1 in 
+      print_endline ("i: " ^ (string_of_int i) ^ "|| char: " ^ ( String.make 1 b)) 
+    done  *)
+    
+
+    
+

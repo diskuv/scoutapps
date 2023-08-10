@@ -1,7 +1,13 @@
 (executable
  (public_name db)
  (name main)
- (libraries db sqlite3 qrc vector yojson core ppx_deriving_yojson.runtime)
+ (libraries db sqlite3 capnp qrc vector yojson core ppx_deriving_yojson.runtime)
  ; (libraries  yojson core ppx_deriving_yojson.runtime)
  (preprocess
   (pps ppx_deriving_yojson)))
+
+
+
+  ; (rule 
+  ; (targets foo.ml foo.mli)
+  ; (action (run capnp compile -o %{bin:capnpc-ocaml} %{dep:foo.capnp})))

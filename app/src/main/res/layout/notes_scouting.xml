@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <!-- Cards to make the design look nice -->
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_39sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            android:backgroundTint="@color/secondary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <View
+            android:id="@+id/view2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_450sdp"
+            android:layout_marginTop="@dimen/_73sdp"
+            android:background="@drawable/rounded_rectangle"
+            android:backgroundTint="@color/secondary"
+            app:layout_anchorGravity="bottom|center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_19sdp"
+            android:textAlignment="center"
+            android:text="Match #00 &#10; 2930"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:gravity="center"
+            android:inputType="none"
+            android:text="  Match Notes"
+            android:textAllCaps="true"
+            android:textColor="@color/Text"
+            android:textSize="@dimen/_19ssp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <EditText
+            android:id="@+id/Name_Input"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_310sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_105sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:background="@drawable/menu_round"
+            android:backgroundTint="@color/offwhite"
+            android:ems="10"
+            android:hint="Match Notes Here . . . . ."
+            android:inputType="text"
+            android:padding="@dimen/_9sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:gravity="top"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Next Page Button -->
+        <Button
+            android:id="@+id/NEXT"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_425sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:backgroundTint="@color/darkGrey"
+            android:background="@drawable/rounded_rectangle_subtle"
+            app:backgroundTint="@null"
+            android:text="ENTER ALL DATA"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Bottom menu item -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:orientation="horizontal"
+            android:elevation="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_460sdp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/menu_round"
+            android:layout_alignParentBottom="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- menu items-->
+            <ImageButton
+                android:id="@+id/menu_item_1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/page1icon"
+                android:background="?android:selectableItemBackground"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <ImageButton
+                android:id="@+id/menu_item_2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/page2icon"
+                android:background="?android:selectableItemBackground"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

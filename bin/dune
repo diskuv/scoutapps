@@ -1,7 +1,7 @@
 (executable
  (public_name db)
  (name main)
- (modules Main Foo Raw_match_data_table Db_operation_utils Match_schedule_table Robot_pictures_table)
+ ;  (modules Main Foo Raw_match_data_table Db_operation_utils Match_schedule_table Robot_pictures_table)
  (libraries
   db
   sqlite3
@@ -10,11 +10,13 @@
   vector
   yojson
   core
+  base64
   ppx_deriving_yojson.runtime)
  ; (libraries  yojson core ppx_deriving_yojson.runtime)
  (preprocess
   (pps ppx_deriving_yojson)))
 
-; (rule 
-; (targets foo.ml foo.mli)
-; (action (run capnp compile -o %{bin:capnpc-ocaml} %{dep:foo.capnp})))
+(rule
+ (targets schema.ml schema.mli)
+ (action
+  (run capnp compile -o %{bin:capnpc-ocaml} %{dep:schema.capnp})))

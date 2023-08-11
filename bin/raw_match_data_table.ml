@@ -29,42 +29,6 @@ let create_table_sql_cols =
     "notes TEXT";
   |]
 
-type climb = No_climb | Docked | Engaged
-
-let climb_to_string = function
-  | No_climb -> "NONE"
-  | Docked -> "DOCKED"
-  | Engaged -> "Engaged"
-
-type raw_match_data_table_record = {
-  (* team *)
-  team_number : int;
-  team_name : string;
-  match_number : int;
-  scouter_name : string;
-  (* auto *)
-  auto_mobility : bool;
-  auto_climb : climb;
-  auto_cone_high : int;
-  auto_cone_mid : int;
-  auto_cone_low : int;
-  auto_cube_high : int;
-  auto_cube_mid : int;
-  auto_cube_low : int;
-  (* tele *)
-  tele_climb : climb;
-  tele_cone_high : int;
-  tele_cone_mid : int;
-  tele_cone_low : int;
-  tele_cube_high : int;
-  tele_cube_mid : int;
-  tele_cube_low : int;
-  (* misc *)
-  incap : bool;
-  playing_defense : bool;
-  notes : string;
-}
-
 let create_table db =
   let initial_sql = "CREATE TABLE " ^ table_name ^ "(" in
 
@@ -87,14 +51,32 @@ let create_table db =
 
 (* upsert *)
 (* return primary key option None or primary key *)
-let insert_db_record db data =
+let insert_db_record db capnp_data =
   let open Sqlite3 in
   let open Db_operation_utils in
+  let module Schema = Schema.Make (Capnp.BytesMessage) in
+  let match_data =
+    match
+      Capnp.Codecs.FramedStream.get_next_frame
+        (Capnp.Codecs.FramedStream.of_string ~compression:`None capnp_data)
+    with
+    | Result.Ok message -> Schema.Reader.RawMatchData.of_message message
+    | Result.Error _ -> failwith "could not decode capnp data"
+  in
+
   let insert_sql =
     "INSERT INTO " ^ table_name
     ^ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
   in
 
+  let climb_to_string = function
+    | Schema.Reader.Climb.Docked -> "DOCKED"
+    | Schema.Reader.Climb.Engaged -> "ENGAGED"
+    | Schema.Reader.Climb.None -> "NONE"
+    | Schema.Reader.Climb.Undefined _ -> "UNDEFINED"
+  in
+
+  let open Schema.Reader.RawMatchData in
   let insert_stmt = prepare db insert_sql in
 
   (* let bind_in = DB_operation_utils.bind_insert_stmt insert_stmt db  *)
@@ -102,38 +84,39 @@ let insert_db_record db data =
     Db_operation_utils.bind_insert_statement insert_stmt db
   in
 
-  bind_insert_stmt 1 (Data.INT (Int64.of_int data.team_number));
-  bind_insert_stmt 2 (Data.TEXT data.team_name);
-  bind_insert_stmt 3 (Data.INT (Int64.of_int data.match_number));
-  bind_insert_stmt 4 (Data.TEXT data.scouter_name);
+  bind_insert_stmt 1 (match_data |> team_number_get |> db_int);
+  bind_insert_stmt 2 (match_data |> team_name_get |> db_text);
+  bind_insert_stmt 3 (match_data |> match_number_get |> db_int);
+  bind_insert_stmt 4 (match_data |> scouter_name_get |> db_text);
 
   (* auto *)
-  bind_insert_stmt 5 (Data.INT (int64_of_bool data.auto_mobility));
-  bind_insert_stmt 6 (Data.TEXT (climb_to_string data.auto_climb));
+  bind_insert_stmt 5 (match_data |> auto_mobility_get |> db_bool);
+  bind_insert_stmt 6 (match_data |> auto_climb_get |> climb_to_string |> db_text);
 
-  bind_insert_stmt 7 (Data.INT (Int64.of_int data.auto_cone_high));
-  bind_insert_stmt 8 (Data.INT (Int64.of_int data.auto_cone_mid));
-  bind_insert_stmt 9 (Data.INT (Int64.of_int data.auto_cone_low));
+  bind_insert_stmt 7 (match_data |> auto_cone_high_get |> db_int);
+  bind_insert_stmt 8 (match_data |> auto_cone_mid_get |> db_int);
+  bind_insert_stmt 9 (match_data |> auto_cone_low_get |> db_int);
 
-  bind_insert_stmt 10 (Data.INT (Int64.of_int data.auto_cube_high));
-  bind_insert_stmt 11 (Data.INT (Int64.of_int data.auto_cube_mid));
-  bind_insert_stmt 12 (Data.INT (Int64.of_int data.auto_cube_low));
+  bind_insert_stmt 10 (match_data |> auto_cube_high_get |> db_int);
+  bind_insert_stmt 11 (match_data |> auto_cube_mid_get |> db_int);
+  bind_insert_stmt 12 (match_data |> auto_cube_low_get |> db_int);
 
   (* tele *)
-  bind_insert_stmt 13 (Data.TEXT (climb_to_string data.tele_climb));
+  bind_insert_stmt 13
+    (match_data |> tele_climb_get |> climb_to_string |> db_text);
 
-  bind_insert_stmt 14 (Data.INT (Int64.of_int data.tele_cone_high));
-  bind_insert_stmt 15 (Data.INT (Int64.of_int data.tele_cone_mid));
-  bind_insert_stmt 16 (Data.INT (Int64.of_int data.tele_cone_low));
+  bind_insert_stmt 14 (match_data |> tele_cone_high_get |> db_int);
+  bind_insert_stmt 15 (match_data |> tele_cone_mid_get |> db_int);
+  bind_insert_stmt 16 (match_data |> tele_cone_low_get |> db_int);
 
-  bind_insert_stmt 17 (Data.INT (Int64.of_int data.tele_cube_high));
-  bind_insert_stmt 18 (Data.INT (Int64.of_int data.tele_cube_mid));
-  bind_insert_stmt 19 (Data.INT (Int64.of_int data.tele_cube_low));
+  bind_insert_stmt 17 (match_data |> tele_cube_high_get |> db_int);
+  bind_insert_stmt 18 (match_data |> tele_cube_mid_get |> db_int);
+  bind_insert_stmt 19 (match_data |> tele_cube_low_get |> db_int);
 
   (* misc *)
-  bind_insert_stmt 20 (Data.INT (int64_of_bool data.incap));
-  bind_insert_stmt 21 (Data.INT (int64_of_bool data.playing_defense));
-  bind_insert_stmt 22 (Data.TEXT data.notes);
+  bind_insert_stmt 20 (match_data |> incap_get |> db_bool);
+  bind_insert_stmt 21 (match_data |> playing_defense_get |> db_bool);
+  bind_insert_stmt 22 (match_data |> notes_get |> db_text);
 
   match step insert_stmt with
   | Rc.DONE ->
@@ -145,13 +128,15 @@ let insert_db_record db data =
         \          *team_number=%d \n\
         \          *match_number=%d \n\
         \          *scouter_name=%s \n"
-        table_name (Int64.to_int row_id) data.team_number data.match_number
-        data.scouter_name;
+        table_name (Int64.to_int row_id)
+        (team_number_get match_data)
+        (match_number_get match_data)
+        (scouter_name_get match_data);
 
-      Some (data.team_number, data.match_number, data.scouter_name)
-  | r ->
-      Db_operation_utils.formatted_error_message db r
-        ("Failed to insert record into " ^ table_name);
-      None
+      Some
+        ( team_number_get match_data,
+          match_number_get match_data,
+          scouter_name_get match_data )
+  | _ -> failwith "could not insert into raw match data table"
 
 (* get data functions *)

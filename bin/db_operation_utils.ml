@@ -82,3 +82,13 @@ let get_int_result_list_for_query db sql =
   match Vector.length vector with
   | 0 -> None
   | _ -> Some (Vector.to_list vector)
+
+let db_int num =
+  let int64 = Int64.of_int num in
+  Sqlite3.Data.INT int64
+
+let db_text str = Sqlite3.Data.TEXT str
+
+let db_bool bol =
+  let num = int64_of_bool bol in
+  Sqlite3.Data.INT num

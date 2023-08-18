@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "fredericbonnet.cmake-test-adapter",
+        "cheshirekow.cmake-format",
+        "josetr.cmake-language-support-vscode",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake"
+    ]
+}

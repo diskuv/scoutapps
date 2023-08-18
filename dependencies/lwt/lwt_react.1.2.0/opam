@@ -1,0 +1,9 @@
+opam-version: "2.0"
+maintainer: ["support@diskuv.com"]
+authors: ["Diskuv, Inc. <support@diskuv.com>"]
+# TODO: Subsite for DkSDK
+homepage: "https://diskuv.com"
+bug-reports: "https://diskuv.com"
+license: "LicenseRef-CommercialDiskuvLicense"
+build: []
+description: "Empty since lwt already bundles lwt_react even though lwt_react has an independent version"

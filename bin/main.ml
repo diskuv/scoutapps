@@ -8,33 +8,6 @@
 
 (* let x = Raw_match_data_table.create_table  *)
 
-let sample_scouted_data :  Raw_match_data_table.raw_match_data_table_record =
-   {
-     team_number = 2930;
-     team_name = "sonic_squirrels";
-     match_number = 5;
-     scouter_name = "Keyush(2930)";
-     auto_mobility = true;
-     auto_climb = Engaged;
-     auto_cone_high = 1;
-     auto_cone_mid = 1;
-     auto_cone_low = 1;
-     auto_cube_high = 1;
-     auto_cube_mid = 1;
-     auto_cube_low = 1;
-     (* tele *)
-     tele_climb = Engaged;
-     tele_cone_high = 4;
-     tele_cone_mid = 4;
-     tele_cone_low = 4;
-     tele_cube_high = 4;
-     tele_cube_mid = 4;
-     tele_cube_low = 4;
-     (* misc *)
-     incap = false;
-     playing_defense = false;
-     notes = "fast cycler";
-   }
 
 let sample_match_schudle_data : Match_schedule_table.match_schudle_record =
   {
@@ -61,29 +34,6 @@ let print_to_console_cb row headers =
   print_endline ""
 
 
-
-(* QR CODE CODEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE *)
-
-(* let long_string =
-     let len = 2953 in
-     let buffer = Buffer.create len in
-
-     for _i = 0 to len-1 do
-       Buffer.add_string buffer "{"
-     done;
-
-     Buffer.contents buffer
-
-   let () =
-     let m = long_string in
-     let x = Qrc.encode ~ec_level:`L m in
-     match x with
-     | Some s ->
-       let oc = open_out "image.svg"in
-       let svg = Qrc.Matrix.to_svg s in
-       Printf.fprintf oc "%s\n" svg;
-       close_out oc
-     | None -> print_endline "FAILED" *)
 
 (* TODO: https://ocaml.org/p/vector/latest/doc/Vector/index.html *)
 
@@ -151,13 +101,25 @@ let create_all_tables db =
 
 (* module Foo = Foo.Make (Capnp.BytesMessage) *)
 
-module Foo = Foo.Make (Capnp.BytesMessage)
+module Schema = Schema.Make (Capnp.BytesMessage)
 
 let test =
-  let rw = Foo.Builder.RawMatchData.init_root () in
+  let rw = Schema.Builder.RawMatchData.init_root () in
 
-  Foo.Builder.RawMatchData.auto_cone_high_set_exn rw 6;
+  Schema.Builder.RawMatchData.auto_cone_high_set_exn rw 6;
 
-  let c = Foo.Builder.Climb.Docked in
+  let c = Schema.Builder.Climb.Docked in
 
-  Foo.Builder.RawMatchData.auto_climb_set rw c
+  Schema.Builder.RawMatchData.auto_climb_set rw c; 
+
+  Schema.Builder.RawMatchData.auto_cone_mid_set_exn rw 4; 
+
+  let message = Schema.Builder.RawMatchData.to_message rw in 
+
+  Capnp.Codecs.serialize ~compression:`None message
+
+  let () = 
+    let binary_data = test in 
+
+    Aws_manager.send_sqs binary_data 
+

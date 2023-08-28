@@ -26,6 +26,51 @@ cmake_policy(SET CMP0077 NEW)
 # >>> If you have any DkSDKProject_DeclareAvailable(), this is the place
 # >>> to put them.
 
+DkSDKProject_DeclareAvailable(sqlite3
+    CONSTRAINT ">= 5.1.0"
+    FINDLIBS sqlite3)
+
+# DkSDKProject_DeclareAvailable(capnp 
+#     CONSTRAINT ">= 3.6.0"
+#     FINDLIBS capnp 
+# )
+
+DkSDKProject_DeclareAvailable(qrc
+    CONSTRAINT ">= 0.1.0"
+    FINDLIBS qrc 
+)
+
+DkSDKProject_DeclareAvailable(ocamlbuild
+    CONSTRAINT ">= 0.14.2"
+    FINDLIBS ocamlbuildlib
+)
+
+DkSDKProject_DeclareAvailable(vector
+    CONSTRAINT ">= 1.0.0"
+    FINDLIBS vector 
+)
+
+DkSDKProject_DeclareAvailable(yojson
+    CONSTRAINT ">= 2.1.0"
+    FINDLIBS yojson 
+)
+
+DkSDKProject_DeclareAvailable(core
+    CONSTRAINT ">= 0.16.0"
+    FINDLIBS core base_for_tests command core_top filename_base heap_block univ_map validate 
+)
+
+DkSDKProject_DeclareAvailable(base64
+    CONSTRAINT ">= 3.5.1"
+    FINDLIBS base64
+)
+
+
+    
+    
+    
+
+
 # --- Which Dependencies Will Be Available To Targets ---
 
 # Using DkSDKProject_DeclareAvailable() alone does not pull it into CMake.
@@ -35,6 +80,14 @@ DkSDKProject_MakeAvailable(
         cmdliner
         fmt
         logs
+        sqlite3
+
+        capnp_ocaml
+        qrc
+        vector
+        yojson
+        core
+        base64
 
         # "Build tools" that must run on the build host.
         # Implementation: Built by CMake directly.

@@ -51,4 +51,17 @@ add_library(transforms OBJECT sub1/uppercase.ml my_lwt_extras.ml)
 target_link_libraries(transforms PRIVATE
         Findlib::logs.lwt
         Findlib::lwt
+       
+        
+        Findlib::capnp
+        Findlib::vector
+        Findlib::yojson  
+        Findlib::base64
+       
+
+        #not working
+        # Findlib::sqlite3 
+        Findlib::qrc 
+        Findlib::core
+
         Findlib::lwt.unix)

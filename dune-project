@@ -39,6 +39,7 @@
   ; It is expected that many dev tools will not be used in any `dune` files
   (allow_empty)
   (depends 
+    (capnp (>= 3.5.0))
     (odoc (>= 2.2.0))
     (ocaml-lsp-server (>= 1.16.1))
     (ocamlformat (= 0.25.1))
@@ -53,7 +54,14 @@
 You can clone the project using the './dk dksdk.project.new' command; see the DkSDK.md document for more information.")
   (depends
     (fmt (>= 0.9.0))
-    (logs (>= 0.7.0))))
+    (logs (>= 0.7.0))
+    lwt
+    (capnp (>= 3.5.0))
+    (vector (>= 1.0.0))
+    (yojson (>= 2.1.0))
+    (base64 (>= 3.5.1))
+    (qrc (>= 0.1.0))
+    (core (>= 0.16.0))))
 
 (package
   (name SquirrelScout_MainCLI)
@@ -73,4 +81,5 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree
   (allow_empty)
   (depends
-    (tezt (and :with-test (= 3.1.0)))))
+    (tezt (and :with-test (= 3.1.0)))
+    lwt))

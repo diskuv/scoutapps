@@ -47,5 +47,11 @@
  (libraries
   logs.lwt
   lwt
+  capnp
+  vector
+  yojson
+  base64
+  qrc
+  core
   lwt.unix)
  (modules uppercase my_lwt_extras))

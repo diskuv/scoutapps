@@ -29,37 +29,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //variables
     String ScoutName, TeamNum;
 
+    //singleton
+    public ScoutInfo scoutInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-            //buttons
-            startScoutingButton = findViewById(R.id.START_SCOUTING);
-            startScoutingButton.setOnClickListener(this);
-            pitScouting = findViewById(R.id.PIT_SCOUTING);
-            pitScouting.setOnClickListener(this);
-            history = findViewById(R.id.HISTORY);
-            history.setOnClickListener(this);
-            sharePitScouting = findViewById(R.id.SHARE_PIT_SCOUTING);
-            sharePitScouting.setOnClickListener(this);
-            nukeData = findViewById(R.id.NUKE_DATA);
-            nukeData.setOnClickListener(this);
+        //buttons
+        startScoutingButton = findViewById(R.id.START_SCOUTING);
+        startScoutingButton.setOnClickListener(this);
+        pitScouting = findViewById(R.id.PIT_SCOUTING);
+        pitScouting.setOnClickListener(this);
+        history = findViewById(R.id.HISTORY);
+        history.setOnClickListener(this);
+        sharePitScouting = findViewById(R.id.SHARE_PIT_SCOUTING);
+        sharePitScouting.setOnClickListener(this);
+        nukeData = findViewById(R.id.NUKE_DATA);
+        nukeData.setOnClickListener(this);
 
-            //others
-            scouterNameI = (EditText) findViewById(R.id.Name_Input);
-            teamNameI = (EditText) findViewById(R.id.TeamNum_Input);
-            title = findViewById(R.id.textView2);
-            titleSecondary = findViewById(R.id.textView3);
-            teamText = findViewById(R.id.TeamNum_Label);
-            nameText = findViewById(R.id.Name_Label);
-            firstCard = findViewById(R.id.view2);
-            secondCard = findViewById(R.id.view3);
+        //others
+        scouterNameI = (EditText) findViewById(R.id.Name_Input);
+        teamNameI = (EditText) findViewById(R.id.TeamNum_Input);
+        title = findViewById(R.id.textView2);
+        titleSecondary = findViewById(R.id.textView3);
+        teamText = findViewById(R.id.TeamNum_Label);
+        nameText = findViewById(R.id.Name_Label);
+        firstCard = findViewById(R.id.view2);
+        secondCard = findViewById(R.id.view3);
 
-            //start animation
-            animationStart();
+        //start animation
+        animationStart();
+
+        //load info if created
+        scoutInfo = ScoutInfo.getInstance();
+        loadScoutInfo();
 
     }
 
@@ -103,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                scoutInfo.setScoutTeam(Integer.parseInt(TeamNum));
+                scoutInfo.setScoutName(ScoutName);
                 startActivity(new Intent(MainActivity.this, StartScoutingActivity.class));
                 Log.d("d", "scouter name: " + ScoutName);
                 Toast.makeText(MainActivity.this, ScoutName, Toast.LENGTH_SHORT).show();
@@ -173,5 +182,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
             button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(150);
         }).start();
+    }
+
+    //loads the info of the scout if already known
+    public void loadScoutInfo(){
+        if(scoutInfo.getScoutName() != null){
+            scouterNameI.setText(scoutInfo.getScoutName());
+        }
+        if(scoutInfo.getScoutTeam() != -1){
+            teamNameI.setText(scoutInfo.getScoutTeam());
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     //instances
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
     Button yesMobility, noMobility, nextButton;
+    ImageButton homeButton, notesButton;
     TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow;
     AutoCompleteTextView dropdown;
 
@@ -44,6 +46,10 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         noMobility.setOnClickListener(this);
         nextButton = (Button) findViewById(R.id.NEXT);
         nextButton.setOnClickListener(this);
+        homeButton = (ImageButton) findViewById(R.id.menu_item_1);
+        homeButton.setOnClickListener(this);
+        notesButton = (ImageButton) findViewById(R.id.menu_item_2);
+        notesButton.setOnClickListener(this);
         //...
         coneHi = (Button) findViewById(R.id.CONE_HIGH_INCREMENT);
         coneHi.setOnClickListener(this);
@@ -100,7 +106,13 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
 
     public void onClick(View view){
         int clickedId = view.getId();
-        if(clickedId == R.id.MOBILITY_YES){
+        if(clickedId == R.id.menu_item_1){
+            startActivity(new Intent(AutonomousActivity.this, MainActivity.class));
+        }
+        else if(clickedId == R.id.menu_item_2){
+            startActivity(new Intent(AutonomousActivity.this, NotesActivity.class));
+        }
+        else if(clickedId == R.id.MOBILITY_YES){
             mobilityYesLogic();
         }
         else if(clickedId == R.id.MOBILITY_NO){

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background">
 
         <!-- Cards to make the design look nice -->
         <View
@@ -69,12 +66,12 @@
         <EditText
             android:id="@+id/Name_Input"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_310sdp"
+            android:layout_height="@dimen/_275sdp"
             android:layout_marginStart="@dimen/_29sdp"
             android:layout_marginTop="@dimen/_105sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:background="@drawable/menu_round"
-            android:backgroundTint="@color/offwhite"
+            android:backgroundTint="@color/white"
             android:ems="10"
             android:hint="Match Notes Here . . . . ."
             android:inputType="text"
@@ -91,7 +88,7 @@
             android:id="@+id/NEXT"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_425sdp"
+            android:layout_marginTop="@dimen/_395sdp"
             android:layout_marginStart="@dimen/_29sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:backgroundTint="@color/darkGrey"
@@ -110,7 +107,7 @@
             android:layout_height="@dimen/_35sdp"
             android:orientation="horizontal"
             android:elevation="@dimen/_3sdp"
-            android:layout_marginTop="@dimen/_460sdp"
+            android:layout_marginTop="@dimen/_430sdp"
             android:layout_gravity="bottom"
             android:background="@drawable/menu_round"
             android:layout_alignParentBottom="true"
@@ -122,7 +119,7 @@
             <ImageButton
                 android:id="@+id/menu_item_1"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
@@ -134,7 +131,7 @@
             <ImageButton
                 android:id="@+id/menu_item_2"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_marginStart="@dimen/_4sdp"
                 android:layout_weight="1"
@@ -146,5 +143,4 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

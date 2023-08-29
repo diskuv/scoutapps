@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.R;
+import com.example.squirrelscout_scouter.ScoutInfo;
 
 import org.w3c.dom.Text;
 
@@ -38,6 +39,8 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
 
     String robotPosition, m;
     int match;
+
+    ScoutInfo scoutInfo;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +78,16 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
             @Override
             public void onClick(View v) {
                 dropdown.showDropDown();
+                rechooseRobot();
             }
         });
 
         //animate
         animationStart();
+
+        //load info if created
+        scoutInfo = ScoutInfo.getInstance();
+        loadScoutInfo();
     }
 
     //button functions
@@ -110,6 +118,8 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
             try {
                 match = Integer.parseInt(matchString);
                 chooseMatchI.setText(String.valueOf(match + 1));
+                //change the button to rechoose the robot
+                rechooseRobot();
             } catch (NumberFormatException e) {
                 // Handle the case where the input string is not a valid integer
                 // Display an error message or perform appropriate error handling
@@ -129,6 +139,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
                 }else{
                     chooseMatchI.setText(String.valueOf(match - 1));
                 }
+                rechooseRobot();
             } catch (NumberFormatException e) {
                 // Handle the case where the input string is not a valid integer
                 // Display an error message or perform appropriate error handling
@@ -158,6 +169,8 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                scoutInfo.setScoutMatch(Integer.parseInt(m));
+                scoutInfo.setRobotPosition(robotPosition);
                 startActivity(new Intent(StartScoutingActivity.this, AutonomousActivity.class));
                 Toast.makeText(StartScoutingActivity.this, m, Toast.LENGTH_SHORT).show();
                 Toast.makeText(StartScoutingActivity.this, robotPosition, Toast.LENGTH_SHORT).show();
@@ -219,5 +232,16 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
                 }).start();
             }).start();
         }).start();
+    }
+
+    public void rechooseRobot(){
+        startButton.setText("Choose Robot");
+        startButton.setTextColor(ContextCompat.getColor(this, R.color.white));
+        startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
+    }
+
+    //loads scout data
+    private void loadScoutInfo(){
+        //...nothing to load on this page
     }
 }

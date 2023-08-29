@@ -2,6 +2,7 @@ package com.example.squirrelscout_scouter.match_scouting_pages;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
     //instances
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
     Button yesDefense, noDefense, yesIncap, noIncap,nextButton;
+    ImageButton backPage, notesPage;
     TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow;
     AutoCompleteTextView dropdown;
 
@@ -49,6 +52,10 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
         noIncap.setOnClickListener(this);
         nextButton = (Button) findViewById(R.id.NEXT);
         nextButton.setOnClickListener(this);
+        backPage = (ImageButton) findViewById(R.id.menu_item_1);
+        backPage.setOnClickListener(this);
+        notesPage = (ImageButton) findViewById(R.id.menu_item_2);
+        notesPage.setOnClickListener(this);
         //...
         coneHi = (Button) findViewById(R.id.CONE_HIGH_INCREMENT);
         coneHi.setOnClickListener(this);
@@ -110,7 +117,7 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
 
     }
 
-    public   void onClick(View view){
+    public void onClick(View view){
         int clickedId = view.getId();
         if(clickedId == R.id.DEFENSE_YES){
             defenseYesLogic();
@@ -226,7 +233,7 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
     private void nextPageLogic(){
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(TeleopActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
-            //startActivity(new Intent(TeleopActivity.this, TeleopActivity.class));
+            startActivity(new Intent(TeleopActivity.this, NotesActivity.class));
         }
     }
 

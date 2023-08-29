@@ -51,7 +51,7 @@
   vector
   yojson
   base64
+  sqlite3
   qrc
-  core
   lwt.unix)
  (modules uppercase my_lwt_extras))

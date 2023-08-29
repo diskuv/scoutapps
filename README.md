@@ -1,4 +1,4 @@
-# DkSDK Hello World
+# Squirrel Scout - OCaml Backend
 
 [DkSDK CMake]: https://diskuv.com/cmake/help/latest/
 
@@ -24,6 +24,12 @@ own project and team.*
 
 ```sh
 ./dk dksdk.vscode.ocaml.configure
+```
+
+On Debian or Ubuntu, also do:
+
+```sh
+sudo apt install libsqlite3-dev
 ```
 
 ### Echo Server

@@ -55,6 +55,11 @@ DkSDKProject_DeclareAvailable(yojson
     FINDLIBS yojson 
 )
 
+# [core] is a Jane Street library. Jane Street, because it does not have a Windows
+# test system, frequently has Windows problems. So DkSDK and DkML usually avoid
+# Jane Street libraries except a few low-dependencies packages like [base] and
+# some PPX libraries. Example: https://github.com/janestreet/core/pull/166
+# ==> Avoid [core]!
 DkSDKProject_DeclareAvailable(core
     CONSTRAINT ">= 0.16.0"
     FINDLIBS core base_for_tests command core_top filename_base heap_block univ_map validate 

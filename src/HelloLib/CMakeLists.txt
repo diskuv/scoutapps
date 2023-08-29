@@ -52,16 +52,15 @@ target_link_libraries(transforms PRIVATE
         Findlib::logs.lwt
         Findlib::lwt
        
-        
         Findlib::capnp
         Findlib::vector
         Findlib::yojson  
         Findlib::base64
        
+        Findlib::sqlite3
+        Findlib::qrc
 
         #not working
-        # Findlib::sqlite3 
-        Findlib::qrc 
-        Findlib::core
+        #Findlib::core
 
         Findlib::lwt.unix)

@@ -26,10 +26,6 @@ cmake_policy(SET CMP0077 NEW)
 # >>> If you have any DkSDKProject_DeclareAvailable(), this is the place
 # >>> to put them.
 
-DkSDKProject_DeclareAvailable(sqlite3
-    CONSTRAINT ">= 5.1.0"
-    FINDLIBS sqlite3)
-
 # DkSDKProject_DeclareAvailable(capnp 
 #     CONSTRAINT ">= 3.6.0"
 #     FINDLIBS capnp 
@@ -85,7 +81,6 @@ DkSDKProject_MakeAvailable(
         cmdliner
         fmt
         logs
-        sqlite3
 
         capnp_ocaml
         qrc
@@ -130,3 +125,4 @@ if(BUILD_LIBEV)
 endif()
 
 add_subdirectory(lwt)
+add_subdirectory(sqlite3)

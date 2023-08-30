@@ -9,7 +9,7 @@ public class ScoutInfo implements QRCodeDataFieldsInterface {
 
     //variables
     private String scoutName, positionScouting;
-    private int scoutTeam, matchScouting;
+    private int scoutTeam, matchScouting, robotScouting;
 
     //constructor
     private ScoutInfo(){
@@ -18,6 +18,7 @@ public class ScoutInfo implements QRCodeDataFieldsInterface {
         scoutTeam = -1;
         matchScouting = -1;
         positionScouting = null;
+        robotScouting = -1;
     }
 
     //static method to create instance of com.example.squirrelscout_scouter.ScoutInfo class
@@ -44,4 +45,7 @@ public class ScoutInfo implements QRCodeDataFieldsInterface {
     public void setRobotPosition(String robotPosition) { positionScouting = robotPosition; }
     @Override
     public String getRobotPosition() { return positionScouting; }
+    public void setRobotScouting(int robot) { robotScouting = robot; }
+    @Override
+    public int getRobotScouting() { return robotScouting; }
 }

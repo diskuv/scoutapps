@@ -9,4 +9,6 @@ public interface QRCodeDataFieldsInterface {
     public int getScoutMatch();
     public void setRobotPosition(String robotPosition);
     public String getRobotPosition();
+    public int getRobotScouting();
+    public void setRobotScouting(int robot);
 }

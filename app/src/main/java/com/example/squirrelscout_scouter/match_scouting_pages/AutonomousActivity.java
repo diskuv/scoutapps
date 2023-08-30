@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.R;
+import com.example.squirrelscout_scouter.ScoutInfo;
 
 public class AutonomousActivity extends Activity implements View.OnClickListener {
 
@@ -29,8 +30,10 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
     Button yesMobility, noMobility, nextButton;
     ImageButton homeButton, notesButton;
-    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow;
+    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info;
     AutoCompleteTextView dropdown;
+
+    ScoutInfo scoutInfo;
 
     //variables
     boolean mobilityBool;
@@ -75,6 +78,8 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         cubeLi.setOnClickListener(this);
         cubeLd = (Button) findViewById(R.id.CUBE_LOW_DECREMENT);
         cubeLd.setOnClickListener(this);
+        //...
+        info = (TextView) findViewById(R.id.textView3);
 
         //counters
         coneHigh = (TextView) findViewById(R.id.ConeHighCounter);
@@ -102,6 +107,10 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
                 nextPageCheck();
             }
         });
+
+        //load info if created
+        scoutInfo = ScoutInfo.getInstance();
+        loadScoutInfo();
     }
 
     public void onClick(View view){
@@ -234,5 +243,11 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(250).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
             button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
         }).start();
+    }
+
+    //loading the scout info
+    public void loadScoutInfo(){
+        //gets the match and team number that the scout should be scouting
+        info.setText("Match #" + scoutInfo.getScoutMatch() + "\n" + scoutInfo.getRobotScouting());
     }
 }

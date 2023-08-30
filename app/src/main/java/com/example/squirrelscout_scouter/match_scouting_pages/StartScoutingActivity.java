@@ -166,6 +166,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
             startButton.setText("Start Scouting");
             startButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            findRobot();
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -240,6 +241,11 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
     }
 
+    //need to implement
+    //gets the robot based on the match number and position
+    public void findRobot(){
+        scoutInfo.setRobotScouting(9999);
+    }
     //loads scout data
     private void loadScoutInfo(){
         //...nothing to load on this page

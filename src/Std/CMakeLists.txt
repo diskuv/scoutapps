@@ -1,12 +1,12 @@
 # This command tells DkSDK that you want to consider this directory and all
-# of its subdirectories as belonging to the package "SquirrelScout_HelloLib".
+# of its subdirectories as belonging to the package "SquirrelScout_Std".
 # The package name comes from the name of the project (DkSDKProject_AddProject)
-# and from the name of the directory (HelloLib).
+# and from the name of the directory (Std).
 DkSDKProject_AddPackage(
         AUTO_OPAM_PACKAGE
         SUMMARY_ONELINER "A simple Hello World library that demonstrates how to use DkSDK CMake."
         SUMMARY_PARAGRAPHS
-        [[SquirrelScout_HelloLib is a library that has functions to do upper-casing and thread timeouts.]]
+        [[SquirrelScout_Std is a library that has functions to do upper-casing and thread timeouts.]]
         [[You can clone the project using the './dk dksdk.project.new' command$<SEMICOLON> see the DkSDK.md document for more information.]]
 )
 
@@ -19,12 +19,12 @@ DkSDKProject_AddPackage(
 # the package. This library is what other OCaml packages in this project
 # will use; even other OCaml projects can use this library if you publish
 # it to an opam repository.
-add_library(SquirrelScout_HelloLib OBJECT SquirrelScout_HelloLib.ml)
-add_library(SquirrelScout::HelloLib ALIAS SquirrelScout_HelloLib)
-set_target_properties(SquirrelScout_HelloLib PROPERTIES EXPORT_NAME HelloLib)
+add_library(SquirrelScout_Std OBJECT SquirrelScout_Std.ml)
+add_library(SquirrelScout::Std ALIAS SquirrelScout_Std)
+set_target_properties(SquirrelScout_Std PROPERTIES EXPORT_NAME Std)
 
-target_sources(SquirrelScout_HelloLib INTERFACE
-        SquirrelScout_HelloLib.mli
+target_sources(SquirrelScout_Std INTERFACE
+        SquirrelScout_Std.mli
         # You can use any <name> from add_library(<name> OBJECT xxx/yyy.ml ...).
         #
         # We'll make an OBJECT library later in this file.
@@ -38,7 +38,7 @@ target_sources(SquirrelScout_HelloLib INTERFACE
         # .ml/.mli files will not be linked into the final executable if those
         # .ml/.mli files are OBJECT libraries of OBJECT libraries.
         $<TARGET_OBJECTS:transforms>)
-target_link_libraries(SquirrelScout_HelloLib PRIVATE
+target_link_libraries(SquirrelScout_Std PRIVATE
         Findlib::fmt
         # See commentary on target_sources($<TARGET_OBJECTS:xxx>)
         transforms)

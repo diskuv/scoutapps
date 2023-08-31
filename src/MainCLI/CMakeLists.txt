@@ -10,7 +10,7 @@ DkSDKProject_CreateMainC(OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/_main.c)
 add_executable(main-cli _main.c)
 target_link_libraries(main-cli PRIVATE
         # We want the CLI node linked into the executable
-        DkHelloLib::cli
+        SquirrelScout::cli
         # OCamlCompile is used for _main.c in hello.
         DkSDK::OCamlCompile
         # OCamlDependencies is the interface library for the libraries needed by OCaml.
@@ -43,12 +43,12 @@ DkSDKProject_AddPackage(
 # with the same name. That .ml file serves as the entry point for the node.
 add_library(SquirrelScout_cli STATIC
         SquirrelScout_cli.ml)
-add_library(DkHelloLib::cli ALIAS SquirrelScout_cli)
+add_library(SquirrelScout::cli ALIAS SquirrelScout_cli)
 set_target_properties(SquirrelScout_cli PROPERTIES EXPORT_NAME cli)
 target_link_libraries(SquirrelScout_cli PRIVATE
-        # We want the library that we wrote in ../HelloLib/
+        # We want the library that we wrote in ../Std/
         # to be available to the node's .ml code.
-        SquirrelScout::HelloLib
+        SquirrelScout::Std
         # Make command line options. In the node model, each node shares the command line options.
         # You could have a node index and an CLI option with that (ex. --send:2 "hi") if you
         # needed specific options to go to a specific node.

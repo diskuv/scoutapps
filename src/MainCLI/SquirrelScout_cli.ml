@@ -37,7 +37,7 @@ let main_thread ?max_uptime_secs ~uppercase ~port () =
       raise e);
   (* Run the main thread and wait for it to finish *)
   Lwt_main.run
-    (SquirrelScout_HelloLib.run_echo_server ?max_uptime_secs ~uppercase ~port ())
+    (SquirrelScout_Std.run_echo_server ?max_uptime_secs ~uppercase ~port ())
 
 let run_main_thread uppercase port max_uptime_secs () =
   main_thread ?max_uptime_secs ~uppercase ~port ()

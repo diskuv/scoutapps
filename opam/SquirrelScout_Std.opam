@@ -4,7 +4,7 @@ version: "1.0.0"
 synopsis:
   "A simple Hello World library that demonstrates how to use DkSDK CMake"
 description: """
-SquirrelScout_HelloLib is a library that has functions to do upper-casing and thread timeouts.
+SquirrelScout_Std is a library that has functions to do upper-casing and thread timeouts.
 You can clone the project using the './dk dksdk.project.new' command; see the DkSDK.md document for more information."""
 maintainer: ["Diskuv Support <support@diskuv.com>"]
 authors: ["Diskuv Support <support@diskuv.com>"]

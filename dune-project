@@ -46,11 +46,11 @@
     (menhir (>= 20230608))))
 
 (package
-  (name SquirrelScout_HelloLib)
+  (name SquirrelScout_Std)
   (synopsis "A simple Hello World library that demonstrates how to use DkSDK CMake")
   ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree
   (allow_empty)
-  (description "SquirrelScout_HelloLib is a library that has functions to do upper-casing and thread timeouts.
+  (description "SquirrelScout_Std is a library that has functions to do upper-casing and thread timeouts.
 You can clone the project using the './dk dksdk.project.new' command; see the DkSDK.md document for more information.")
   (depends
     (ocaml (>= 4.14.0))

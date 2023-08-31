@@ -1,5 +1,5 @@
 open Tezt
-open SquirrelScout_HelloLib
+open SquirrelScout_Std
 
 let tags = [ "hellolib" ]
 

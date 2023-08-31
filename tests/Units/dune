@@ -7,5 +7,5 @@
 
 (include_subdirs unqualified)
 
-(include _test_HelloLib_ml.dune)
+(include _test_Std_ml.dune)
 (include _test_arithmetic_ml.dune)

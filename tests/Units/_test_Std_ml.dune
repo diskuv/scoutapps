@@ -15,7 +15,7 @@
 ; executable. The executable from CMake should **always** be the one installed
 ; in production.
 (executable
- (name test_HelloLib_ml)
+ (name test_Std_ml)
  (modes (native object) exe)
  (flags
   (:standard -warn-error -A))
@@ -27,14 +27,14 @@
  (ocamlopt_flags
   (:standard -dstartup -S))
  (modules
-  test_HelloLib_ml
+  test_Std_ml
   )
  (libraries
   transforms
   tezt
   lwt
   lwt.unix
-  SquirrelScout_HelloLib
+  SquirrelScout_Std
   ))
 
 ; Install the C object file to a known location for CMake.
@@ -44,5 +44,5 @@
  (section lib_root)
  (package SquirrelScout_Units)
  (files
-  (test_HelloLib_ml.exe%{ext_obj} as ocamldunear/test_HelloLib_ml.exe%{ext_obj})
-  (test_HelloLib_ml.exe as ocamldunear/test_HelloLib_ml.exe)))
+  (test_Std_ml.exe%{ext_obj} as ocamldunear/test_Std_ml.exe%{ext_obj})
+  (test_Std_ml.exe as ocamldunear/test_Std_ml.exe)))

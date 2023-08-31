@@ -31,7 +31,7 @@
   )
  (libraries
   transforms
-  SquirrelScout_HelloLib
+  SquirrelScout_Std
   cmdliner
   logs.cli
   logs.fmt

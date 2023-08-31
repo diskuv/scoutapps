@@ -60,7 +60,8 @@
       "binaryDir": "build_dev",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DKSDK_DEV_TOOLS": "ON"
       }
     },
     {

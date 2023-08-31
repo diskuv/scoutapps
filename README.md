@@ -23,6 +23,7 @@ own project and team.*
 ### First Steps
 
 ```sh
+sh ci/git-clone.sh -l
 ./dk dksdk.vscode.ocaml.configure
 ```
 
@@ -30,7 +31,28 @@ On Debian or Ubuntu, also do:
 
 ```sh
 sudo apt install libsqlite3-dev
+
+# FIXME: This belongs as a ./dk command and/or a CMake target "Reset":
+
+# 1. If you already have done an initial build
+build_dev/_deps/dkml-component-staging-opam-src/linux_x86_64/bin/opam update --root $HOME/.config/opam diskuv-2.0.2
+
+# 2. And remove from build_dev/CMakeCache.txt the CACHE_STAMP that
+# has a random value:
+#   //An identifier for the current set of cached fetches. If you want
+#   // to force DkSDK fetches to be refreshed, change or delete this
+#   // cache variable
+#   DKSDK_FETCHCONTENT_CACHE_STAMP:STRING=x5nYXkjdtq
+# 3. And also:
+rm -rf build_dev/DkSDKFiles/320
+rm -rf build_dev/_deps/lwt_react-build build_dev/_deps/lwt_react-subbuild build_dev/_deps/lwt-build build_dev/_deps/lwt-subbuild
 ```
+
+You will want to start with the following targets:
+
+1. `DkSDK_DevTools`
+2. `DkSDKTest_UnitTests_ALL`
+3. `main-cli` in `src/MainCLI`
 
 ### Echo Server
 

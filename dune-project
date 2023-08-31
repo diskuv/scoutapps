@@ -53,6 +53,7 @@
   (description "SquirrelScout_HelloLib is a library that has functions to do upper-casing and thread timeouts.
 You can clone the project using the './dk dksdk.project.new' command; see the DkSDK.md document for more information.")
   (depends
+    (ocaml (>= 4.14.0))
     (fmt (>= 0.9.0))
     (logs (>= 0.7.0))
     lwt
@@ -71,6 +72,7 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   (description "SquirrelScout_MainCLI is a TCP/IP echo server that repeats whatever you send it.
 You can clone the project using the './dk dksdk.project.new' command; see the DkSDK.md document for more information.")
   (depends
+    (ocaml (>= 4.14.0))
     (cmdliner (>= 1.1.0))
     (logs (>= 0.7.0))
     (fmt (>= 0.9.0))))
@@ -81,5 +83,6 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree
   (allow_empty)
   (depends
+    (ocaml (>= 4.14.0))
     (tezt (and :with-test (= 3.1.0)))
     lwt))

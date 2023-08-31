@@ -28,7 +28,7 @@
  (libraries
   fmt
   transforms)
- (modules SquirrelScout_Std))
+ (modules SquirrelScout_Std qr_manager))
 
 ; This is a private library visible only to code in the [SquirrelScout_Std] package.
 ; It is not "wrapped" so you can freely move source code between private libraries within

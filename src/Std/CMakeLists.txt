@@ -19,7 +19,9 @@ DkSDKProject_AddPackage(
 # the package. This library is what other OCaml packages in this project
 # will use; even other OCaml projects can use this library if you publish
 # it to an opam repository.
-add_library(SquirrelScout_Std OBJECT SquirrelScout_Std.ml)
+add_library(SquirrelScout_Std OBJECT
+        SquirrelScout_Std.ml
+        qr_manager.ml)
 add_library(SquirrelScout::Std ALIAS SquirrelScout_Std)
 set_target_properties(SquirrelScout_Std PROPERTIES EXPORT_NAME Std)
 

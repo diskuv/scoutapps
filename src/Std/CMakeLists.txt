@@ -21,7 +21,8 @@ DkSDKProject_AddPackage(
 # it to an opam repository.
 add_library(SquirrelScout_Std OBJECT
         SquirrelScout_Std.ml
-        qr_manager.ml)
+        qr_manager.ml
+        aws_manager.ml)
 add_library(SquirrelScout::Std ALIAS SquirrelScout_Std)
 set_target_properties(SquirrelScout_Std PROPERTIES EXPORT_NAME Std)
 

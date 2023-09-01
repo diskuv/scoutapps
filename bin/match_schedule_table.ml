@@ -1,5 +1,37 @@
 let table_name = "match_schudle_table"
 
+type colum_contents = { name : string; data_type : string }
+
+type database_colums =
+  | Match_Number
+  | Red_1
+  | Red_2
+  | Red_3
+  | Blue_1
+  | Blue_2
+  | Blue_3
+
+let database_colums_name = function
+  | Match_Number -> "match_number"
+  | Red_1 -> "red_1"
+  | Red_2 -> "red_2"
+  | Red_3 -> "red_3"
+  | Blue_1 -> "blue_1"
+  | Blue_2 -> "blue_2"
+  | Blue_3 -> "blue_3"
+
+let database_colums_datatype = function
+  | Match_Number -> "INT PRIMARY KEY"
+  | Red_1 -> "INT"
+  | Red_2 -> "INT"
+  | Red_3 -> "INT"
+  | Blue_1 -> "INT"
+  | Blue_2 -> "INT"
+  | Blue_3 -> "INT"
+
+let ordered_database_colums =
+  [ Match_Number; Red_1; Red_2; Red_3; Blue_1; Blue_2; Blue_3 ]
+
 type robot_position = Red_1 | Red_2 | Red_3 | Blue_1 | Blue_2 | Blue_3
 
 let robot_position_to_string = function
@@ -10,91 +42,91 @@ let robot_position_to_string = function
   | Blue_2 -> "blue_2"
   | Blue_3 -> "blue_3"
 
-type match_schudle_record = {
-  match_number : int;
-  red_1 : int;
-  red_2 : int;
-  red_3 : int;
-  blue_1 : int;
-  blue_2 : int;
-  blue_3 : int;
-}
-[@@deriving yojson]
-
-type json_input_data = { records : match_schudle_record list }
-[@@deriving yojson]
-
 let create_table db =
   let sql =
-    "CREATE TABLE " ^ table_name
-    ^ "(match_number INT PRIMARY KEY, red_1 INT, red_2 INT, red_3 INT, blue_1 \
-       INT, blue_2 INT, blue_3 INT)"
+    Db_operation_utils.create_table_sql_builder ~table_name
+      ~cols:ordered_database_colums ~to_name:database_colums_name
+      ~to_datatype:database_colums_datatype
   in
 
   Db_operation_utils.create_table_helper db sql table_name
 
-let insert_match_schudle_record db match_schudle_record =
-  let open Sqlite3 in
-  let sql = "INSERT INTO " ^ table_name ^ " VALUES(?,?,?,?,?,?,?)" in
-  let insert_stmt = prepare db sql in
+let fill_database_from_json db json =
+  let safe_yojson = Yojson.Safe.from_string json in
 
-  let bind_insert_stmt =
-    Db_operation_utils.bind_insert_statement insert_stmt db
+  let basic_yojson = Yojson.Safe.to_basic safe_yojson in
+
+  let records = Yojson.Basic.Util.member "records" basic_yojson in
+
+  let records_list =
+    match records with `List t -> t | _ -> failwith "failed"
   in
 
-  bind_insert_stmt 1 (Data.INT (Int64.of_int match_schudle_record.match_number));
+  let insert_indivisual_record data =
+    let open Sqlite3 in
+    let sql = "INSERT INTO " ^ table_name ^ " VALUES(?,?,?,?,?,?,?)" in
+    let insert_stmt = prepare db sql in
 
-  bind_insert_stmt 2 (Data.INT (Int64.of_int match_schudle_record.red_1));
-  bind_insert_stmt 3 (Data.INT (Int64.of_int match_schudle_record.red_2));
-  bind_insert_stmt 4 (Data.INT (Int64.of_int match_schudle_record.red_3));
+    let bind_insert_stmt =
+      Db_operation_utils.bind_insert_statement insert_stmt db
+    in
 
-  bind_insert_stmt 5 (Data.INT (Int64.of_int match_schudle_record.blue_1));
-  bind_insert_stmt 6 (Data.INT (Int64.of_int match_schudle_record.blue_2));
-  bind_insert_stmt 7 (Data.INT (Int64.of_int match_schudle_record.blue_3));
+    let get_int_member str yojson =
+      match Yojson.Basic.Util.member str yojson with
+      | `Int n -> n
+      | _ -> failwith "not number"
+    in
 
-  match step insert_stmt with
-  | Rc.DONE ->
-      let row_id = Sqlite3.last_insert_rowid db in
-      Printf.printf
-        "SUCCESSFULLY INSERTED RECORD INTO: \n\
-        \          *TABLE=%S \n\
-        \          *row_id=%d\n\
-        \          *match_number=%d \n\
-        \ " table_name (Int64.to_int row_id) match_schudle_record.match_number;
+    let match_number = get_int_member "match_number" data in
+    let red_1 = get_int_member "red_1" data in
+    let red_2 = get_int_member "red_2" data in
+    let red_3 = get_int_member "red_3" data in
+    let blue_1 = get_int_member "blue_1" data in
+    let blue_2 = get_int_member "blue_2" data in
+    let blue_3 = get_int_member "blue_3" data in
 
-      Some match_schudle_record.match_number
-  | r ->
-      Db_operation_utils.formatted_error_message db r
-        ("failed to insert record into " ^ table_name);
-      None
+    bind_insert_stmt 1 (Data.INT (Int64.of_int match_number));
+
+    bind_insert_stmt 2 (Data.INT (Int64.of_int red_1));
+    bind_insert_stmt 3 (Data.INT (Int64.of_int red_2));
+    bind_insert_stmt 4 (Data.INT (Int64.of_int red_3));
+
+    bind_insert_stmt 5 (Data.INT (Int64.of_int blue_1));
+    bind_insert_stmt 6 (Data.INT (Int64.of_int blue_2));
+    bind_insert_stmt 7 (Data.INT (Int64.of_int blue_3));
+
+    match step insert_stmt with
+    | Rc.DONE ->
+        let row_id = Sqlite3.last_insert_rowid db in
+        Printf.printf
+          "SUCCESSFULLY INSERTED RECORD INTO: \n\
+          \          *TABLE=%S \n\
+          \          *row_id=%d\n\
+          \          *match_number=%d \n\
+          \ " table_name (Int64.to_int row_id) match_number
+    | r ->
+        Db_operation_utils.formatted_error_message db r
+          ("failed to insert record into " ^ table_name)
+  in
+
+  List.iter (fun a -> insert_indivisual_record a) records_list
 
 (* getting data functions *)
+
+
 let get_team_for_match_and_position db match_number position =
-  let open Db_operation_utils in
-  let sql =
-    Printf.sprintf "SELECT %s FROM %s WHERE match_number=%d"
-      (robot_position_to_string position)
-      table_name match_number
+  let to_select = robot_position_to_string position in
+  let where =
+    [(database_colums_name Match_Number, string_of_int match_number) ]
   in
 
-  let result = get_int_result_list_for_query db sql in
-
-  match result with Some (t :: []) -> Some t | _ -> None
-
-let load_database_from_json db data =
-  let native_record =
-    json_input_data_of_yojson (Yojson.Safe.from_string data)
+  let result =
+    Db_operation_utils.select_int_field_where db ~table_name ~to_select ~where 
   in
 
-  let records =
-    match native_record with
-    | Result.Ok s -> s
-    | Result.Error r -> failwith ("failed: " ^ r)
-  in
+  match result with Some (x :: []) -> Some x | _ -> None
 
-  List.iter
-    (fun a ->
-      match insert_match_schudle_record db a with
-      | Some _ -> print_endline "yes"
-      | None -> print_endline "no")
-    records.records
+(* let get_all_matches_for_team db team =
+   let to_select = database_colums_name Match_Number in 
+
+    let team_str = string_of_int team in  *)

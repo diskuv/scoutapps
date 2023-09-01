@@ -6,7 +6,10 @@ let send_sqs capnp_data =
   let temp_file_name = "temp_aws.text" in
   Core.Out_channel.write_all temp_file_name ~data:encBase64;
 
-  let command = "aws sqs send-message --queue-url " ^ url ^ " --message-body file://" ^ temp_file_name in
+  let command =
+    "aws sqs send-message --queue-url " ^ url ^ " --message-body file://"
+    ^ temp_file_name
+  in
 
-  let _ = Sys.command command in 
+  let _ = Sys.command command in
   ()

@@ -92,3 +92,51 @@ let db_text str = Sqlite3.Data.TEXT str
 let db_bool bol =
   let num = int64_of_bool bol in
   Sqlite3.Data.INT num
+
+let create_table_sql_builder ~table_name ~cols:cols_lst ~to_name:name_func
+    ~to_datatype:datatype_func =
+  let rec create_string lst pos str =
+    if List.length lst == pos then str
+    else
+      let col_name = name_func (List.nth lst pos) in
+      let col_data_type = datatype_func (List.nth lst pos) in
+
+      let new_string =
+        if List.length lst == pos + 1 then str ^ col_name ^ " " ^ col_data_type
+        else str ^ col_name ^ " " ^ col_data_type ^ ", "
+      in
+
+      create_string lst (pos + 1) new_string
+  in
+
+  let col_string = create_string cols_lst 0 "" in
+
+  "CREATE TABLE " ^ table_name ^ "(" ^ col_string ^ ")"
+
+let select_int_field_where ?(or_conditional = false) db ~table_name ~to_select ~where  =
+  let _ = db in 
+
+  let where_complete_lst:string list = 
+    let rec build_lst (old_lst:(string * string) list)  (new_lst:string list) pos = 
+      if pos == List.length old_lst then new_lst else 
+        let value = List.nth old_lst pos in 
+
+        match value with
+        | (a, b) -> let combined = a ^ "=" ^ b in build_lst old_lst (combined :: new_lst) (pos+1) in 
+
+    build_lst where [] 0 in 
+
+
+
+
+  let where_string = 
+    match or_conditional with
+    | true -> String.concat " OR " where_complete_lst 
+    | _ -> String.concat " AND " where_complete_lst in 
+
+
+  let sql = match where_string with
+  | ""-> Printf.sprintf "SELECT %s FROM %s" to_select table_name 
+  | _ -> Printf.sprintf "SELECT %s FROM %s WHERE %s" to_select table_name where_string in 
+
+  get_int_result_list_for_query db sql

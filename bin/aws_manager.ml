@@ -4,12 +4,15 @@ let send_sqs capnp_data =
   let encBase64 = Base64.encode_exn capnp_data in
 
   let temp_file_name = "temp_aws.text" in
-  Core.Out_channel.write_all temp_file_name ~data:encBase64;
+
+  let oc = open_out temp_file_name in
+  Printf.fprintf oc "%s" encBase64;
+  close_out oc;
 
   let command =
     "aws sqs send-message --queue-url " ^ url ^ " --message-body file://"
     ^ temp_file_name
   in
 
-  let _ = Sys.command command in
-  ()
+  Sys.command command
+

@@ -28,3 +28,14 @@ let run_echo_server ?max_uptime_secs ~uppercase ~port () =
   in
   My_lwt_extras.limit_uptime_or_never_terminate ?max_uptime_secs (fun () ->
       Lwt_io.shutdown_server server)
+
+
+
+(* module Match_schedule_table = Match_schedule_table  *)
+
+let test_function () = 
+  (* let _ = Sqlite3.db_open "testing.db" in  *)
+
+  (* Match_schedule_table.create_table db  *)
+
+  print_endline "test print"

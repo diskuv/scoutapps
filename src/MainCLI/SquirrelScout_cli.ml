@@ -55,4 +55,6 @@ let main () =
   | 0 -> exit (if Logs.err_count () > 0 then 2 else 0)
   | ec -> exit ec
 
-let () = main ()
+let () = 
+  (* SquirrelScout_Std.test_function () *)
+main ()

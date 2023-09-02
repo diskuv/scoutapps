@@ -21,8 +21,17 @@ DkSDKProject_AddPackage(
 # it to an opam repository.
 add_library(SquirrelScout_Std OBJECT
         SquirrelScout_Std.ml
+
         qr_manager.ml
-        aws_manager.ml)
+        aws_manager.ml
+        main.ml
+
+        db_operation_utils.ml
+
+        match_schedule_table.ml
+        raw_match_data_table.ml
+        robot_pictures_table.ml
+        )
 add_library(SquirrelScout::Std ALIAS SquirrelScout_Std)
 set_target_properties(SquirrelScout_Std PROPERTIES EXPORT_NAME Std)
 
@@ -50,7 +59,16 @@ target_link_libraries(SquirrelScout_Std PRIVATE
 # which means you can name the add_library(<unique target>) whatever you want.
 # The source files can be in this directory or any subdirectory; the subdirectory name
 # is ignored completely.
-add_library(transforms OBJECT sub1/uppercase.ml my_lwt_extras.ml)
+add_library(
+        transforms OBJECT sub1/uppercase.ml 
+        my_lwt_extras.ml
+
+        schema.ml
+        schema.mli
+)
+
+
+
 target_link_libraries(transforms PRIVATE
         Findlib::logs.lwt
         Findlib::lwt
@@ -67,3 +85,67 @@ target_link_libraries(transforms PRIVATE
         #Findlib::core
 
         Findlib::lwt.unix)
+
+
+
+# # ----- CAPNP ---- 
+
+# # ----------------------------------------
+# # See DkSDK CMake docs for the DKSDK_GOLDEN_SOURCE_CODE variable
+# # ----------------------------------------
+
+# # Create a placeholder `Schema` so we can let Dune
+# # build the `capnpc-ocaml` binary ... which it can't do
+# # if the `(modules schema)` in `dune` has missing `Schema`.
+# # Then `capnpc-ocaml` binary can generate a correct
+# # `Schema`.
+# if(NOT DKSDK_GOLDEN_SOURCE_CODE)
+#     if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml)
+#         file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml
+#             "let () = failwith {|placeholder until ${CMAKE_CURRENT_SOURCE_FILE} generates the real schema.ml|}")
+#     endif()
+# endif()
+
+# # include(FetchContent)
+# # FetchContent_GetProperties(dksdk-schema)
+
+# set(std_schema_PLAINDIR ${CMAKE_CURRENT_SOURCE_DIR})
+# set(std_schema_PLAIN ${std_schema_PLAINDIR}/schema.capnp)
+
+# # --------------
+# # OCaml Message Schema
+# # --------------
+# if(NOT DKSDK_GOLDEN_SOURCE_CODE)
+#     add_custom_command(OUTPUT
+#         ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml
+#         ${CMAKE_CURRENT_SOURCE_DIR}/schema.mli
+#         MAIN_DEPENDENCY
+#         ${std_schema_PLAIN}
+#         DEPENDS
+#         capnproto_host-capnp-exe # Launcher for Cap n' Proto compilers
+#         capnpc-ocaml # Cap n' Proto compiler for OCaml
+#         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+#         COMMAND
+
+#         # Add capnpc-ocaml.exe for the host ABI to PATH
+#         ${CMAKE_COMMAND} -E env
+#         PATH=${CMAKE_OCamlDune_DUNE_PROJECT_PATH}/_build/install/default/bin
+#         LD_LIBRARY_PATH=${CMAKE_OCamlDune_DUNE_PROJECT_PATH}/_build/install/default/lib
+#         $<TARGET_FILE:capnproto_host-capnp-exe>
+#         compile
+#         ${include_args}
+#         --output=ocaml
+#         --src-prefix=${std_schema_PLAINDIR}
+#         ${std_schema_PLAIN}
+#         VERBATIM
+#     )
+# endif()
+
+# # --------------
+# # Targets
+# # --------------
+
+# add_custom_target(Squirrel-Scout-GenerateCapnp ALL
+#     DEPENDS
+#     ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml
+#     ${CMAKE_CURRENT_SOURCE_DIR}/schema.mli)

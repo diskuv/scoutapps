@@ -28,7 +28,7 @@
  (libraries
   fmt
   transforms)
- (modules SquirrelScout_Std qr_manager aws_manager))
+ (modules SquirrelScout_Std qr_manager aws_manager main db_operation_utils match_schedule_table raw_match_data_table robot_pictures_table))
 
 ; This is a private library visible only to code in the [SquirrelScout_Std] package.
 ; It is not "wrapped" so you can freely move source code between private libraries within
@@ -54,4 +54,4 @@
   sqlite3
   qrc
   lwt.unix)
- (modules uppercase my_lwt_extras))
+ (modules uppercase my_lwt_extras schema))

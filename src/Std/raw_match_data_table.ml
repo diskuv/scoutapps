@@ -47,13 +47,13 @@ let create_table db =
     initial_sql ^ String.concat "," colum_list ^ "," ^ primary_keys ^ ") STRICT"
   in
 
-  Db_operation_utils.create_table_helper db finilazed_sql table_name
+  Db_utils.create_table_helper db finilazed_sql table_name
 
 (* upsert *)
 (* return primary key option None or primary key *)
 let insert_db_record db capnp_data =
   let open Sqlite3 in
-  let open Db_operation_utils in
+  let open Db_utils in
   let module Schema = Schema.Make (Capnp.BytesMessage) in
   let match_data =
     match
@@ -81,7 +81,7 @@ let insert_db_record db capnp_data =
 
   (* let bind_in = DB_operation_utils.bind_insert_stmt insert_stmt db  *)
   let bind_insert_stmt =
-    Db_operation_utils.bind_insert_statement insert_stmt db
+    Db_utils.bind_insert_statement insert_stmt db
   in
 
   bind_insert_stmt 1 (match_data |> team_number_get |> db_int);
@@ -142,6 +142,6 @@ let insert_db_record db capnp_data =
 (* get data functions *)
 
 let get_average_cone_high db team =
-  Db_operation_utils.select_int_field_where db ~table_name
+  Db_utils.select_int_field_where db ~table_name
     ~to_select:"auto_cone_high"
     ~where:[ ("team_number", string_of_int team) ]

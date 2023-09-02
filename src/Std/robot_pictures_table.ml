@@ -7,7 +7,7 @@ let create_table db =
     "CREATE TABLE " ^ table_name ^ "(team_number INT PRIMARY KEY, image BLOB)"
   in
 
-  Db_operation_utils.create_table_helper db sql table_name
+  Db_utils.create_table_helper db sql table_name
 
 let insert_robot_picture_record db record =
   let open Sqlite3 in
@@ -15,7 +15,7 @@ let insert_robot_picture_record db record =
   let insert_stmt = prepare db sql in
 
   let bind_insert_stmt =
-    Db_operation_utils.bind_insert_statement insert_stmt db
+    Db_utils.bind_insert_statement insert_stmt db
   in
 
   bind_insert_stmt 1 (Data.INT (Int64.of_int record.team_number));
@@ -33,7 +33,7 @@ let insert_robot_picture_record db record =
 
       Some record.team_number
   | r ->
-      Db_operation_utils.formatted_error_message db r
+      Db_utils.formatted_error_message db r
         ("failed to insert record into " ^ table_name);
       None
 
@@ -44,7 +44,7 @@ let get_robot_picture db team_number =
   in
 
   let result =
-    Db_operation_utils.get_blob_or_text_result_list_for_query db sql
+    Db_utils.get_blob_or_text_result_list_for_query db sql
   in
 
   match result with Some (t :: []) -> Some t | _ -> None

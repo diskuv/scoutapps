@@ -26,7 +26,7 @@ add_library(SquirrelScout_Std OBJECT
         aws_manager.ml
         main.ml
 
-        db_operation_utils.ml
+        db_utils.ml
 
         match_schedule_table.ml
         raw_match_data_table.ml

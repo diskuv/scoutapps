@@ -44,12 +44,12 @@ let robot_position_to_string = function
 
 let create_table db =
   let sql =
-    Db_operation_utils.create_table_sql_builder ~table_name
+    Db_utils.create_table_sql_builder ~table_name
       ~cols:ordered_database_colums ~to_name:database_colums_name
       ~to_datatype:database_colums_datatype
   in
 
-  Db_operation_utils.create_table_helper db sql table_name
+  Db_utils.create_table_helper db sql table_name
 
 let fill_database_from_json db json =
   let safe_yojson = Yojson.Safe.from_string json in
@@ -68,7 +68,7 @@ let fill_database_from_json db json =
     let insert_stmt = prepare db sql in
 
     let bind_insert_stmt =
-      Db_operation_utils.bind_insert_statement insert_stmt db
+      Db_utils.bind_insert_statement insert_stmt db
     in
 
     let get_int_member str yojson =
@@ -105,7 +105,7 @@ let fill_database_from_json db json =
           \          *match_number=%d \n\
           \ " table_name (Int64.to_int row_id) match_number
     | r ->
-        Db_operation_utils.formatted_error_message db r
+        Db_utils.formatted_error_message db r
           ("failed to insert record into " ^ table_name)
   in
 
@@ -121,7 +121,7 @@ let get_team_for_match_and_position db match_number position =
   in
 
   let result =
-    Db_operation_utils.select_int_field_where db ~table_name ~to_select ~where 
+    Db_utils.select_int_field_where db ~table_name ~to_select ~where 
   in
 
   match result with Some (x :: []) -> Some x | _ -> None

@@ -7,30 +7,32 @@ struct RawMatchData {
   matchNumber @2 :Int16;
   scouterName @3 :Text;
 
+  # misc 
+  incap @4 :Bool;
+  playingDefense @5 :Bool;
+  notes @6 :Text;
+
   # game specific | auto 
-  autoMobility @4 :Bool;
-  autoClimb @5 :Climb;
-  autoConeHigh @6 :Int16;
-  autoConeMid @7 :Int16;
-  autoConeLow @8 :Int16;
-  autoCubeHigh @9 :Int16;
-  autoCubeMid @10 :Int16;
-  autoCubeLow @11 :Int16;
+  autoMobility @7 :Bool;
+  autoClimb @8 :Climb;
+  autoConeHigh @9 :Int16;
+  autoConeMid @10 :Int16;
+  autoConeLow @11 :Int16;
+  autoCubeHigh @12 :Int16;
+  autoCubeMid @13 :Int16;
+  autoCubeLow @14 :Int16;
 
 
   # game specific  teleop
-  teleClimb @12 :Climb;
-  teleConeHigh @13 :Int16;
-  teleConeMid @14 :Int16;
-  teleConeLow @15 :Int16;
-  teleCubeHigh @16 :Int16;
-  teleCubeMid @17 :Int16;
-  teleCubeLow @18 :Int16;
+  teleClimb @15 :Climb;
+  teleConeHigh @16 :Int16;
+  teleConeMid @17 :Int16;
+  teleConeLow @18 :Int16;
+  teleCubeHigh @19 :Int16;
+  teleCubeMid @20 :Int16;
+  teleCubeLow @21 :Int16;
 
-  # misc 
-  incap @19 :Bool;
-  playingDefense @20 :Bool;
-  notes @21 :Text;
+  
 }
 
 enum Climb {

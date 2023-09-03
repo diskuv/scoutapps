@@ -1,3 +1,25 @@
+type return_code = Successful | Failed
+
+let return_code_to_string = function
+  | Successful -> "Successful"
+  | Failed -> "failed"
+
+module type Generic_Table = sig
+  val table_name : string
+
+  type colums
+
+  val colum_name : colums -> string
+  val colum_datatype : colums -> string
+  val primary_keys : colums list
+  val colums_in_order : colums list
+  val create_table : Sqlite3.db -> return_code
+  val drop_table : unit -> return_code
+  val insert_record : Sqlite3.db -> string -> return_code
+end
+
+(* -------------- *)
+
 let int64_of_bool = function false -> 0L | true -> 1L
 
 let formatted_error_message db error message =
@@ -14,14 +36,6 @@ let bind_insert_statement insert_stmt db pos data =
   | r ->
       prerr_endline (Rc.to_string r);
       prerr_endline (errmsg db)
-
-let create_table_helper db sql table_name =
-  match Sqlite3.exec db sql with
-  | Sqlite3.Rc.OK ->
-      print_endline ("SUCCESSFULLY CREATED: " ^ table_name ^ " TABLE")
-  | _ ->
-      print_endline
-        ("TABLE " ^ table_name ^ " ALREADY EXISTS-----CONTINUING WITH PROGRAM")
 
 let get_blob_or_text_result_list_for_query db sql =
   let open Sqlite3 in
@@ -93,50 +107,105 @@ let db_bool bol =
   let num = int64_of_bool bol in
   Sqlite3.Data.INT num
 
-let create_table_sql_builder ~table_name ~cols:cols_lst ~to_name:name_func
-    ~to_datatype:datatype_func =
+let select_int_field_where ?(or_conditional = false) db ~table_name ~to_select
+    ~where =
+  let _ = db in
+
+  let where_complete_lst : string list =
+    let rec build_lst (old_lst : (string * string) list) (new_lst : string list)
+        pos =
+      if pos == List.length old_lst then new_lst
+      else
+        let value = List.nth old_lst pos in
+
+        match value with
+        | a, b ->
+            let combined = a ^ "=" ^ b in
+            build_lst old_lst (combined :: new_lst) (pos + 1)
+    in
+
+    build_lst where [] 0
+  in
+
+  let where_string =
+    match or_conditional with
+    | true -> String.concat " OR " where_complete_lst
+    | _ -> String.concat " AND " where_complete_lst
+  in
+
+  let sql =
+    match where_string with
+    | "" -> Printf.sprintf "SELECT %s FROM %s" to_select table_name
+    | _ ->
+        Printf.sprintf "SELECT %s FROM %s WHERE %s" to_select table_name
+          where_string
+  in
+
+  get_int_result_list_for_query db sql
+
+let create_table db table_name lst =
   let rec create_string lst pos str =
     if List.length lst == pos then str
     else
-      let col_name = name_func (List.nth lst pos) in
-      let col_data_type = datatype_func (List.nth lst pos) in
+      let name, datatype = List.nth lst pos in
 
-      let new_string =
-        if List.length lst == pos + 1 then str ^ col_name ^ " " ^ col_data_type
-        else str ^ col_name ^ " " ^ col_data_type ^ ", "
-      in
+      let new_string = str ^ ", " ^ name ^ " " ^ datatype in
 
       create_string lst (pos + 1) new_string
   in
 
-  let col_string = create_string cols_lst 0 "" in
+  let first_name, first_datatype = List.nth lst 0 in
 
-  "CREATE TABLE " ^ table_name ^ "(" ^ col_string ^ ")"
+  let col_string = create_string lst 1 (first_name ^ " " ^ first_datatype) in
 
-let select_int_field_where ?(or_conditional = false) db ~table_name ~to_select ~where  =
-  let _ = db in 
+  let sql =
+    "CREATE TABLE IF NOT EXISTS " ^ table_name ^ "(" ^ col_string ^ ")"
+  in
 
-  let where_complete_lst:string list = 
-    let rec build_lst (old_lst:(string * string) list)  (new_lst:string list) pos = 
-      if pos == List.length old_lst then new_lst else 
-        let value = List.nth old_lst pos in 
+  (* print_endline ("test create table sql: " ^ sql); *)
+  match Sqlite3.exec db sql with Sqlite3.Rc.OK -> Successful | _ -> Failed
 
-        match value with
-        | (a, b) -> let combined = a ^ "=" ^ b in build_lst old_lst (combined :: new_lst) (pos+1) in 
+let create_table2 db ~table_name ~colums ~primary_keys ~to_name ~to_datatype =
+  let rec create_string lst pos str =
+    if List.length lst == pos then str
+    else
+      let current_colum = List.nth lst pos in
+      let name = to_name current_colum in
+      let datatype = to_datatype current_colum in
 
-    build_lst where [] 0 in 
+      let new_string = str ^ ", " ^ name ^ " " ^ datatype in
 
+      create_string lst (pos + 1) new_string
+  in
 
+  let first_colum = List.nth colums 0 in
+  let initial_string = to_name first_colum ^ " " ^ to_datatype first_colum in
 
+  let all_colums_string = create_string colums 1 initial_string in
 
-  let where_string = 
-    match or_conditional with
-    | true -> String.concat " OR " where_complete_lst 
-    | _ -> String.concat " AND " where_complete_lst in 
+  let primary_keys_string =
+    let rec build_primary_key_string lst pos str =
+      if List.length lst == pos then str
+      else
+        let current_key = List.nth lst pos in
+        let as_string = to_name current_key in
 
+        let new_string = str ^ ", " ^ as_string in
 
-  let sql = match where_string with
-  | ""-> Printf.sprintf "SELECT %s FROM %s" to_select table_name 
-  | _ -> Printf.sprintf "SELECT %s FROM %s WHERE %s" to_select table_name where_string in 
+        build_primary_key_string lst (pos + 1) new_string
+    in
 
-  get_int_result_list_for_query db sql
+    let first_key = to_name (List.nth primary_keys 0) in
+
+    let key_names = build_primary_key_string primary_keys 1 first_key in
+
+    ", PRIMARY KEY(" ^ key_names ^ ")"
+  in
+
+  let sql =
+    "CREATE TABLE IF NOT EXISTS " ^ table_name ^ "(" ^ all_colums_string
+    ^ primary_keys_string ^ ")"
+  in
+
+  print_endline ("test create table sql: " ^ sql);
+  match Sqlite3.exec db sql with Sqlite3.Rc.OK -> Successful | _ -> Failed

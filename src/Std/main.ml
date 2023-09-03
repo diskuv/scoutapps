@@ -2,38 +2,31 @@
 
 (* let db = Sqlite3.db_open "test.db" *)
 
-
-
-
-
 (* let x = Raw_match_data_table.create_table  *)
 
-
 (* let sample_match_schudle_data : Match_schedule_table.match_schudle_record =
-  {
-    match_number = 1;
-    red_1 = 2930;
-    red_2 = 2910;
-    red_3 = 254;
-    blue_1 = 1678;
-    blue_2 = 2056;
-    blue_3 = 118;
-  }
+     {
+       match_number = 1;
+       red_1 = 2930;
+       red_2 = 2910;
+       red_3 = 254;
+       blue_1 = 1678;
+       blue_2 = 2056;
+       blue_3 = 118;
+     }
 
-let sample_robot_image_data : Robot_pictures_table.robot_picture_record =
-  { team_number = 2930; image = "dsadsadwasdhawdhsakdhqwiyd" }
+   let sample_robot_image_data : Robot_pictures_table.robot_picture_record =
+     { team_number = 2930; image = "dsadsadwasdhawdhsakdhqwiyd" }
 
-let print_to_console_cb row headers =
-  let n = Array.length row - 1 in
-  let () =
-    for i = 0 to n do
-      let value = match row.(i) with Some s -> s | None -> "Null" in
-      Printf.printf "| %s: %s |" headers.(i) value
-    done
-  in
-  print_endline "" *)
-
-
+   let print_to_console_cb row headers =
+     let n = Array.length row - 1 in
+     let () =
+       for i = 0 to n do
+         let value = match row.(i) with Some s -> s | None -> "Null" in
+         Printf.printf "| %s: %s |" headers.(i) value
+       done
+     in
+     print_endline "" *)
 
 (* TODO: https://ocaml.org/p/vector/latest/doc/Vector/index.html *)
 
@@ -42,11 +35,6 @@ let print_to_console_cb row headers =
    match x with
    | Some y -> print_endline ("TEAM NUMBER " ^ string_of_int y)
    | None -> print_endline("NO RESULT") *)
-
-let create_all_tables db =
-   Raw_match_data_table.create_table db;
-   Match_schedule_table.create_table db;
-   Robot_pictures_table.create_table db
 
 (* let test_insert_records =
    let _ = Raw_match_data_table.insert_db_record sample_scouted_data in
@@ -100,26 +88,25 @@ let create_all_tables db =
      Capnp.Codecs.serialize ~compression:`None message *)
 
 (* module Foo = Foo.Make (Capnp.BytesMessage) *)
-(* 
-module Schema = Schema.Make (Capnp.BytesMessage)
+(*
+   module Schema = Schema.Make (Capnp.BytesMessage)
 
-let test =
-  let rw = Schema.Builder.RawMatchData.init_root () in
+   let test =
+     let rw = Schema.Builder.RawMatchData.init_root () in
 
-  Schema.Builder.RawMatchData.auto_cone_high_set_exn rw 6;
+     Schema.Builder.RawMatchData.auto_cone_high_set_exn rw 6;
 
-  let c = Schema.Builder.Climb.Docked in
+     let c = Schema.Builder.Climb.Docked in
 
-  Schema.Builder.RawMatchData.auto_climb_set rw c; 
+     Schema.Builder.RawMatchData.auto_climb_set rw c;
 
-  Schema.Builder.RawMatchData.auto_cone_mid_set_exn rw 4; 
+     Schema.Builder.RawMatchData.auto_cone_mid_set_exn rw 4;
 
-  let message = Schema.Builder.RawMatchData.to_message rw in 
+     let message = Schema.Builder.RawMatchData.to_message rw in
 
-  Capnp.Codecs.serialize ~compression:`None message
+     Capnp.Codecs.serialize ~compression:`None message
 
-  let () = 
-    let binary_data = test in 
+     let () =
+       let binary_data = test in
 
-    Aws_manager.send_sqs binary_data  *)
-
+       Aws_manager.send_sqs binary_data *)

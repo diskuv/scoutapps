@@ -15,4 +15,3 @@ let send_sqs capnp_data =
   in
 
   Sys.command command
-

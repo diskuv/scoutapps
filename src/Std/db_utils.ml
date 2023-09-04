@@ -20,8 +20,6 @@ end
 
 (* -------------- *)
 
-let int64_of_bool = function false -> 0L | true -> 1L
-
 let formatted_error_message db error message =
   prerr_endline
     ("**ERROR** \n *error code: " ^ Sqlite3.Rc.to_string error
@@ -37,135 +35,7 @@ let bind_insert_statement insert_stmt db pos data =
       prerr_endline (Rc.to_string r);
       prerr_endline (errmsg db)
 
-let get_blob_or_text_result_list_for_query db sql =
-  let open Sqlite3 in
-  let stmt = prepare db sql in
-
-  let vector = Vector.create ~dummy:"" in
-
-  let fill_int_vector_single_colum stmt vector =
-    let open Sqlite3 in
-    while step stmt = Rc.ROW do
-      let num_colums = data_count stmt in
-      if num_colums > 1 then (
-        print_endline "TOO MANY RESULT COLUMS";
-        Vector.clear vector)
-      else
-        let value = column stmt 0 in
-
-        match Data.to_string value with
-        | Some s -> Vector.append vector (Vector.make 1 ~dummy:s)
-        | None ->
-            print_endline "EXPECTED BLOB FROM DATABASE ";
-            Vector.clear vector
-    done
-  in
-
-  fill_int_vector_single_colum stmt vector;
-
-  match Vector.length vector with
-  | 0 -> None
-  | _ -> Some (Vector.to_list vector)
-
-let get_int_result_list_for_query db sql =
-  let open Sqlite3 in
-  let stmt = prepare db sql in
-
-  let vector = Vector.create ~dummy:0 in
-
-  let fill_int_vector_single_colum stmt vector =
-    let open Sqlite3 in
-    while step stmt = Rc.ROW do
-      let num_colums = data_count stmt in
-      if num_colums > 1 then (
-        print_endline "TOO MANY RESULT COLUMS";
-        Vector.clear vector)
-      else
-        let value = column stmt 0 in
-
-        match Data.to_int value with
-        | Some x -> Vector.append vector (Vector.make 1 ~dummy:x)
-        | None ->
-            print_endline "EXPECTED INT FROM DATABASE ";
-            Vector.clear vector
-    done
-  in
-
-  fill_int_vector_single_colum stmt vector;
-
-  match Vector.length vector with
-  | 0 -> None
-  | _ -> Some (Vector.to_list vector)
-
-let db_int num =
-  let int64 = Int64.of_int num in
-  Sqlite3.Data.INT int64
-
-let db_text str = Sqlite3.Data.TEXT str
-
-let db_bool bol =
-  let num = int64_of_bool bol in
-  Sqlite3.Data.INT num
-
-let select_int_field_where ?(or_conditional = false) db ~table_name ~to_select
-    ~where =
-  let _ = db in
-
-  let where_complete_lst : string list =
-    let rec build_lst (old_lst : (string * string) list) (new_lst : string list)
-        pos =
-      if pos == List.length old_lst then new_lst
-      else
-        let value = List.nth old_lst pos in
-
-        match value with
-        | a, b ->
-            let combined = a ^ "=" ^ b in
-            build_lst old_lst (combined :: new_lst) (pos + 1)
-    in
-
-    build_lst where [] 0
-  in
-
-  let where_string =
-    match or_conditional with
-    | true -> String.concat " OR " where_complete_lst
-    | _ -> String.concat " AND " where_complete_lst
-  in
-
-  let sql =
-    match where_string with
-    | "" -> Printf.sprintf "SELECT %s FROM %s" to_select table_name
-    | _ ->
-        Printf.sprintf "SELECT %s FROM %s WHERE %s" to_select table_name
-          where_string
-  in
-
-  get_int_result_list_for_query db sql
-
-let create_table db table_name lst =
-  let rec create_string lst pos str =
-    if List.length lst == pos then str
-    else
-      let name, datatype = List.nth lst pos in
-
-      let new_string = str ^ ", " ^ name ^ " " ^ datatype in
-
-      create_string lst (pos + 1) new_string
-  in
-
-  let first_name, first_datatype = List.nth lst 0 in
-
-  let col_string = create_string lst 1 (first_name ^ " " ^ first_datatype) in
-
-  let sql =
-    "CREATE TABLE IF NOT EXISTS " ^ table_name ^ "(" ^ col_string ^ ")"
-  in
-
-  (* print_endline ("test create table sql: " ^ sql); *)
-  match Sqlite3.exec db sql with Sqlite3.Rc.OK -> Successful | _ -> Failed
-
-let create_table2 db ~table_name ~colums ~primary_keys ~to_name ~to_datatype =
+let create_table db ~table_name ~colums ~primary_keys ~to_name ~to_datatype =
   let rec create_string lst pos str =
     if List.length lst == pos then str
     else
@@ -209,3 +79,142 @@ let create_table2 db ~table_name ~colums ~primary_keys ~to_name ~to_datatype =
 
   print_endline ("test create table sql: " ^ sql);
   match Sqlite3.exec db sql with Sqlite3.Rc.OK -> Successful | _ -> Failed
+
+
+
+
+module List_Utils = struct
+  let sum list =
+    let rec calculate lst sum =
+      match lst with [] -> sum | h :: t -> calculate t (sum + h)
+    in
+
+    calculate list 0
+
+  let average_value list =
+    match list with
+    | [] -> None
+    | l ->
+        let length = List.length l in
+        let sum = sum l in
+
+        Some (float_of_int sum /. float_of_int length)
+end
+
+(* -------- *)
+
+module Select = struct
+  type string_or_int = String of string | Int of int
+
+  type order_by = ASC | DESC
+
+  let order_by_to_string = function ASC -> "ASC" | DESC -> "DESC"
+
+  let get_data_helper ?(or_conditional = false) ?(order_by = []) db ~table_name
+      ~to_select ~where =
+    let where_sql =
+      if List.length where == 0 then ""
+      else
+        let where_as_string_list =
+          let rec build_lst old_lst new_lst =
+            match old_lst with
+            | [] -> new_lst
+            | (name, data) :: t ->
+                let combined =
+                  match data with
+                  | String x -> name ^ "=" ^ "\"" ^ x ^ "\""
+                  | Int x -> name ^ "=" ^ string_of_int x
+                in
+
+                build_lst t (combined :: new_lst)
+          in
+
+          build_lst where []
+        in
+
+        let filters =
+          match or_conditional with
+          | true -> String.concat " OR " where_as_string_list
+          | false -> String.concat " AND " where_as_string_list
+        in
+
+        " WHERE " ^ filters
+    in
+
+    let order_sql =
+      if List.length order_by == 0 then ""
+      else
+        let as_string_list =
+          let rec build lst new_list =
+            match lst with
+            | [] -> new_list
+            | (data, ordertype) :: t ->
+                let str = data ^ " " ^ order_by_to_string ordertype in
+                build t (str :: new_list)
+          in
+
+          build order_by []
+        in
+
+        " ORDER BY " ^ String.concat ", " as_string_list
+    in
+
+    let sql =
+      "SELECT " ^ to_select ^ " FROM " ^ table_name ^ where_sql ^ order_sql
+    in
+
+    print_endline ("SQL === " ^ sql);
+
+    let stmt = Sqlite3.prepare db sql in
+    let data_vector = Vector.create ~dummy:(String "") in
+
+    while Sqlite3.step stmt = Sqlite3.Rc.ROW do
+      let value = Sqlite3.column stmt 0 in
+
+      match Sqlite3.Data.to_int value with
+      | Some n -> Vector.append data_vector (Vector.make 1 ~dummy:(Int n))
+      | None -> (
+          match Sqlite3.Data.to_string value with
+          | Some s ->
+              Vector.append data_vector (Vector.make 1 ~dummy:(String s))
+          | None -> failwith "didnt get int or string")
+    done;
+
+    Vector.to_list data_vector
+
+  (* ------------ *)
+
+  let select_ints_where ?(or_conditional = false) ?(order_by = []) db
+      ~table_name ~to_select ~where =
+    let strings_or_ints =
+      get_data_helper ~or_conditional ~order_by db ~table_name ~where ~to_select
+    in
+
+    let rec ints list new_list =
+      match list with
+      | [] -> new_list
+      | h :: t -> (
+          match h with
+          | String _ -> failwith "expected ints"
+          | Int x -> ints t (x :: new_list))
+    in
+
+    List.rev (ints strings_or_ints [])
+
+  let select_strings_where ?(or_conditional = false) ?(order_by = []) db
+      ~table_name ~to_select ~where =
+    let strings_or_ints =
+      get_data_helper ~or_conditional ~order_by db ~table_name ~where ~to_select
+    in
+
+    let rec strings list new_list =
+      match list with
+      | [] -> new_list
+      | h :: t -> (
+          match h with
+          | String x -> strings t (x :: new_list)
+          | Int _ -> failwith "expected strings")
+    in
+
+    List.rev (strings strings_or_ints [])
+end

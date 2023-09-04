@@ -1,4 +1,20 @@
-module Table : Db_utils.Generic_Table = struct
+module type Fetchable_Data = sig
+  module Fetch : sig
+    val latest_match_number : Sqlite3.db -> float
+    val average_auto_game_pieces : Sqlite3.db -> float
+    val average_auto_cones : Sqlite3.db -> float
+    val average_auto_cubes : Sqlite3.db -> float
+    val average_auto_cones : Sqlite3.db -> float
+  end
+end
+
+module type Table_type = sig
+  include Db_utils.Generic_Table
+  (* include Fetchable_Data *)
+end
+
+module Table : Table_type = struct
+  let x = ""
   let table_name = "raw_match_data"
 
   type colums =
@@ -114,7 +130,7 @@ module Table : Db_utils.Generic_Table = struct
   let primary_keys = [ Team_number; Team_name; Match_Number; Scouter_Name ]
 
   let create_table db =
-    Db_utils.create_table2 db ~table_name ~colums:colums_in_order ~primary_keys
+    Db_utils.create_table db ~table_name ~colums:colums_in_order ~primary_keys
       ~to_name:colum_name ~to_datatype:colum_datatype
 
   let drop_table () = Db_utils.Failed
@@ -140,8 +156,8 @@ module Table : Db_utils.Generic_Table = struct
     let open Schema.Reader.RawMatchData in
     let values =
       Printf.sprintf
-        "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
-         %s, %s, %s, %s"
+        "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
+        \         %s, %s, %s, %s"
         (match_data |> team_number_get |> string_of_int)
         (match_data |> team_name_get)
         (match_data |> match_number_get |> string_of_int)
@@ -174,104 +190,7 @@ module Table : Db_utils.Generic_Table = struct
     | Sqlite3.Rc.OK -> Db_utils.Successful
     | _ -> Db_utils.Failed
 
-
-
-    let get_average_cone_high db team =
-      Db_utils.select_int_field_where db ~table_name ~to_select:"auto_cone_high"
-        ~where:[ ("team_number", string_of_int team) ]
+  module Fetch = struct
+    let get x = ""
+  end
 end
-
-
-(* Db_utils.create_table_helper db finilazed_sql table_name *)
-
-(* upsert *)
-(* return primary key option None or primary key *)
-(* let insert_db_record db capnp_data =
-  let open Sqlite3 in
-  let open Db_utils in
-  let module Schema = Schema.Make (Capnp.BytesMessage) in
-  let match_data =
-    match
-      Capnp.Codecs.FramedStream.get_next_frame
-        (Capnp.Codecs.FramedStream.of_string ~compression:`None capnp_data)
-    with
-    | Result.Ok message -> Schema.Reader.RawMatchData.of_message message
-    | Result.Error _ -> failwith "could not decode capnp data"
-  in
-
-  let insert_sql =
-    "INSERT INTO " ^ table_name
-    ^ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-  in
-
-  let climb_to_string = function
-    | Schema.Reader.Climb.Docked -> "DOCKED"
-    | Schema.Reader.Climb.Engaged -> "ENGAGED"
-    | Schema.Reader.Climb.None -> "NONE"
-    | Schema.Reader.Climb.Undefined _ -> "UNDEFINED"
-  in
-
-  let open Schema.Reader.RawMatchData in
-  let insert_stmt = prepare db insert_sql in
-
-  (* let bind_in = DB_operation_utils.bind_insert_stmt insert_stmt db  *)
-  let bind_insert_stmt = Db_utils.bind_insert_statement insert_stmt db in
-
-  bind_insert_stmt 1 (match_data |> team_number_get |> db_int);
-  bind_insert_stmt 2 (match_data |> team_name_get |> db_text);
-  bind_insert_stmt 3 (match_data |> match_number_get |> db_int);
-  bind_insert_stmt 4 (match_data |> scouter_name_get |> db_text);
-
-  (* auto *)
-  bind_insert_stmt 5 (match_data |> auto_mobility_get |> db_bool);
-  bind_insert_stmt 6 (match_data |> auto_climb_get |> climb_to_string |> db_text);
-
-  bind_insert_stmt 7 (match_data |> auto_cone_high_get |> db_int);
-  bind_insert_stmt 8 (match_data |> auto_cone_mid_get |> db_int);
-  bind_insert_stmt 9 (match_data |> auto_cone_low_get |> db_int);
-
-  bind_insert_stmt 10 (match_data |> auto_cube_high_get |> db_int);
-  bind_insert_stmt 11 (match_data |> auto_cube_mid_get |> db_int);
-  bind_insert_stmt 12 (match_data |> auto_cube_low_get |> db_int);
-
-  (* tele *)
-  bind_insert_stmt 13
-    (match_data |> tele_climb_get |> climb_to_string |> db_text);
-
-  bind_insert_stmt 14 (match_data |> tele_cone_high_get |> db_int);
-  bind_insert_stmt 15 (match_data |> tele_cone_mid_get |> db_int);
-  bind_insert_stmt 16 (match_data |> tele_cone_low_get |> db_int);
-
-  bind_insert_stmt 17 (match_data |> tele_cube_high_get |> db_int);
-  bind_insert_stmt 18 (match_data |> tele_cube_mid_get |> db_int);
-  bind_insert_stmt 19 (match_data |> tele_cube_low_get |> db_int);
-
-  (* misc *)
-  bind_insert_stmt 20 (match_data |> incap_get |> db_bool);
-  bind_insert_stmt 21 (match_data |> playing_defense_get |> db_bool);
-  bind_insert_stmt 22 (match_data |> notes_get |> db_text);
-
-  match step insert_stmt with
-  | Rc.DONE ->
-      let row_id = Sqlite3.last_insert_rowid db in
-      Printf.printf
-        "SUCCESSFULLY INSERTED RECORD INTO: \n\
-        \          *TABLE=%S \n\
-        \          *row_id=%d\n\
-        \          *team_number=%d \n\
-        \          *match_number=%d \n\
-        \          *scouter_name=%s \n"
-        table_name (Int64.to_int row_id)
-        (team_number_get match_data)
-        (match_number_get match_data)
-        (scouter_name_get match_data);
-
-      Some
-        ( team_number_get match_data,
-          match_number_get match_data,
-          scouter_name_get match_data )
-  | _ -> failwith "could not insert into raw match data table"
-
-get data functions *)
-
-

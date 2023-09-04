@@ -1,42 +1,23 @@
-module Table : Db_utils.Generic_Table = struct
-  (* type indivisual_colum_data = { name : string; datatype : string }
+module type Match_schedule_table_sig = sig
+  type robot_position 
 
-     type colums_type = {
-       match_number : indivisual_colum_data;
-       red_1 : indivisual_colum_data;
-       red_2 : indivisual_colum_data;
-       red_3 : indivisual_colum_data;
-       blue_1 : indivisual_colum_data;
-       blue_2 : indivisual_colum_data;
-       blue_3 : indivisual_colum_data
-       }
+  val robot_position_to_string : robot_position -> string
 
-     let colums = {
-       match_number = { name = "match_number"; datatype = "INT PRIMARY KEY" };
-       red_1 = {name = "red_1"; datatype = "INT"};
-       red_2 = {name = "red_3"; datatype = "INT"};
-       red_3 = {name = "red_3"; datatype = "INT"};
+  val fill_database_from_json : Sqlite3.db -> string -> Db_utils.return_code
+  
+  module Fetch : sig
+    val get_team_for_match_and_position : Sqlite3.db -> int -> robot_position -> int option 
+    val get_all_matches_for_team : Sqlite3.db -> int -> int list 
+  end
+end
 
-       blue_1 = {name = "blue_1"; datatype = "INT"};
-       blue_2 = {name = "blue_2"; datatype = "INT"};
-       blue_3 = {name = "blue_3"; datatype = "INT"}
-     }
+module type Complete_Table = sig
+include Db_utils.Generic_Table
+include Match_schedule_table_sig 
+end 
 
-     let table_name = "match_schudle_table"
 
-     let colums_as_tuple_list = [
-       (colums.match_number.name, colums.match_number.datatype);
-
-       (colums.red_1.name, colums.red_1.datatype);
-       (colums.red_2.name, colums.red_2.datatype);
-       (colums.red_3.name, colums.red_3.datatype);
-
-       (colums.blue_1.name, colums.blue_1.datatype);
-       (colums.blue_2.name, colums.blue_2.datatype);
-       (colums.blue_3.name, colums.blue_3.datatype)
-
-     ] *)
-
+module Table : Complete_Table = struct
   let table_name = "match_schudle_table"
 
   type colums =
@@ -74,7 +55,7 @@ module Table : Db_utils.Generic_Table = struct
   let primary_keys = [ Match_number ]
 
   let create_table db =
-    Db_utils.create_table2 db ~table_name ~colums:colums_in_order ~primary_keys
+    Db_utils.create_table db ~table_name ~colums:colums_in_order ~primary_keys
       ~to_name:colum_name ~to_datatype:colum_datatype
 
   let drop_table () = Db_utils.Failed
@@ -148,24 +129,43 @@ module Table : Db_utils.Generic_Table = struct
             ("failed to insert record into " ^ table_name)
     in
 
-    List.iter (fun a -> insert_indivisual_record a) records_list
+    List.iter (fun a -> insert_indivisual_record a) records_list; 
 
-  (* getting data functions *)
+    (* FIXME *)
+    Db_utils.Successful
 
-  (* let get_team_for_match_and_position db match_number position =
-     let to_select = robot_position_to_string position in
-     let where =
-       [ (database_colums_name Match_Number, string_of_int match_number) ]
-     in
+  module Fetch = struct
+  let get_team_for_match_and_position db match_number position =
+    let to_select = robot_position_to_string position in
+    let where =
+      [ (colum_name Match_number, Db_utils.Select.Int match_number) ]
+    in
 
-     let result =
-       Db_utils.select_int_field_where db ~table_name ~to_select ~where
-     in
+    let result =
+      Db_utils.Select.select_ints_where db ~table_name ~to_select ~where
+    in
 
-     match result with Some (x :: []) -> Some x | _ -> None *)
+    
+  match result with (x :: []) -> Some x | _ -> None
 
-  (* let get_all_matches_for_team db team =
-     let to_select = database_colums_name Match_Number in
+  let get_all_matches_for_team db team =
+    let to_select = colum_name Match_number in
 
-      let team_str = string_of_int team in *)
+    let team = Db_utils.Select.Int team in
+
+    let where =
+      [
+        (colum_name Red_1, team);
+        (colum_name Red_2, team);
+        (colum_name Red_3, team);
+        (colum_name Blue_1, team);
+        (colum_name Blue_2, team);
+        (colum_name Blue_3, team);
+      ]
+    in
+
+    Db_utils.Select.select_ints_where db ~or_conditional:true ~table_name
+      ~to_select ~where
+
+  end 
 end

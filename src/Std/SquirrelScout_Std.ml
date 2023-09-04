@@ -41,8 +41,7 @@ let create_all_tables db =
 module Db_utils = Db_utils
 
 let test_function () =
-  let db = Sqlite3.db_open "testing.db" in 
-  let _ = create_all_tables db in 
-  ()  
+  let db = Sqlite3.db_open "testing.db" in
+  let _ = Raw_match_data_table.Table.create_table db in
 
-  
+  print_endline ""

@@ -13,7 +13,7 @@ module Table : Db_utils.Generic_Table = struct
   let primary_keys = [ Team_number ]
 
   let create_table db =
-    Db_utils.create_table2 db ~table_name ~colums:colums_in_order ~primary_keys
+    Db_utils.create_table db ~table_name ~colums:colums_in_order ~primary_keys
       ~to_name:colum_name ~to_datatype:colum_datatype
 
   (* FIXME: need to figure out how images will be passed to ocaml. File location? bytedata?  *)

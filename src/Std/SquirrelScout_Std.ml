@@ -31,14 +31,13 @@ let run_echo_server ?max_uptime_secs ~uppercase ~port () =
 
 (* module Match_schedule_table = Match_schedule_table  *)
 
-let create_all_tables db = 
-  let code = Raw_match_data_table.Table.create_table db in 
+let create_all_tables db =
+  let code = Raw_match_data_table.Table.create_table db in
   let code1 = Match_schedule_table.Table.create_table db in
-  let code2 = Robot_pictures_table.Table.create_table db in 
-  
-  code, code1, code2
+  let code2 = Robot_pictures_table.Table.create_table db in
 
-  
+  (code, code1, code2)
+
 module Db_utils = Db_utils
 
 let test_function () =

@@ -30,9 +30,11 @@
   test_Std_ml
   )
  (libraries
+  transforms
   tezt
   lwt
   lwt.unix
+  SquirrelScout_Std
   ))
 
 ; Install the C object file to a known location for CMake.

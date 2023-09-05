@@ -113,12 +113,24 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         loadScoutInfo();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Initialize the dropdown adapter with all options again
+        String[] items = new String[]{"Docked", "Engaged", "No Attempt"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
+        dropdown.setAdapter(adapter);
+    }
+
     public void onClick(View view){
         int clickedId = view.getId();
         if(clickedId == R.id.menu_item_1){
+            saveScoutInfo();
             startActivity(new Intent(AutonomousActivity.this, MainActivity.class));
         }
         else if(clickedId == R.id.menu_item_2){
+            saveScoutInfo();
             startActivity(new Intent(AutonomousActivity.this, NotesActivity.class));
         }
         else if(clickedId == R.id.MOBILITY_YES){
@@ -206,6 +218,7 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     private void nextPageLogic(){
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(AutonomousActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
+            saveScoutInfo();
             startActivity(new Intent(AutonomousActivity.this, TeleopActivity.class));
         }
     }
@@ -249,5 +262,40 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     public void loadScoutInfo(){
         //gets the match and team number that the scout should be scouting
         info.setText("Match #" + scoutInfo.getScoutMatch() + "\n" + scoutInfo.getRobotScouting());
+        if(scoutInfo.getHighConeAuto() != -1){
+            coneHigh.setText("" + scoutInfo.getHighConeAuto());
+            coneMid.setText("" + scoutInfo.getMidConeAuto());
+            coneLow.setText("" + scoutInfo.getLowConeAuto());
+            cubeHigh.setText("" + scoutInfo.getHighCubeAuto());
+            cubeMid.setText("" + scoutInfo.getMidCubeAuto());
+            cubeLow.setText("" + scoutInfo.getLowCubeAuto());
+            dropdown.setText(scoutInfo.getAutoClimb());
+            if(scoutInfo.getMobility()){
+                yesMobility.setTextColor(ContextCompat.getColor(this, R.color.white));
+                yesMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+                noMobility.setTextColor(ContextCompat.getColor(this, R.color.black));
+                noMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+                mobilityBool = true;
+            }
+            else{
+                yesMobility.setTextColor(ContextCompat.getColor(this, R.color.black));
+                yesMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+                noMobility.setTextColor(ContextCompat.getColor(this, R.color.white));
+                noMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+                mobilityBool = false;
+            }
+        }
+        nextPageCheck();
+    }
+
+    public void saveScoutInfo(){
+        scoutInfo.setHighConeAuto(Integer.parseInt((String) coneHigh.getText()));
+        scoutInfo.setMidConeAuto(Integer.parseInt((String) coneMid.getText()));
+        scoutInfo.setLowConeAuto(Integer.parseInt((String) coneLow.getText()));
+        scoutInfo.setHighCubeAuto(Integer.parseInt((String) cubeHigh.getText()));
+        scoutInfo.setMidCubeAuto(Integer.parseInt((String) cubeMid.getText()));
+        scoutInfo.setLowCubeAuto(Integer.parseInt((String) cubeLow.getText()));
+        scoutInfo.setMobility(mobilityBool);
+        scoutInfo.setAutoClimb(dropdown.getText().toString());
     }
 }

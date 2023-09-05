@@ -170,8 +170,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                scoutInfo.setScoutMatch(Integer.parseInt(m));
-                scoutInfo.setRobotPosition(robotPosition);
+                saveScoutInfo();
                 startActivity(new Intent(StartScoutingActivity.this, AutonomousActivity.class));
                 Toast.makeText(StartScoutingActivity.this, m, Toast.LENGTH_SHORT).show();
                 Toast.makeText(StartScoutingActivity.this, robotPosition, Toast.LENGTH_SHORT).show();
@@ -181,6 +180,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
 
     //go back home logic
     private void backLogic(){
+        Toast.makeText(StartScoutingActivity.this, "going back", Toast.LENGTH_SHORT).show();
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             startActivity(new Intent(StartScoutingActivity.this, MainActivity.class));
         }, 500);
@@ -244,10 +244,18 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
     //need to implement
     //gets the robot based on the match number and position
     public void findRobot(){
-        scoutInfo.setRobotScouting(9999);
+        //placement for now
+        scoutInfo.setRobotScouting(1234);
     }
+
+
     //loads scout data
     private void loadScoutInfo(){
         //...nothing to load on this page
+    }
+
+    private void saveScoutInfo(){
+        scoutInfo.setScoutMatch(Integer.parseInt(m));
+        scoutInfo.setRobotPosition(robotPosition);
     }
 }

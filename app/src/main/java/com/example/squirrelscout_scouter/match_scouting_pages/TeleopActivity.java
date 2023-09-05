@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.R;
+import com.example.squirrelscout_scouter.ScoutInfo;
 
 public class TeleopActivity extends Activity implements View.OnClickListener {
 
@@ -30,11 +31,13 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
     Button yesDefense, noDefense, yesIncap, noIncap,nextButton;
     ImageButton backPage, notesPage;
-    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow;
+    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info;
     AutoCompleteTextView dropdown;
 
     //variables
     boolean defenseBool, incapBool;
+
+    ScoutInfo scoutInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +84,8 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
         cubeLi.setOnClickListener(this);
         cubeLd = (Button) findViewById(R.id.CUBE_LOW_DECREMENT);
         cubeLd.setOnClickListener(this);
+        //...
+        info = (TextView) findViewById(R.id.textView3);
 
         //counters
         coneHigh = (TextView) findViewById(R.id.ConeHighCounter);
@@ -115,11 +120,28 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        //...
+        scoutInfo = ScoutInfo.getInstance();
+        loadScoutInfo();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Initialize the dropdown adapter with all options again
+        String[] items = new String[]{"Docked", "Engaged", "No Attempt"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
+        dropdown.setAdapter(adapter);
     }
 
     public void onClick(View view){
         int clickedId = view.getId();
-        if(clickedId == R.id.DEFENSE_YES){
+        if(clickedId == R.id.menu_item_1){
+            saveScoutInfo();
+            startActivity(new Intent(TeleopActivity.this, AutonomousActivity.class));
+        }
+        else if(clickedId == R.id.DEFENSE_YES){
             defenseYesLogic();
         }
         else if(clickedId == R.id.DEFENSE_NO){
@@ -205,7 +227,7 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
             yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
             noIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
             noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            defenseBool = true;
+            incapBool = true;
             nextPageCheck();
         }
     }
@@ -216,7 +238,7 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
             yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
             noIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
             noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-            defenseBool = false;
+            incapBool = false;
             nextPageCheck();
         }
     }
@@ -233,6 +255,7 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
     private void nextPageLogic(){
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(TeleopActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
+            saveScoutInfo();
             startActivity(new Intent(TeleopActivity.this, NotesActivity.class));
         }
     }
@@ -270,5 +293,62 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
         button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(250).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
             button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
         }).start();
+    }
+
+    //loading the scout info
+    public void loadScoutInfo(){
+        //gets the match and team number that the scout should be scouting
+        info.setText("Match #" + scoutInfo.getScoutMatch() + "\n" + scoutInfo.getRobotScouting());
+        if(scoutInfo.getHighConeTele() != -1){
+            coneHigh.setText("" + scoutInfo.getHighConeTele());
+            coneMid.setText("" + scoutInfo.getMidConeTele());
+            coneLow.setText("" + scoutInfo.getLowConeTele());
+            cubeHigh.setText("" + scoutInfo.getHighCubeTele());
+            cubeMid.setText("" + scoutInfo.getMidCubeTele());
+            cubeLow.setText("" + scoutInfo.getLowCubeTele());
+            dropdown.setText(scoutInfo.getTeleClimb());
+            if(scoutInfo.getDefense()){
+                yesDefense.setTextColor(ContextCompat.getColor(this, R.color.white));
+                yesDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+                noDefense.setTextColor(ContextCompat.getColor(this, R.color.black));
+                noDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+                defenseBool = true;
+            }
+            else{
+                yesIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
+                yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+                noIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
+                noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+                defenseBool = false;
+            }
+
+            if(scoutInfo.getIncap()){
+                yesIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
+                yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+                noIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
+                noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+                incapBool = true;
+            }
+            else{
+                yesIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
+                yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+                noIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
+                noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+                incapBool = false;
+            }
+        }
+        nextPageCheck();
+    }
+
+    public void saveScoutInfo(){
+        scoutInfo.setHighConeTele(Integer.parseInt((String) coneHigh.getText()));
+        scoutInfo.setMidConeTele(Integer.parseInt((String) coneMid.getText()));
+        scoutInfo.setLowConeTele(Integer.parseInt((String) coneLow.getText()));
+        scoutInfo.setHighCubeTele(Integer.parseInt((String) cubeHigh.getText()));
+        scoutInfo.setMidCubeTele(Integer.parseInt((String) cubeMid.getText()));
+        scoutInfo.setLowCubeTele(Integer.parseInt((String) cubeLow.getText()));
+        scoutInfo.setDefense(defenseBool);
+        scoutInfo.setIncap(incapBool);
+        scoutInfo.setTeleClimb(dropdown.getText().toString());
     }
 }

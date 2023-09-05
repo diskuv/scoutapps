@@ -110,8 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                scoutInfo.setScoutTeam(Integer.parseInt(TeamNum));
-                scoutInfo.setScoutName(ScoutName);
+                saveScoutData();
                 startActivity(new Intent(MainActivity.this, StartScoutingActivity.class));
                 Log.d("d", "scouter name: " + ScoutName);
                 Toast.makeText(MainActivity.this, ScoutName, Toast.LENGTH_SHORT).show();
@@ -190,7 +189,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             scouterNameI.setText(scoutInfo.getScoutName());
         }
         if(scoutInfo.getScoutTeam() != -1){
-            teamNameI.setText(scoutInfo.getScoutTeam());
+            teamNameI.setText("" + scoutInfo.getScoutTeam());
         }
+    }
+
+    //save data
+    public void saveScoutData(){
+        scoutInfo.setScoutTeam(Integer.parseInt(TeamNum));
+        scoutInfo.setScoutName(ScoutName);
     }
 }

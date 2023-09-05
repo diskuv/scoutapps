@@ -4,6 +4,7 @@
         "cheshirekow.cmake-format",
         "josetr.cmake-language-support-vscode",
         "ms-vscode.cmake-tools",
-        "twxs.cmake"
+        "twxs.cmake",
+        "yzhang.markdown-all-in-one"
     ]
 }

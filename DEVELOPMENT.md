@@ -1,13 +1,43 @@
 # Development
 
 - [Development](#development)
+  - [Quick Links](#quick-links)
   - [Qt 5 GUI](#qt-5-gui)
-    - [Windows](#windows)
-    - [Debian Linux](#debian-linux)
-    - [Ubuntu Linux](#ubuntu-linux)
-    - [WSL2](#wsl2)
+    - [Qt on Windows](#qt-on-windows)
+    - [Qt on Debian Linux](#qt-on-debian-linux)
+    - [Qt on Ubuntu Linux](#qt-on-ubuntu-linux)
+    - [Qt on WSL2](#qt-on-wsl2)
+  - [Visual Studio Code](#visual-studio-code)
+    - [VS Code on all Platforms](#vs-code-on-all-platforms)
+    - [VS Code on Windows](#vs-code-on-windows)
   - [CMake](#cmake)
+    - [CMake on Windows](#cmake-on-windows)
     - [CMakeUserPresets.json](#cmakeuserpresetsjson)
+
+## Quick Links
+
+Windows:
+
+- Start with [Qt on Windows](#qt-on-windows)
+- Then [CMake on Windows](#cmake-on-windows)
+- Then [VS Code on Windows](#vs-code-on-windows)
+- Then [VS Code on All Platforms](#vs-code-on-all-platforms)
+- Then [CMakeUserPresets.json](#cmakeuserpresetsjson). Select the `windows_x86_64 (debug)` CMake preset.
+- Then in CMake build the `ManagerAppQtCamReader` target. If you use WSL2 which doesn't have access to the Windows camera device, build the `ManagerAppReader` target instead.
+
+Ubuntu:
+
+- Start with [Qt on Ubuntu Linux](#qt-on-ubuntu-linux)
+- Then [VS Code on All Platforms](#vs-code-on-all-platforms)
+- Then [CMakeUserPresets.json](#cmakeuserpresetsjson). Select the `linux_x86_64 (debug)` CMake preset.
+- Then in CMake build the `ManagerAppQtCamReader` target
+
+Debian:
+
+- Start with [Qt on Debian Linux](#qt-on-debian-linux)
+- Then [VS Code on All Platforms](#vs-code-on-all-platforms)
+- Then [CMakeUserPresets.json](#cmakeuserpresetsjson). Select the `linux_x86_64 (debug)` CMake preset.
+- Then in CMake build the `ManagerAppQtCamReader` target. If you use WSL2 which doesn't have access to the Windows camera device, build the `ManagerAppReader` target instead.
 
 ## Qt 5 GUI
 
@@ -15,9 +45,10 @@ Qt 5 is a framework that needs to be pre-installed before building Squirrel Scou
 
 Qt 6 may work, but only Qt 5 is tested.
 
-### Windows
+### Qt on Windows
 
-Download and install Miniconda if you do not have Anaconda or Miniconda (Python) already.
+Download and [install Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
+if you do not have Anaconda or Miniconda (Python) already.
 
 In PowerShell:
 
@@ -31,7 +62,7 @@ if ($LASTEXITCODE) {
 conda run -n aqt aqt install-qt windows desktop 5.15.2 win64_msvc2019_64 -m all
 ```
 
-### Debian Linux
+### Qt on Debian Linux
 
 ```sh
 sudo apt install qtbase5-dev qtmultimedia5-dev qtdeclarative5-dev
@@ -56,7 +87,7 @@ sudo apt install qml-module-qtmultimedia qml-module-qtquick-controls2 qml-module
 > apt-file search QtQuick/Window -l
 > ```
 
-### Ubuntu Linux
+### Qt on Ubuntu Linux
 
 > Untested. Follow same Advanced steps as Debian
 
@@ -64,16 +95,51 @@ sudo apt install qml-module-qtmultimedia qml-module-qtquick-controls2 qml-module
 sudo apt install qt5-default
 ```
 
-### WSL2
+### Qt on WSL2
 
-In addition to following the [Debian Linux](#debian-linux) or
-[Ubuntu Linux](#ubuntu-linux) instructions, you will need
+In addition to following the [Qt on Debian Linux](#qt-on-debian-linux) or
+[Qt on Ubuntu Linux](#qt-on-ubuntu-linux) instructions, you will need
 a video device. WSL2 will not forward your Windows camera.
 
 Follow the instructions at <https://github.com/PINTO0309/wsl2_linux_kernel_usbcam_enable_conf>.
 Or just settle for using a single test image.
 
+## Visual Studio Code
+
+### VS Code on all Platforms
+
+When Visual Studio Code prompts you to install the **Workspace Recommendations**, do it!
+
+### VS Code on Windows
+
+You **must** run Visual Studio Code using `with-dkml env -u HOME code` on Windows
+if you are using this Squirrel Scout project. You may need to exit your Visual Studio Code
+if you haven't done so.
+
+The simplest way to run Visual Studio Code correctly:
+
+- use the Run Command (⊞ Win + R) and then type `with-dkml env -u HOME code`.
+- After the first time, you can use the Run Command (⊞ Win + R) and press the
+  Up Arrow (↑) until you see `with-dkml env -u HOME code`.
+
 ## CMake
+
+### CMake on Windows
+
+FIRST, download [Ninja-win.zip](https://github.com/ninja-build/ninja/releases),
+and then extract it somewhere. We'll assume you extracted it to `C:\`, so you
+will end up with:
+
+```text
+C:\
+└── ninja.exe
+```
+
+SECOND, use "Edit environment variables for your account" in your Control
+Panel to add a User Environment Variable `DKSDK_NINJA_PROGRAM` with the
+value `C:\ninja.exe`.
+
+THIRD, download and install the CMake [Windows x64 Installer](https://cmake.org/download/)
 
 ### CMakeUserPresets.json
 

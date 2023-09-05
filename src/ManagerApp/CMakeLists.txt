@@ -10,6 +10,7 @@ DkSDKProject_AddPackage(
 
 include (GNUInstallDirs)
 
+# Threading library
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG FALSE) # TRUE interacts poorly with OCaml static libraries on Linux
 include(FindThreads)
@@ -17,6 +18,11 @@ if(NOT Threads_FOUND)
     message(FATAL_ERROR "No Threads library found")
 endif()
 find_package(Threads REQUIRED)
+
+# Qt library
+if(MSVC AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/5.15.2/msvc2019_64/lib/cmake/Qt5 AND NOT Qt5_DIR)
+    set(Qt5_DIR ${PROJECT_SOURCE_DIR}/5.15.2/msvc2019_64/lib/cmake/Qt5 CACHE FILEPATH "Qt5 installation directory")
+endif()
 
 # ------
 # The OCaml code
@@ -80,8 +86,28 @@ endif()
 
 # ~~~ ADDITIONS
 target_link_libraries(ManagerAppReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
-target_link_libraries(ManagerAppQtReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
-target_link_libraries(ManagerAppQtCamReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
+if (TARGET Qt::Gui)
+    target_link_libraries(ManagerAppQtReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
+    if(WIN32 AND Qt5_DIR)
+        add_custom_command( # Easy testing in build dir (but cmake install is preferred)
+            TARGET ManagerAppQtReader POST_BUILD
+            COMMAND "${CMAKE_COMMAND}" -E chdir "${Qt5_DIR}/../../../bin" "${CMAKE_COMMAND}" -E copy
+                Qt5Cored.dll Qt5Guid.dll
+                "$<TARGET_FILE_DIR:ManagerAppQtReader>"
+            VERBATIM)
+    endif()
+endif()
+if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
+    target_link_libraries(ManagerAppQtCamReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
+    if(WIN32 AND Qt5_DIR)
+        add_custom_command( # Easy testing in build dir (but cmake install is preferred)
+            TARGET ManagerAppQtCamReader POST_BUILD
+            COMMAND "${CMAKE_COMMAND}" -E chdir "${Qt5_DIR}/../../../bin" "${CMAKE_COMMAND}" -E copy
+                Qt5Cored.dll Qt5Guid.dll Qt5Networkd.dll Qt5Multimediad.dll Qt5Qmld.dll
+                "$<TARGET_FILE_DIR:ManagerAppQtCamReader>"
+            VERBATIM)
+    endif()
+endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)
 message(CHECK_PASS "done")

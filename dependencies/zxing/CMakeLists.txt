@@ -9,10 +9,6 @@ set(BUILD_BLACKBOX_TESTS OFF)
 set(BUILD_EXAMPLES OFF)
 set(BUILD_SHARED_LIBS OFF) # Easiest to deploy is static library
 
-if(CMAKE_HOST_WIN32 AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/5.15.2/msvc2019_64/lib/cmake)
-    set(CMAKE_PREFIX_PATH ${PROJECT_SOURCE_DIR}/5.15.2/msvc2019_64/lib/cmake)
-endif()
-
 message(CHECK_START "Fetching zxing")
 list(APPEND CMAKE_MESSAGE_INDENT "  ")
 

@@ -22,6 +22,8 @@
 #include <QElapsedTimer>
 #endif
 
+#include <squirrel_scout_manager/squirrel_scout_manager.h> /* SCOUT:ADDED */
+
 // This is some sample code to start a discussion about how a minimal and header-only Qt wrapper/helper could look like.
 
 namespace ZXingQt {
@@ -365,13 +367,9 @@ public slots:
 			emit foundBarcode(res);
 
 			/* SCOUT:ADDED */
-			auto hints = DecodeHints()
-					 .setFormats(BarcodeFormat::Any)
-					 .setTryRotate(false)
-					 .setMaxNumberOfSymbols(10);
-			std::string_view bytes =
-					(hints.textMode() == TextMode::ECI ? result.bytesECI() : result.bytes()).asString();
-			squirrel_scout_manager_consume_qr(ToString(result.format()).c_str(), bytes.data(), bytes.length());
+			auto bytes = res.bytes();
+			auto format = res.formatName().toUtf8().constData();
+			squirrel_scout_manager_consume_qr(format, bytes.data(), bytes.length());
 		}
 		return res;
 	}

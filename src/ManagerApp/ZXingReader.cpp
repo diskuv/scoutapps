@@ -279,8 +279,7 @@ int main(int argc0, char* argv0[])
 				std::cout << "Reader Initialisation/Programming\n";
 			
 			/* SCOUT:ADDED */
-			std::string_view bytes =
-					(hints.textMode() == TextMode::ECI ? result.bytesECI() : result.bytes()).asString();
+			std::string_view bytes = result.bytes().asString();
 			squirrel_scout_manager_consume_qr(ToString(result.format()).c_str(), bytes.data(), bytes.length());
 		}
 

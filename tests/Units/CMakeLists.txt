@@ -14,3 +14,5 @@ DkSDKTest_AddUnitTest(NAME Std
 # show you how to include C code in a unit test.
 # DkSDKTest_AddUnitTest(NAME arithmetic
 #   STANDARD_MAIN)
+
+add_subdirectory(ManagerApp)

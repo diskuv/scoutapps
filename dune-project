@@ -78,6 +78,15 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
     (fmt (>= 0.9.0))))
 
 (package
+  (name SquirrelScout_ManagerApp)
+  (synopsis "The Manager App")
+  ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree
+  (allow_empty)
+  (description "SquirrelScout_ManagerApp is ... fill me in ....")
+  (depends
+    (ocaml (>= 4.14.0))))
+
+(package
   (name SquirrelScout_Units)
   (synopsis "The project created within the PROJECT_NAME \"SquirrelScout\" project by a DkSDKProject_AddPackage() command in tests/Units/CMakeLists.txt that is missing a SUMMARY_ONELINER property")
   ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree

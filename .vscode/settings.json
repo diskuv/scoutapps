@@ -1,5 +1,6 @@
 {
   "cSpell.enabled" : true,
+  "sonarlint.pathToCompileCommands": "${workspaceFolder}/build_dev/compile_commands.json",
   "cmake.configureOnOpen" : false,
   "ocaml.sandbox" : 
   {

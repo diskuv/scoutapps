@@ -126,3 +126,4 @@ endif()
 
 add_subdirectory(lwt)
 add_subdirectory(sqlite3)
+add_subdirectory(zxing)

@@ -1,0 +1,6 @@
+name: aqt
+channels:
+  - conda-forge
+dependencies:
+  - pip:
+    - aqtinstall

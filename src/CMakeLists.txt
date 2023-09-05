@@ -4,3 +4,4 @@
 
 add_subdirectory(Std)
 add_subdirectory(MainCLI)
+add_subdirectory(ManagerApp)

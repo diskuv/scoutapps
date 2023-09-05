@@ -6,6 +6,8 @@
     - [Debian Linux](#debian-linux)
     - [Ubuntu Linux](#ubuntu-linux)
     - [WSL2](#wsl2)
+  - [CMake](#cmake)
+    - [CMakeUserPresets.json](#cmakeuserpresetsjson)
 
 ## Qt 5 GUI
 
@@ -68,5 +70,30 @@ In addition to following the [Debian Linux](#debian-linux) or
 [Ubuntu Linux](#ubuntu-linux) instructions, you will need
 a video device. WSL2 will not forward your Windows camera.
 
-Follow the instructions at https://github.com/PINTO0309/wsl2_linux_kernel_usbcam_enable_conf.
+Follow the instructions at <https://github.com/PINTO0309/wsl2_linux_kernel_usbcam_enable_conf>.
 Or just settle for using a single test image.
+
+## CMake
+
+### CMakeUserPresets.json
+
+When you initially `git clone` the project, you will not have the
+`CMakeUserPresets.json` file:
+
+```text
+.
+├── .gitignore
+├── CMakeLists.txt
+├── CMakePresets.json
+├── CMakeUserPresets.json            <-- Will not exist
+├── CMakeUserPresets-SUGGESTED.json
+...
+```
+
+You should copy the contents of `CMakeUserPresets-SUGGESTED.json` into
+`CMakeUserPresets.json`.
+
+> The `CMakeUserPresets.json` is ignored on purpose by Git! You can't
+> check in changes to it because it is **meant for you to edit**
+> so suit your own development desktop configuration.
+> That also means you have to create `CMakeUserPresets.json` yourself.

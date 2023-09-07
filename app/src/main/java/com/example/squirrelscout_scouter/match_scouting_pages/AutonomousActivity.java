@@ -3,17 +3,14 @@ package com.example.squirrelscout_scouter.match_scouting_pages;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +27,10 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
     Button yesMobility, noMobility, nextButton;
     ImageButton homeButton, notesButton;
-    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info;
+    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info, title;
     AutoCompleteTextView dropdown;
+    View titleCard, firstCard, secondCard, mainCard;
+    LinearLayout cone1, cone2, cone3, cube1, cube2, cube3, mobilityLayout, climbLayout, menuLayout;
 
     ScoutInfo scoutInfo;
 
@@ -80,6 +79,20 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         cubeLd.setOnClickListener(this);
         //...
         info = (TextView) findViewById(R.id.textView3);
+        titleCard = (View) findViewById(R.id.view);
+        mainCard = (View) findViewById(R.id.view2);
+        firstCard = (View) findViewById(R.id.view3);
+        secondCard = (View) findViewById(R.id.view4);
+        title = (TextView) findViewById(R.id.textView2);
+        cone1 = (LinearLayout) findViewById(R.id.linearLayout1);
+        cone2 = (LinearLayout) findViewById(R.id.linearLayout2);
+        cone3 = (LinearLayout) findViewById(R.id.linearLayout3);
+        cube1 = (LinearLayout) findViewById(R.id.linearLayout4);
+        cube2 = (LinearLayout) findViewById(R.id.linearLayout5);
+        cube3 = (LinearLayout) findViewById(R.id.linearLayout6);
+        mobilityLayout = (LinearLayout) findViewById(R.id.linearLayout7);
+        climbLayout = (LinearLayout) findViewById(R.id.linearLayout8);
+        menuLayout = (LinearLayout) findViewById(R.id.linearLayout9);
 
         //counters
         coneHigh = (TextView) findViewById(R.id.ConeHighCounter);
@@ -107,6 +120,9 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
                 nextPageCheck();
             }
         });
+
+        //start animation
+        animationStart();
 
         //load info if created
         scoutInfo = ScoutInfo.getInstance();
@@ -256,6 +272,69 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(250).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
             button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
         }).start();
+    }
+
+    private void animationStart(){
+        //animations
+        titleCard.setTranslationY(-500);
+        titleCard.setAlpha(0f);
+        firstCard.setTranslationY(250);
+        firstCard.setAlpha(0f);
+        secondCard.setTranslationY(250);
+        secondCard.setAlpha(0f);
+        title.setAlpha(0f);
+        title.setTranslationX(-100);
+        info.setAlpha(0f);
+        info.setTranslationX(-100);
+        cone1.setTranslationX(50);
+        cone1.setAlpha(0);
+        cone2.setTranslationX(50);
+        cone2.setAlpha(0);
+        cone3.setTranslationX(50);
+        cone3.setAlpha(0);
+        cube1.setTranslationX(-50);
+        cube1.setAlpha(0);
+        cube2.setTranslationX(-50);
+        cube2.setAlpha(0);
+        cube3.setTranslationX(-50);
+        cube3.setAlpha(0);
+        mobilityLayout.setAlpha(0f);
+        mobilityLayout.setTranslationY(50);
+        climbLayout.setAlpha(0f);
+        climbLayout.setTranslationY(50);
+        menuLayout.setAlpha(0f);
+        menuLayout.setTranslationY(50);
+        nextButton.setAlpha(0f);
+        nextButton.setTranslationY(50);
+//        title.setAlpha(0f);
+//        selectPositionTitle.setTranslationY(50f);
+//        selectPositionTitle.setAlpha(0f);
+//        teamTitle.setTranslationX(200f);
+//        teamTitle.setAlpha(0f);
+//        robotImage.setTranslationX(200f);
+//        robotImage.setAlpha(0f);
+        firstCard.animate().alpha(1f).translationYBy(-250).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+            secondCard.animate().alpha(1f).translationYBy(-250).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+                titleCard.animate().alpha(1f).translationYBy(500).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+                    title.animate().alpha(1f).translationXBy(100).setDuration(300);
+                    info.animate().alpha(1f).translationXBy(100).setDuration(300);
+                    cone1.animate().alpha(1f).translationXBy(-50).setDuration(750);
+                    cone2.animate().alpha(1f).translationXBy(-50).setDuration(750);
+                    cone3.animate().alpha(1f).translationXBy(-50).setDuration(750);
+                    cube1.animate().alpha(1f).translationXBy(50).setDuration(750);
+                    cube2.animate().alpha(1f).translationXBy(50).setDuration(750);
+                    cube3.animate().alpha(1f).translationXBy(50).setDuration(750);
+                    mobilityLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    climbLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    menuLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    nextButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
+//                        selectPositionTitle.animate().alpha(1f).translationYBy(-50).setDuration(750);
+//                        teamTitle.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+//                        robotImage.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+                }).start();
+            }).start();
+        }).start();
+
     }
 
     //loading the scout info

@@ -29,7 +29,7 @@
             android:layout_marginTop="@dimen/_73sdp"
             android:background="@drawable/rounded_rectangle"
             android:backgroundTint="@color/secondary"
-            app:layout_anchor="@+id/linearLayout"
+            app:layout_anchor="@+id/linearLayout2"
             app:layout_anchorGravity="bottom|center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -181,7 +181,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"

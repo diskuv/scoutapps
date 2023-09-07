@@ -90,6 +90,16 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
         loadScoutInfo();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Initialize the dropdown adapter with all options again
+        String[] items = new String[]{"Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
+        dropdown.setAdapter(adapter);
+    }
+
     //button functions
     public void onClick(View view){
         int clickedID = view.getId();
@@ -252,6 +262,10 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
     //loads scout data
     private void loadScoutInfo(){
         //...nothing to load on this page
+        if(scoutInfo.getScoutMatch() != -1){
+            chooseMatchI.setText("" + scoutInfo.getScoutMatch());
+            dropdown.setText("" + scoutInfo.getRobotPosition());
+        }
     }
 
     private void saveScoutInfo(){

@@ -31,8 +31,9 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
     Button yesDefense, noDefense, yesIncap, noIncap,nextButton;
     ImageButton backPage, notesPage;
-    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info;
+    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info, title;
     AutoCompleteTextView dropdown;
+    View titleCard, firstCard, secondCard, mainCard;
 
     //variables
     boolean defenseBool, incapBool;
@@ -86,6 +87,11 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
         cubeLd.setOnClickListener(this);
         //...
         info = (TextView) findViewById(R.id.textView3);
+        titleCard = (View) findViewById(R.id.view);
+        mainCard = (View) findViewById(R.id.view2);
+        firstCard = (View) findViewById(R.id.view3);
+        secondCard = (View) findViewById(R.id.view4);
+        title = (TextView) findViewById(R.id.textView2);
 
         //counters
         coneHigh = (TextView) findViewById(R.id.ConeHighCounter);
@@ -123,6 +129,9 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
         //...
         scoutInfo = ScoutInfo.getInstance();
         loadScoutInfo();
+
+        //start animation
+        animationStart();
     }
 
     @Override
@@ -293,6 +302,59 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
         button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(250).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
             button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
         }).start();
+    }
+
+    private void animationStart(){
+        //animations
+        titleCard.setTranslationY(-500);
+        titleCard.setAlpha(0f);
+        firstCard.setTranslationY(250);
+        firstCard.setAlpha(0f);
+        secondCard.setTranslationY(250);
+        secondCard.setAlpha(0f);
+        title.setAlpha(0f);
+        title.setTranslationX(-100);
+        info.setAlpha(0f);
+        info.setTranslationX(-100);
+//        cone1.setTranslationX(50);
+//        cone1.setAlpha(0);
+//        cone2.setTranslationX(50);
+//        cone2.setAlpha(0);
+//        cone3.setTranslationX(50);
+//        cone3.setAlpha(0);
+//        cube1.setTranslationX(-50);
+//        cube1.setAlpha(0);
+//        cube2.setTranslationX(-50);
+//        cube2.setAlpha(0);
+//        cube3.setTranslationX(-50);
+//        cube3.setAlpha(0);
+//        mobilityLayout.setAlpha(0f);
+//        mobilityLayout.setTranslationY(50);
+//        climbLayout.setAlpha(0f);
+//        climbLayout.setTranslationY(50);
+//        menuLayout.setAlpha(0f);
+//        menuLayout.setTranslationY(50);
+        nextButton.setAlpha(0f);
+        nextButton.setTranslationY(50);
+        firstCard.animate().alpha(1f).translationYBy(-250).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+            secondCard.animate().alpha(1f).translationYBy(-250).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+                titleCard.animate().alpha(1f).translationYBy(500).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+                    title.animate().alpha(1f).translationXBy(100).setDuration(300);
+                    info.animate().alpha(1f).translationXBy(100).setDuration(300);
+//                    cone1.animate().alpha(1f).translationXBy(-50).setDuration(750);
+//                    cone2.animate().alpha(1f).translationXBy(-50).setDuration(750);
+//                    cone3.animate().alpha(1f).translationXBy(-50).setDuration(750);
+//                    cube1.animate().alpha(1f).translationXBy(50).setDuration(750);
+//                    cube2.animate().alpha(1f).translationXBy(50).setDuration(750);
+//                    cube3.animate().alpha(1f).translationXBy(50).setDuration(750);
+//                    mobilityLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
+//                    climbLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
+//                    menuLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
+//                    nextButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                }).start();
+            }).start();
+        }).start();
+
     }
 
     //loading the scout info

@@ -128,7 +128,7 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
             try {
                 match = Integer.parseInt(matchString);
                 chooseMatchI.setText(String.valueOf(match + 1));
-                //change the button to rechoose the robot
+                //change the button to re choose the robot
                 rechooseRobot();
             } catch (NumberFormatException e) {
                 // Handle the case where the input string is not a valid integer

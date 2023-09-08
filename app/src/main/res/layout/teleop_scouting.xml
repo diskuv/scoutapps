@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,14 +16,15 @@
             android:id="@+id/view"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_39sdp"
+            android:layout_marginStart="@dimen/_6sdp"
             android:layout_marginTop="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_6sdp"
-            android:layout_marginStart="@dimen/_6sdp"
             android:background="@drawable/rounded_rectangle_subtle"
             android:backgroundTint="@color/secondary"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
             android:id="@+id/view2"
             android:layout_width="wrap_content"
@@ -31,37 +34,40 @@
             android:backgroundTint="@color/secondary"
             app:layout_anchor="@+id/linearLayout2"
             app:layout_anchorGravity="bottom|center"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
             android:id="@+id/view3"
             android:layout_width="@dimen/_279sdp"
             android:layout_height="@dimen/_145sdp"
-            android:layout_marginTop="@dimen/_92sdp"
             android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_92sdp"
             android:background="@drawable/round_rectangle_2"
             android:backgroundTint="@color/offwhite"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
             android:id="@+id/view4"
             android:layout_width="@dimen/_279sdp"
             android:layout_height="@dimen/_145sdp"
-            android:layout_marginTop="@dimen/_250sdp"
             android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_250sdp"
             android:background="@drawable/round_rectangle_2"
             android:backgroundTint="@color/offwhite"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
             android:id="@+id/view5"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_35sdp"
             android:layout_gravity="bottom"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Title -->
         <TextView
@@ -69,21 +75,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_19sdp"
-            android:textAlignment="center"
-            android:text="Match #00 &#10; 2930"
             android:layout_marginTop="@dimen/_14sdp"
+            android:text="Match #00 &#10; 2930"
+            android:textAlignment="center"
             android:textColor="@color/accent"
             android:textSize="@dimen/_10ssp"
             android:visibility="visible"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_29sdp"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_29sdp"
-            android:layout_marginStart="@dimen/_29sdp"
             android:gravity="center"
             android:inputType="none"
             android:text="  Teleop"
@@ -91,63 +98,67 @@
             android:textColor="@color/Text"
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Cones Layout -->
         <LinearLayout
+            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_105sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_105sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/cone1"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:src="@drawable/cone_icon"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/ConeHighLabel"
                 android:layout_width="@dimen/_115sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_6sdp"
-                android:gravity="center"
-                android:text="High"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="High"
                 android:textAllCaps="false"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/ConeHighCounter"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:text="0"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="0"
                 android:textAllCaps="true"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CONE_HIGH_INCREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -160,9 +171,10 @@
                 android:textColor="@color/accent"
                 android:textSize="@dimen/_15ssp"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CONE_HIGH_DECREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -172,12 +184,12 @@
                 android:backgroundTint="@color/background"
                 android:text="-"
                 android:textColor="@color/accent"
-                android:textStyle="bold"
                 android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
         <LinearLayout
@@ -188,18 +200,18 @@
             android:layout_marginTop="@dimen/_149sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/cone2"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:src="@drawable/cone_icon"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/ConeMidLabel"
@@ -215,9 +227,9 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/ConeMidCounter"
@@ -232,9 +244,9 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/CONE_MID_INCREMENT"
@@ -248,9 +260,9 @@
                 android:textColor="@color/accent"
                 android:textSize="@dimen/_15ssp"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/CONE_MID_DECREMENT"
@@ -264,62 +276,67 @@
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_192sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_192sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/cone3"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:src="@drawable/cone_icon"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/ConeLowLabel"
                 android:layout_width="@dimen/_115sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_6sdp"
-                android:gravity="center"
-                android:text="Low"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="Low"
                 android:textAllCaps="false"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/ConeLowCounter"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:text="0"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="0"
                 android:textAllCaps="true"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CONE_LOW_INCREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -332,9 +349,10 @@
                 android:textColor="@color/accent"
                 android:textSize="@dimen/_15ssp"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CONE_LOW_DECREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -344,67 +362,71 @@
                 android:backgroundTint="@color/background"
                 android:text="-"
                 android:textColor="@color/accent"
-                android:textStyle="bold"
                 android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
         <!-- Cubes Layout -->
         <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_264sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_264sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/cube1"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:src="@drawable/cube_icon"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/CubeHighLabel"
                 android:layout_width="@dimen/_115sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_6sdp"
-                android:gravity="center"
-                android:text="High"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="High"
                 android:textAllCaps="false"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/CubeHighCounter"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:text="0"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="0"
                 android:textAllCaps="true"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CUBE_HIGH_INCREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -417,9 +439,10 @@
                 android:textColor="@color/accent"
                 android:textSize="@dimen/_15ssp"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CUBE_HIGH_DECREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -429,65 +452,70 @@
                 android:backgroundTint="@color/background"
                 android:text="-"
                 android:textColor="@color/accent"
-                android:textStyle="bold"
                 android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/linearLayout5"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_307sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_307sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/cube2"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:src="@drawable/cube_icon"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/CubeMidLabel"
                 android:layout_width="@dimen/_115sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_6sdp"
-                android:gravity="center"
-                android:text="Mid"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="Mid"
                 android:textAllCaps="false"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/CubeMidCounter"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:text="0"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="0"
                 android:textAllCaps="true"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CUBE_MID_INCREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -500,9 +528,10 @@
                 android:textColor="@color/accent"
                 android:textSize="@dimen/_15ssp"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CUBE_MID_DECREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -512,65 +541,70 @@
                 android:backgroundTint="@color/background"
                 android:text="-"
                 android:textColor="@color/accent"
-                android:textStyle="bold"
                 android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/linearLayout6"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_350sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_350sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/cube3"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:src="@drawable/cube_icon"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/CubeLowLabel"
                 android:layout_width="@dimen/_115sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_6sdp"
-                android:gravity="center"
-                android:text="Low"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="Low"
                 android:textAllCaps="false"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/CubeLowCounter"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:text="0"
                 android:background="@color/white"
+                android:gravity="center"
                 android:inputType="none"
+                android:text="0"
                 android:textAllCaps="true"
-                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CUBE_LOW_INCREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -583,9 +617,10 @@
                 android:textColor="@color/accent"
                 android:textSize="@dimen/_15ssp"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/CUBE_LOW_DECREMENT"
                 android:layout_width="@dimen/_29sdp"
@@ -595,25 +630,26 @@
                 android:backgroundTint="@color/background"
                 android:text="-"
                 android:textColor="@color/accent"
-                android:textStyle="bold"
                 android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
         <!-- Defense Layout -->
         <LinearLayout
+            android:id="@+id/linearLayout7"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_408sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_408sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/MobilityLabel"
@@ -621,12 +657,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
-                android:text="DEFENSE :"
                 android:inputType="none"
+                android:text="DEFENSE :"
                 android:textAllCaps="false"
-                android:textStyle="bold"
                 android:textColor="@color/accent"
-                android:textSize="@dimen/_20ssp"/>
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
             <Button
                 android:id="@+id/DEFENSE_YES"
                 android:layout_width="@dimen/_58sdp"
@@ -639,6 +676,7 @@
                 android:textColor="@color/green"
                 android:textSize="@dimen/_16ssp"
                 app:backgroundTint="@null" />
+
             <Button
                 android:id="@+id/DEFENSE_NO"
                 android:layout_width="@dimen/_58sdp"
@@ -651,34 +689,36 @@
                 android:textSize="@dimen/_18ssp"
                 app:backgroundTint="@null" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/MobilityLabel2"
             android:layout_width="@dimen/_87sdp"
-            android:layout_marginTop="@dimen/_430sdp"
-            android:layout_marginStart="@dimen/_29sdp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_430sdp"
             android:gravity="center"
-            android:text="> 45 sec"
             android:inputType="none"
+            android:text="> 45 sec"
             android:textAllCaps="false"
-            android:textStyle="bold"
             android:textColor="@color/offwhite"
             android:textSize="@dimen/_15ssp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Incap Layout -->
         <LinearLayout
+            android:id="@+id/linearLayout8"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_461sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_461sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/IncapLabel"
@@ -686,12 +726,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
-                android:text="INCAP :"
                 android:inputType="none"
+                android:text="INCAP :"
                 android:textAllCaps="false"
-                android:textStyle="bold"
                 android:textColor="@color/accent"
-                android:textSize="@dimen/_20ssp"/>
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
             <Button
                 android:id="@+id/INCAP_YES"
                 android:layout_width="@dimen/_58sdp"
@@ -704,6 +745,7 @@
                 android:textColor="@color/green"
                 android:textSize="@dimen/_16ssp"
                 app:backgroundTint="@null" />
+
             <Button
                 android:id="@+id/INCAP_NO"
                 android:layout_width="@dimen/_58sdp"
@@ -716,34 +758,36 @@
                 android:textSize="@dimen/_18ssp"
                 app:backgroundTint="@null" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/IncapLabel2"
             android:layout_width="@dimen/_88sdp"
-            android:layout_marginTop="@dimen/_483sdp"
-            android:layout_marginStart="@dimen/_30sdp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_483sdp"
             android:gravity="center"
-            android:text="> 45 sec"
             android:inputType="none"
+            android:text="> 45 sec"
             android:textAllCaps="false"
-            android:textStyle="bold"
             android:textColor="@color/offwhite"
             android:textSize="@dimen/_14ssp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Climb Layout -->
         <LinearLayout
+            android:id="@+id/linearLayout9"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_515sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_515sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <TextView
@@ -752,22 +796,22 @@
                 android:layout_height="@dimen/_29sdp"
                 android:layout_gravity="top|center"
                 android:text="CLIMB :"
-                android:textColor="@color/Text"
                 android:textAlignment="center"
-                android:textStyle="bold"
+                android:textColor="@color/Text"
                 android:textSize="@dimen/_20ssp"
-                />
+                android:textStyle="bold" />
+
             <AutoCompleteTextView
                 android:id="@+id/dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_29sdp"
                 android:layout_marginStart="25dp"
-                android:hint="Climb Level"
-                android:textAlignment="center"
-                android:textSize="@dimen/_12ssp"
-                android:textColor="@color/background"
                 android:background="@drawable/dropdown_background"
-                android:inputType="none"/>
+                android:hint="Climb Level"
+                android:inputType="none"
+                android:textAlignment="center"
+                android:textColor="@color/background"
+                android:textSize="@dimen/_12ssp" />
 
         </LinearLayout>
 
@@ -776,18 +820,18 @@
             android:id="@+id/NEXT"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_561sdp"
             android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_561sdp"
             android:layout_marginEnd="@dimen/_29sdp"
-            android:backgroundTint="@color/darkGrey"
             android:background="@drawable/rounded_rectangle_subtle"
-            app:backgroundTint="@null"
+            android:backgroundTint="@color/darkGrey"
             android:text="ENTER ALL DATA"
             android:textColor="@color/black"
             android:textSize="@dimen/_16ssp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView4"
@@ -795,23 +839,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_576sdp"
             android:text=""
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Bottom menu item -->
         <LinearLayout
+            android:id="@+id/linearLayout10"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
-            android:orientation="horizontal"
-            android:elevation="@dimen/_3sdp"
-            android:layout_marginTop="@dimen/_600sdp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/menu_round"
             android:layout_alignParentBottom="true"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/_600sdp"
+            android:background="@drawable/menu_round"
+            android:elevation="@dimen/_3sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- menu items-->
             <ImageButton
@@ -819,24 +864,25 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
                 android:scaleType="fitCenter"
                 android:src="@drawable/backpageicon"
-                android:background="?android:selectableItemBackground"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageButton
                 android:id="@+id/menu_item_2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_4sdp"
                 android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
                 android:scaleType="fitCenter"
                 android:src="@drawable/notes_icon"
-                android:background="?android:selectableItemBackground"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
 

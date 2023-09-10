@@ -30,7 +30,7 @@ public class NotesActivity extends Activity implements View.OnClickListener{
     //instances
     View topCard, mainCard;
     TextView scoutInfo, pageTitle;
-    TextInputEditText notesText;
+    EditText notesText;
     Button finishButton;
     ImageButton page1, page2;
 
@@ -45,6 +45,16 @@ public class NotesActivity extends Activity implements View.OnClickListener{
         page1.setOnClickListener(this);
         page2 = (ImageButton) findViewById(R.id.menu_item_2);
         page2.setOnClickListener(this);
+
+        //...
+        topCard = (View) findViewById(R.id.view);
+        mainCard = (View) findViewById(R.id.view2);
+        scoutInfo = (TextView) findViewById(R.id.textView3);
+        pageTitle = (TextView) findViewById(R.id.textView2);
+        notesText = (EditText) findViewById(R.id.Name_Input);
+
+        //start animation
+        animationStart();
     }
 
     public void onClick(View view){
@@ -60,7 +70,35 @@ public class NotesActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    //to-do finish
     public void nextPageLogic(){
+        //add data to the database
+        //create qr code
+        //go to qr code page
         Toast.makeText(NotesActivity.this, "Creating QR code and going to next page", Toast.LENGTH_SHORT).show();
+    }
+
+    public void animationStart(){
+        //animations
+        topCard.setAlpha(0);
+        topCard.setTranslationY(200);
+        mainCard.setAlpha(0);
+        mainCard.setTranslationY(200);
+        scoutInfo.setAlpha(0);
+        scoutInfo.setTranslationX(50);
+        pageTitle.setAlpha(0);
+        pageTitle.setTranslationX(50);
+        notesText.setAlpha(0);
+        notesText.setTranslationY(100);
+        finishButton.setAlpha(0);
+        finishButton.setTranslationY(50);
+        mainCard.animate().alpha(1f).translationYBy(-250).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+            topCard.animate().alpha(1f).translationYBy(-250).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+                scoutInfo.animate().alpha(1f).translationXBy(-50).setDuration(150);
+                pageTitle.animate().alpha(1f).translationXBy(-50).setDuration(300);
+                notesText.animate().alpha(1f).translationYBy(-100).setDuration(750);
+                finishButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
+            }).start();
+        }).start();
     }
 }

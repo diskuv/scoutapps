@@ -13,7 +13,7 @@ public class PitScoutActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pit_scouting);
+        setContentView(R.layout.pit_scout);
 
     }
 }

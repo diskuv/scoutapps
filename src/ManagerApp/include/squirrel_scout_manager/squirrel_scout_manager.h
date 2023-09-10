@@ -3,6 +3,14 @@
 
 #include <stddef.h>
 
+#ifdef _WIN32
+#define SQUIRREL_SCOUT_MANAGER_portable_main wmain
+#define SQUIRREL_SCOUT_MANAGER_portable_char wchar_t
+#else
+#define SQUIRREL_SCOUT_MANAGER_portable_main main
+#define SQUIRREL_SCOUT_MANAGER_portable_char char
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -24,7 +32,7 @@ extern "C" {
  * to be modified
  */
 extern void squirrel_scout_manager_init(
-    int argc0, char* argv0[],
+    int argc0, SQUIRREL_SCOUT_MANAGER_portable_char* argv0[],
     int *argc, char** argv[]
 );
 

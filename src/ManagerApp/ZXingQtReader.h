@@ -368,8 +368,8 @@ public slots:
 
 			/* SCOUT:ADDED */
 			auto bytes = res.bytes();
-			auto format = res.formatName().toUtf8().constData();
-			squirrel_scout_manager_consume_qr(format, bytes.data(), bytes.length());
+			auto format = res.formatName().toStdString();
+			squirrel_scout_manager_consume_qr(format.c_str(), bytes.data(), bytes.length());
 		}
 		return res;
 	}

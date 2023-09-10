@@ -28,7 +28,7 @@ let hex_encode (bytearray : bytes) : string =
   Bytes.to_string buf
 
 let process_qr qr_format qr_bytes =
-  Format.eprintf "[%s:%d] I am processing the QR format %s with bytes: %s\n%!"
+  Format.eprintf "[%s:%d] I am processing the QR format '%s' with bytes: %s\n%!"
     __FILE__ __LINE__ qr_format (hex_encode qr_bytes)
 
 let () = Callback.register "squirrel_scout_manager_process_qr" process_qr

@@ -10,7 +10,7 @@
 
 #include "ZXingQtReader.h"
 
-int main(int argc0, char *argv0[])
+int SQUIRREL_SCOUT_MANAGER_portable_main(int argc0, SQUIRREL_SCOUT_MANAGER_portable_char* argv0[]) /* SCOUT:CHANGED */
 {
 	/* SCOUT:ADDED */
 	int argc;
@@ -34,5 +34,8 @@ int main(int argc0, char *argv0[])
 	if (engine.rootObjects().isEmpty())
 		return -1;
 
-	return app.exec();
+	/* SCOUT:MODIFY */
+	int ret = app.exec();
+	squirrel_scout_manager_destroy();
+	return ret;
 }

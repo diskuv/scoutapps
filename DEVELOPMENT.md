@@ -24,6 +24,7 @@ Windows:
 - Then [VS Code on All Platforms](#vs-code-on-all-platforms)
 - Then [CMakeUserPresets.json](#cmakeuserpresetsjson). Select the `windows_x86_64 (debug)` CMake preset.
 - Then in CMake build the `ManagerAppQtCamReader` target. If you use WSL2 which doesn't have access to the Windows camera device, build the `ManagerAppReader` target instead.
+- If you run `ManagerAppQtCamReader` from the command line, remember the PATH instructions in [Qt on Windows](#qt-on-windows)
 
 Ubuntu:
 
@@ -47,6 +48,8 @@ Qt 6 may work, but only Qt 5 is tested.
 
 ### Qt on Windows
 
+FIRST, for setup ...
+
 Download and [install Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
 if you do not have Anaconda or Miniconda (Python) already.
 
@@ -60,6 +63,19 @@ if ($LASTEXITCODE) {
 }
 
 conda run -n aqt aqt install-qt windows desktop 5.15.2 win64_msvc2019_64 -m all
+```
+
+FINALLY, **anytime you run a Qt on Windows program like ManagerAppQtCamReader or ManagaerAppQtReader**
+from the PowerShell you will need first to do the following from the project source code directory:
+
+```powershell
+$env:PATH += ";$PWD\5.15.2\msvc2019_64\bin"
+```
+
+or from Command Prompt you will need to do:
+
+```dosbatch
+set PATH=%PATH%;%CD%\5.15.2\msvc2019_64\bin
 ```
 
 ### Qt on Debian Linux

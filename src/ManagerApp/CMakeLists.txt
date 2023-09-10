@@ -88,25 +88,9 @@ endif()
 target_link_libraries(ManagerAppReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
 if (TARGET Qt::Gui)
     target_link_libraries(ManagerAppQtReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
-    if(WIN32 AND Qt5_DIR)
-        add_custom_command( # Easy testing in build dir (but cmake install is preferred)
-            TARGET ManagerAppQtReader POST_BUILD
-            COMMAND "${CMAKE_COMMAND}" -E chdir "${Qt5_DIR}/../../../bin" "${CMAKE_COMMAND}" -E copy
-                Qt5Cored.dll Qt5Guid.dll
-                "$<TARGET_FILE_DIR:ManagerAppQtReader>"
-            VERBATIM)
-    endif()
 endif()
 if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     target_link_libraries(ManagerAppQtCamReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
-    if(WIN32 AND Qt5_DIR)
-        add_custom_command( # Easy testing in build dir (but cmake install is preferred)
-            TARGET ManagerAppQtCamReader POST_BUILD
-            COMMAND "${CMAKE_COMMAND}" -E chdir "${Qt5_DIR}/../../../bin" "${CMAKE_COMMAND}" -E copy
-                Qt5Cored.dll Qt5Guid.dll Qt5Networkd.dll Qt5Multimediad.dll Qt5Qmld.dll
-                "$<TARGET_FILE_DIR:ManagerAppQtCamReader>"
-            VERBATIM)
-    endif()
 endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

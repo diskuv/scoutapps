@@ -151,7 +151,7 @@ void drawRect(const ImageView& image, const Position& pos, bool error)
 		drawLine(image, pos[i], pos[(i + 1) % 4], error);
 }
 
-int main(int argc0, char* argv0[])
+int SQUIRREL_SCOUT_MANAGER_portable_main(int argc0, SQUIRREL_SCOUT_MANAGER_portable_char* argv0[]) /* SCOUT:CHANGED */
 {
 	/* SCOUT:ADDED */
 	int argc;
@@ -277,7 +277,7 @@ int main(int argc0, char* argv0[])
 
 			if (result.readerInit())
 				std::cout << "Reader Initialisation/Programming\n";
-			
+
 			/* SCOUT:ADDED */
 			std::string_view bytes = result.bytes().asString();
 			squirrel_scout_manager_consume_qr(ToString(result.format()).c_str(), bytes.data(), bytes.length());
@@ -305,5 +305,6 @@ int main(int argc0, char* argv0[])
 #endif
 	}
 
+	squirrel_scout_manager_destroy(); /* SCOUT:ADDED */
 	return ret;
 }

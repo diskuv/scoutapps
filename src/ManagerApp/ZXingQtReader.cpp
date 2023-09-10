@@ -11,7 +11,7 @@
 
 using namespace ZXingQt;
 
-int main(int argc0, char* argv0[])
+int SQUIRREL_SCOUT_MANAGER_portable_main(int argc0, SQUIRREL_SCOUT_MANAGER_portable_char* argv0[]) /* SCOUT:CHANGED */
 {
 	/* SCOUT:ADDED */
 	int argc;
@@ -47,8 +47,10 @@ int main(int argc0, char* argv0[])
 
 		/* SCOUT:ADDED */
 		auto bytes = result.bytes();
-		squirrel_scout_manager_consume_qr(ToString(result.format()).c_str(), bytes.data(), bytes.length());
+		auto format = result.formatName().toStdString();
+		squirrel_scout_manager_consume_qr(format.c_str(), bytes.data(), bytes.length());
 	}
 
+	squirrel_scout_manager_destroy(); /* SCOUT:ADDED */
 	return results.isEmpty() ? 1 : 0;
 }

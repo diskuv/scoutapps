@@ -77,11 +77,8 @@ let create_table db ~table_name ~colums ~primary_keys ~to_name ~to_datatype =
     ^ primary_keys_string ^ ")"
   in
 
-  print_endline ("test create table sql: " ^ sql);
+  (* print_endline ("test create table sql: " ^ sql); *)
   match Sqlite3.exec db sql with Sqlite3.Rc.OK -> Successful | _ -> Failed
-
-
-
 
 module List_Utils = struct
   let sum list =
@@ -105,7 +102,6 @@ end
 
 module Select = struct
   type string_or_int = String of string | Int of int
-
   type order_by = ASC | DESC
 
   let order_by_to_string = function ASC -> "ASC" | DESC -> "DESC"
@@ -163,8 +159,8 @@ module Select = struct
       "SELECT " ^ to_select ^ " FROM " ^ table_name ^ where_sql ^ order_sql
     in
 
-    print_endline ("SQL === " ^ sql);
-
+    (* FIXME add back as a cli option? *)
+    (* print_endline ("SQL === " ^ sql); *)
     let stmt = Sqlite3.prepare db sql in
     let data_vector = Vector.create ~dummy:(String "") in
 

@@ -134,7 +134,7 @@ module Table : Table_type = struct
       Tele_Cube_low;
     ]
 
-  let primary_keys = [ Team_number; Team_name; Match_Number; Scouter_Name ]
+  let primary_keys = [ Team_number; Match_Number; Scouter_Name ]
 
   let create_table db =
     Db_utils.create_table db ~table_name ~colums:colums_in_order ~primary_keys

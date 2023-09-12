@@ -28,7 +28,7 @@
  (libraries
   fmt
   transforms)
- (modules SquirrelScout_Std qr_manager aws_manager main db_utils match_schedule_table raw_match_data_table robot_pictures_table))
+ (modules SquirrelScout_Std qr_manager aws_manager main db_utils match_schedule_table raw_match_data_table robot_pictures_table team_names_table))
 
 ; This is a private library visible only to code in the [SquirrelScout_Std] package.
 ; It is not "wrapped" so you can freely move source code between private libraries within

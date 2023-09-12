@@ -140,7 +140,7 @@ module Table : Table_type = struct
     Db_utils.create_table db ~table_name ~colums:colums_in_order ~primary_keys
       ~to_name:colum_name ~to_datatype:colum_datatype
 
-  let drop_table () = Db_utils.Failed
+  let drop_table db = Db_utils.Failed
 
   let insert_record db capnp_string =
     let module Schema = Schema.Make (Capnp.BytesMessage) in

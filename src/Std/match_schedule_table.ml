@@ -66,7 +66,7 @@ module Table : Complete_Table = struct
     Db_utils.create_table db ~table_name ~colums:colums_in_order ~primary_keys
       ~to_name:colum_name ~to_datatype:colum_datatype
 
-  let drop_table () = Db_utils.Failed
+  let drop_table db  = Db_utils.Failed
 
   (* FIXME: Dont insert indivisual records, load data from json *)
   let insert_record _db _string = Db_utils.Failed

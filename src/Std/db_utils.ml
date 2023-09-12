@@ -14,7 +14,7 @@ module type Generic_Table = sig
   val primary_keys : colums list
   val colums_in_order : colums list
   val create_table : Sqlite3.db -> return_code
-  val drop_table : unit -> return_code
+  val drop_table : Sqlite3.db -> return_code
   val insert_record : Sqlite3.db -> string -> return_code
 end
 

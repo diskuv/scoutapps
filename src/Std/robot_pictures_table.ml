@@ -17,7 +17,7 @@ module Table : Db_utils.Generic_Table = struct
       ~to_name:colum_name ~to_datatype:colum_datatype
 
   (* FIXME: need to figure out how images will be passed to ocaml. File location? bytedata?  *)
-  let drop_table () = Db_utils.Failed
+  let drop_table db = Db_utils.Failed
   let insert_record (db : Sqlite3.db) (str : string) = Db_utils.Successful
 end
 

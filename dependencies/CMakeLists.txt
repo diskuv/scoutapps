@@ -82,6 +82,11 @@ DkSDKProject_MakeAvailable(
         fmt
         logs
 
+        # for dksdk-ffi-c and ocaml--
+        stdint
+        dum
+        uuidm
+
         capnp_ocaml
         qrc
         vector

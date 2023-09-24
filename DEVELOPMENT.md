@@ -23,7 +23,14 @@ Windows:
 - Then [VS Code on Windows](#vs-code-on-windows)
 - Then [VS Code on All Platforms](#vs-code-on-all-platforms)
 - Then [CMakeUserPresets.json](#cmakeuserpresetsjson). Select the `windows_x86_64 (debug)` CMake preset.
-- Then in CMake build the `ManagerAppQtCamReader` target. If you use WSL2 which doesn't have access to the Windows camera device, build the `ManagerAppReader` target instead.
+- Then in CMake build the `ManagerAppQtCamReader` target.
+  > If you use WSL2 which doesn't have access to the Windows camera device, build the `ManagerAppReader` target instead.
+  > Once the target is built, you can do:
+  >
+  > ```powershell
+  > build_dev\src\ManagerApp\ManagerAppReader.exe -fast -format -qrcode tests\Units\ManagerApp\qrcode-7\01-01.png
+  > ```
+
 - If you run `ManagerAppQtCamReader` from the command line, remember the PATH instructions in [Qt on Windows](#qt-on-windows)
 
 Ubuntu:

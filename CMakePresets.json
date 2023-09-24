@@ -29,6 +29,10 @@
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dkml-runtime-distribution"
         },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-ACCESS": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-access"
+        },
         "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-cmake"

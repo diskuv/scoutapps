@@ -3,5 +3,6 @@
 # You can and should edit this file as you add new libraries.
 
 add_subdirectory(Std)
+add_subdirectory(Objs)
 add_subdirectory(MainCLI)
 add_subdirectory(ManagerApp)

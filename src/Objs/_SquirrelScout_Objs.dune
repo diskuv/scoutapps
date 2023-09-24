@@ -15,7 +15,7 @@
 ; executable. The executable from CMake should **always** be the one installed
 ; in production.
 (executable
- (name SquirrelScout_db)
+ (name SquirrelScout_Objs)
  (modes (native object) exe)
  (flags
   (:standard -warn-error -A))
@@ -27,21 +27,12 @@
  (ocamlopt_flags
   (:standard -dstartup -S))
  (modules
-  uppercase
-  my_lwt_extras
-  schema
-  SquirrelScout_Std
-  qr_manager
-  aws_manager
-  main
-  db_utils
-  match_schedule_table
-  raw_match_data_table
-  robot_pictures_table
-  team_names_table
-  SquirrelScout_db
+  SquirrelScout_Objs
   )
  (libraries
+  transforms
+  SquirrelScout_Std
+  DkSDKFFIOCaml_Std
   ))
 
 ; Install the C object file to a known location for CMake.
@@ -49,7 +40,7 @@
 ; the CMake linked executable.
 (install
  (section lib_root)
- (package SquirrelScout_Std)
+ (package SquirrelScout_Objs)
  (files
-  (SquirrelScout_db.exe%{ext_obj} as ocamldunear/SquirrelScout_db.exe%{ext_obj})
-  (SquirrelScout_db.exe as ocamldunear/SquirrelScout_db.exe)))
+  (SquirrelScout_Objs.exe%{ext_obj} as ocamldunear/SquirrelScout_Objs.exe%{ext_obj})
+  (SquirrelScout_Objs.exe as ocamldunear/SquirrelScout_Objs.exe)))

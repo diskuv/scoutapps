@@ -40,7 +40,6 @@
   (allow_empty)
   (depends 
     (capnp (>= 3.5.0))
-    (odoc (>= 2.2.0))
     (ocaml-lsp-server (>= 1.16.1))
     (ocamlformat (= 0.25.1))
     (menhir (>= 20230608))))
@@ -63,6 +62,16 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
     (base64 (>= 3.5.1))
     sqlite3
     (qrc (>= 0.1.0))))
+
+(package
+  (name SquirrelScout_Objs)
+  (synopsis "Component object model objects for SquirrelScout")
+  ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree
+  (allow_empty)
+  (description "SquirrelScout_Classes exports the COM class and instance objects.")
+  (depends
+    (ocaml (>= 4.14.0))
+    DkSDKFFIOCaml_Std))
 
 (package
   (name SquirrelScout_MainCLI)

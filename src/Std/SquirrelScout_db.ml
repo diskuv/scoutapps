@@ -1,1 +1,0 @@
-let () = print_endline "in SquirrelScout_db"

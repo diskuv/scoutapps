@@ -30,7 +30,10 @@ endif()
 
 add_library(ManagerApp_ml STATIC ManagerApp_ml.ml)
 add_library(SquirrelScout::ManagerApp_ml ALIAS ManagerApp_ml)
-
+target_link_libraries(ManagerApp_ml PRIVATE 
+    # We want the library that we wrote in ../Std/
+    # to be available to the node's .ml code.
+    SquirrelScout::Std)
 # ------
 # The C code that calls OCaml
 # ------
@@ -85,7 +88,10 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
 endif()
 
 # ~~~ ADDITIONS
-target_link_libraries(ManagerAppReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
+target_link_libraries(ManagerAppReader 
+    SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
+    
+    )
 if (TARGET Qt::Gui)
     target_link_libraries(ManagerAppQtReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
 endif()

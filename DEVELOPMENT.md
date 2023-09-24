@@ -39,6 +39,9 @@ Ubuntu:
 - Then [VS Code on All Platforms](#vs-code-on-all-platforms)
 - Then [CMakeUserPresets.json](#cmakeuserpresetsjson). Select the `linux_x86_64 (debug)` CMake preset.
 - Then in CMake build the `ManagerAppQtCamReader` target
+  ```sh
+  build_dev/src/ManagerApp/ManagerAppReader -fast -format -qrcode tests/Units/ManagerApp/qrcode-7/01-01.png
+  ```
 
 Debian:
 

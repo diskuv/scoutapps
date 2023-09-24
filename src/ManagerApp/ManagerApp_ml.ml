@@ -27,7 +27,10 @@ let hex_encode (bytearray : bytes) : string =
   aux bytearray len 0 buf;
   Bytes.to_string buf
 
-let process_qr qr_format qr_bytes =
+let process_qr db qr_format qr_bytes =
+
+  let module Db = (val db : SquirrelScout_Std.Database_actions_type) in 
+
   let args = Array.to_list Sys.argv |> String.concat " " in
   Format.eprintf
     "[%s:%d] I am processing (YAY!) the QR format '%s' with bytes: %s\n\
@@ -35,4 +38,11 @@ let process_qr qr_format qr_bytes =
      %!"
     __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args
 
-let () = Callback.register "squirrel_scout_manager_process_qr" process_qr
+
+  let main () = 
+    let module Db = ( val SquirrelScout_Std.create_object "test.db" ) in 
+
+    Callback.register "squirrel_scout_manager_process_qr" (process_qr (module Db : SquirrelScout_Std.Database_actions_type))
+
+
+let () = main ()

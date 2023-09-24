@@ -30,6 +30,8 @@
   ManagerApp_ml
   )
  (libraries
+  transforms
+  SquirrelScout_Std
   ))
 
 ; Install the C object file to a known location for CMake.

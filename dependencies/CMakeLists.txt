@@ -132,3 +132,27 @@ endif()
 add_subdirectory(lwt)
 add_subdirectory(sqlite3)
 add_subdirectory(zxing)
+
+# --- Set dksdk-ffi-c_REPOSITORY
+
+get_property(dksdk-ffi-c_REPOSITORY GLOBAL PROPERTY DKSDK_FFI_C_REPOSITORY)
+
+# --- Fetch dksdk-ffi-c
+
+FetchContent_Declare(dksdk-ffi-c # override with cmake -D FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-C=...
+    GIT_REPOSITORY "${dksdk-ffi-c_REPOSITORY}"
+    GIT_TAG main)
+FetchContent_MakeAvailable(dksdk-ffi-c)
+
+# --- Set dksdk-ffi-ocaml_REPOSITORY
+
+get_property(dksdk-ffi-ocaml_REPOSITORY GLOBAL PROPERTY DKSDK_FFI_OCAML_REPOSITORY)
+
+# --- Fetch dksdk-ffi-ocaml
+FetchContent_Declare(dksdk-ffi-ocaml # override with cmake -D FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-OCAML=...
+    GIT_REPOSITORY "${dksdk-ffi-ocaml_REPOSITORY}"
+    GIT_TAG next
+    SOURCE_SUBDIR  src/Std
+    )
+FetchContent_MakeAvailable(dksdk-ffi-ocaml)
+

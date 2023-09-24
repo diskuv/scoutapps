@@ -150,3 +150,21 @@ target_link_libraries(transforms PRIVATE
 #     DEPENDS
 #     ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml
 #     ${CMAKE_CURRENT_SOURCE_DIR}/schema.mli)
+
+
+# # This is the library that will link to andriod/ios applications 
+# add_library(SquirrelScout_db STATIC
+#         SquirrelScout_db.ml)
+# add_library(SquirrelScout::db ALIAS SquirrelScout_db)
+# set_target_properties(SquirrelScout_db PROPERTIES EXPORT_NAME db)
+# target_link_libraries(SquirrelScout_db PRIVATE
+#         # We want the library that we wrote in ../Std/
+#         # to be available to the node's .ml code.
+#         SquirrelScout::Std
+
+#         # DkSDK::FFI::OCaml
+        
+#         # OCamlCompile is the interface library for the C compile flags. HelloWorld
+#         # does not actually need it because it has no .c files of its own, but it is
+#         # safe and recommended to always include it.
+#         DkSDK::OCamlCompile)

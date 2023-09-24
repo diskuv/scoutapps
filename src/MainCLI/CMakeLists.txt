@@ -49,6 +49,8 @@ target_link_libraries(SquirrelScout_cli PRIVATE
         # We want the library that we wrote in ../Std/
         # to be available to the node's .ml code.
         SquirrelScout::Std
+
+        # DkSDK::FFI::OCaml
         # Make command line options. In the node model, each node shares the command line options.
         # You could have a node index and an CLI option with that (ex. --send:2 "hi") if you
         # needed specific options to go to a specific node.

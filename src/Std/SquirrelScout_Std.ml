@@ -155,6 +155,21 @@ module Database_actions (Db : Db_holder) = struct
   let get_missing_records_from_db () =
     Raw_match_data_table.Table.Fetch.missing_data Db.db
 
+
+    (* for java *)
+  let generate_qr_code blob = 
+    Qr_manager.generate_qr_code blob 
+
+    (* Position referes to type robot_position in Match_schedule_table *)
+    (* for java  *)
+  let get_team_for_match_and_position team_number position = 
+    Match_schedule_table.Table.Fetch.get_team_for_match_and_position Db.db team_number position 
+
+(* for java  *)
+  let insert_scouted_data blob = 
+    Raw_match_data_table.Table.insert_record Db.db blob 
+
+
   let initialize () = 
 
       let _code = Raw_match_data_table.Table.create_table Db.db in
@@ -163,6 +178,7 @@ module Database_actions (Db : Db_holder) = struct
 
       let _ = Team_names_table.Table.create_table Db.db in 
 
+      (* sample_json is part of the constructor *)
       let _ = Match_schedule_table.Table.fill_database_from_json Db.db sample_json in
 
       fill_raw_match_data_table Db.db;

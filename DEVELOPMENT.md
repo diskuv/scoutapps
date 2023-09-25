@@ -13,6 +13,7 @@
   - [CMake](#cmake)
     - [CMake on Windows](#cmake-on-windows)
     - [CMakeUserPresets.json](#cmakeuserpresetsjson)
+  - [TODO](#todo)
 
 ## Quick Links
 
@@ -189,3 +190,34 @@ You should copy the contents of `CMakeUserPresets-SUGGESTED.json` into
 > check in changes to it because it is **meant for you to edit**
 > so suit your own development desktop configuration.
 > That also means you have to create `CMakeUserPresets.json` yourself.
+
+## TODO
+
+1. Make Objects around src/Std/SquirrelScout_Std.ml's Database_actions.
+   1. Part of that will be adding to the schema.capnp and converting from `int option` (etc.)
+      back and forth to Capn' Proto. 
+
+
+2. (Should be done) Fix the following by doing a merge of next into dksdk-ffi-c:
+
+```
+[cmake]  }
+[cmake] [82/82] Generating publish/packages/DkSDKFFIOCaml_Std/DkSDKFFIOCaml_Std.1.0.0/opam
+[cmake] -- url { 
+[cmake]   src: "https://gitlab.com/api/v4/projects/45955665/packages/generic/stdexport/1.0.0/src-DkSDKFFIOCaml_Std.tar.gz"
+[cmake]   checksum: [
+[cmake]     "sha256=c30ef37227481f6e8cf22b8780078c13cd6fc4b8416f7b9eca455110752e9b33"
+[cmake]     "sha512=d171f20c5bf2b949c0459cb416569f4e6c9fae1b2259252dc39ccabd3481995f679bb6d2d6757b4b3c0a353397f32260d0c1c04b3f16fee7c93aa218f26e50e4"
+[cmake]   ]
+[cmake]  }
+[cmake] -- Installing: /usr/local/lib/libdksdk_ffi_c_logger.a
+[cmake] CMake Error at DkSDKFiles/rq/ffi-ocaml.b/_deps/dksdk-ffi-c-build/dependencies/c-logger/cmake_install.cmake:54 (file):
+[cmake]   file INSTALL cannot copy file
+[cmake]   "/home/keyush/coding/ocaml_database/db/build_dev/DkSDKFiles/rq/ffi-ocaml.b/_deps/dksdk-ffi-c-build/dependencies/c-logger/libdksdk_ffi_c_logger.a"
+[cmake]   to "/usr/local/lib/libdksdk_ffi_c_logger.a": Success.
+[cmake] Call Stack (most recent call first):
+[cmake]   DkSDKFiles/rq/ffi-ocaml.b/_deps/dksdk-ffi-c-build/dependencies/cmake_install.cmake:52 (include)
+[cmake]   DkSDKFiles/rq/ffi-ocaml.b/_deps/dksdk-ffi-c-build/cmake_install.cmake:47 (include)
+[cmake]   DkSDKFiles/rq/ffi-ocaml.b/dependencies/cmake_install.cmake:52 (include)
+[cmake]   DkSDKFiles/rq/ffi-ocaml.b/cmake_install.cmake:62 (include)
+```

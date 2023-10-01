@@ -26,7 +26,7 @@ module type Complete_Table = sig
 end
 
 module Table : Complete_Table = struct
-  let table_name = "match_schudle_table"
+  let table_name = "match_schedule"
 
   type colums =
     | Match_number

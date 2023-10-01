@@ -3,7 +3,7 @@
    end *)
 
 module Table : Db_utils.Generic_Table = struct
-  let table_name = "robot_pictures_table"
+  let table_name = "robot_pictures"
 
   type colums = Team_number | Image
 

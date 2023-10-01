@@ -45,13 +45,12 @@ let team_num_t =
 
 module Commands = struct
 
-  module Db = ( val SquirrelScout_Std.create_object "test.db" )
-  
   let print_dash = "-----------------------"
   let dummy_flag_t = Cmdliner.Arg.(value & flag & info [ "dummy" ])
 
-  let status =
-    let action _flag =
+  let status_cmd =  
+    let action () db_name  _flag =
+      let module Db = ( val SquirrelScout_Std.create_object db_name ) in
       (* print_endline ("Flag status: " ^ string_of_bool flag); *)
 
       let latest_match = Db.get_latest_match () in
@@ -96,10 +95,11 @@ module Commands = struct
 
     let info = Cmdliner.Cmd.info "status" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ dummy_flag_t)
+    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_name_t $ dummy_flag_t)
 
-  let matches_for_team =
-    let action team =
+  let matches_for_team_cmd =
+    let action () db_name team =
+      let module Db = ( val SquirrelScout_Std.create_object db_name ) in
       let matches =
         Db.get_matches_for_team team
       in
@@ -124,10 +124,11 @@ module Commands = struct
 
     let info = Cmdliner.Cmd.info "matches_for_team" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ team_num_t)
+    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_name_t $ team_num_t)
 
-  let match_schedule =
-    let action dummy =
+  let match_schedule_cmd =
+    let action () db_name dummy =
+      let module Db = ( val SquirrelScout_Std.create_object db_name ) in
       let _ = dummy in
 
       let match_data = Db.get_whole_schedule () in
@@ -151,7 +152,7 @@ module Commands = struct
 
     let info = Cmdliner.Cmd.info "match_schedule" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ dummy_flag_t)
+    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_name_t $ dummy_flag_t)
 end
 
 (* let latest_match_cmd =
@@ -177,7 +178,11 @@ let main () =
   let info = Cmdliner.Cmd.info "squirrelscout" in
 
   let cmds =
-    [ Commands.status; Commands.matches_for_team; Commands.match_schedule ]
+    [
+      Commands.status_cmd;
+      Commands.matches_for_team_cmd;
+      Commands.match_schedule_cmd;
+    ]
   in
 
   (* let default =  Cmdliner.Term.(ret (const (fun _ -> `Help (`Pager, None)) *)

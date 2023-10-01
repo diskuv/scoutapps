@@ -30,7 +30,6 @@
   ManagerApp_ml
   )
  (libraries
-  transforms
   SquirrelScout_Std
   ))
 

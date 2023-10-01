@@ -5,8 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Launch ManagerAppQtCamReader",
-            "type": "cppvsdbg",
+            "type": "cppdbg",
+            "request": "launch",
+            "name": "Unix Launch ManagerAppReader",
+            "program": "${workspaceFolder}/build_dev/src/ManagerApp/ManagerAppReader",
+            "args": [
+                "-fast", "-format", "qrcode", "tests/Units/ManagerApp/qrcode-7/01-01.png"
+            ],
+            "cwd": "${workspaceFolder}",
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb"
+            }
+        },
+        {
+            "name": "Windows Launch ManagerAppQtCamReader",
+            "type": "cppvsdbg",            
             "request": "launch",
             "program": "${workspaceFolder}/build_dev/src/ManagerApp/ManagerAppQtCamReader.exe",
             "args": [],

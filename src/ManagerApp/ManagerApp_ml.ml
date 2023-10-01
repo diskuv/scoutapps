@@ -29,6 +29,8 @@ let hex_encode (bytearray : bytes) : string =
 
 let process_qr db qr_format qr_bytes =
 
+  print_endline "I am in ManagerApp_ml.ml [process_qr]";
+
   let module Db = (val db : SquirrelScout_Std.Database_actions_type) in 
 
   let args = Array.to_list Sys.argv |> String.concat " " in

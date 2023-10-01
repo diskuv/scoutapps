@@ -27,24 +27,6 @@
  (public_name SquirrelScout_Std)
  (libraries
   fmt
-  transforms)
- (modules SquirrelScout_Std qr_manager aws_manager main db_utils match_schedule_table raw_match_data_table robot_pictures_table team_names_table))
-
-; This is a private library visible only to code in the [SquirrelScout_Std] package.
-; It is not "wrapped" so you can freely move source code between private libraries within
-; [SquirrelScout_Std] without refactoring your source code.
-
-(library
- (flags
-  (:standard -warn-error -A))
- ; -S: keep camlasm*.asm/camlasm*.S intermediate assembly
- ;     source code available for IDE debugging
- (ocamlopt_flags
-  (:standard -S))
- (name transforms)
- (package SquirrelScout_Std)
- (wrapped false)
- (libraries
   logs.lwt
   lwt
   capnp
@@ -54,4 +36,4 @@
   sqlite3
   qrc
   lwt.unix)
- (modules uppercase my_lwt_extras schema))
+ (modules SquirrelScout_Std SquirrelScout_Std_intf qr_manager aws_manager main db_utils schema match_schedule_table raw_match_data_table robot_pictures_table team_names_table))

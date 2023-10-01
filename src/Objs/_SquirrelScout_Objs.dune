@@ -30,7 +30,6 @@
   SquirrelScout_Objs
   )
  (libraries
-  transforms
   SquirrelScout_Std
   DkSDKFFIOCaml_Std
   ))

@@ -30,7 +30,6 @@
   test_Std_ml
   )
  (libraries
-  transforms
   tezt
   lwt
   lwt.unix

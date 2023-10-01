@@ -21,12 +21,16 @@ DkSDKProject_AddPackage(
 # it to an opam repository.
 add_library(SquirrelScout_Std OBJECT
         SquirrelScout_Std.ml
+        SquirrelScout_Std_intf.ml
 
         qr_manager.ml
         aws_manager.ml
         main.ml
 
         db_utils.ml
+
+        schema.ml
+        schema.mli
 
         match_schedule_table.ml
         raw_match_data_table.ml
@@ -37,40 +41,10 @@ add_library(SquirrelScout::Std ALIAS SquirrelScout_Std)
 set_target_properties(SquirrelScout_Std PROPERTIES EXPORT_NAME Std)
 
 target_sources(SquirrelScout_Std INTERFACE
-        SquirrelScout_Std.mli
-        # You can use any <name> from add_library(<name> OBJECT xxx/yyy.ml ...).
-        #
-        # We'll make an OBJECT library later in this file.
-        #
-        # Not only must you use $<TARGET_OBJECTS:xxx> in target_sources(INTERFACE),
-        # you must also add `xxx` to target_link_libraries(PRIVATE). That is because
-        # Object Libraries in CMake do not, by default, link to other Object
-        # Libraries. Confer "Linking Object Libraries via $<TARGET_OBJECTS>":
-        # https://cmake.org/cmake/help/latest/command/target_link_libraries.html#id9
-        # If we forget TARGET_OBJECTS, the first build may succeed but changes to
-        # .ml/.mli files will not be linked into the final executable if those
-        # .ml/.mli files are OBJECT libraries of OBJECT libraries.
-        $<TARGET_OBJECTS:transforms>)
+        SquirrelScout_Std.mli)
 target_link_libraries(SquirrelScout_Std PRIVATE
         Findlib::fmt
-        # See commentary on target_sources($<TARGET_OBJECTS:xxx>)
-        transforms)
 
-# That is not an "exported" OBJECT library visible to other OCaml packages,
-# which means you can name the add_library(<unique target>) whatever you want.
-# The source files can be in this directory or any subdirectory; the subdirectory name
-# is ignored completely.
-add_library(
-        transforms OBJECT sub1/uppercase.ml 
-        my_lwt_extras.ml
-
-        schema.ml
-        schema.mli
-)
-
-
-
-target_link_libraries(transforms PRIVATE
         Findlib::logs.lwt
         Findlib::lwt
        
@@ -86,7 +60,6 @@ target_link_libraries(transforms PRIVATE
         #Findlib::core
 
         Findlib::lwt.unix)
-
 
 
 # # ----- CAPNP ---- 

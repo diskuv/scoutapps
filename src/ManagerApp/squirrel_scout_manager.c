@@ -94,8 +94,6 @@ void squirrel_scout_manager_consume_qr(
   printf("[%s:%d] barcodeFormatName=%s bytesLen=%zu\n", __FILE__, __LINE__, barcodeFormatName, bytesLen);
   fflush(stdout);
 
-  caml_acquire_runtime_system();
-
   if (closure_f == NULL) {
     closure_f = caml_named_value("squirrel_scout_manager_process_qr");
   }
@@ -107,6 +105,4 @@ void squirrel_scout_manager_consume_qr(
     qr_bytes = caml_alloc_initialized_string(bytesLen, bytesBuf);
     caml_callback2(*closure_f, qr_format, qr_bytes);
   }
-
-  caml_release_runtime_system();
 }

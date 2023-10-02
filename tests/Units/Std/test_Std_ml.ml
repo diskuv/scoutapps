@@ -1,7 +1,7 @@
 open Tezt
 open SquirrelScout_Std
 
-let tags = [ "hellolib" ]
+let tags = [ "std" ]
 
 let () =
   Tezt.Test.register ~__FILE__ ~title:"DB: create all tables" ~tags @@ fun () ->

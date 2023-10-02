@@ -4,5 +4,6 @@
 
 add_subdirectory(Std)
 add_subdirectory(Objs)
+add_subdirectory(ObjsLib)
 add_subdirectory(MainCLI)
 add_subdirectory(ManagerApp)

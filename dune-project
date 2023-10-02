@@ -68,10 +68,19 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   (synopsis "Component object model objects for SquirrelScout")
   ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree
   (allow_empty)
-  (description "SquirrelScout_Classes exports the COM class and instance objects.")
+  (description "SquirrelScout_Objs expose a register function to register the COM class and instance objects.")
   (depends
     (ocaml (>= 4.14.0))
     DkSDKFFIOCaml_Std))
+
+(package
+  (name SquirrelScout_ObjsLib)
+  (synopsis "Auto-registered component object model objects for SquirrelScout")
+  ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree
+  (allow_empty)
+  (description "SquirrelScout_ObjsLib registers the COM class and instance objects.")
+  (depends
+    (ocaml (>= 4.14.0))))
 
 (package
   (name SquirrelScout_MainCLI)

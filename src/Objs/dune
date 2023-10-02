@@ -12,4 +12,20 @@
 
 (include_subdirs unqualified)
 
-(include _SquirrelScout_Objs.dune)
+; This is the exported library visible to other libraries in the [SquirrelScout] project
+; and available to other projects if you publish it with the top-level
+; `SquirrelScout_Objs.opam` file.
+
+(library
+ (flags
+  (:standard -warn-error -A))
+ ; -S: keep camlasm*.asm/camlasm*.S intermediate assembly
+ ;     source code available for IDE debugging
+ (ocamlopt_flags
+  (:standard -S))
+ (name SquirrelScout_Objs)
+ (public_name SquirrelScout_Objs)
+ (libraries
+  SquirrelScout_Std
+  DkSDKFFIOCaml_Std)
+ (modules SquirrelScout_Objs))

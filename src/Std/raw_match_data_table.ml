@@ -3,7 +3,7 @@ module type Fetchable_Data = sig
     val latest_match_number : Sqlite3.db -> int option
 
     val missing_data :
-      Sqlite3.db -> (int * Match_schedule_table.Table.robot_position list) list
+      Sqlite3.db -> (int * SquirrelScout_Std_intf.Types.robot_position list) list
 
     val all_match_numbers_in_db : Sqlite3.db -> int list
     val teams_for_match_number : Sqlite3.db -> int -> int list

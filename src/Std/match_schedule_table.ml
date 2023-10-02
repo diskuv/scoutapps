@@ -1,19 +1,17 @@
 module type Match_schedule_table_sig = sig
-  type robot_position = Red_1 | Red_2 | Red_3 | Blue_1 | Blue_2 | Blue_3
-
-  val robot_position_to_string : robot_position -> string
+  val robot_position_to_string : SquirrelScout_Std_intf.Types.robot_position -> string
   val fill_database_from_json : Sqlite3.db -> string -> Db_utils.return_code
 
   module Fetch : sig
     val get_team_for_match_and_position :
-      Sqlite3.db -> int -> robot_position -> int option
+      Sqlite3.db -> int -> SquirrelScout_Std_intf.Types.robot_position -> int option
 
     val get_all_matches_for_team : Sqlite3.db -> int -> int list
     val get_all_teams_for_match : Sqlite3.db -> int -> int list
     val get_all_match_numbers : Sqlite3.db -> int list
 
     val get_position_for_team_and_match :
-      Sqlite3.db -> int -> int -> robot_position option
+      Sqlite3.db -> int -> int -> SquirrelScout_Std_intf.Types.robot_position option
 
     val get_whole_schedule :
       Sqlite3.db -> (int * int * int * int * int * int * int) list
@@ -71,9 +69,7 @@ module Table : Complete_Table = struct
   (* FIXME: Dont insert indivisual records, load data from json *)
   let insert_record _db _string = Db_utils.Failed
 
-  type robot_position = Red_1 | Red_2 | Red_3 | Blue_1 | Blue_2 | Blue_3
-
-  let robot_position_to_string = function
+  let robot_position_to_string : SquirrelScout_Std_intf.Types.robot_position -> string = function
     | Red_1 -> "red_1"
     | Red_2 -> "red_2"
     | Red_3 -> "red_3"
@@ -224,7 +220,7 @@ module Table : Complete_Table = struct
 
       teams_list
 
-    let get_position_for_team_and_match db team match_num =
+    let get_position_for_team_and_match db team match_num : SquirrelScout_Std_intf.Types.robot_position option =
       let exist_or_dummy_value = function Some n -> n | None -> 0 in
 
       let r1_team =

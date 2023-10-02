@@ -2,6 +2,8 @@ include SquirrelScout_Std_intf
 
 (* module Match_schedule_table = Match_schedule_table  *)
 
+module Schema = Schema
+
 let create_all_tables db =
   match Raw_match_data_table.Table.create_table db with
   | Db_utils.Failed ->

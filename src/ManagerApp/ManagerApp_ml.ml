@@ -31,7 +31,7 @@ let process_qr db qr_format qr_bytes =
 
   print_endline "I am in ManagerApp_ml.ml [process_qr]";
 
-  let module Db = (val db : SquirrelScout_Std.Database_actions_type) in 
+  let module Db = (val db : SquirrelScout_Std.Database_actions_type) in
 
   let args = Array.to_list Sys.argv |> String.concat " " in
   Format.eprintf
@@ -41,10 +41,13 @@ let process_qr db qr_format qr_bytes =
     __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args
 
 
-  let main () = 
-    let module Db = ( val SquirrelScout_Std.create_object ~db_path:"test.db" ()) in 
+let main () =
+  if Array.length Sys.argv < 2 then
+    Fmt.failwith "usage: %s SQLITE3_DATABASE" Sys.argv.(0);
+  let db_path = Sys.argv.(1) in
+  let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
 
-    Callback.register "squirrel_scout_manager_process_qr" (process_qr (module Db : SquirrelScout_Std.Database_actions_type))
+  Callback.register "squirrel_scout_manager_process_qr" (process_qr (module Db : SquirrelScout_Std.Database_actions_type))
 
 
 let () = main ()

@@ -1,4 +1,4 @@
-add_test(NAME ManagerAppReaderTest COMMAND ManagerAppReader -fast -format qrcode "${CMAKE_CURRENT_LIST_DIR}/qrcode-7/01-01.png")
+add_test(NAME ManagerAppReaderTest COMMAND ManagerAppReader -fast -format qrcode "${CMAKE_CURRENT_LIST_DIR}/qrcode-7/01-01.png" -- test.db)
 
 # Find QTDIR
 set(QTDIR)
@@ -30,5 +30,5 @@ function(add_qt_test)
     endif()
 endfunction()
 
-add_qt_test(NAME ManagerAppQtReaderTest COMMAND ManagerAppQtReader "${CMAKE_CURRENT_LIST_DIR}/qrcode-7/01-01.png")
-add_qt_test(NAME ManagerAppQtCamReaderTest COMMAND ManagerAppQtCamReader)
+add_qt_test(NAME ManagerAppQtReaderTest COMMAND ManagerAppQtReader "${CMAKE_CURRENT_LIST_DIR}/qrcode-7/01-01.png" -- test.db)
+add_qt_test(NAME ManagerAppQtCamReaderTest COMMAND ManagerAppQtCamReader -- test.db)

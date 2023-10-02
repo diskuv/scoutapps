@@ -9,6 +9,13 @@ module type Database_actions_type = sig
 
   val get_missing_records_from_db :
     unit -> (int * Match_schedule_table.Table.robot_position list) list
+
+  (* for java *)
+  val get_team_for_match_and_position :
+    int -> Match_schedule_table.Table.robot_position -> int option
+
+  (* for java *)
+  val insert_scouted_data : string -> Db_utils.return_code
 end
 
 (* This is the module type that SquirrelScout_Std.ml implements *)
@@ -18,6 +25,9 @@ module type Intf = sig
   val create_object : db_path:string -> unit -> (module Database_actions_type)
   val test_function : string -> unit -> unit
   val pose_to_string : Match_schedule_table.Table.robot_position -> string
+
+  (* for java *)
+  val generate_qr_code : string -> (string, string) result
 
   (** Do not use these functions except in unit tests *)
   module For_testing : sig

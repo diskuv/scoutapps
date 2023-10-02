@@ -14,6 +14,6 @@ let generate_qr_code data =
   match result with
   | Some s ->
       let svg = Qrc.Matrix.to_svg s in
-      print_endline svg;
-      Some (Qrc.Matrix.to_svg s)
-  | None -> None
+      (* print_endline svg; *)
+      Ok svg
+  | None -> Error ("The QR code could not be generated. Possibilities include that the max length of the data may have exceeded 2953 bytes")

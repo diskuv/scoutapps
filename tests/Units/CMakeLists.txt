@@ -17,6 +17,7 @@ add_executable(test-Objs ${DKSDK_TESTING_MAIN_C})
 target_link_libraries(test-Objs PRIVATE
         SquirrelScout::Objs DkSDK::OCamlCompile DkSDK::OCamlDependencies)
 add_test(NAME test-Objs COMMAND test-Objs)
+add_dependencies(DkSDKTest_UnitTests_ALL test-Objs)
 
 # Arithmetic is a standalone unit test. It is here simply to
 # show you how to include C code in a unit test.

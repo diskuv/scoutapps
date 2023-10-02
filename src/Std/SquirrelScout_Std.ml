@@ -109,10 +109,6 @@ module Database_actions (Db : Db_holder) = struct
     Raw_match_data_table.Table.Fetch.missing_data Db.db
 
 
-    (* for java *)
-  let generate_qr_code blob = 
-    Qr_manager.generate_qr_code blob 
-
     (* Position referes to type robot_position in Match_schedule_table *)
     (* for java  *)
   let get_team_for_match_and_position team_number position = 
@@ -157,14 +153,9 @@ let create_object ~db_path () =
 
   (module Fetchable_data : Database_actions_type) 
 
-
-
-
-  (* EXAMPLE for ocaml FFI intregration *)
-  (* let ask self = `
-    let module A = (val self : Database_actions_type) in 
-
-    A.get_latest_match ()  *)
+(* for java *)
+let generate_qr_code blob = 
+  Qr_manager.generate_qr_code blob 
 
 module For_testing = struct
   let create_all_tables = create_all_tables

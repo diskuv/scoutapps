@@ -42,7 +42,7 @@ let process_qr db qr_format qr_bytes =
 
 
   let main () = 
-    let module Db = ( val SquirrelScout_Std.create_object "test.db" ) in 
+    let module Db = ( val SquirrelScout_Std.create_object ~db_path:"test.db" ()) in 
 
     Callback.register "squirrel_scout_manager_process_qr" (process_qr (module Db : SquirrelScout_Std.Database_actions_type))
 

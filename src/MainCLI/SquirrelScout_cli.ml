@@ -7,7 +7,7 @@ let setup_log_t =
   Cmdliner.Term.(
     const do_setup_log $ Fmt_cli.style_renderer () $ Logs_cli.level ())
 
-let db_name_t =
+let db_path_t =
   let doc = "file path for sqlite3 database" in
   Cmdliner.Arg.(value & opt string "testing.db" & info ~doc [ "d"; "db" ])
 
@@ -41,6 +41,10 @@ let team_num_t =
 
   Cmdliner.Arg.(required & pos 0 (some int) None & info [] ~doc)
 
+let match_json_file_t =
+  let doc = "JSON file with match data" in
+  Cmdliner.Arg.(required & opt (some file) None & info ~doc [ "m"; "match-json" ])
+
 (* ------------- *)
 
 module Commands = struct
@@ -48,9 +52,27 @@ module Commands = struct
   let print_dash = "-----------------------"
   let dummy_flag_t = Cmdliner.Arg.(value & flag & info [ "dummy" ])
 
-  let status_cmd =  
-    let action () db_name  _flag =
-      let module Db = ( val SquirrelScout_Std.create_object db_name ) in
+  let insert_matches_cmd =
+    let action () db_path match_json_file =
+      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
+
+      let match_json = In_channel.with_open_text match_json_file In_channel.input_all in
+      Db.insert_match_json ~json_contents:match_json ();
+    in
+    let info = Cmdliner.Cmd.info "insert-scheduled-matches" in
+    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ match_json_file_t)
+
+  let insert_raw_match_test_data_cmd =
+    let action () db_path =
+      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
+      Db.insert_raw_match_test_data ();
+    in
+    let info = Cmdliner.Cmd.info "insert-raw-match-test-data" in
+    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t)
+
+  let status_cmd =
+    let action () db_path  _flag =
+      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
       (* print_endline ("Flag status: " ^ string_of_bool flag); *)
 
       let latest_match = Db.get_latest_match () in
@@ -77,7 +99,7 @@ module Commands = struct
       let print_match_and_missing_poses num poses =
         print_endline "";
         print_string
-          ("*** WARNING *** [MISSING REOCORDS] MATCH: " ^ string_of_int num
+          ("*** WARNING *** [MISSING RECORDS] MATCH: " ^ string_of_int num
          ^ "\n MISSING DATA FROM POSITIONS: ");
         List.iter
           (fun a ->
@@ -95,11 +117,11 @@ module Commands = struct
 
     let info = Cmdliner.Cmd.info "status" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_name_t $ dummy_flag_t)
+    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ dummy_flag_t)
 
   let matches_for_team_cmd =
-    let action () db_name team =
-      let module Db = ( val SquirrelScout_Std.create_object db_name ) in
+    let action () db_path team =
+      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
       let matches =
         Db.get_matches_for_team team
       in
@@ -122,13 +144,13 @@ module Commands = struct
       print_endline ("\n" ^ print_dash)
     in
 
-    let info = Cmdliner.Cmd.info "matches_for_team" in
+    let info = Cmdliner.Cmd.info "matches-for-team" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_name_t $ team_num_t)
+    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ team_num_t)
 
   let match_schedule_cmd =
-    let action () db_name dummy =
-      let module Db = ( val SquirrelScout_Std.create_object db_name ) in
+    let action () db_path dummy =
+      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
       let _ = dummy in
 
       let match_data = Db.get_whole_schedule () in
@@ -150,9 +172,9 @@ module Commands = struct
       print_endline print_dash
     in
 
-    let info = Cmdliner.Cmd.info "match_schedule" in
+    let info = Cmdliner.Cmd.info "match-schedule" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_name_t $ dummy_flag_t)
+    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ dummy_flag_t)
 end
 
 (* let latest_match_cmd =
@@ -167,7 +189,7 @@ end
        eval
          (v (info "SquirrelScout")
             Term.(
-              const SquirrelScout_Std.test_function $ db_name_t $ setup_log_t)))
+              const SquirrelScout_Std.test_function $ db_path_t $ setup_log_t)))
    with
    | 0 -> exit (if Logs.err_count () > 0 then 2 else 0)
    | ec -> exit ec *)
@@ -179,6 +201,8 @@ let main () =
 
   let cmds =
     [
+      Commands.insert_matches_cmd;
+      Commands.insert_raw_match_test_data_cmd;
       Commands.status_cmd;
       Commands.matches_for_team_cmd;
       Commands.match_schedule_cmd;

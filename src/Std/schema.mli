@@ -88,6 +88,15 @@ module type S = sig
       val of_message : 'cap message_t -> t
       val of_builder : struct_t builder_t -> t
     end
+    module MaybeError : sig
+      type struct_t = [`MaybeError_db6aa7ecdb8f85bb]
+      type t = struct_t reader_t
+      val success_get : t -> bool
+      val has_message_if_error : t -> bool
+      val message_if_error_get : t -> string
+      val of_message : 'cap message_t -> t
+      val of_builder : struct_t builder_t -> t
+    end
   end
 
   module Builder : sig
@@ -177,6 +186,20 @@ module type S = sig
       val position_get : t -> RobotPosition.t
       val position_set : t -> RobotPosition.t -> unit
       val position_set_unsafe : t -> RobotPosition.t -> unit
+      val of_message : rw message_t -> t
+      val to_message : t -> rw message_t
+      val to_reader : t -> struct_t reader_t
+      val init_root : ?message_size:int -> unit -> t
+      val init_pointer : pointer_t -> t
+    end
+    module MaybeError : sig
+      type struct_t = [`MaybeError_db6aa7ecdb8f85bb]
+      type t = struct_t builder_t
+      val success_get : t -> bool
+      val success_set : t -> bool -> unit
+      val has_message_if_error : t -> bool
+      val message_if_error_get : t -> string
+      val message_if_error_set : t -> string -> unit
       val of_message : rw message_t -> t
       val to_message : t -> rw message_t
       val to_reader : t -> struct_t reader_t

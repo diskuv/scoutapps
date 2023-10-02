@@ -54,3 +54,8 @@ struct MatchAndPosition {
   match @0 :Int16;
   position @1 :RobotPosition;
 }
+
+struct MaybeError {
+  success @0: Bool;
+  messageIfError @1 :Text;
+}

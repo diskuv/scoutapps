@@ -88,6 +88,15 @@ module type S = sig
       val of_message : 'cap message_t -> t
       val of_builder : struct_t builder_t -> t
     end
+    module MaybeError : sig
+      type struct_t = [`MaybeError_db6aa7ecdb8f85bb]
+      type t = struct_t reader_t
+      val success_get : t -> bool
+      val has_message_if_error : t -> bool
+      val message_if_error_get : t -> string
+      val of_message : 'cap message_t -> t
+      val of_builder : struct_t builder_t -> t
+    end
   end
 
   module Builder : sig
@@ -177,6 +186,20 @@ module type S = sig
       val position_get : t -> RobotPosition.t
       val position_set : t -> RobotPosition.t -> unit
       val position_set_unsafe : t -> RobotPosition.t -> unit
+      val of_message : rw message_t -> t
+      val to_message : t -> rw message_t
+      val to_reader : t -> struct_t reader_t
+      val init_root : ?message_size:int -> unit -> t
+      val init_pointer : pointer_t -> t
+    end
+    module MaybeError : sig
+      type struct_t = [`MaybeError_db6aa7ecdb8f85bb]
+      type t = struct_t builder_t
+      val success_get : t -> bool
+      val success_set : t -> bool -> unit
+      val has_message_if_error : t -> bool
+      val message_if_error_get : t -> string
+      val message_if_error_set : t -> string -> unit
       val of_message : rw message_t -> t
       val to_message : t -> rw message_t
       val to_reader : t -> struct_t reader_t
@@ -362,6 +385,18 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       let of_message x = RA_.get_root_struct (RA_.Message.readonly x)
       let of_builder x = Some (RA_.StructStorage.readonly x)
     end
+    module MaybeError = struct
+      type struct_t = [`MaybeError_db6aa7ecdb8f85bb]
+      type t = struct_t reader_t
+      let success_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:0 ~bit_ofs:0
+      let has_message_if_error x =
+        RA_.has_field x 0
+      let message_if_error_get x =
+        RA_.get_text ~default:"" x 0
+      let of_message x = RA_.get_root_struct (RA_.Message.readonly x)
+      let of_builder x = Some (RA_.StructStorage.readonly x)
+    end
   end
 
   module Builder = struct
@@ -518,6 +553,27 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.alloc_root_struct ?message_size ~data_words:1 ~pointer_words:0 ()
       let init_pointer ptr =
         BA_.init_struct_pointer ptr ~data_words:1 ~pointer_words:0
+    end
+    module MaybeError = struct
+      type struct_t = [`MaybeError_db6aa7ecdb8f85bb]
+      type t = struct_t builder_t
+      let success_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:0 ~bit_ofs:0
+      let success_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:0 ~bit_ofs:0 v
+      let has_message_if_error x =
+        BA_.has_field x 0
+      let message_if_error_get x =
+        BA_.get_text ~default:"" x 0
+      let message_if_error_set x v =
+        BA_.set_text x 0 v
+      let of_message x = BA_.get_root_struct ~data_words:1 ~pointer_words:1 x
+      let to_message x = x.BA_.NM.StructStorage.data.MessageWrapper.Slice.msg
+      let to_reader x = Some (RA_.StructStorage.readonly x)
+      let init_root ?message_size () =
+        BA_.alloc_root_struct ?message_size ~data_words:1 ~pointer_words:1 ()
+      let init_pointer ptr =
+        BA_.init_struct_pointer ptr ~data_words:1 ~pointer_words:1
     end
   end
 

@@ -167,6 +167,13 @@ module Table : Table_type = struct
     in
 
     let open Schema.Reader.RawMatchData in
+    (* RELEASE_BLOCKER: jonahbeckford@
+
+       This is not how to insert data into a database.
+       It is INCREDIBLY unsafe, although the OCaml library
+       does not give you any examples of how to do it safely
+       with prepared statements. All someone would need to
+       do is make a special QR code and they could hack your phone. *)
     let values =
       Printf.sprintf
         "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
@@ -201,7 +208,7 @@ module Table : Table_type = struct
 
     let sql = "INSERT INTO " ^ table_name ^ " VALUES(" ^ values ^ ")" in
 
-    (* print_endline ("raw_match_table sql: " ^ sql); *)
+    Logs.debug (fun l -> l "raw_match_table sql: %s" sql);
 
     match Sqlite3.exec db sql with
     | Sqlite3.Rc.OK -> Db_utils.Successful

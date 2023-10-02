@@ -1,5 +1,7 @@
 # Squirrel Scout - OCaml Backend
 
+> DO NOT RELEASE UNTIL ALL `RELEASE_BLOCKER` COMMENTS HAVE BEEN REMOVED.
+
 [DkSDK CMake]: https://diskuv.com/cmake/help/latest/
 
 > A simple Hello World example that demonstrates how to use

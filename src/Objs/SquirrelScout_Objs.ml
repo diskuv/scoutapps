@@ -54,11 +54,28 @@ let get_team_for_match_and_position ~self v args =
   | Some team -> Builder.Si16.i1_set_exn bldr team);
   Ret.v_capnp v bldr
 
-(*
+(* args: [RawMatchData]. return: [MaybeError] *)
 let insert_scouted_data ~self v args =
-   let module Db = ( val self : SquirrelScout_Std.Database_actions_type) in
-   ...
-*)
+  let module Db = (val self : SquirrelScout_Std.Database_actions_type) in
+  (* For some reason Db.insert_scouted_data uses a string rather than Capnp.
+     So we just validate that [args] is RawMatchData.
+     TODO: fix that *)
+  let (_ : ProjectSchema.Reader.RawMatchData.t) =
+    ProjectSchema.Reader.RawMatchData.of_message args
+  in
+  let raw_match_data_as_string = ComCodecs.serialize ~compression:`None args in
+
+  match Db.insert_scouted_data raw_match_data_as_string with
+  | Failed ->
+      let bldr = ProjectSchema.Builder.MaybeError.init_root () in
+      ProjectSchema.Builder.MaybeError.success_set bldr false;
+      ProjectSchema.Builder.MaybeError.message_if_error_set bldr
+        "The scout data could not be inserted";
+      Ret.v_capnp v bldr
+  | Successful ->
+      let bldr = ProjectSchema.Builder.MaybeError.init_root () in
+      ProjectSchema.Builder.MaybeError.success_set bldr true;
+      Ret.v_capnp v bldr
 
 let register_objects com =
   register com ~classname:"SquirrelScout::Bridge"
@@ -67,5 +84,5 @@ let register_objects com =
       class_method ~name:"generate_qr_code" ~f:generate_qr_code ();
       instance_method ~name:"get_team_for_match_and_position"
         ~f:get_team_for_match_and_position ();
-      (* instance_method ~name:"insert_scouted_data" ~f:insert_scouted_data (); *)
+      instance_method ~name:"insert_scouted_data" ~f:insert_scouted_data ();
     ]

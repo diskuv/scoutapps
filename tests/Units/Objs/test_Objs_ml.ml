@@ -44,15 +44,16 @@ module BridgeTest = struct
             args
         in
         Reader.Si16.i1_get (Reader.of_pointer ret_ptr)
-      (* method insert_scouted_data match position =
-         let args =
-           let open Builder.St in
-           let rw = init_root () in
-           i1_set rw question;
-           to_message rw
-         in
-         let ret_ptr = Com.call_instance_method inst method_ask args in
-         Reader.St.i1_get (Reader.of_pointer ret_ptr) *)
+
+      method insert_scouted_data
+          (raw_match_data : ComStandardSchema.rw ProjectSchema.message_t) =
+        let ret_ptr =
+          Com.call_instance_method inst method_insert_scouted_data
+            raw_match_data
+        in
+        let r = Reader.of_pointer ret_ptr in
+        if ProjectSchema.Reader.MaybeError.success_get r then ()
+        else failwith (ProjectSchema.Reader.MaybeError.message_if_error_get r)
     end
 
   let new_bridge clazz db_path =
@@ -104,6 +105,19 @@ let () =
   Check.((actual = -1) int)
     ~error_msg:
       "expected team = -1 (that is 'not found') but instead received %L";
+  Lwt.return ()
+
+let () =
+  Tezt.Test.register ~__FILE__ ~title:"insert_scouted_data" ~tags @@ fun () ->
+  let db_path = Tezt.Temp.file "test.db" in
+  let bridge = BridgeTest.new_bridge bridge_clazz db_path in
+  let scouted_data =
+    ProjectSchema.Builder.RawMatchData.(
+      let bldr = init_root () in
+      scouter_name_set bldr "test insert_scouted_data";
+      bldr |> to_message)
+  in
+  bridge#insert_scouted_data scouted_data;
   Lwt.return ()
 
 let () = Test.run ()

@@ -54,61 +54,43 @@ You will want to start with the following targets:
 2. `DkSDKTest_UnitTests_ALL`
 3. `main-cli` in `src/MainCLI`
 
-### Echo Server
+## Tutorial
 
-1. **Unix** (including Linux and macOS): Run `sh ci/git-clone.sh -l`
+FIRST, start by deleting any `example.db` you see in your project folder (the same
+folder as this).
 
-   **Windows**: Make sure you have installed [DkML](https://diskuv.com/dkmlbook/)
-   first, and then run `with-dkml sh ci/git-clone.sh -l`
-2. Open this project in CLion or any other IDE which can read CMake projects.
-   > If you are on Windows and use Visual Studio Code as your IDE, then launch Visual
-   > Studio Code by running `with-dkml env -u HOME code` from the Run Prompt (⊞ Win + R).
+SECOND, run the following to see an `example.db` database get created
+but without any content:
 
-   Then select the `darwin_arm64 (debug)`, `darwin_x86_64 (debug)`,
-   `linux_x86_64 (debug)`, or `windows_x86_64 (debug)` CMake configuration preset.
-3. Press **Build**. Be prepared the first time may take up to 15 minutes.
-
-   *You may have to press Build a few times because of Errata 1.0.0.E1.*
-4. Run the `main-cli` executable. Most IDEs you can select from a drop-down (like CLion)
-   or navigate to `src/MainCLI/main-cli` and press Execute or Run (like Visual Studio
-   Code). If you can't find the executable, run `build_dev/src/MainCLI/main-cli` from
-   the command line.
-   
-   You should first use the `--help` option to see all the options. Then use the
-   `-v` option.
-   
-   *Keep this terminal open!*
-
-You now have a running echo server!
-
-### macOS/Linux Echo Client
-
-On macOS and Linux, the best tool for seeing the echoes is netcat. On macOS the `nc`
-executable is built-in; on Linux you may need to do a `apt install netcat` or
-`yum install netcat`. Once you have netcat you should do:
-
-```console
-$ nc localhost 8010
-hello
-hello # <--- the echo
+```sh
+build_dev/src/MainCLI/main-cli status           -d example.db
+build_dev/src/MainCLI/main-cli matches-for-team -d example.db 1318
+build_dev/src/MainCLI/main-cli matches-for-team -d example.db 5588
+build_dev/src/MainCLI/main-cli matches-for-team -d example.db 949
+build_dev/src/MainCLI/main-cli match-schedule   -d example.db
 ```
 
-Press Ctrl-D to finish.
+THIRD, load in some scheduled match data:
 
-### Windows Echo Client
-
-You can download Netcat (actually `ncat`) inside the
-[https://nmap.org/dist/ncat-portable-5.59BETA1.zip zip file](https://nmap.org/dist/ncat-portable-5.59BETA1.zip).
-To ensure the file hasn't been tampered with, you can check the
-[cryptographic signatures](https://nmap.org/book/install.html#inst-integrity)
-if you have GPG.
-
-Once you have `ncat.exe`, run:
-
-```winbatch
-.\ncat.exe localhost 8010
-hello
-hello # <--- the echo
+```sh
+build_dev/src/MainCLI/main-cli insert-scheduled-matches -d example.db --match-json data/schedule.json
 ```
 
-Press Ctrl-Z on an empty line to finish.
+FOURTH, when we look at the data everything except `status` has information:
+
+```sh
+build_dev/src/MainCLI/main-cli status           -d example.db
+build_dev/src/MainCLI/main-cli matches-for-team -d example.db 1318
+build_dev/src/MainCLI/main-cli matches-for-team -d example.db 5588
+build_dev/src/MainCLI/main-cli matches-for-team -d example.db 949
+build_dev/src/MainCLI/main-cli match-schedule   -d example.db
+```
+
+FIFTH, because there is some hard-coded data that has not been cleaned
+up. You need to insert it until the hard-coding is fixed, and then
+you will be able to see the `status`:
+
+```sh
+build_dev/src/MainCLI/main-cli insert-raw-match-test-data -d example.db
+build_dev/src/MainCLI/main-cli status                     -d example.db
+```

@@ -4,6 +4,7 @@
 
 # main-cli
 testing.db
+example.db
 
 # CMake build directories inside source directories
 /b-*/

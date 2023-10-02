@@ -80,6 +80,14 @@ module type S = sig
         | Blue3
         | Undefined of int
     end
+    module MatchAndPosition : sig
+      type struct_t = [`MatchAndPosition_fcb71e38a70d3910]
+      type t = struct_t reader_t
+      val match_get : t -> int
+      val position_get : t -> RobotPosition.t
+      val of_message : 'cap message_t -> t
+      val of_builder : struct_t builder_t -> t
+    end
   end
 
   module Builder : sig
@@ -160,6 +168,20 @@ module type S = sig
         | Blue2
         | Blue3
         | Undefined of int
+    end
+    module MatchAndPosition : sig
+      type struct_t = [`MatchAndPosition_fcb71e38a70d3910]
+      type t = struct_t builder_t
+      val match_get : t -> int
+      val match_set_exn : t -> int -> unit
+      val position_get : t -> RobotPosition.t
+      val position_set : t -> RobotPosition.t -> unit
+      val position_set_unsafe : t -> RobotPosition.t -> unit
+      val of_message : rw message_t -> t
+      val to_message : t -> rw message_t
+      val to_reader : t -> struct_t reader_t
+      val init_root : ?message_size:int -> unit -> t
+      val init_pointer : pointer_t -> t
     end
   end
 end
@@ -329,6 +351,17 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         | Blue3
         | Undefined of int
     end
+    module MatchAndPosition = struct
+      type struct_t = [`MatchAndPosition_fcb71e38a70d3910]
+      type t = struct_t reader_t
+      let match_get x =
+        RA_.get_int16 ~default:(0) x 0
+      let position_get x =
+        let discr = RA_.get_uint16 ~default:0 x 2 in
+        RobotPosition_16615598200473616182.decode discr
+      let of_message x = RA_.get_root_struct (RA_.Message.readonly x)
+      let of_builder x = Some (RA_.StructStorage.readonly x)
+    end
   end
 
   module Builder = struct
@@ -463,6 +496,28 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         | Blue2
         | Blue3
         | Undefined of int
+    end
+    module MatchAndPosition = struct
+      type struct_t = [`MatchAndPosition_fcb71e38a70d3910]
+      type t = struct_t builder_t
+      let match_get x =
+        BA_.get_int16 ~default:(0) x 0
+      let match_set_exn x v =
+        BA_.set_int16 ~default:(0) x 0 v
+      let position_get x =
+        let discr = BA_.get_uint16 ~default:0 x 2 in
+        RobotPosition_16615598200473616182.decode discr
+      let position_set x e =
+        BA_.set_uint16 ~default:0 x 2 (RobotPosition_16615598200473616182.encode_safe e)
+      let position_set_unsafe x e =
+        BA_.set_uint16 ~default:0 x 2 (RobotPosition_16615598200473616182.encode_unsafe e)
+      let of_message x = BA_.get_root_struct ~data_words:1 ~pointer_words:0 x
+      let to_message x = x.BA_.NM.StructStorage.data.MessageWrapper.Slice.msg
+      let to_reader x = Some (RA_.StructStorage.readonly x)
+      let init_root ?message_size () =
+        BA_.alloc_root_struct ?message_size ~data_words:1 ~pointer_words:0 ()
+      let init_pointer ptr =
+        BA_.init_struct_pointer ptr ~data_words:1 ~pointer_words:0
     end
   end
 

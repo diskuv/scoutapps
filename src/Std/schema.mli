@@ -80,6 +80,14 @@ module type S = sig
         | Blue3
         | Undefined of int
     end
+    module MatchAndPosition : sig
+      type struct_t = [`MatchAndPosition_fcb71e38a70d3910]
+      type t = struct_t reader_t
+      val match_get : t -> int
+      val position_get : t -> RobotPosition.t
+      val of_message : 'cap message_t -> t
+      val of_builder : struct_t builder_t -> t
+    end
   end
 
   module Builder : sig
@@ -160,6 +168,20 @@ module type S = sig
         | Blue2
         | Blue3
         | Undefined of int
+    end
+    module MatchAndPosition : sig
+      type struct_t = [`MatchAndPosition_fcb71e38a70d3910]
+      type t = struct_t builder_t
+      val match_get : t -> int
+      val match_set_exn : t -> int -> unit
+      val position_get : t -> RobotPosition.t
+      val position_set : t -> RobotPosition.t -> unit
+      val position_set_unsafe : t -> RobotPosition.t -> unit
+      val of_message : rw message_t -> t
+      val to_message : t -> rw message_t
+      val to_reader : t -> struct_t reader_t
+      val init_root : ?message_size:int -> unit -> t
+      val init_pointer : pointer_t -> t
     end
   end
 end

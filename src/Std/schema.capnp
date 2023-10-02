@@ -49,3 +49,8 @@ enum RobotPosition {
   blue2 @4;
   blue3 @5; 
 }
+
+struct MatchAndPosition {
+  match @0 :Int16;
+  position @1 :RobotPosition;
+}

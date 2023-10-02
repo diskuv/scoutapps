@@ -95,6 +95,8 @@ DkSDKProject_MakeAvailable(
         # "Build tools" that must run on the build host.
         # Implementation: Built by CMake directly.
 
+        capnproto_and_host_tools
+
         # "Development tools".
         # Implementation: Built by Dune.
         # Semantically, very little difference from Build tools, except

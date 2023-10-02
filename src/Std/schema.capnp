@@ -40,3 +40,12 @@ enum Climb {
   docked @1;
   engaged @2;
 }
+
+enum RobotPosition {
+  red1 @0;
+  red2 @1;
+  red3 @2;
+  blue1 @3;
+  blue2 @4;
+  blue3 @5; 
+}

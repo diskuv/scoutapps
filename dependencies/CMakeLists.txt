@@ -20,6 +20,9 @@ set(BUILD_TESTING OFF)
 #   the BUILD_TESTING CACHE variable defined in the subproject.
 cmake_policy(SET CMP0077 NEW)
 
+# Turn off clang-tidy (etc.) hygiene checks in dependencies
+set(BUILD_HYGIENE DISABLED)
+
 # >>> If you have any FetchContent_Declare(), this is the place
 # >>> to put them.
 

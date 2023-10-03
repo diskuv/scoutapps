@@ -41,8 +41,13 @@ target_link_libraries(ManagerApp_ml PRIVATE
 add_library(ManagerApp_c STATIC squirrel_scout_manager.c)
 add_library(SquirrelScout::ManagerApp_c ALIAS ManagerApp_c)
 target_link_libraries(ManagerApp_c
-    PRIVATE DkSDK::OCamlCompile
-    PUBLIC Threads::Threads DkSDK::OCamlDependencies)
+    PRIVATE DkSDK::OCaml::Compile
+    PUBLIC Threads::Threads
+    # The manager app will be a binary that statically links
+    # to OCaml (dynamic linking is not required because we
+    # are not mixing multiple libraries that use OCaml, and
+    # would have been more complicated to deploy).
+    DkSDK::OCaml::ForLibOfStaticBinary)
 target_include_directories(ManagerApp_c PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>

@@ -22,6 +22,8 @@ cmake_policy(SET CMP0077 NEW)
 
 # Turn off clang-tidy (etc.) hygiene checks in dependencies
 set(BUILD_HYGIENE DISABLED)
+# Turn on golden source code (no editing of files in the source tree)
+set(DKSDK_GOLDEN_SOURCE_CODE ON)
 
 # >>> If you have any FetchContent_Declare(), this is the place
 # >>> to put them.

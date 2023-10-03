@@ -11,11 +11,11 @@ add_executable(main-cli _main.c)
 target_link_libraries(main-cli PRIVATE
         # We want the CLI node linked into the executable
         SquirrelScout::cli
-        # OCamlCompile is used for _main.c in hello.
-        DkSDK::OCamlCompile
-        # OCamlDependencies is the interface library for the libraries needed by OCaml.
-        DkSDK::OCamlDependencies
-        )
+        # DkSDK::OCaml::Compile is needed for _main.c in hello.
+        DkSDK::OCaml::Compile
+        # DkSDK::OCaml::ForStaticBinary is because we are doing
+        # an add_executable().
+        DkSDK::OCaml::ForStaticBinary)
 
 DkSDKProject_AddPackage(
         AUTO_OPAM_PACKAGE
@@ -60,7 +60,4 @@ target_link_libraries(SquirrelScout_cli PRIVATE
         Findlib::logs.fmt
         Findlib::fmt.cli
         Findlib::fmt.tty
-        # OCamlCompile is the interface library for the C compile flags. HelloWorld
-        # does not actually need it because it has no .c files of its own, but it is
-        # safe and recommended to always include it.
-        DkSDK::OCamlCompile)
+        DkSDK::OCaml::Compile)

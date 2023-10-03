@@ -5,25 +5,10 @@
 # The auto-generated dependencies include a mix of C and OCaml
 # to help you understand how to grab both types of dependencies.
 
+include(DkSDKProject)
+DkSDKProject_AddDependencies()
+
 # --- Declare Dependencies ---
-#
-# This project builds from source using FetchContent_Declare(xxx OVERRIDE_FIND_PACKAGE):
-# any find_package(xxx) will use the FetchContent_Declare() settings.
-# But in your own code, consider using a C package manager like vcpkg or conan instead.
-include(FetchContent)
-
-# Turn off testing in third-party dependencies' CMakeLists.txt auto-loaded
-# by *_MakeAvailable(). Not changing the CACHE variable so only effect is
-# on this directory and its sub-directories.
-set(BUILD_TESTING OFF)
-#   Subprojects should use the BUILD_TESTING (etc.) normal variable above, not
-#   the BUILD_TESTING CACHE variable defined in the subproject.
-cmake_policy(SET CMP0077 NEW)
-
-# Turn off clang-tidy (etc.) hygiene checks in dependencies
-set(BUILD_HYGIENE DISABLED)
-# Turn on golden source code (no editing of files in the source tree)
-set(DKSDK_GOLDEN_SOURCE_CODE ON)
 
 # >>> If you have any FetchContent_Declare(), this is the place
 # >>> to put them.
@@ -138,5 +123,4 @@ add_subdirectory(lwt)
 add_subdirectory(sqlite3)
 add_subdirectory(zxing)
 
-include(DkSDKRequire)
 DkSDKRequire_Add(FFI OCaml PRERELEASE)

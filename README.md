@@ -58,6 +58,8 @@ You will want to start with the following targets:
 
 ## Tutorial
 
+### Manipulating Data
+
 FIRST, start by deleting any `example.db` you see in your project folder (the same
 folder as this).
 
@@ -96,3 +98,21 @@ you will be able to see the `status`:
 build_dev/src/MainCLI/main-cli insert-raw-match-test-data -d example.db
 build_dev/src/MainCLI/main-cli status                     -d example.db
 ```
+
+### Building for Android
+
+You will need to be on Linux, WSL2 on Windows, or macOS for this step.
+
+```sh
+rm -rf build fetch _dn
+
+./dk dksdk.cmake.link
+./dk dksdk.android.ndk.download NO_SYSTEM_PATH
+sh ci/git-clone.sh -l
+sh ci/git-clone.sh -p .ci/cmake/bin/cmake
+.ci/cmake/bin/cmake --preset ci-linux_x86_64_X_android_arm64v8a
+.ci/cmake/bin/cmake --build --preset ci-objs
+```
+
+That will produce `build/src/ObjsLib/libSquirrelScout_ObjsLib.a` which
+can be copied to the Android project.

@@ -37,6 +37,14 @@
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-cmake"
         },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-C": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-ffi-c"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-OCAML": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-ffi-ocaml"
+        },
         "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-opam-repository"
@@ -234,12 +242,12 @@
       "cacheVariables": {
         "ANDROID_ABI": "armeabi-v7a",
         "ANDROID_PLATFORM": "android-21",
-        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk"
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620"
       },
       "environment": {
         "ANDROID_x_REASON": "https://developer.android.com/studio/projects/configure-cmake#call-cmake-cli"
       },
-      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/build/cmake/android.toolchain.cmake"
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
     },
     {
       "name": "ci-target-android_arm64v8a",
@@ -247,12 +255,12 @@
       "cacheVariables": {
         "ANDROID_ABI": "arm64-v8a",
         "ANDROID_PLATFORM": "android-21",
-        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk"
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620"
       },
       "environment": {
         "ANDROID_x_REASON": "https://developer.android.com/studio/projects/configure-cmake#call-cmake-cli"
       },
-      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/build/cmake/android.toolchain.cmake"
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
     },
     {
       "name": "ci-target-android_x86",
@@ -260,12 +268,12 @@
       "cacheVariables": {
         "ANDROID_ABI": "x86",
         "ANDROID_PLATFORM": "android-21",
-        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk"
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620"
       },
       "environment": {
         "ANDROID_x_REASON": "https://developer.android.com/studio/projects/configure-cmake#call-cmake-cli"
       },
-      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/build/cmake/android.toolchain.cmake"
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
     },
     {
       "name": "ci-target-android_x86_64",
@@ -273,12 +281,12 @@
       "cacheVariables": {
         "ANDROID_ABI": "x86_64",
         "ANDROID_PLATFORM": "android-21",
-        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk"
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620"
       },
       "environment": {
         "ANDROID_x_REASON": "https://developer.android.com/studio/projects/configure-cmake#call-cmake-cli"
       },
-      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/build/cmake/android.toolchain.cmake"
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
     },
     {
       "name": "ci-windows_x86",
@@ -534,6 +542,11 @@
       "hidden": true,
       "configurePreset": "dbg-agnostic-configure",
       "configuration": "Debug"
+    },
+    {
+      "name": "ci-objs",
+      "inherits": "ci-base-build",
+      "targets": ["SquirrelScout_ObjsLib"]
     },
     {
       "name": "ci-main",

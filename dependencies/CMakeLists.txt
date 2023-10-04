@@ -5,6 +5,7 @@
 # The auto-generated dependencies include a mix of C and OCaml
 # to help you understand how to grab both types of dependencies.
 
+include(DkSDKFetchContent)
 include(DkSDKProject)
 DkSDKProject_AddDependencies()
 
@@ -82,11 +83,6 @@ DkSDKProject_MakeAvailable(
         core
         base64
 
-        # "Build tools" that must run on the build host.
-        # Implementation: Built by CMake directly.
-
-        capnproto_and_host_tools
-
         # "Development tools".
         # Implementation: Built by Dune.
         # Semantically, very little difference from Build tools, except
@@ -105,6 +101,12 @@ DkSDKProject_MakeAvailable(
         #       This is a hack though. There should be a better way to express
         #       dependencies.
         ocamlformat ocamlformat_rpc_lib
+)
+DkSDKFetchContent_MakeAvailableNoInstall(
+        # "Build tools" that must run on the build host.
+        # Implementation: Built by CMake directly.
+
+        capnproto_and_host_tools
 )
 if(CMAKE_OCamlDune_DUNE_VERSION VERSION_GREATER_EQUAL 3.7.0)
     # ocaml_lsp_server needs fiber.3.6.2 (or fiber.3.7.0) and menhir

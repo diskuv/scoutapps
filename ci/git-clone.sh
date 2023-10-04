@@ -143,6 +143,8 @@ fi
 #     shellcheck disable=SC2154
 clone "${_dksdk_BASE_REPOSITORY_URL}/dksdk-opam-repository.git"     dksdk-opam-repository
 clone "${_dksdk_BASE_REPOSITORY_URL}/dksdk-opam-repository-js.git"  dksdk-opam-repository-js
+clone "${_dksdk_BASE_REPOSITORY_URL}/dksdk-ffi-c.git"               dksdk-ffi-c
+clone "${_dksdk_BASE_REPOSITORY_URL}/dksdk-ffi-ocaml.git"           dksdk-ffi-ocaml
 
 # Public projects
 clone https://github.com/diskuv/dkml-runtime-common.git       dkml-runtime-common

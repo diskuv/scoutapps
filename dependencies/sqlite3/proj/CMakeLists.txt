@@ -78,7 +78,8 @@ install(
     ARCHIVE DESTINATION lib
 )
 
-install(FILES sqlite3.h sqlite3ext.h sqlite3-vcpkg-config.h DESTINATION include CONFIGURATIONS Release)
+# Change: Remove CONFIGURATIONS in `install(... CONFIGURATIONS Release)`
+install(FILES sqlite3.h sqlite3ext.h sqlite3-vcpkg-config.h DESTINATION include)
 install(EXPORT unofficial-sqlite3-targets NAMESPACE unofficial::sqlite3:: FILE unofficial-sqlite3-targets.cmake DESTINATION share/unofficial-sqlite3)
 
 #configure_file(sqlite3.pc.in sqlite3.pc @ONLY)

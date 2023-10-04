@@ -15,7 +15,7 @@ let () =
           option_libprefix = "-l";
           option_libsuffix = "";
           option_libdir = "-L";
-          cflags = [ "-O2"; "-fPIC"; "-DPIC" ];
+          cflags = [ "-O2"; "-fPIC"; "-DPIC"; {|-I@sqlite3_INCLUDEDIR@|} ];
         }
       in
       let variant =
@@ -25,7 +25,7 @@ let () =
                 option_libprefix = "";
                 option_libsuffix = ".lib";
                 option_libdir = "/LIBPATH:";
-                cflags = [ "/O2" ];
+                cflags = [ "/O2"; {|/I@sqlite3_INCLUDEDIR@|} ];
               }
           | _ -> default)
       in

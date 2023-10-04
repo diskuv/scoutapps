@@ -171,6 +171,7 @@ ExternalProject_Add(sqlite3_Proj
         # Make outputs known to Ninja and other generators
         BUILD_BYPRODUCTS
         <BINARY_DIR>/${installed_lib}
+        <INSTALL_DIR>/${out_include_dir}/sqlite3.h
         <INSTALL_DIR>/${our_lib_dir}/${installed_lib}
         )
 
@@ -228,6 +229,7 @@ set_target_properties(sqlite3_Proj PROPERTIES
 # ~~~~~~~~~~~~~~~~~~~~~~
 # - Packaging for DkSDK
 
+cmake_path(APPEND INSTALL_DIR ${our_include_dir} OUTPUT_VARIABLE sqlite3_INCLUDEDIR)
 cmake_path(APPEND INSTALL_DIR ${our_lib_dir} OUTPUT_VARIABLE sqlite3_LIBDIR)
 
 configure_file(discover.in.ml discover.ml @ONLY NEWLINE_STYLE UNIX)

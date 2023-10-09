@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nukeData = findViewById(R.id.NUKE_DATA);
         nukeData.setOnClickListener(this);
 
+        Log.w("DkSDK", new com.example.squirrelscout.data.NativeLib().stringFromJNI());
+
         //others
         scouterNameI = (EditText) findViewById(R.id.Name_Input);
         teamNameI = (EditText) findViewById(R.id.TeamNum_Input);

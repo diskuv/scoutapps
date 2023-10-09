@@ -10,8 +10,11 @@
 ./dk dksdk.java.jdk.download NO_SYSTEM_PATH
 ./dk dksdk.gradle.download ALL NO_SYSTEM_PATH
 ./dk dksdk.android.ndk.download NO_SYSTEM_PATH
+./dk dksdk.android.gradle.configure OVERWRITE
 
-printf 'sdk.dir=.ci/local/share/android-sdk\ncmake.dir=.ci/cmake\n' > local.properties
+# On Windows with DkML installed use:
+#    with-dkml sh ci/git-clone.sh -l 
+sh ci/git-clone.sh -l
 ```
 
 You can verify parts of the setup are working by running:

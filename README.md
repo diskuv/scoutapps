@@ -4,6 +4,20 @@
 
 ### Initial Setup
 
+FIRST you will need external source code. On Unix run:
+
+```shell
+sh ci/git-clone.sh -l
+```
+
+or on Windows with DkML installed run:
+
+```powershell
+with-dkml sh ci/git-clone.sh -l
+```
+
+SECOND, run the following commands in Unix or Windows PowerShell:
+
 ```sh
 ./dk dksdk.cmake.link
 ./dk dksdk.ninja.link
@@ -12,9 +26,10 @@
 ./dk dksdk.android.ndk.download NO_SYSTEM_PATH
 ./dk dksdk.android.gradle.configure OVERWRITE
 
-# On Windows with DkML installed use:
-#    with-dkml sh ci/git-clone.sh -l 
-sh ci/git-clone.sh -l
+git -C fetch/dksdk-ffi-java clean -d -x -f
+./dk dksdk.gradle.run ARGS -p fetch/dksdk-ffi-java/core :abi:publishToMavenLocal :gradle:publishToMavenLocal
+./dk dksdk.gradle.run ARGS -p fetch/dksdk-ffi-java :ffi-java-android:publishToMavenLocal -P "cmakeCommand=$PWD/.ci/cmake/bin/cmake" -P disableAndroidNdk=1
+git -C fetch/dksdk-ffi-java clean -d -x -f
 ```
 
 You can verify parts of the setup are working by running:
@@ -70,4 +85,12 @@ You should see a lot of output, but the end should look like:
 ```text
 BUILD SUCCESSFUL in 1m 28s
 43 actionable tasks: 43 executed
+```
+
+### Building
+
+```sh
+git clone git@gitlab.com:diskuv/distributions/1.0/dksdk-ffi-java.git
+cd dksdk-ffi-java
+./dk dksdk.gradle.run ARGS :core:abi:publishToMavenLocal :core:gradle:publishToMavenLocal
 ```

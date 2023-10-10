@@ -1,14 +1,6 @@
 import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureWithJniTask
 
 buildscript {
-    repositories {
-        mavenLocal {
-            content {
-                // Only use machine-local Maven repository for DkSDK group of artifacts
-                includeGroup "com.diskuv.dksdk.core"
-            }
-        }
-    }
     dependencies {
         classpath 'com.diskuv.dksdk.core:gradle:1.0.0-SNAPSHOT'
     }
@@ -91,10 +83,13 @@ android {
 }
 
 dependencies {
-
+    implementation 'com.diskuv.dksdk.ffi:ffi-java-android:1.0.0-SNAPSHOT'
+    implementation 'androidx.startup:startup-runtime:1.1.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
+
     testImplementation 'junit:junit:4.13.2'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }

@@ -12,6 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SquirrelScout_Scouter"
         tools:targetApi="31">
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!-- https://developer.android.com/topic/libraries/app-startup#java -->
+            <meta-data  android:name="com.example.squirrelscout.data.ComDataInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

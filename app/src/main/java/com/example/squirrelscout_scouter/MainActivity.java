@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.squirrelscout.data.ComData;
 import com.example.squirrelscout_scouter.match_scouting_pages.AutonomousActivity;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
 
@@ -51,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nukeData = findViewById(R.id.NUKE_DATA);
         nukeData.setOnClickListener(this);
 
-        Log.w("DkSDK", new com.example.squirrelscout.data.NativeLib().stringFromJNI());
+        ComData comData = ComData.getInstance(getApplicationContext());
+        int answer = comData.getCalculations().apply_f_3_7(comData.getMultiply().getComObjectBytes());
+        Log.w("DkSDK", String.format("f(3, 7) = %d where f=multiply", answer));
 
         //others
         scouterNameI = (EditText) findViewById(R.id.Name_Input);

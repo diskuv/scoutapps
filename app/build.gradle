@@ -28,6 +28,12 @@ android {
     }
 }
 
+if(false) { /* TODO: Remove after JNR tested */
+    configurations {
+        nativejffi
+    }
+}
+
 dependencies {
     modules {
         module("org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
@@ -38,6 +44,17 @@ dependencies {
         }
     }
     implementation project(':data')
+    implementation "androidx.startup:startup-runtime:1.1.1"
+
+    if(true) {
+        implementation 'com.diskuv.dkml.jnr:jffi-native-android:1.0.0-SNAPSHOT'
+    } else { /* TODO: Remove after JNR tested */
+        //      Android Gradle Plugin dependencies do not include the
+        //      Maven `<dependency>...<classifier>native</classifier></dependency>`
+        //      (a separate .jar containing shared libraries in the pom.xml of com.github.jnr:jnr-ffi)
+        nativejffi 'com.github.jnr:jffi:1.3.11:native'
+    }
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
@@ -50,4 +67,21 @@ dependencies {
     //responsive ui
     implementation 'com.intuit.sdp:sdp-android:1.1.0'  //use 0.384 for conversion from dp -> sdp
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
+}
+
+if(false) { /* TODO: Remove after JNR tested */
+    tasks.register('generateNativeJffiAssets') {
+        group 'build'
+        doLast {
+            configurations.nativejffi.files.each {
+                ant.unjar(src: it, dest: project.file("src/main/assets")) {
+                    patternset {
+                        include(name: 'jni/**') /* Adds 1MB for all ABIs */
+                    }
+                }
+            }
+        }
+    }
+
+    preBuild.dependsOn(generateNativeJffiAssets)
 }

@@ -21,9 +21,7 @@ set(CMAKE_C_EXTENSIONS NO)
 
 # ---- Third party dependencies
 
-if(IS_DIRECTORY dependencies)
-    add_subdirectory(dependencies)
-endif()
+add_subdirectory(dependencies)
 
 # ---- Find JNI
 # TODO: Create DkSDKJava_FindJNI() to replace all of this section
@@ -48,8 +46,6 @@ if(NOT TARGET JNI::JNI)
     target_include_directories(jni_lib INTERFACE ${JNI_INCLUDE_DIRS})
     target_link_directories(jni_lib INTERFACE ${JNI_LIBRARIES})
 endif()
-
-message(STATUS "JNI_GENERATED_HEADERS = ${JNI_GENERATED_HEADERS}")
 
 # ---- Build source code
 

@@ -46,7 +46,8 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 14
+        /* Need 21+ so don't to avoid issues on https://developer.android.com/build/multidex */
+        minSdk 21
         targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -54,7 +55,7 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags ""
-                arguments cmakeConfigureTemplate.cmakeArgumentArray
+                arguments.addAll cmakeConfigureTemplate.fullArguments.get()
                 targets "datalib"
             }
             ndk {
@@ -83,7 +84,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.diskuv.dksdk.ffi:ffi-java-android:1.0.0-SNAPSHOT'
+    api 'com.diskuv.dksdk.ffi:ffi-java-android:1.0.0-SNAPSHOT'
+
     implementation 'androidx.startup:startup-runtime:1.1.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'

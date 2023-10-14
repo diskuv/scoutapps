@@ -10,17 +10,34 @@ FetchContent_GetProperties(dksdk-ffi-java)
 add_library(datalib SHARED)
 
 # Provides paths to its source code
+file(GLOB impl_FILES LIST_DIRECTORIES FALSE
+        "${dksdk-ffi-java_SOURCE_DIR}/src/impl/*.c"
+        "${dksdk-ffi-java_SOURCE_DIR}/src/impl/*.h")
+file(GLOB ffi_java_FILES LIST_DIRECTORIES FALSE
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java/src/main/c/*.c"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java/src/main/c/*.h")
+file(GLOB ffi_java_android_FILES LIST_DIRECTORIES FALSE
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android/src/main/c/*.c"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android/src/main/c/*.h")
+file(GLOB ffi_java_android_standalone_FILES LIST_DIRECTORIES FALSE
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/c/*.c"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/c/*.h")
 target_sources(datalib PRIVATE
-        # Use the common-to-all-JDKs JNI code for the Java FFI
-        ${dksdk-ffi-java_SOURCE_DIR}/src/dksdk_ffi_java.c
-        # Use the Android-specific JNI code for the Java FFI
-        ${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/c/jni_defs.c)
+        ${impl_FILES}
+        ${ffi_java_FILES}
+        ${ffi_java_android_FILES}
+        ${ffi_java_android_standalone_FILES})
 
 # Specifies header files CMake should include when compiling your
 # target library.
 target_include_directories(datalib PRIVATE
-        # The headers for the Android-specific JNI code
-        ${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android/src/main/include)
+        "${dksdk-ffi-java_SOURCE_DIR}/src/impl"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java/src/main/c"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java/src/main/include"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android/src/main/c"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android/src/main/include"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/c"
+        "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/include")
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -33,16 +50,3 @@ target_link_libraries(datalib PRIVATE
         # shared library ("datalib"). One shared library is easiest to
         # distribute and easiest to optimize for size.
         DkSDK::FFI::C-StaticExports)
-
-# Searches for a specified prebuilt library and stores the path as a
-# variable. Because CMake includes system libraries in the search path by
-# default, you only need to specify the name of the public NDK library
-# you want to add. CMake verifies that the library exists before
-# completing its build.
-
-#find_library( # Sets the name of the path variable.
-#        log-lib
-#
-#        # Specifies the name of the NDK library that
-#        # you want CMake to locate.
-#        log)

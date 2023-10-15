@@ -28,18 +28,19 @@ let hex_encode (bytearray : bytes) : string =
   Bytes.to_string buf
 
 let process_qr db qr_format qr_bytes =
-
-  print_endline "I am in ManagerApp_ml.ml [process_qr]";
-
   let module Db = (val db : SquirrelScout_Std.Database_actions_type) in
+  let rc = Db.process_qr_code qr_bytes in
 
-  let args = Array.to_list Sys.argv |> String.concat " " in
-  Format.eprintf
-    "[%s:%d] I am processing (YAY!) the QR format '%s' with bytes: %s\n\
-     Command Line Arguments:%s\n\
-     %!"
-    __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args
+  match rc with
+  | Successful -> Printf.printf "PROCESSED QR CODE SUCCESSFULLY"
+  | Failed -> Printf.printf "FAILED QR CODE PROCESSING"
 
+(* let args = Array.to_list Sys.argv |> String.concat " " in
+   Format.eprintf
+     "[%s:%d] I am processing (YAY!) the QR format '%s' with bytes: %s\n\
+      Command Line Arguments:%s\n\
+      %!"
+     __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args *)
 
 let main () =
   if Array.length Sys.argv < 2 then

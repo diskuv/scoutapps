@@ -133,6 +133,10 @@ module Database_actions (Db : Db_holder) = struct
   let insert_scouted_data blob = 
     Raw_match_data_table.Table.insert_record Db.db blob 
 
+  let process_qr_code bytes =
+    let str = String.of_bytes bytes in
+
+    Raw_match_data_table.Table.insert_record Db.db str
 
   let initialize () = 
       match create_all_tables Db.db with

@@ -20,6 +20,8 @@ module type Database_actions_type = sig
 
   (* for java *)
   val insert_scouted_data : string -> Db_utils.return_code
+  
+  val process_qr_code : bytes -> Db_utils.return_code
 end
 
 (* This is the module type that SquirrelScout_Std.ml implements *)

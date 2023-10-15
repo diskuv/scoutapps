@@ -1,9 +1,17 @@
 module type Fetchable_Data = sig
+  val already_contains_record :
+    Sqlite3.db ->
+    team_number:int ->
+    match_number:int ->
+    scouter_name:string ->
+    bool
+
   module Fetch : sig
     val latest_match_number : Sqlite3.db -> int option
 
     val missing_data :
-      Sqlite3.db -> (int * SquirrelScout_Std_intf.Types.robot_position list) list
+      Sqlite3.db ->
+      (int * SquirrelScout_Std_intf.Types.robot_position list) list
 
     val all_match_numbers_in_db : Sqlite3.db -> int list
     val teams_for_match_number : Sqlite3.db -> int -> int list
@@ -142,6 +150,22 @@ module Table : Table_type = struct
 
   let drop_table db = Db_utils.Failed
 
+  let already_contains_record db ~team_number ~match_number ~scouter_name =
+    let to_select = colum_name Team_number in
+    let where =
+      [
+        (colum_name Team_number, Db_utils.Select.Int team_number);
+        (colum_name Match_Number, Db_utils.Select.Int match_number);
+        (colum_name Scouter_Name, Db_utils.Select.String scouter_name);
+      ]
+    in
+
+    let result =
+      Db_utils.Select.select_ints_where db ~table_name ~to_select ~where
+    in
+
+    match result with _ :: [] -> true | _ -> false
+
   let insert_record db capnp_string =
     let module Schema = Schema.Make (Capnp.BytesMessage) in
     let match_data =
@@ -167,52 +191,67 @@ module Table : Table_type = struct
     in
 
     let open Schema.Reader.RawMatchData in
-    (* RELEASE_BLOCKER: jonahbeckford@
+    let team_number = match_data |> team_number_get in
+    let match_number = match_data |> match_number_get in
+    let scouter_name = match_data |> scouter_name_get in
 
-       This is not how to insert data into a database.
-       It is INCREDIBLY unsafe, although the OCaml library
-       does not give you any examples of how to do it safely
-       with prepared statements. All someone would need to
-       do is make a special QR code and they could hack your phone. *)
-    let values =
-      Printf.sprintf
-        "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
-        \         %s, %s, %s, %s"
-        (match_data |> team_number_get |> string_of_int)
-        (match_data |> team_name_get |> string_to_cmd_line_form)
-        (match_data |> match_number_get |> string_of_int)
-        (match_data |> scouter_name_get |> string_to_cmd_line_form)
-        (*  *)
-        (match_data |> incap_get |> bool_to_string_as_num)
-        (match_data |> playing_defense_get |> bool_to_string_as_num)
-        (match_data |> notes_get |> string_to_cmd_line_form)
-        (*  *)
-        (match_data |> auto_climb_get |> climb_to_string
-       |> string_to_cmd_line_form)
-        (match_data |> auto_cone_high_get |> string_of_int)
-        (match_data |> auto_cone_mid_get |> string_of_int)
-        (match_data |> auto_cone_low_get |> string_of_int)
-        (match_data |> auto_cube_high_get |> string_of_int)
-        (match_data |> auto_cube_mid_get |> string_of_int)
-        (match_data |> auto_cube_low_get |> string_of_int)
-        (*  *)
-        (match_data |> tele_climb_get |> climb_to_string
-       |> string_to_cmd_line_form)
-        (match_data |> tele_cone_high_get |> string_of_int)
-        (match_data |> tele_cone_mid_get |> string_of_int)
-        (match_data |> tele_cone_low_get |> string_of_int)
-        (match_data |> tele_cube_high_get |> string_of_int)
-        (match_data |> tele_cube_mid_get |> string_of_int)
-        (match_data |> tele_cube_low_get |> string_of_int)
+    let record_already_exists =
+      already_contains_record db ~team_number ~match_number ~scouter_name
     in
 
-    let sql = "INSERT INTO " ^ table_name ^ " VALUES(" ^ values ^ ")" in
+    if record_already_exists then Db_utils.Successful
+    else
+      (* RELEASE_BLOCKER: jonahbeckford@
 
-    Logs.debug (fun l -> l "raw_match_table sql: %s" sql);
+         This is not how to insert data into a database.
+         It is INCREDIBLY unsafe, although the OCaml library
+         does not give you any examples of how to do it safely
+         with prepared statements. All someone would need to
+         do is make a special QR code and they could hack your phone. *)
+      let values =
+        Printf.sprintf
+          "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
+          \         %s, %s, %s, %s"
+          (match_data |> team_number_get |> string_of_int)
+          (match_data |> team_name_get |> string_to_cmd_line_form)
+          (match_data |> match_number_get |> string_of_int)
+          (match_data |> scouter_name_get |> string_to_cmd_line_form)
+          (*  *)
+          (match_data |> incap_get |> bool_to_string_as_num)
+          (match_data |> playing_defense_get |> bool_to_string_as_num)
+          (match_data |> notes_get |> string_to_cmd_line_form)
+          (*  *)
+          (match_data |> auto_climb_get |> climb_to_string
+         |> string_to_cmd_line_form)
+          (match_data |> auto_cone_high_get |> string_of_int)
+          (match_data |> auto_cone_mid_get |> string_of_int)
+          (match_data |> auto_cone_low_get |> string_of_int)
+          (match_data |> auto_cube_high_get |> string_of_int)
+          (match_data |> auto_cube_mid_get |> string_of_int)
+          (match_data |> auto_cube_low_get |> string_of_int)
+          (*  *)
+          (match_data |> tele_climb_get |> climb_to_string
+         |> string_to_cmd_line_form)
+          (match_data |> tele_cone_high_get |> string_of_int)
+          (match_data |> tele_cone_mid_get |> string_of_int)
+          (match_data |> tele_cone_low_get |> string_of_int)
+          (match_data |> tele_cube_high_get |> string_of_int)
+          (match_data |> tele_cube_mid_get |> string_of_int)
+          (match_data |> tele_cube_low_get |> string_of_int)
+      in
 
-    match Sqlite3.exec db sql with
-    | Sqlite3.Rc.OK -> Db_utils.Successful
-    | _ -> Db_utils.Failed
+      let sql = "INSERT INTO " ^ table_name ^ " VALUES(" ^ values ^ ")" in
+
+      Logs.debug (fun l -> l "raw_match_table sql: %s" sql);
+
+      match Sqlite3.exec db sql with
+      | Sqlite3.Rc.OK ->
+          print_endline "exec successful";
+          Db_utils.Successful
+      | r ->
+          Db_utils.formatted_error_message db r
+            "failed to exec raw_match_data insert sql";
+          Db_utils.Failed
 
   module Fetch = struct
     let latest_match_number db =

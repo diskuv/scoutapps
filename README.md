@@ -8,12 +8,14 @@ FIRST you will need external source code. On Unix run:
 
 ```shell
 sh ci/git-clone.sh -l
+sh ci/git-clone.sh -p .ci/cmake/bin/cmake
 ```
 
 or on Windows with DkML installed run:
 
 ```powershell
 with-dkml sh ci/git-clone.sh -l
+with-dkml sh ci/git-clone.sh -p .ci/cmake/bin/cmake
 ```
 
 SECOND, run the following commands in Unix or Windows PowerShell:

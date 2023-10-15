@@ -83,8 +83,21 @@ let fill_raw_match_data_table db =
 
   List.iter
     (fun a ->
-      let _ = Raw_match_data_table.Table.insert_record db a in
-      ())
+      let _ = Raw_match_data_table.Table.insert_record db a in () 
+    
+    (* in
+      match Qr_manager.generate_qr_code a with
+      | Ok svg ->
+          let file = "qr_code.svg" in
+
+          let oc = open_out file in
+
+          Printf.fprintf oc "%s\n" svg;
+
+          close_out oc
+      | Error _ -> () *)
+      
+      )
     l
 
 let pose_to_string pos = Match_schedule_table.Table.robot_position_to_string pos

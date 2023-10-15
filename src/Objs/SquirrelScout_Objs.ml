@@ -77,12 +77,32 @@ let insert_scouted_data ~self v args =
       ProjectSchema.Builder.MaybeError.success_set bldr true;
       Ret.v_capnp v bldr
 
+
+  let load_json_match_schedule ~self v args = 
+    let module Db = (val self : SquirrelScout_Std.Database_actions_type) in
+
+    let bldr = ProjectSchema.Builder.MaybeError.init_root () in 
+
+    let json_contents = Reader.St.(i1_get (of_message args)) in
+    match Db.insert_match_json ~json_contents:json_contents () with 
+    | Failed -> 
+      ProjectSchema.Builder.MaybeError.success_set bldr false;
+      ProjectSchema.Builder.MaybeError.message_if_error_set bldr "match schedule json could not be loaded";
+      Ret.v_capnp v bldr 
+
+    | Successful -> 
+      ProjectSchema.Builder.MaybeError.success_set bldr true;
+      Ret.v_capnp v bldr 
+
+
 let register_objects com =
   register com ~classname:"SquirrelScout::Bridge"
     [
       class_method ~name:"create_object" ~f:create_object ();
       class_method ~name:"generate_qr_code" ~f:generate_qr_code ();
+
       instance_method ~name:"get_team_for_match_and_position"
         ~f:get_team_for_match_and_position ();
       instance_method ~name:"insert_scouted_data" ~f:insert_scouted_data ();
+      instance_method ~name:"load_json_match_schedule" ~f:load_json_match_schedule ();
     ]

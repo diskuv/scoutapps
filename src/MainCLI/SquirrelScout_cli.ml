@@ -57,7 +57,8 @@ module Commands = struct
       let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
 
       let match_json = In_channel.with_open_text match_json_file In_channel.input_all in
-      Db.insert_match_json ~json_contents:match_json ();
+      let _ = Db.insert_match_json ~json_contents:match_json () in 
+      ()
     in
     let info = Cmdliner.Cmd.info "insert-scheduled-matches" in
     Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ match_json_file_t)

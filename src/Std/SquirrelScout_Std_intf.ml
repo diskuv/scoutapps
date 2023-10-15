@@ -3,7 +3,7 @@ module Types = struct
 end
 
 module type Database_actions_type = sig
-  val insert_match_json : json_contents:string -> unit -> unit
+  val insert_match_json : json_contents:string -> unit -> Db_utils.return_code
   val insert_raw_match_test_data : unit -> unit
   val get_latest_match : unit -> int option
   val get_matches_for_team : int -> int list

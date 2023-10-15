@@ -147,12 +147,14 @@ module Database_actions (Db : Db_holder) = struct
   let insert_match_json ~json_contents () =
     match Match_schedule_table.Table.fill_database_from_json Db.db json_contents with
     | Db_utils.Failed ->
-      Logs.err (fun l -> l "Could not fill match schedule table with JSON data")
+      Logs.err (fun l -> l "Could not fill match schedule table with JSON data");
+      Db_utils.Failed
     | Successful ->
     match Team_names_table.Table.insert_record Db.db json_contents with
     | Db_utils.Failed ->
-      Logs.err (fun l -> l "Could not fill team names table with JSON data")
-    | Successful -> ()
+      Logs.err (fun l -> l "Could not fill team names table with JSON data");
+      Db_utils.Failed 
+    | Successful -> Db_utils.Successful
 
   let insert_raw_match_test_data () =
     fill_raw_match_data_table Db.db

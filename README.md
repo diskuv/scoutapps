@@ -104,6 +104,10 @@ build_dev/src/MainCLI/main-cli status                     -d example.db
 
 You will need to be on Linux, WSL2 on Windows, or macOS for this step.
 
+The preset will be `ci-linux_x86_64_X_android_arm64v8a` if you are
+building for the actual device, and `ci-linux_x86_64_X_android_x86_64` if
+you are building for the emulator.
+
 ```sh
 rm -rf build fetch _dn
 
@@ -111,7 +115,9 @@ rm -rf build fetch _dn
 ./dk dksdk.android.ndk.download NO_SYSTEM_PATH
 sh ci/git-clone.sh -l
 sh ci/git-clone.sh -p .ci/cmake/bin/cmake
-.ci/cmake/bin/cmake --preset ci-linux_x86_64_X_android_arm64v8a
+#   Use ci-linux_x86_64_X_android_arm64v8a for the real Android device.
+#   Use ci-linux_x86_64_X_android_x86_64 for the Android Emulator.
+.ci/cmake/bin/cmake --preset ci-linux_x86_64_X_android_x86_64
 .ci/cmake/bin/cmake --build --preset ci-objs
 ```
 

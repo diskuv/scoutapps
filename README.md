@@ -22,6 +22,27 @@ A paid alternative is https://x410.dev/. If you use x410, then install fonts wit
 export GDK_SCALE=1 DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2; exit;}'):0.0
 ```
 
+### WSL 2 Android Emulator (Windows Only)
+
+Inside Android Studio you can (and should) install a Virtual Device (aka. the Android Emulator) in the `Tools > Device Manager` menu. It run it within Android Studio requires some minor manual steps.
+
+Then open an editor:
+
+```shell
+sudo vim /etc/wsl.conf
+```
+
+And add the following lines (press lowercase "i" to insert text):
+
+```text
+[wsl2]
+nestedVirtualization=true
+```
+
+Press ESCAPE and then :wq (COLON, w, q) to exit and save. Make sure you use COLON and not SEMICOLON.
+
+Those steps come from https://serverfault.com/a/1115773
+
 ### Initial Setup
 
 FIRST you will need external source code. On Unix run:
@@ -86,12 +107,6 @@ Finally, if you want to run Android Studio, run:
 # Each time
 GDK_SCALE=2 ./dk dksdk.android.studio.run
 ```
-
-### WSL 2 Android Emulator (Windows Only)
-
-Inside Android Studio you can (and should) install a Virtual Device (aka. the Android Emulator) in the `Tools > Device Manager` menu. It run it within Android Studio requires some minor manual steps.
-
-Follow the steps in https://serverfault.com/a/1115773
 
 ### Testing
 

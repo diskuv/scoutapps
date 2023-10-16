@@ -150,4 +150,15 @@ fi
 # Other DkSDK projects
 #     shellcheck disable=SC2154
 clone "${_dksdk_BASE_REPOSITORY_URL}/dksdk-ffi-c.git"         dksdk-ffi-c
+#   use the "next" branch for Java until SquirrelScout is launched
+GIT_TAG_DKSDK_FFI_JAVA=${GIT_TAG_DKSDK_FFI_JAVA:-origin/next}
 clone "${_dksdk_BASE_REPOSITORY_URL}/dksdk-ffi-java.git"      dksdk-ffi-java
+clone "${_dksdk_BASE_REPOSITORY_URL}/dksdk-ffi-ocaml.git"     dksdk-ffi-ocaml
+
+#   default branch for ocaml-backend is teamNamesTable (?!!)
+GIT_TAG_OCAML_BACKEND=${GIT_TAG_OCAML_BACKEND:-origin/teamNamesTable}
+if [ "$(hostname)" = "DKMCHO-WINDSK-A" ]; then
+  clone "git@github.com:SquirrelScout/ocaml-backend.git"      ocaml-backend
+else
+  clone "https://github.com/SquirrelScout/ocaml-backend.git"  ocaml-backend
+fi

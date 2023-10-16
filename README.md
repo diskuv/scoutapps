@@ -77,6 +77,16 @@ where you will see something like:
      | Detected by:        Gradle property 'org.gradle.java.installations.paths'
 ```
 
+Finally, if you want to run Android Studio, run:
+
+```shell
+# One-time
+./dk dksdk.android.studio.download NO_SYSTEM_PATH
+
+# Each time
+GDK_SCALE=2 ./dk dksdk.android.studio.run
+```
+
 ### WSL 2 Android Emulator (Windows Only)
 
 Inside Android Studio you can (and should) install a Virtual Device (aka. the Android Emulator) in the `Tools > Device Manager` menu. It run it within Android Studio requires some minor manual steps.

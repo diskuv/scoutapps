@@ -9,6 +9,8 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="LENOVO" value="120" />
+                  <entry key="LENOVO&#10; Lenovo TB-8506F" value="120" />
                   <entry key="Pixel_4a_API_31_Software_GLES" value="120" />
                   <entry key="Tests" value="360" />
                 </map>

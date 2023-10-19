@@ -45,6 +45,8 @@ and follow the `apt` instructions. You do not need to follow the `usbip` command
 
 SECOND,
 
+> **If you restart or unplug your Android device, you have to start back here**
+
 In PowerShell, find the Android device you are using (ex. Lenovo Tab M8), and bind
 and attach it using its `BUSID`:
 
@@ -77,13 +79,16 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 FOURTH,
 
+> **If you need to restart Android Studio, you have to start back here.**
+
 The Linux kernel now has access to the Android device, but regular "user" Linux programs
 like Android Studio will need permission.
 
 There are somewhat complicated "udev" rules to get permission to
 the Android Device at https://github.com/M0Rf30/android-udev-rules.
 
-You can bypass the udev rules by simply running the ADB server as the superuser `root`:
+You can bypass the udev rules by **closing Android Studio** and
+starting the ADB server as the superuser `root`:
 
 ```shell
 $ .ci/local/share/android-sdk/platform-tools/adb kill-server
@@ -108,7 +113,8 @@ List of devices attached
 HA1Q16K0        device
 ```
 
-You can now go to Tools > Device Manager and see your Android device in the Physical tab.
+You can now restart Android Studio, go to Tools > Device Manager and see your
+Android device in the Physical tab.
 
 ### Method 2 - ADB TCP server
 

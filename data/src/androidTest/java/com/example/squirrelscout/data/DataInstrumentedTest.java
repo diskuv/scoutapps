@@ -4,11 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.IBinder;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ServiceTestRule;
 
-import com.diskuv.dksdk.ffi.java.Com;
 import com.diskuv.dksdk.ffi.java.android.JavaJdkCompatAndroid;
 import com.diskuv.dksdk.ffi.java.compat.JavaJdkCompat;
 import com.example.squirrelscout.data.objects.toy.Add1;
@@ -18,7 +21,7 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 
-import java.util.logging.Level;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -29,6 +32,10 @@ import java.util.logging.Level;
 public class DataInstrumentedTest {
     @Rule
     public TestName name = new TestName();
+
+    @Rule
+    public final ServiceTestRule serviceRule = new ServiceTestRule();
+
 
     private static final JavaJdkCompat COMPAT = JavaJdkCompatAndroid.createWithDkSDK("datalib");
 
@@ -44,20 +51,21 @@ public class DataInstrumentedTest {
      * It exercises the <strong>Java instance method call</strong>.
      */
     @Test
-    public void givenAdd1_whenCall_thenIncremented() {
-        // Initialize Android logging
-        COMPAT.getCLib().dksdk_ffi_c_log_configure_android(name.getMethodName(), Level.FINEST);
+    public void givenAdd1_whenCall_thenIncremented() throws TimeoutException {
+        Intent dataIntent = new Intent(ApplicationProvider.getApplicationContext(), ComDataService.class);
+        dataIntent.putExtra("ComData.productionTest", true);
+        dataIntent.putExtra("ComData.logName", name.getMethodName());
 
-        Com com = Com.createForUnitTesting(COMPAT);
-        assertNotNull(com);
+        IBinder binder = serviceRule.bindService(dataIntent);
+        assertNotNull(binder);
+        ComData data = ((ComDataService.ComDataBinder) binder).getService().getData();
 
-        Add1 f = Add1.create(com);
+        Add1 f = data.getAdd1();
 
         int ret = f.directCall(11);
 
         assertEquals(12, ret);
 
-        com.shutdown();
+        serviceRule.unbindService();
     }
-
 }

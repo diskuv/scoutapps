@@ -1,3 +1,9 @@
+# When you open this file, Android Studio will prompt that
+# "Some of the ignored directories are not
+# excluded from indexing and search". Basically, we
+# can use this .gitignore to suggest directory exclusions
+# to avoid slowdowns of Android Studio.
+
 *.iml
 .gradle
 /local.properties
@@ -11,8 +17,8 @@
 /build
 /captures
 .externalNativeBuild
-.cxx
+.cxx/
 local.properties
-/fetch/
 
-app/src/main/assets/jni/
+# ci/git-clone.sh
+/fetch/

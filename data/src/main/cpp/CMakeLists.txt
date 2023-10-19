@@ -23,6 +23,7 @@ file(GLOB ffi_java_android_standalone_FILES LIST_DIRECTORIES FALSE
         "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/c/*.c"
         "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/c/*.h")
 target_sources(datalib PRIVATE
+        register.c
         ${impl_FILES}
         ${ffi_java_FILES}
         ${ffi_java_android_FILES}
@@ -43,6 +44,10 @@ target_include_directories(datalib PRIVATE
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 target_link_libraries(datalib PRIVATE
+        # The data backend defined in [ocaml-backend]/src/ObjsLib/CMakeLists.txt.
+        # [ocaml-backend] is available as part of our dependencies/ folder.
+        SquirrelScout_ObjsLib
+        DkSDK_OCamlCompile # REMOVEME: when new SquirrelScout_ObjsLib w/ INTERFACE dependency
         # The Java FFI makes use of some JNI
         JNI::JNI
         # The C FFI is the kernel used by the Java FFI. We link to the

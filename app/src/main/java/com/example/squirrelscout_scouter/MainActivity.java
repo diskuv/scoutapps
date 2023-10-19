@@ -2,10 +2,14 @@ package com.example.squirrelscout_scouter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.squirrelscout.data.ComData;
+import com.example.squirrelscout.data.ComDataService;
 import com.example.squirrelscout_scouter.match_scouting_pages.AutonomousActivity;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
 
@@ -52,10 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nukeData = findViewById(R.id.NUKE_DATA);
         nukeData.setOnClickListener(this);
 
-        ComData comData = ComData.getInstance(getApplicationContext());
-        int answer = comData.getCalculations().apply_f_3_7(comData.getMultiply().getComObjectBytes());
-        Log.w("DkSDK", String.format("f(3, 7) = %d where f=multiply", answer));
-
         //others
         scouterNameI = (EditText) findViewById(R.id.Name_Input);
         teamNameI = (EditText) findViewById(R.id.TeamNum_Input);
@@ -75,7 +76,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        Intent dataIntent = new Intent(this, ComDataService.class);
+        //  TODO: Remove [ComData.productionTest] when real ocaml-backend COM objects used
+        dataIntent.putExtra("ComData.productionTest", true);
+        bindService(dataIntent, dataConnection, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        unbindService(dataConnection);
+        super.onStop();
+    }
 
     @Override
     public void onClick(View view) {
@@ -203,4 +218,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scoutInfo.setScoutTeam(Integer.parseInt(TeamNum));
         scoutInfo.setScoutName(ScoutName);
     }
+
+    private final ServiceConnection dataConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ComData comData = ((ComDataService.ComDataBinder) service).getService().getData();
+            int answer = comData.getCalculations().apply_f_3_7(comData.getMultiply().getComObjectBytes());
+            Log.w("DkSDK", String.format("f(3, 7) = %d where f=multiply", answer));
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 }

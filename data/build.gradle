@@ -1,3 +1,4 @@
+import com.diskuv.dksdk.core.gradle.plugins.CMakeEnvironmentPlugin
 import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureWithJniTask
 
 buildscript {
@@ -9,7 +10,7 @@ buildscript {
 plugins {
     id 'com.android.library'
 }
-apply plugin: com.diskuv.dksdk.core.gradle.plugins.CMakeEnvironmentPlugin
+apply plugin: CMakeEnvironmentPlugin
 
 tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     def jniCompiler = javaToolchains.compilerFor {
@@ -24,6 +25,7 @@ tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     defaultFetchContentDksdkCmake = rootProject.file("fetch/dksdk-cmake")
     defaultFetchContentDksdkFfiC = rootProject.file("fetch/dksdk-ffi-c")
     defaultFetchContentDksdkFfiJava = rootProject.file("fetch/dksdk-ffi-java")
+    defaultFetchContentDksdkFfiOCaml = rootProject.file("fetch/dksdk-ffi-ocaml")
 
     sources fileTree(
             dir: rootDir,
@@ -92,6 +94,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
 
+    androidTestImplementation "androidx.test:rules:1.5.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }

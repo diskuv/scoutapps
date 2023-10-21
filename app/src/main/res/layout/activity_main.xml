@@ -75,9 +75,9 @@
         android:text="Scout Name :"
         android:textColor="@color/black"
         android:textSize="@dimen/_10sdp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
     <EditText
         android:id="@+id/Name_Input"
         android:layout_width="match_parent"
@@ -223,4 +223,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <com.caverock.androidsvg.SVGImageView
+        android:id="@+id/svgViewQrCode"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:contentDescription="@string/qr_code_description"
+        app:layout_constraintBottom_toTopOf="@+id/Name_Label"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:svg="cartman.svg"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

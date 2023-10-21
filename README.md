@@ -90,3 +90,7 @@ git clone git@gitlab.com:diskuv/distributions/1.0/dksdk-ffi-java.git
 cd dksdk-ffi-java
 ./dk dksdk.gradle.run ARGS :core:abi:publishToMavenLocal :core:gradle:publishToMavenLocal
 ```
+
+## Licenses
+
+- The Cartman image is from https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/

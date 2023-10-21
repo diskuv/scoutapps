@@ -10,6 +10,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.widget.Toast;
 
+import com.diskuv.dksdk.ffi.java.Com;
+
 /**
  * DkSDK use a Service because it needs:
  *
@@ -30,9 +32,11 @@ import android.widget.Toast;
  */
 public class ComDataService extends Service {
     private static native void initializeOCamlRuntime(String processArg0);
-    private static native void asyncStopOCaml();
 
-    private ComData data;
+    private static native void shutdownOCaml();
+
+    private Com com;
+    private volatile ComData data;
     private ComDataHandler serviceHandler;
     private final IBinder binder = new ComDataBinder();
 
@@ -42,7 +46,12 @@ public class ComDataService extends Service {
         }
     }
 
-    // Handler that receives messages from the thread
+    enum HandlerMessageType {
+        MSG_STARTUP,
+        MSG_SHUTDOWN
+    }
+
+    // Handler that receives messages for the service thread
     private final class ComDataHandler extends Handler {
         private boolean initted;
 
@@ -52,15 +61,49 @@ public class ComDataService extends Service {
 
         @Override
         public void handleMessage(Message msg) {
-            // Only do OCaml initialization once
-            synchronized (ComDataService.class) {
+            if (msg.arg1 == HandlerMessageType.MSG_STARTUP.ordinal())
+                handleStartupMessage();
+            if (msg.arg1 == HandlerMessageType.MSG_SHUTDOWN.ordinal())
+                handleShutdownMessage();
+        }
+
+        private void handleStartupMessage() {
+            // POINT B: Initialize the OCaml code, which will run all the
+            // top-level `let () =` statements as well.
+            synchronized (ComDataHandler.class) {
+                // Only do OCaml initialization once
                 if (initted) return;
                 initted = true;
             }
-
-            // Initialize the OCaml code, which will run all the
-            // top-level `let () =` statements as well.
             initializeOCamlRuntime(getPackageName());
+
+            // POINT C: Do all the borrowing of class objects in ComData.
+            ComData data0 = new ComData(com);
+            synchronized (ComDataService.class) {
+                data = data0;
+            }
+        }
+
+        private void handleShutdownMessage() {
+            // POINT C: Would be nice that we could release the borrowing
+            // of class objects in ComData. But the class objects
+            // can live until Java garbage collection (and the user
+            // may be accidentally holding onto them).
+            // For now, we simply stop any more use of [data].
+            ComData data0 = data;
+            synchronized (ComDataService.class) {
+                data = null;
+            }
+
+            // POINT B: caml_shutdown() which should do DkSDK FFI OCaml
+            // class object de-registrations.
+            shutdownOCaml();
+
+            // POINT A: Do DkSDK FFI C class object de-registrations (ex.
+            // ICallable, Posix::FILE) and then dksdk_ffi_host_destroy()
+            if (data0 != null) {
+                data0.shutdown();
+            }
         }
     }
 
@@ -79,20 +122,34 @@ public class ComDataService extends Service {
         serviceHandler = new ComDataHandler(serviceLooper);
     }
 
-    public ComData getData() {
-        return data;
+    public void requestData(DataRequestCallback callback) {
+        // Posting to the service thread makes sure the first service
+        // thread message (start OCaml) has been completed.
+        //
+        // Also, being in the service thread means we don't have to
+        // work about whether OCaml has been registered in the thread
+        // if the data accessed needs to call back into OCaml.
+        serviceHandler.post(() -> {
+            ComData data0 = data;
+            if (data0 != null) /* ensure no more delivery after shutdown */
+                callback.onComplete(data0);
+        });
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         Toast.makeText(this, "COM data service bound", Toast.LENGTH_SHORT).show();
 
-        // For the first bind request, do dksdk_ffi_init() plus C registrations
-        data = ComData.newDataInstance(intent);
+        // BEHAVIOR:
+        // Android will only do an onBind() once and then it will
+        // return the same memoized IBinder object.
 
-        // For the first bind request, send a message to initialize the
-        // OCaml runtime, initialize DkSDK FFI OCaml, and register user objects.
+        // POINT A: Do dksdk_ffi_host_create() and standard DkSDK FFI C class object registrations
+        com = ComData.newCom(intent);
+
+        // Send startup message (B + C)
         Message msg = serviceHandler.obtainMessage();
+        msg.arg1 = HandlerMessageType.MSG_STARTUP.ordinal();
         serviceHandler.sendMessage(msg);
 
         return binder;
@@ -102,10 +159,9 @@ public class ComDataService extends Service {
     public void onDestroy() {
         Toast.makeText(this, "COM data service done", Toast.LENGTH_SHORT).show();
 
-        // Should perform OCaml FFI deregistrations
-        asyncStopOCaml();
-
-        // Completely shuts down with C deregistrations + dksdk_ffi_terminate()
-        data.shutdown();
+        // Send shutdown message (C + B + A)
+        Message msg = serviceHandler.obtainMessage();
+        msg.arg1 = HandlerMessageType.MSG_SHUTDOWN.ordinal();
+        serviceHandler.sendMessage(msg);
     }
 }

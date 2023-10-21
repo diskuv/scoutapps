@@ -1,10 +1,6 @@
 package com.example.squirrelscout_scouter;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -19,18 +15,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGImageView;
 import com.example.squirrelscout.data.ComData;
 import com.example.squirrelscout.data.ComDataService;
-import com.example.squirrelscout_scouter.match_scouting_pages.AutonomousActivity;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
+
+import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //instances
     Button startScoutingButton, pitScouting, history, sharePitScouting, nukeData;
     View firstCard, secondCard;
-    EditText scouterNameI,teamNameI;
+    EditText scouterNameI, teamNameI;
     TextView title, titleSecondary, nameText, teamText;
+    private SVGImageView qrCode;
 
     //variables
     String ScoutName, TeamNum;
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nameText = findViewById(R.id.Name_Label);
         firstCard = findViewById(R.id.view2);
         secondCard = findViewById(R.id.view3);
+        qrCode = findViewById(R.id.svgViewQrCode);
 
         //start animation
         animationStart();
@@ -100,35 +104,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (clickedID == R.id.START_SCOUTING) {
             startScoutingLogic();
-        } else if(clickedID == R.id.PIT_SCOUTING){
+        } else if (clickedID == R.id.PIT_SCOUTING) {
             startPitScoutingLogic();
-        } else if(clickedID == R.id.SHARE_PIT_SCOUTING){
+        } else if (clickedID == R.id.SHARE_PIT_SCOUTING) {
             sharePitScouting();
-        }
-        else if(clickedID == R.id.HISTORY){
+        } else if (clickedID == R.id.HISTORY) {
             startHistorylogic();
-        }
-        else if(clickedID == R.id.NUKE_DATA){
+        } else if (clickedID == R.id.NUKE_DATA) {
             nukeDataLogic();
         }
 
     }
 
 
-
-    public void startScoutingLogic(){
+    public void startScoutingLogic() {
         ScoutName = scouterNameI.getText().toString();
         TeamNum = teamNameI.getText().toString();
-        if(ScoutName.isEmpty() || TeamNum.isEmpty()){
+        if (ScoutName.isEmpty() || TeamNum.isEmpty()) {
             Log.d("d", "name is blank");
             Toast.makeText(MainActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
-            if (ScoutName.isEmpty()){
+            if (ScoutName.isEmpty()) {
                 scouterNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
             }
-            if(TeamNum.isEmpty()){
+            if (TeamNum.isEmpty()) {
                 teamNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
             }
-        }else {
+        } else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 saveScoutData();
                 startActivity(new Intent(MainActivity.this, StartScoutingActivity.class));
@@ -138,20 +139,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, 250);
         }
     }
+
     private void startPitScoutingLogic() {
 
     }
+
     private void sharePitScouting() {
 
     }
+
     private void startHistorylogic() {
 
     }
+
     private void nukeDataLogic() {
         Toast.makeText(MainActivity.this, "Data Nuked", Toast.LENGTH_SHORT).show();
     }
 
-    private void animationStart(){
+    private void animationStart() {
         //animations
         firstCard.setTranslationY(1500);
         firstCard.setAlpha(0f);
@@ -180,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         teamNameI.setTranslationX(200f);
         teamNameI.setAlpha(0f);
         firstCard.animate().alpha(1f).translationYBy(-1500).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
-            secondCard.animate().alpha(1f).translationYBy(-1500).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
+            secondCard.animate().alpha(1f).translationYBy(-1500).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
                 startScoutingButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
                 history.animate().alpha(1f).translationYBy(-50).setDuration(750);
                 pitScouting.animate().alpha(1f).translationYBy(-50).setDuration(750);
@@ -197,24 +202,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //user response button
-    private void animateButton(Button button){
+    private void animateButton(Button button) {
         button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
             button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(150);
         }).start();
     }
 
     //loads the info of the scout if already known
-    public void loadScoutInfo(){
-        if(scoutInfo.getScoutName() != null){
+    public void loadScoutInfo() {
+        if (scoutInfo.getScoutName() != null) {
             scouterNameI.setText(scoutInfo.getScoutName());
         }
-        if(scoutInfo.getScoutTeam() != -1){
+        if (scoutInfo.getScoutTeam() != -1) {
             teamNameI.setText("" + scoutInfo.getScoutTeam());
         }
     }
 
     //save data
-    public void saveScoutData(){
+    public void saveScoutData() {
         scoutInfo.setScoutTeam(Integer.parseInt(TeamNum));
         scoutInfo.setScoutName(ScoutName);
     }
@@ -222,9 +227,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final ServiceConnection dataConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            ComData comData = ((ComDataService.ComDataBinder) service).getService().getData();
-            int answer = comData.getCalculations().apply_f_3_7(comData.getMultiply().getComObjectBytes());
+            ComDataService dataService = ((ComDataService.ComDataBinder) service).getService();
+            dataService.requestData(this::onData);
+        }
+
+        private void onData(ComData data) {
+            /* Use production test COM object. TODO: Remove this when finished data COM object */
+            int answer = data.getCalculations().apply_f_3_7(data.getMultiply().getComObjectBytes());
             Log.w("DkSDK", String.format("f(3, 7) = %d where f=multiply", answer));
+
+            /* Use data COM object */
+            SVG svg = data.getScoutBridge().generateQrCode("hello squirrel scouters!".getBytes(StandardCharsets.UTF_8));
+            qrCode.setSVG(svg);
         }
 
         @Override

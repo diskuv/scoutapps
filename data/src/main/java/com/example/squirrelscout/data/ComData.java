@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.diskuv.dksdk.ffi.java.Com;
 import com.diskuv.dksdk.ffi.java.android.JavaJdkCompatAndroid;
 import com.diskuv.dksdk.ffi.java.compat.JavaJdkCompat;
+import com.example.squirrelscout.data.objects.ScoutBridge;
 import com.example.squirrelscout.data.objects.toy.Calculations;
 import com.example.squirrelscout.data.objects.toy.Multiply;
 import com.example.squirrelscout.data.objects.toy.Add1;
@@ -19,8 +20,9 @@ public class ComData {
     private final Add1 add1;
     private final Multiply multiply;
     private final Calculations calculations;
+    private final ScoutBridge scoutBridge;
 
-    static ComData newDataInstance(Intent intent) {
+    static Com newCom(Intent intent) {
         boolean test = intent.getBooleanExtra("ComData.productionTest", false);
         String logName = intent.getStringExtra("ComData.logName");
 
@@ -29,9 +31,8 @@ public class ComData {
         // Initialize Android logging
         compat.getCLib().dksdk_ffi_c_log_configure_android(logName == null ? "ComData" : logName, Level.FINEST);
 
-        // Do dksdk_ffi_init() and C registrations
-        Com com = test ? Com.createForProductionTesting(compat) : Com.createForProduction(compat);
-        return new ComData(com);
+        // Do dksdk_ffi_host_create() and standard DkSDK FFI C + Java class object registrations
+        return test ? Com.createForProductionTesting(compat) : Com.createForProduction(compat);
     }
 
     @NonNull
@@ -44,11 +45,12 @@ public class ComData {
         }
     }
 
-    private ComData(Com com) {
+    ComData(Com com) {
         this.com = com;
         this.multiply = Multiply.create(com);
         this.add1 = Add1.create(com);
         this.calculations = Calculations.create(com);
+        this.scoutBridge = ScoutBridge.create(com);
     }
 
     protected synchronized void shutdown() {
@@ -65,5 +67,9 @@ public class ComData {
 
     public Calculations getCalculations() {
         return calculations;
+    }
+
+    public ScoutBridge getScoutBridge() {
+        return scoutBridge;
     }
 }

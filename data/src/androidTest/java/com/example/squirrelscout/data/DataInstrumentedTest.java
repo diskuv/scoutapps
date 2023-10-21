@@ -2,6 +2,7 @@ package com.example.squirrelscout.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +13,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ServiceTestRule;
 
-import com.diskuv.dksdk.ffi.java.android.JavaJdkCompatAndroid;
-import com.diskuv.dksdk.ffi.java.compat.JavaJdkCompat;
 import com.example.squirrelscout.data.objects.toy.Add1;
 
 import org.junit.Rule;
@@ -21,7 +20,10 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -36,9 +38,6 @@ public class DataInstrumentedTest {
     @Rule
     public final ServiceTestRule serviceRule = new ServiceTestRule();
 
-
-    private static final JavaJdkCompat COMPAT = JavaJdkCompatAndroid.createWithDkSDK("datalib");
-
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -51,20 +50,30 @@ public class DataInstrumentedTest {
      * It exercises the <strong>Java instance method call</strong>.
      */
     @Test
-    public void givenAdd1_whenCall_thenIncremented() throws TimeoutException {
+    public void givenAdd1_whenCall_thenIncremented() throws TimeoutException, InterruptedException {
         Intent dataIntent = new Intent(ApplicationProvider.getApplicationContext(), ComDataService.class);
         dataIntent.putExtra("ComData.productionTest", true);
         dataIntent.putExtra("ComData.logName", name.getMethodName());
 
         IBinder binder = serviceRule.bindService(dataIntent);
         assertNotNull(binder);
-        ComData data = ((ComDataService.ComDataBinder) binder).getService().getData();
 
-        Add1 f = data.getAdd1();
+        CountDownLatch latch = new CountDownLatch(1);
+        AtomicInteger ret = new AtomicInteger(-1);
+        ((ComDataService.ComDataBinder) binder).getService().requestData(
+                data -> {
+                    // do the arithmetic
+                    Add1 f = data.getAdd1();
+                    int ret0 = f.directCall(11);
 
-        int ret = f.directCall(11);
+                    // signal we are done
+                    latch.countDown();
+                    ret.set(ret0);
+                }
+        );
+        assertTrue(latch.await(1, TimeUnit.SECONDS));
 
-        assertEquals(12, ret);
+        assertEquals(12, ret.get());
 
         serviceRule.unbindService();
     }

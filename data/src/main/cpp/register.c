@@ -83,11 +83,11 @@ Java_com_example_squirrelscout_data_ComDataService_initializeOCamlRuntime(JNIEnv
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataService_asyncStopOCaml(JNIEnv *env, jclass clazz) {
+Java_com_example_squirrelscout_data_ComDataService_shutdownOCaml(JNIEnv *env, jclass clazz) {
     /* Get the class name (Ex. ComDataService) for logging */
     GET_CLAZZ_NAME();
 
-    LOG_INFO("[%s.asyncStopOCaml] Starting", clazz_name_str);
+    LOG_INFO("[%s.shutdownOCaml] Starting", clazz_name_str);
     caml_shutdown();
-    LOG_INFO("[%s.asyncStopOCaml] Finished", clazz_name_str);
+    LOG_INFO("[%s.shutdownOCaml] Finished", clazz_name_str);
 }

@@ -1,4 +1,4 @@
-package com.example.squirrelscout.data.objects;
+package com.example.squirrelscout.data.objects.toy;
 
 import com.diskuv.dksdk.ffi.java.Clazz;
 import com.diskuv.dksdk.ffi.java.Com;

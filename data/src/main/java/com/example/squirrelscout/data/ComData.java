@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import com.diskuv.dksdk.ffi.java.Com;
 import com.diskuv.dksdk.ffi.java.android.JavaJdkCompatAndroid;
 import com.diskuv.dksdk.ffi.java.compat.JavaJdkCompat;
-import com.example.squirrelscout.data.objects.Calculations;
-import com.example.squirrelscout.data.objects.Multiply;
+import com.example.squirrelscout.data.objects.toy.Calculations;
+import com.example.squirrelscout.data.objects.toy.Multiply;
 import com.example.squirrelscout.data.objects.toy.Add1;
 
 import java.util.logging.Level;

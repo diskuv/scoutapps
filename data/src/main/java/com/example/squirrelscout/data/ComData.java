@@ -1,5 +1,6 @@
 package com.example.squirrelscout.data;
 
+import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.example.squirrelscout.data.objects.toy.Calculations;
 import com.example.squirrelscout.data.objects.toy.Multiply;
 import com.example.squirrelscout.data.objects.toy.Add1;
 
+import java.io.IOException;
 import java.util.logging.Level;
 
 public class ComData {
@@ -45,12 +47,12 @@ public class ComData {
         }
     }
 
-    ComData(Com com) {
+    ComData(Com com, Context context) {
         this.com = com;
         this.multiply = Multiply.create(com);
         this.add1 = Add1.create(com);
         this.calculations = Calculations.create(com);
-        this.scoutBridge = ScoutBridge.create(com);
+        this.scoutBridge = ScoutBridge.create(com, context);
     }
 
     protected synchronized void shutdown() {

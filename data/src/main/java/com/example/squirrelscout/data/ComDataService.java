@@ -78,7 +78,7 @@ public class ComDataService extends Service {
             initializeOCamlRuntime(getPackageName());
 
             // POINT C: Do all the borrowing of class objects in ComData.
-            ComData data0 = new ComData(com);
+            ComData data0 = new ComData(com, getApplicationContext());
             synchronized (ComDataService.class) {
                 data = data0;
             }

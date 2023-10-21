@@ -1,5 +1,7 @@
 package com.example.squirrelscout.data.objects;
 
+import android.content.Context;
+
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
 import com.diskuv.dksdk.ffi.java.Clazz;
@@ -7,11 +9,14 @@ import com.diskuv.dksdk.ffi.java.Com;
 import com.diskuv.dksdk.ffi.java.Instance;
 import com.diskuv.dksdk.ffi.java.Method;
 import com.diskuv.dksdk.schema.StdSchema;
+import com.example.squirrelscout.data.DatabaseStorage;
 
 import org.capnproto.MessageBuilder;
 import org.capnproto.MessageReader;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 
 public class ScoutBridge {
     private static volatile Clazz clazz;
@@ -26,7 +31,7 @@ public class ScoutBridge {
         this.instance = instance;
     }
 
-    public static ScoutBridge create(Com com) {
+    public static ScoutBridge create(Com com, Context context) {
         /* Init <Clazz> singleton */
         if (clazz == null) {
             synchronized (ScoutBridge.class) {
@@ -36,14 +41,30 @@ public class ScoutBridge {
             }
         }
 
+        /* find where the database should be */
+        final File databasePath;
+        try {
+            databasePath = DatabaseStorage.databasePath(context);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (databasePath == null) {
+            throw new RuntimeException("Not enough space to use the scouting database");
+        }
+
+        /* args: databasePath=[DATA] */
         MessageBuilder arguments = Com.newMessageBuilder();
-        MessageReader returnValue = clazz.call(M_CREATE_OBJECT, arguments);
-        /* [type GenericReturn = unset | value of 'value | newObject of ComObject]
-         * We only need [newObject of ComObject], but we still have to specific
-         * something for the ['value] generic type parameter.
+        StdSchema.St.Builder builder = arguments.initRoot(StdSchema.St.factory);
+        builder.setI1(databasePath.getPath());
+
+        /* return: <new object>
+         *      [type GenericReturn = unset | value of 'value | newObject of ComObject]
+         *      We only need [newObject of ComObject], but we still have to specific
+         *      something for the ['value] generic type parameter.
          */
+        MessageReader response = clazz.call(M_CREATE_OBJECT, arguments);
         StdSchema.GenericReturn.Reader<StdSchema.Su8.Reader> grReader =
-                returnValue.getRoot(StdSchema.GenericReturn.newFactory(StdSchema.Su8.factory));
+                response.getRoot(StdSchema.GenericReturn.newFactory(StdSchema.Su8.factory));
         StdSchema.ComObject.Reader reader = grReader.getNewObject();
         return new ScoutBridge(clazz.takeInstanceObjectUntilFinalized(reader));
     }
@@ -53,9 +74,9 @@ public class ScoutBridge {
         MessageBuilder arguments = Com.newMessageBuilder();
         StdSchema.Sd.Builder builder = arguments.initRoot(StdSchema.Sd.factory);
         builder.setI1(blob);
-        MessageReader response = instance.call(M_GENERATE_QR_CODE, arguments);
 
         /* return: [DATA] */
+        MessageReader response = instance.call(M_GENERATE_QR_CODE, arguments);
         StdSchema.GenericReturn.Reader<StdSchema.Sd.Reader> grReader =
                 response.getRoot(StdSchema.GenericReturn.newFactory(StdSchema.Sd.factory));
         StdSchema.Sd.Reader reader = grReader.getValue();

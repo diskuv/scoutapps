@@ -31,8 +31,8 @@ public class ScoutBridge {
         this.instance = instance;
     }
 
-    public static ScoutBridge create(Com com, Context context) {
-        /* Init <Clazz> singleton */
+    /* Init <Clazz> singleton */
+    private static void init(Com com) {
         if (clazz == null) {
             synchronized (ScoutBridge.class) {
                 if (clazz == null) {
@@ -40,6 +40,10 @@ public class ScoutBridge {
                 }
             }
         }
+    }
+
+    public static ScoutBridge create(Com com, Context context) {
+        init(com);
 
         /* find where the database should be */
         final File databasePath;
@@ -69,14 +73,16 @@ public class ScoutBridge {
         return new ScoutBridge(clazz.takeInstanceObjectUntilFinalized(reader));
     }
 
-    public SVG generateQrCode(byte[] blob) {
+    public static SVG generateQrCode(Com com, byte[] blob) {
+        init(com);
+
         /* args: [DATA] */
         MessageBuilder arguments = Com.newMessageBuilder();
         StdSchema.Sd.Builder builder = arguments.initRoot(StdSchema.Sd.factory);
         builder.setI1(blob);
 
         /* return: [DATA] */
-        MessageReader response = instance.call(M_GENERATE_QR_CODE, arguments);
+        MessageReader response = clazz.call(M_GENERATE_QR_CODE, arguments);
         StdSchema.GenericReturn.Reader<StdSchema.Sd.Reader> grReader =
                 response.getRoot(StdSchema.GenericReturn.newFactory(StdSchema.Sd.factory));
         StdSchema.Sd.Reader reader = grReader.getValue();

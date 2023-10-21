@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
+import com.caverock.androidsvg.SVG;
 import com.diskuv.dksdk.ffi.java.Com;
 import com.diskuv.dksdk.ffi.java.android.JavaJdkCompatAndroid;
 import com.diskuv.dksdk.ffi.java.compat.JavaJdkCompat;
@@ -13,7 +14,6 @@ import com.example.squirrelscout.data.objects.toy.Calculations;
 import com.example.squirrelscout.data.objects.toy.Multiply;
 import com.example.squirrelscout.data.objects.toy.Add1;
 
-import java.io.IOException;
 import java.util.logging.Level;
 
 public class ComData {
@@ -74,4 +74,6 @@ public class ComData {
     public ScoutBridge getScoutBridge() {
         return scoutBridge;
     }
+
+    public SVG generateQrCode(byte[] blob) { return ScoutBridge.generateQrCode(com, blob); }
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.os.HandlerCompat;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGImageView;
@@ -224,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scoutInfo.setScoutName(ScoutName);
     }
 
+    private final Handler uiThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     private final ServiceConnection dataConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -237,8 +239,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.w("DkSDK", String.format("f(3, 7) = %d where f=multiply", answer));
 
             /* Use data COM object */
-            SVG svg = data.getScoutBridge().generateQrCode("hello squirrel scouters!".getBytes(StandardCharsets.UTF_8));
-            qrCode.setSVG(svg);
+            SVG svg = data.generateQrCode("hello squirrel scouters!".getBytes(StandardCharsets.UTF_8));
+
+            /* Sending original/generated data back to the UI thread */
+            uiThreadHandler.post(() -> qrCode.setSVG(svg));
         }
 
         @Override

@@ -211,7 +211,6 @@ let main () =
   in
 
   (* let default =  Cmdliner.Term.(ret (const (fun _ -> `Help (`Pager, None)) *)
-  let a = Cmdliner.Cmd.eval (Cmdliner.Cmd.group info cmds) in
-  match a with x -> print_endline ("exit code: " ^ string_of_int x)
+  exit (Cmdliner.Cmd.eval (Cmdliner.Cmd.group info cmds))
 
 let () = main ()

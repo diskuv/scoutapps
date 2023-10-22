@@ -39,9 +39,15 @@ static void handle_ocaml_exception(value exn, const char *what, const char *what
     jobject clazz_name = (*env)->CallObjectMethod(env, clazz, meth_Class_getName); \
     const char *clazz_name_str = (*env)->GetStringUTFChars(env, clazz_name, NULL)
 
+static int ocaml_initialized;
+
 JNIEXPORT void JNICALL
 Java_com_example_squirrelscout_data_ComDataForegroundService_initializeOCamlRuntime(JNIEnv *env, jclass clazz,
                                                                                     jstring process_argv0) {
+    /* Only initialize OCaml with caml_startup once. Confer D01 in COM-DATA-DESIGN.md */
+    if (ocaml_initialized) return;
+    ocaml_initialized = 1;
+
     /* Get the class name (Ex. ComDataService) for logging */
     GET_CLAZZ_NAME();
 
@@ -82,12 +88,31 @@ Java_com_example_squirrelscout_data_ComDataForegroundService_initializeOCamlRunt
     LOG_INFO("[%s.initializeOCaml] Finished", clazz_name_str);
 }
 
+// From [ocaml]/runtime/startup_aux.c
+static void call_registered_value(char* name) {
+  const value *f = caml_named_value(name);
+  if (f != NULL)
+    caml_callback_exn(*f, Val_unit);
+}
+
 JNIEXPORT void JNICALL
 Java_com_example_squirrelscout_data_ComDataForegroundService_shutdownOCaml(JNIEnv *env, jclass clazz) {
     /* Get the class name (Ex. ComDataService) for logging */
     GET_CLAZZ_NAME();
 
     LOG_INFO("[%s.shutdownOCaml] Starting", clazz_name_str);
-    caml_shutdown();
+
+    /* Mimic caml_shutdown. Confer D01 in COM-DATA-DESIGN.md */
+    call_registered_value("Pervasives.do_at_exit");
+    caml_finalise_heap();
+    caml_free_locale();
+#ifndef NATIVE_CODE
+    caml_free_shared_libs();
+#endif
+    /* Reset the major heap to get rid of those "nonexistent values"
+       mentioned in caml_finalise_heap.
+       Confer D01 in COM-DATA-DESIGN.md */
+    caml_compact_heap();
+
     LOG_INFO("[%s.shutdownOCaml] Finished", clazz_name_str);
 }

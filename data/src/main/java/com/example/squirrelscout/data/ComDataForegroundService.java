@@ -8,7 +8,6 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.diskuv.dksdk.ffi.java.Com;
 import com.example.squirrelscout.data.models.ComDataAndProductionTestModel;
@@ -42,16 +41,17 @@ import com.example.squirrelscout.data.models.ComDataModel;
  * persistence, and informing the UI of data changes.</p>
  */
 public class ComDataForegroundService extends Service {
-    private static native void init_ocaml(String processArg0);
-    private static native void start_ocaml();
+    private static native boolean init_ocaml(String processArg0);
+    private static native void start_ocaml(String processArg0);
     private static native void stop_ocaml();
     private static native void terminate_ocaml();
+    private static native void atexit_ocaml();
 
-    private ComFactory.ComDomain comDomain;
-    private Com com;
-    private volatile ComDataModel data;
-    private ComDataHandler serviceHandler;
+    private static ComDataHandler gServiceHandler;
+    private static Com gCom;
+    private final ComFactory.ComDomain comDomain = hasProductionTestObjects() ? ComFactory.ComDomain.PRODUCTION_TEST : ComFactory.ComDomain.PRODUCTION;
     private final IBinder binder = new ComDataBinder();
+    private volatile ComDataModel data;
 
     public final class ComDataBinder extends Binder {
         public ComDataForegroundService getService() {
@@ -68,8 +68,6 @@ public class ComDataForegroundService extends Service {
 
     // Handler that receives messages for the service thread
     private final class ComDataHandler extends Handler {
-        private boolean initted;
-
         public ComDataHandler(Looper looper) {
             super(looper);
         }
@@ -87,23 +85,23 @@ public class ComDataForegroundService extends Service {
         }
 
         private void handleInitMessage() {
-            // POINT B: Initialize the OCaml code, which will run all the
-            // top-level `let () =` statements as well.
+            // POINT B: Initialize the OCaml code, which will do caml_startup()
+            // and run all the top-level `let () =` statements as well.
             init_ocaml(getPackageName());
         }
 
         private void handleStartMessage() {
             // POINT C: Start the OCaml runtime (currently does nothing)
-            start_ocaml();
+            start_ocaml(getPackageName());
 
             // POINT D: Do all the borrowing of class objects in ComData.
             final ComDataModel data0;
             switch (comDomain) {
                 case PRODUCTION:
-                    data0 = new ComDataModel(com, getApplicationContext());
+                    data0 = new ComDataModel(gCom, getApplicationContext());
                     break;
                 case PRODUCTION_TEST:
-                    data0 = new ComDataAndProductionTestModel(com, getApplicationContext());
+                    data0 = new ComDataAndProductionTestModel(gCom, getApplicationContext());
                     break;
                 default:
                     throw new IllegalStateException("No COM domain " + comDomain);
@@ -128,13 +126,10 @@ public class ComDataForegroundService extends Service {
         }
 
         private void handleDestroyMessage() {
-            // POINT B: caml_shutdown() which should do DkSDK FFI OCaml
-            // class object de-registrations.
+            // POINT B ALTERNATE: caml_shutdown() to do DkSDK FFI OCaml
+            // class object de-registrations of OCaml could repeatedly
+            // run caml_startup() -> camle_shutdown(). For now it does nothing.
             terminate_ocaml();
-
-            // POINT A: Do DkSDK FFI C class object de-registrations (ex.
-            // ICallable, Posix::FILE) and then dksdk_ffi_host_destroy()
-            com.shutdown();
         }
     }
 
@@ -148,26 +143,45 @@ public class ComDataForegroundService extends Service {
 
     @Override
     public void onCreate() {
-        // Start up the thread running the service. Note that we create a
-        // separate thread because the service normally runs in the process's
-        // main thread, which we don't want to block. We also make it
-        // background priority so CPU-intensive work doesn't disrupt our UI.
-        HandlerThread thread = new HandlerThread("ComDataHandler",
-                android.os.Process.THREAD_PRIORITY_BACKGROUND);
-        thread.start();
+        synchronized(ComDataForegroundService.class) {
+            // POINT A: Do dksdk_ffi_host_create(), standard DkSDK FFI C class object registrations
+            // and a service thread for OCaml
+            if (gCom == null) {
 
-        // Get the HandlerThread's Looper and use it for our Handler
-        Looper serviceLooper = thread.getLooper();
-        serviceHandler = new ComDataHandler(serviceLooper);
+                // Start up the thread running the service. Note that we create a
+                // separate thread because the service normally runs in the process's
+                // main thread, which we don't want to block. We also make it
+                // background priority so CPU-intensive work doesn't disrupt our UI.
+                HandlerThread thread = new HandlerThread("ComDataForeground",
+                        android.os.Process.THREAD_PRIORITY_BACKGROUND);
+                thread.start();
 
-        // POINT A: Do dksdk_ffi_host_create() and standard DkSDK FFI C class object registrations
-        comDomain = hasProductionTestObjects() ? ComFactory.ComDomain.PRODUCTION_TEST : ComFactory.ComDomain.PRODUCTION;
-        com = ComFactory.createDataForeground(getLogName(), comDomain);
+                // Get the HandlerThread's Looper and use it for our Handler
+                Looper serviceLooper = thread.getLooper();
+                gServiceHandler = new ComDataHandler(serviceLooper);
+
+                // Create COM and its shutdown handlers
+                gCom = ComFactory.createDataForeground(getLogName(), comDomain);
+                Runtime.getRuntime().addShutdownHook(new Thread() {
+                    @Override
+                    public void run() {
+                        // POINT B: Shutdown OCaml
+                        atexit_ocaml();
+
+                        // POINT A: Stop servicing messages, do DkSDK FFI C class object
+                        // de-registrations (ex. ICallable, Posix::FILE) and then
+                        // dksdk_ffi_host_destroy()
+                        thread.quitSafely();
+                        gCom.shutdown();
+                    }
+                });
+            }
+        }
 
         // Send INIT message which will do POINT B
-        Message msg = serviceHandler.obtainMessage();
+        Message msg = gServiceHandler.obtainMessage();
         msg.arg1 = HandlerMessageType.MSG_INIT.ordinal();
-        serviceHandler.sendMessage(msg);
+        gServiceHandler.sendMessage(msg);
     }
 
     public void requestData(ComDataRequestCallback callback) {
@@ -177,7 +191,7 @@ public class ComDataForegroundService extends Service {
         // Also, being in the service thread means we don't have to
         // work about whether OCaml has been registered in the thread
         // if the data accessed needs to call back into OCaml.
-        serviceHandler.post(() -> {
+        gServiceHandler.post(() -> {
             ComDataModel data0 = data;
             if (data0 != null) /* ensure no more delivery after shutdown */
                 callback.onComDataReady(data0);
@@ -191,9 +205,9 @@ public class ComDataForegroundService extends Service {
         // return the same memoized IBinder object.
 
         // Send START message which will do POINT C + D
-        msg = serviceHandler.obtainMessage();
+        Message msg = gServiceHandler.obtainMessage();
         msg.arg1 = HandlerMessageType.MSG_START.ordinal();
-        serviceHandler.sendMessage(msg);
+        gServiceHandler.sendMessage(msg);
 
         return binder;
     }
@@ -201,9 +215,9 @@ public class ComDataForegroundService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         // Send STOP message which will undo POINT D + C
-        msg = serviceHandler.obtainMessage();
+        Message msg = gServiceHandler.obtainMessage();
         msg.arg1 = HandlerMessageType.MSG_STOP.ordinal();
-        serviceHandler.sendMessage(msg);
+        gServiceHandler.sendMessage(msg);
 
         /* Do not call onRebind() when a new bind comes in */
         return false;
@@ -211,9 +225,9 @@ public class ComDataForegroundService extends Service {
 
     @Override
     public void onDestroy() {
-        // Send DESTROY message which will undo POINT B + A
-        Message msg = serviceHandler.obtainMessage();
+        // Send DESTROY message which will undo POINT B ALTERNATE
+        Message msg = gServiceHandler.obtainMessage();
         msg.arg1 = HandlerMessageType.MSG_DESTROY.ordinal();
-        serviceHandler.sendMessage(msg);
+        gServiceHandler.sendMessage(msg);
     }
 }

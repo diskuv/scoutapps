@@ -73,20 +73,46 @@ CAMLexport void caml_shutdown(void)
 }
 ```
 
-Since the following have OCaml top-level initializers which can't
-be re-run, we should not do any of:
+#### D01-S01 - state transitions
 
-- `call_registered_value("Thread.at_shutdown")` - do not touch `caml_thread_initialize(value)` and do not reset `preempt_signal`, both from `[ocaml]/otherlibs/systhreads/thread.ml`
+```text
+initialize -> start -> stop -> terminate
+                ^        |
+                |        |
+                \--------/
+```
+
+#### D01-S01 - initialize
+
+Do `caml_startup` once. But since part of `caml_startup` is registration of generational roots (allocations)
+we need to do the `stop` logic so that the first `start` is in a good state.
+
+Alternative: We could have skipped the first `start`, but it seems better to fail-fast if
+there is a problem with `stop` -> `start` transition.
+
+#### D01-S01 - start
+
+Do the opposite of the following:
+
+- `caml_terminate_signals()` - we want `caml_init_signals()` which was called in `caml_startup_common` and weirdly
+  terminated in `caml_startup_common`. But the weirdness is only on Unix but not on Windows.
+  https://github.com/ocaml/ocaml/issues/11486 has the bug. Because we do care about stack overflow detection,
+  we _should_ enable the signals like the bug report says is preferable.
+
+And do all the parts of `caml_startup` that use allocations (which are removed in `stop`).
+
+#### D01-S01 - stop
 
 And since we are not re-running `caml_startup`, we should not do
 any of:
 
 - `caml_free_locale()` - do not touch `caml_init_locale()` which was called in `caml_startup_common`
-- `caml_free_shared_libs()` - keep any previously loaded shared libraries
+- `caml_free_shared_libs()` - keep any previously loaded shared libraries. Regardless, it is not for native code.
 - `caml_stat_destroy_pool()` - keep the possible heap memory pool of `caml_stat_create_pool()` which was called in `caml_startup_aux`
-- `caml_terminate_signals()` - do not touch `caml_init_signals()` which was called in `caml_startup_common`
 - `caml_win32_unregister_overflow_detection()` - do not touch `caml_win32_overflow_detection()` which was called in `caml_startup_common`
 - `shutdown_happened = 1` - that is a static variable so can't do anything anyway
+
+And we also get rid of all the roots (the global/generational roots and the local stack).
 
 Also, there is a warning on `caml_finalise_heap`:
 
@@ -102,3 +128,13 @@ Also, there is a warning on `caml_finalise_heap`:
 
 To get rid of those nonexistent values, we need to reset the
 major heap. That is, we need to do a `caml_compact_heap`.
+
+#### D01-S01 - terminate
+
+Finally, when we do shutdown the JVM, we should do the bits of `caml_shutdown`
+that have not already been done. We can do all of the remainder except:
+
+- `call_registered_value("Thread.at_shutdown")` - since there are no OCaml values in memory no callback could have been registered
+- `caml_free_shared_libs()` - since it is not for native code (and won't have an export symbol in the library)
+
+**That means threads are not supported (or more accurately there will be a leak) in this reloadable OCaml runtime.** And that is okay and somewhat makes sense.

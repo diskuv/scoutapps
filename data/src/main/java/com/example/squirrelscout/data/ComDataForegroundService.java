@@ -158,8 +158,6 @@ public class ComDataForegroundService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Toast.makeText(this, "COM data service bound", Toast.LENGTH_SHORT).show();
-
         // BEHAVIOR:
         // Android will only do an onBind() once and then it will
         // return the same memoized IBinder object.

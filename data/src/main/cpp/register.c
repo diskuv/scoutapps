@@ -36,14 +36,15 @@ static void handle_ocaml_exception(value exn, const char *what, const char *what
 #define GET_CLAZZ_NAME() \
     jclass cls_Class = (*env)->FindClass(env, "java/lang/Class"); \
     jmethodID meth_Class_getName = (*env)->GetMethodID(env, cls_Class, "getName", "()Ljava/lang/String;"); \
-    jobject clazz_name = (*env)->CallObjectMethod(env, clazz, meth_Class_getName); \
+    jobject clazz_name = (*env)->CallObjectMethod(env, cls, meth_Class_getName); \
     const char *clazz_name_str = (*env)->GetStringUTFChars(env, clazz_name, NULL)
 
 static int ocaml_initialized;
+static int ocaml_terminated;
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataForegroundService_initializeOCamlRuntime(JNIEnv *env, jclass clazz,
-                                                                                    jstring process_argv0) {
+Java_com_example_squirrelscout_data_ComDataForegroundService_init_ocaml(JNIEnv *env, jclass cls,
+                                                                        jstring process_argv0) {
     /* Only initialize OCaml with caml_startup once. Confer D01 in COM-DATA-DESIGN.md */
     if (ocaml_initialized) return;
     ocaml_initialized = 1;
@@ -51,13 +52,13 @@ Java_com_example_squirrelscout_data_ComDataForegroundService_initializeOCamlRunt
     /* Get the class name (Ex. ComDataService) for logging */
     GET_CLAZZ_NAME();
 
-    LOG_INFO("[%s.initializeOCaml] Starting", clazz_name_str);
+    LOG_INFO("[%s.init_ocaml] Starting", clazz_name_str);
 
 #define RELEASE_INITIALIZEOCAML1() (*env)->ReleaseStringUTFChars(env, clazz_name, clazz_name_str)
 
     const char *argv0 = (*env)->GetStringUTFChars(env, process_argv0, NULL);
     if (argv0 == NULL) {
-        LOG_FATAL("[%s.initializeOCaml] Did not receive the argv0 of the process", clazz_name_str);
+        LOG_FATAL("[%s.init_ocaml] Did not receive the argv0 of the process", clazz_name_str);
         RELEASE_INITIALIZEOCAML1();
         return;
     }
@@ -66,7 +67,7 @@ Java_com_example_squirrelscout_data_ComDataForegroundService_initializeOCamlRunt
 
     os_char *argv0_os = caml_stat_strdup_to_os(argv0);
     if (argv0_os == NULL) {
-        LOG_FATAL("[%s.initializeOCaml] OCaml could not duplicate the argv0 of the process",
+        LOG_FATAL("[%s.init_ocaml] OCaml could not duplicate the argv0 of the process",
                   clazz_name_str);
         RELEASE_INITIALIZEOCAML2();
         return;
@@ -79,13 +80,19 @@ Java_com_example_squirrelscout_data_ComDataForegroundService_initializeOCamlRunt
 
     if (Is_exception_result(res)) {
         res = Extract_exception(res);
-        handle_ocaml_exception(res, clazz_name_str, "initializeOCamlRuntime");
+        handle_ocaml_exception(res, clazz_name_str, "init_ocaml");
         RELEASE_INITIALIZEOCAML3();
         return;
     }
 
     RELEASE_INITIALIZEOCAML3();
-    LOG_INFO("[%s.initializeOCaml] Finished", clazz_name_str);
+    LOG_INFO("[%s.init_ocaml] Finished", clazz_name_str);
+}
+
+JNIEXPORT void JNICALL
+Java_com_example_squirrelscout_data_ComDataForegroundService_start_ocaml(JNIEnv *env, jclass cls) {
+    (void)env;
+    (void)cls;
 }
 
 // From [ocaml]/runtime/startup_aux.c
@@ -96,23 +103,29 @@ static void call_registered_value(char* name) {
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataForegroundService_shutdownOCaml(JNIEnv *env, jclass clazz) {
+Java_com_example_squirrelscout_data_ComDataForegroundService_stop_ocaml(JNIEnv *env, jclass cls) {
     /* Get the class name (Ex. ComDataService) for logging */
     GET_CLAZZ_NAME();
 
-    LOG_INFO("[%s.shutdownOCaml] Starting", clazz_name_str);
+    LOG_INFO("[%s.stop_ocaml] Starting", clazz_name_str);
 
     /* Mimic caml_shutdown. Confer D01 in COM-DATA-DESIGN.md */
     call_registered_value("Pervasives.do_at_exit");
     caml_finalise_heap();
-    caml_free_locale();
-#ifndef NATIVE_CODE
-    caml_free_shared_libs();
-#endif
     /* Reset the major heap to get rid of those "nonexistent values"
        mentioned in caml_finalise_heap.
        Confer D01 in COM-DATA-DESIGN.md */
     caml_compact_heap();
 
-    LOG_INFO("[%s.shutdownOCaml] Finished", clazz_name_str);
+    LOG_INFO("[%s.stop_ocaml] Finished", clazz_name_str);
+}
+
+JNIEXPORT void JNICALL
+Java_com_example_squirrelscout_data_ComDataForegroundService_terminate_ocaml(JNIEnv *env, jclass cls) {
+    /* If never initialized OCaml, nothing to do. */
+    if (!ocaml_initialized) return;
+    /* Only terminate OCaml with caml_shutdown once. */
+    if (ocaml_terminated) return;
+    ocaml_terminated = 1;
+    caml_shutdown();
 }

@@ -60,6 +60,7 @@ public class ComDataForegroundListener implements DefaultLifecycleObserver {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            // unnecessary
         }
     };
 }

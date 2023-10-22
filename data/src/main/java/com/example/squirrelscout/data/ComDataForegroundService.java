@@ -42,9 +42,10 @@ import com.example.squirrelscout.data.models.ComDataModel;
  * persistence, and informing the UI of data changes.</p>
  */
 public class ComDataForegroundService extends Service {
-    private static native void initializeOCamlRuntime(String processArg0);
-
-    private static native void shutdownOCaml();
+    private static native void init_ocaml(String processArg0);
+    private static native void start_ocaml();
+    private static native void stop_ocaml();
+    private static native void terminate_ocaml();
 
     private ComFactory.ComDomain comDomain;
     private Com com;
@@ -59,8 +60,10 @@ public class ComDataForegroundService extends Service {
     }
 
     enum HandlerMessageType {
-        MSG_STARTUP,
-        MSG_SHUTDOWN
+        MSG_INIT,
+        MSG_START,
+        MSG_STOP,
+        MSG_DESTROY
     }
 
     // Handler that receives messages for the service thread
@@ -73,23 +76,27 @@ public class ComDataForegroundService extends Service {
 
         @Override
         public void handleMessage(Message msg) {
-            if (msg.arg1 == HandlerMessageType.MSG_STARTUP.ordinal())
-                handleStartupMessage();
-            if (msg.arg1 == HandlerMessageType.MSG_SHUTDOWN.ordinal())
-                handleShutdownMessage();
+            if (msg.arg1 == HandlerMessageType.MSG_INIT.ordinal())
+                handleInitMessage();
+            if (msg.arg1 == HandlerMessageType.MSG_START.ordinal())
+                handleStartMessage();
+            if (msg.arg1 == HandlerMessageType.MSG_STOP.ordinal())
+                handleStopMessage();
+            if (msg.arg1 == HandlerMessageType.MSG_DESTROY.ordinal())
+                handleDestroyMessage();
         }
 
-        private void handleStartupMessage() {
+        private void handleInitMessage() {
             // POINT B: Initialize the OCaml code, which will run all the
             // top-level `let () =` statements as well.
-            synchronized (ComDataHandler.class) {
-                // Only do OCaml initialization once
-                if (initted) return;
-                initted = true;
-            }
-            initializeOCamlRuntime(getPackageName());
+            init_ocaml(getPackageName());
+        }
 
-            // POINT C: Do all the borrowing of class objects in ComData.
+        private void handleStartMessage() {
+            // POINT C: Start the OCaml runtime (currently does nothing)
+            start_ocaml();
+
+            // POINT D: Do all the borrowing of class objects in ComData.
             final ComDataModel data0;
             switch (comDomain) {
                 case PRODUCTION:
@@ -106,25 +113,37 @@ public class ComDataForegroundService extends Service {
             }
         }
 
-        private void handleShutdownMessage() {
-            // POINT C: Would be nice that we could release the borrowing
+        private void handleStopMessage() {
+            // POINT D: Would be nice that we could release the borrowing
             // of class objects in ComData. But the class objects
             // can live until Java garbage collection (and the user
             // may be accidentally holding onto them).
             // For now, we simply stop any more use of [data].
-            ComDataModel data0 = data;
             synchronized (ComDataForegroundService.class) {
                 data = null;
             }
 
+            // POINT C: Stop the OCaml runtime (currently removes all OCaml values)
+            stop_ocaml();
+        }
+
+        private void handleDestroyMessage() {
             // POINT B: caml_shutdown() which should do DkSDK FFI OCaml
             // class object de-registrations.
-            shutdownOCaml();
+            terminate_ocaml();
 
             // POINT A: Do DkSDK FFI C class object de-registrations (ex.
             // ICallable, Posix::FILE) and then dksdk_ffi_host_destroy()
             com.shutdown();
         }
+    }
+
+    protected boolean hasProductionTestObjects() {
+        return false;
+    }
+
+    protected String getLogName() {
+        return null;
     }
 
     @Override
@@ -140,6 +159,15 @@ public class ComDataForegroundService extends Service {
         // Get the HandlerThread's Looper and use it for our Handler
         Looper serviceLooper = thread.getLooper();
         serviceHandler = new ComDataHandler(serviceLooper);
+
+        // POINT A: Do dksdk_ffi_host_create() and standard DkSDK FFI C class object registrations
+        comDomain = hasProductionTestObjects() ? ComFactory.ComDomain.PRODUCTION_TEST : ComFactory.ComDomain.PRODUCTION;
+        com = ComFactory.createDataForeground(getLogName(), comDomain);
+
+        // Send INIT message which will do POINT B
+        Message msg = serviceHandler.obtainMessage();
+        msg.arg1 = HandlerMessageType.MSG_INIT.ordinal();
+        serviceHandler.sendMessage(msg);
     }
 
     public void requestData(ComDataRequestCallback callback) {
@@ -162,24 +190,30 @@ public class ComDataForegroundService extends Service {
         // Android will only do an onBind() once and then it will
         // return the same memoized IBinder object.
 
-        // POINT A: Do dksdk_ffi_host_create() and standard DkSDK FFI C class object registrations
-        boolean productionTest = intent.getBooleanExtra("Com.productionTest", false);
-        comDomain = productionTest ? ComFactory.ComDomain.PRODUCTION_TEST : ComFactory.ComDomain.PRODUCTION;
-        com = ComFactory.createDataForeground(intent, comDomain);
-
-        // Send startup message (B + C)
-        Message msg = serviceHandler.obtainMessage();
-        msg.arg1 = HandlerMessageType.MSG_STARTUP.ordinal();
+        // Send START message which will do POINT C + D
+        msg = serviceHandler.obtainMessage();
+        msg.arg1 = HandlerMessageType.MSG_START.ordinal();
         serviceHandler.sendMessage(msg);
 
         return binder;
     }
 
     @Override
+    public boolean onUnbind(Intent intent) {
+        // Send STOP message which will undo POINT D + C
+        msg = serviceHandler.obtainMessage();
+        msg.arg1 = HandlerMessageType.MSG_STOP.ordinal();
+        serviceHandler.sendMessage(msg);
+
+        /* Do not call onRebind() when a new bind comes in */
+        return false;
+    }
+
+    @Override
     public void onDestroy() {
-        // Send shutdown message (C + B + A)
+        // Send DESTROY message which will undo POINT B + A
         Message msg = serviceHandler.obtainMessage();
-        msg.arg1 = HandlerMessageType.MSG_SHUTDOWN.ordinal();
+        msg.arg1 = HandlerMessageType.MSG_DESTROY.ordinal();
         serviceHandler.sendMessage(msg);
     }
 }

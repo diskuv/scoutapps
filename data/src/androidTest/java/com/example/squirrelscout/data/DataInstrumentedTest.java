@@ -12,6 +12,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ServiceTestRule;
+import main.java.com.example.squirrelscout.data.ComDataAndProductionTestForegroundService;
 
 import com.example.squirrelscout.data.models.ComDataAndProductionTestModel;
 import com.example.squirrelscout.data.objects.toy.Add1;
@@ -52,9 +53,8 @@ public class DataInstrumentedTest {
      */
     @Test
     public void givenAdd1_whenCall_thenIncremented() throws TimeoutException, InterruptedException {
-        Intent dataIntent = new Intent(ApplicationProvider.getApplicationContext(), ComDataForegroundService.class);
-        dataIntent.putExtra("Com.productionTest", true);
-        dataIntent.putExtra("Com.logName", name.getMethodName());
+        ComDataAndProductionTestForegroundService.testName = name.getMethodName();
+        Intent dataIntent = new Intent(ApplicationProvider.getApplicationContext(), ComDataAndProductionTestForegroundService.class);
 
         IBinder binder = serviceRule.bindService(dataIntent);
         assertNotNull(binder);

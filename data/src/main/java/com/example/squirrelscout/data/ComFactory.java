@@ -14,9 +14,13 @@ public class ComFactory {
         PRODUCTION_TEST
     }
 
-    static Com createDataForeground(Intent intent, ComDomain comDomain) {
-        String logName = intent.getStringExtra("Com.logName");
-
+    /**
+     * 
+     * @param logName May be null.
+     * @param comDomain The domain of COM objects to register
+     * @return
+     */
+    static Com createDataForeground(String logName, ComDomain comDomain) {
         final JavaJdkCompat compat = JavaJdkCompatAndroid.createWithDkSDK("data_foreground");
 
         // Initialize Android logging

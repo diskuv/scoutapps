@@ -96,13 +96,16 @@ let insert_scouted_data ~self v args =
 
 
 let register_objects com =
-  register com ~classname:"SquirrelScout::Bridge"
+  register com ~classname:"SquirrelScout::Database"
     [
       class_method ~name:"create_object" ~f:create_object ();
-      class_method ~name:"generate_qr_code" ~f:generate_qr_code ();
 
       instance_method ~name:"get_team_for_match_and_position"
         ~f:get_team_for_match_and_position ();
       instance_method ~name:"insert_scouted_data" ~f:insert_scouted_data ();
       instance_method ~name:"load_json_match_schedule" ~f:load_json_match_schedule ();
+    ];
+  register com ~classname:"SquirrelScout::QR"
+    [
+      class_method ~name:"generate" ~f:generate_qr_code ();
     ]

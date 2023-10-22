@@ -11,9 +11,15 @@ import android.os.Message;
 import android.widget.Toast;
 
 import com.diskuv.dksdk.ffi.java.Com;
+import com.example.squirrelscout.data.models.ComDataAndProductionTestModel;
+import com.example.squirrelscout.data.models.ComDataModel;
 
 /**
- * DkSDK use a Service because it needs:
+ * An Android Service component that will start an OCaml runtime
+ * while the application is in the foreground and shutdown
+ * the OCaml runtime when the application goes to the background.
+ * <p>
+ * The OCaml runtime is in run in a service thread (not the main UI thread).
  *
  * <ol>
  * <li>The ability to shutdown (remove registrations).</li>
@@ -21,28 +27,34 @@ import com.diskuv.dksdk.ffi.java.Com;
  * OCaml code and will be tracked by Android, and stopped if Android
  * needs the memory.</li>
  * </ol>
+ *
+ * <h2>Restrictions</h2>
  * <p>
- * Because the OCaml service background thread can be stopped,
- * anything transient memory inside OCaml will be lost. This is
- * a "data" layer after all!
- * <p>
- * Additionally, starting up OCaml should not take long since it
- * will impact the user when the app comes to the foreground after
- * Android had stopped the thread earlier.
+ * Because the OCaml service background thread can be stopped
+ * by Android due to memory pressure, anything transient memory inside
+ * OCaml can be lost. In addition, the OCaml runtime will be shutdown
+ * simply for going into the background. That means the OCaml top-level
+ * statements should be quick for the startup; if not when the app
+ * comes to the foreground the user will experience a pause.
+ * </p>
+ * <p>All of the restrictions means that the OCaml runtime is good
+ * for responding to UI events, quickly placing data into
+ * persistence, and informing the UI of data changes.</p>
  */
-public class ComDataService extends Service {
+public class ComDataForegroundService extends Service {
     private static native void initializeOCamlRuntime(String processArg0);
 
     private static native void shutdownOCaml();
 
+    private ComFactory.ComDomain comDomain;
     private Com com;
-    private volatile ComData data;
+    private volatile ComDataModel data;
     private ComDataHandler serviceHandler;
     private final IBinder binder = new ComDataBinder();
 
     public final class ComDataBinder extends Binder {
-        public ComDataService getService() {
-            return ComDataService.this;
+        public ComDataForegroundService getService() {
+            return ComDataForegroundService.this;
         }
     }
 
@@ -78,8 +90,18 @@ public class ComDataService extends Service {
             initializeOCamlRuntime(getPackageName());
 
             // POINT C: Do all the borrowing of class objects in ComData.
-            ComData data0 = new ComData(com, getApplicationContext());
-            synchronized (ComDataService.class) {
+            final ComDataModel data0;
+            switch (comDomain) {
+                case PRODUCTION:
+                    data0 = new ComDataModel(com, getApplicationContext());
+                    break;
+                case PRODUCTION_TEST:
+                    data0 = new ComDataAndProductionTestModel(com, getApplicationContext());
+                    break;
+                default:
+                    throw new IllegalStateException("No COM domain " + comDomain);
+            }
+            synchronized (ComDataForegroundService.class) {
                 data = data0;
             }
         }
@@ -90,8 +112,8 @@ public class ComDataService extends Service {
             // can live until Java garbage collection (and the user
             // may be accidentally holding onto them).
             // For now, we simply stop any more use of [data].
-            ComData data0 = data;
-            synchronized (ComDataService.class) {
+            ComDataModel data0 = data;
+            synchronized (ComDataForegroundService.class) {
                 data = null;
             }
 
@@ -101,9 +123,7 @@ public class ComDataService extends Service {
 
             // POINT A: Do DkSDK FFI C class object de-registrations (ex.
             // ICallable, Posix::FILE) and then dksdk_ffi_host_destroy()
-            if (data0 != null) {
-                data0.shutdown();
-            }
+            com.shutdown();
         }
     }
 
@@ -122,7 +142,7 @@ public class ComDataService extends Service {
         serviceHandler = new ComDataHandler(serviceLooper);
     }
 
-    public void requestData(DataRequestCallback callback) {
+    public void requestData(ComDataRequestCallback callback) {
         // Posting to the service thread makes sure the first service
         // thread message (start OCaml) has been completed.
         //
@@ -130,9 +150,9 @@ public class ComDataService extends Service {
         // work about whether OCaml has been registered in the thread
         // if the data accessed needs to call back into OCaml.
         serviceHandler.post(() -> {
-            ComData data0 = data;
+            ComDataModel data0 = data;
             if (data0 != null) /* ensure no more delivery after shutdown */
-                callback.onComplete(data0);
+                callback.onComDataReady(data0);
         });
     }
 
@@ -145,7 +165,9 @@ public class ComDataService extends Service {
         // return the same memoized IBinder object.
 
         // POINT A: Do dksdk_ffi_host_create() and standard DkSDK FFI C class object registrations
-        com = ComData.newCom(intent);
+        boolean productionTest = intent.getBooleanExtra("Com.productionTest", false);
+        comDomain = productionTest ? ComFactory.ComDomain.PRODUCTION_TEST : ComFactory.ComDomain.PRODUCTION;
+        com = ComFactory.createDataForeground(intent, comDomain);
 
         // Send startup message (B + C)
         Message msg = serviceHandler.obtainMessage();
@@ -157,8 +179,6 @@ public class ComDataService extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "COM data service done", Toast.LENGTH_SHORT).show();
-
         // Send shutdown message (C + B + A)
         Message msg = serviceHandler.obtainMessage();
         msg.arg1 = HandlerMessageType.MSG_SHUTDOWN.ordinal();

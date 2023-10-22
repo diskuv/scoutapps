@@ -58,7 +58,7 @@ android {
             cmake {
                 cppFlags ""
                 arguments.addAll cmakeConfigureTemplate.fullArguments.get()
-                targets "datalib"
+                targets "data_foreground"
             }
             ndk {
                 // DkSDK supports: android_x86_64, android_arm32v7a, android_arm64v8a

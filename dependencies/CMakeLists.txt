@@ -35,7 +35,7 @@ use_dksdk_ffi_repository(OCAML ocaml)
 
 # --- Fetch dksdk-ffi-java
 
-set(DKSDK_FFI_JAVA_EMBEDDER_LIBRARY datalib)
+set(DKSDK_FFI_JAVA_EMBEDDER_LIBRARY data_foreground)
 FetchContent_Declare(dksdk-ffi-java # override with cmake -D FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-JAVA=...
     GIT_REPOSITORY "${dksdk-ffi-java_REPOSITORY}"
     GIT_TAG next)

@@ -5,7 +5,7 @@
          https://developer.android.com/build/manage-manifests#merge-manifests -->
     <application>
         <service
-            android:name="com.example.squirrelscout.data.ComDataService"
+            android:name="com.example.squirrelscout.data.ComDataForegroundService"
             android:exported="false" />
     </application>
 

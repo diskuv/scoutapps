@@ -40,8 +40,8 @@ static void handle_ocaml_exception(value exn, const char *what, const char *what
     const char *clazz_name_str = (*env)->GetStringUTFChars(env, clazz_name, NULL)
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataService_initializeOCamlRuntime(JNIEnv *env, jclass clazz,
-                                                                          jstring process_argv0) {
+Java_com_example_squirrelscout_data_ComDataForegroundService_initializeOCamlRuntime(JNIEnv *env, jclass clazz,
+                                                                                    jstring process_argv0) {
     /* Get the class name (Ex. ComDataService) for logging */
     GET_CLAZZ_NAME();
 
@@ -83,7 +83,7 @@ Java_com_example_squirrelscout_data_ComDataService_initializeOCamlRuntime(JNIEnv
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataService_shutdownOCaml(JNIEnv *env, jclass clazz) {
+Java_com_example_squirrelscout_data_ComDataForegroundService_shutdownOCaml(JNIEnv *env, jclass clazz) {
     /* Get the class name (Ex. ComDataService) for logging */
     GET_CLAZZ_NAME();
 

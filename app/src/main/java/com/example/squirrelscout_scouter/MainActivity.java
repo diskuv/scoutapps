@@ -1,12 +1,8 @@
 package com.example.squirrelscout_scouter;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -17,17 +13,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.os.HandlerCompat;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGImageView;
-import com.example.squirrelscout.data.ComData;
-import com.example.squirrelscout.data.ComDataService;
+import com.example.squirrelscout.data.ComDataForegroundListener;
+import com.example.squirrelscout.data.models.ComDataModel;
+import com.example.squirrelscout.data.ComDataRequestCallback;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
 
 import java.nio.charset.StandardCharsets;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ComDataRequestCallback {
+    private Handler uiThreadHandler;
 
     //instances
     Button startScoutingButton, pitScouting, history, sharePitScouting, nukeData;
@@ -49,6 +46,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
+        // fields that ideally should be dependency injected
+        uiThreadHandler = ((MainApplication) getApplication()).getUiThreadHandler();
+
+        // route data to ComDataRequestCallback (this)
+        ComDataForegroundListener.listen(this, getLifecycle(), this);
+
         //buttons
         startScoutingButton = findViewById(R.id.START_SCOUTING);
         startScoutingButton.setOnClickListener(this);
@@ -62,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nukeData.setOnClickListener(this);
 
         //others
-        scouterNameI = (EditText) findViewById(R.id.Name_Input);
-        teamNameI = (EditText) findViewById(R.id.TeamNum_Input);
+        scouterNameI = findViewById(R.id.Name_Input);
+        teamNameI = findViewById(R.id.TeamNum_Input);
         title = findViewById(R.id.textView2);
         titleSecondary = findViewById(R.id.textView3);
         teamText = findViewById(R.id.TeamNum_Label);
@@ -79,22 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scoutInfo = ScoutInfo.getInstance();
         loadScoutInfo();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Intent dataIntent = new Intent(this, ComDataService.class);
-        //  TODO: Remove [ComData.productionTest] when real ocaml-backend COM objects used
-        dataIntent.putExtra("ComData.productionTest", true);
-        bindService(dataIntent, dataConnection, BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onStop() {
-        unbindService(dataConnection);
-        super.onStop();
     }
 
     @Override
@@ -131,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 teamNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
             }
         } else {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            uiThreadHandler.postDelayed(() -> {
                 saveScoutData();
                 startActivity(new Intent(MainActivity.this, StartScoutingActivity.class));
                 Log.d("d", "scouter name: " + ScoutName);
@@ -185,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scouterNameI.setAlpha(0f);
         teamNameI.setTranslationX(200f);
         teamNameI.setAlpha(0f);
-        firstCard.animate().alpha(1f).translationYBy(-1500).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
+        firstCard.animate().alpha(1f).translationYBy(-1500).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->
             secondCard.animate().alpha(1f).translationYBy(-1500).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
                 startScoutingButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
                 history.animate().alpha(1f).translationYBy(-50).setDuration(750);
@@ -198,15 +185,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 teamText.animate().alpha(1f).translationXBy(-200f).setDuration(500);
                 teamNameI.animate().alpha(1f).translationXBy(-200f).setDuration(500);
                 scouterNameI.animate().alpha(1f).translationXBy(-200f).setDuration(500);
-            }).start();
-        }).start();
+        }).start()).start();
     }
 
     //user response button
     private void animateButton(Button button) {
-        button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
-            button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(150);
-        }).start();
+        button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->
+                button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(150)).start();
     }
 
     //loads the info of the scout if already known
@@ -215,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             scouterNameI.setText(scoutInfo.getScoutName());
         }
         if (scoutInfo.getScoutTeam() != -1) {
-            teamNameI.setText("" + scoutInfo.getScoutTeam());
+            teamNameI.setText(scoutInfo.getScoutTeam());
         }
     }
 
@@ -225,29 +210,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scoutInfo.setScoutName(ScoutName);
     }
 
-    private final Handler uiThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
-    private final ServiceConnection dataConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            ComDataService dataService = ((ComDataService.ComDataBinder) service).getService();
-            dataService.requestData(this::onData);
-        }
+    @Override
+    public void onComDataReady(ComDataModel data) {
+        /* Use data COM object */
+        SVG svg = data.getScoutQR().generate("hello squirrel scouters!".getBytes(StandardCharsets.UTF_8));
 
-        private void onData(ComData data) {
-            /* Use production test COM object. TODO: Remove this when finished data COM object */
-            int answer = data.getCalculations().apply_f_3_7(data.getMultiply().getComObjectBytes());
-            Log.w("DkSDK", String.format("f(3, 7) = %d where f=multiply", answer));
-
-            /* Use data COM object */
-            SVG svg = data.generateQrCode("hello squirrel scouters!".getBytes(StandardCharsets.UTF_8));
-
-            /* Sending original/generated data back to the UI thread */
-            uiThreadHandler.post(() -> qrCode.setSVG(svg));
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
+        /* Sending data results back to the UI thread */
+        uiThreadHandler.post(() -> qrCode.setSVG(svg));
+    }
 }

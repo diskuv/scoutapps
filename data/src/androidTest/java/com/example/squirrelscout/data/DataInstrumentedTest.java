@@ -13,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ServiceTestRule;
 
+import com.example.squirrelscout.data.models.ComDataAndProductionTestModel;
 import com.example.squirrelscout.data.objects.toy.Add1;
 
 import org.junit.Rule;
@@ -51,19 +52,19 @@ public class DataInstrumentedTest {
      */
     @Test
     public void givenAdd1_whenCall_thenIncremented() throws TimeoutException, InterruptedException {
-        Intent dataIntent = new Intent(ApplicationProvider.getApplicationContext(), ComDataService.class);
-        dataIntent.putExtra("ComData.productionTest", true);
-        dataIntent.putExtra("ComData.logName", name.getMethodName());
+        Intent dataIntent = new Intent(ApplicationProvider.getApplicationContext(), ComDataForegroundService.class);
+        dataIntent.putExtra("Com.productionTest", true);
+        dataIntent.putExtra("Com.logName", name.getMethodName());
 
         IBinder binder = serviceRule.bindService(dataIntent);
         assertNotNull(binder);
 
         CountDownLatch latch = new CountDownLatch(1);
         AtomicInteger ret = new AtomicInteger(-1);
-        ((ComDataService.ComDataBinder) binder).getService().requestData(
+        ((ComDataForegroundService.ComDataBinder) binder).getService().requestData(
                 data -> {
                     // do the arithmetic
-                    Add1 f = data.getAdd1();
+                    Add1 f = ((ComDataAndProductionTestModel)data).getAdd1();
                     int ret0 = f.directCall(11);
 
                     // signal we are done

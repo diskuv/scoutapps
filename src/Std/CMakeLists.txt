@@ -81,7 +81,10 @@ if(NOT DKSDK_GOLDEN_SOURCE_CODE)
 endif()
 
 # No --import-path= are in .capnp
-set(include_args)
+set(include_args
+    #   Support `import "/capnp/java.capnp"`
+    --import-path=$<TARGET_PROPERTY:capnproto_java_host-lib,CAPNP_JAVA_IMPORT_PATH>
+)
 
 # --------------
 # OCaml Message Schema
@@ -110,10 +113,38 @@ if(NOT DKSDK_GOLDEN_SOURCE_CODE)
 endif()
 
 # --------------
+# Java Message Schema
+# --------------
+if(NOT DKSDK_GOLDEN_SOURCE_CODE)
+    add_custom_command(
+            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/Schema.java
+            MAIN_DEPENDENCY
+            schema.capnp
+            DEPENDS
+            capnproto_host-capnp-exe # Launcher for Cap n' Proto compilers
+            capnproto_java_host-capnpc-java-exe # capnpc-java.exe (Cap n' Proto compiler for Java)
+            capnproto_java_host-lib # include/capnp/java.capnp (schema extensions for Java)
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            COMMAND
+            #   Add capnpc-java.exe to PATH
+            ${CMAKE_COMMAND} -E env
+            PATH=$<TARGET_FILE_DIR:capnproto_java_host-capnpc-java-exe>
+            LD_LIBRARY_PATH=$<TARGET_FILE_DIR:capnproto_java_host-capnpc-java-exe>/../lib
+            #   Run capnp.exe
+            $<TARGET_FILE:capnproto_host-capnp-exe>
+            compile
+            ${include_args}
+            --output=java
+            schema.capnp
+            VERBATIM)
+endif()
+
+# --------------
 # Targets
 # --------------
 
 add_custom_target(Squirrel-Scout-GenerateCapnp ALL
     DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml
-    ${CMAKE_CURRENT_SOURCE_DIR}/schema.mli)
+    ${CMAKE_CURRENT_SOURCE_DIR}/schema.mli
+    ${CMAKE_CURRENT_SOURCE_DIR}/Schema.java)

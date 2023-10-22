@@ -107,6 +107,7 @@ DkSDKFetchContent_MakeAvailableNoInstall(
         # Implementation: Built by CMake directly.
 
         capnproto_and_host_tools
+        capnproto_java_and_host_tools
 )
 if(CMAKE_OCamlDune_DUNE_VERSION VERSION_GREATER_EQUAL 3.7.0)
     # ocaml_lsp_server needs fiber.3.6.2 (or fiber.3.7.0) and menhir

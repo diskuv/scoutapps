@@ -1,5 +1,10 @@
 @0xff041fa19d4b5a6f;
 
+# This section is used by capnproto-java only
+using Java = import "/capnp/java.capnp";
+$Java.package("com.example.squirrelscout.data.capnp");
+$Java.outerClassname("Schema");
+
 struct RawMatchData {
   # generic data 
   teamNumber @0 :Int16;

@@ -16,10 +16,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.squirrelscout_scouter.MainActivity;
+import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ScoutInfo;
+import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
 public class AutonomousActivity extends Activity implements View.OnClickListener {
 
@@ -40,6 +44,10 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             setContentView(R.layout.autonomous_scouting);
+
+        // view model
+        ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
+        ScoutingSessionViewModel model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
         //Buttons
         yesMobility = (Button) findViewById(R.id.MOBILITY_YES);

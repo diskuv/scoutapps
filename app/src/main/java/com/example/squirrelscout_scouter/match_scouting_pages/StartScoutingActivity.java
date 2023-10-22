@@ -1,6 +1,5 @@
 package com.example.squirrelscout_scouter.match_scouting_pages;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,16 +16,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.squirrelscout_scouter.MainActivity;
+import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ScoutInfo;
+import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
-import org.w3c.dom.Text;
-
-public class StartScoutingActivity extends Activity implements  View.OnClickListener{
+public class StartScoutingActivity extends ComponentActivity implements  View.OnClickListener{
 
     //instances
     Button incrementMatch, decrementMatch, startButton, backButton;
@@ -45,6 +47,10 @@ public class StartScoutingActivity extends Activity implements  View.OnClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_scouting);
+
+        // view model
+        ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
+        ScoutingSessionViewModel model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
         //buttons
         incrementMatch = (Button) findViewById(R.id.MATCH_INCREMENT);

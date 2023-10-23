@@ -118,10 +118,6 @@ endif()
 DkSDKProject_MakeAvailable(TEST
         tezt)
 
-if(DKSDK_BUILD_LIBEV)
-    DkSDKProject_MakeAvailable(libev)
-endif()
-
 add_subdirectory(sqlite3)
 add_subdirectory(zxing)
 

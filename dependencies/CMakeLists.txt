@@ -57,12 +57,6 @@ DkSDKProject_DeclareAvailable(base64
     FINDLIBS base64
 )
 
-
-    
-    
-    
-
-
 # --- Which Dependencies Will Be Available To Targets ---
 
 # Using DkSDKProject_DeclareAvailable() alone does not pull it into CMake.
@@ -73,9 +67,6 @@ DkSDKProject_MakeAvailable(
         fmt
         logs
         lwt
-
-        # required by capnp
-        stdint
 
         capnp_ocaml
         qrc

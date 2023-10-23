@@ -40,9 +40,9 @@
   (allow_empty)
   (depends 
     (capnp (>= 3.5.0))
+    (menhir (>= 20230608))
     (ocaml-lsp-server (>= 1.16.1))
-    (ocamlformat (= 0.25.1))
-    (menhir (>= 20230608))))
+    (ocamlformat (= 0.25.1))))
 
 (package
   (name SquirrelScout_Std)

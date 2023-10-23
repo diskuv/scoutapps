@@ -90,11 +90,6 @@ DkSDKProject_MakeAvailable(
         # they are built for both the host and the target
         # ABIs. The target ABI is almost always useless.
         #odoc
-        #
-        #       ocaml_lsp_server relies on fiber. This DkSDK version
-        #       does not support a declared package having a dependency
-        #       on another declared package. That is because dependency
-        #       resolution is an opam thing.
         ocaml_lsp_server
         # ocamlformat + ocamlformat_rpc_lib need to be done together
         #       Or else get: Too many opam files for package "ocamlformat-rpc-lib"
@@ -110,10 +105,6 @@ DkSDKFetchContent_MakeAvailableNoInstall(
         capnproto_and_host_tools
         capnproto_java_and_host_tools
 )
-if(CMAKE_OCamlDune_DUNE_VERSION VERSION_GREATER_EQUAL 3.7.0)
-    # ocaml_lsp_server needs fiber.3.6.2 (or fiber.3.7.0) and menhir
-    DkSDKProject_MakeAvailable(fiber menhir)
-endif()
 
 DkSDKProject_MakeAvailable(TEST
         tezt)

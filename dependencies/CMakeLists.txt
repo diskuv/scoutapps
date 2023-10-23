@@ -72,6 +72,7 @@ DkSDKProject_MakeAvailable(
         cmdliner
         fmt
         logs
+        lwt lwt_react #   lwt and lwt_react go together
 
         # required by capnp
         stdint
@@ -117,12 +118,10 @@ endif()
 DkSDKProject_MakeAvailable(TEST
         tezt)
 
-option(BUILD_LIBEV "Build libev. Defaults to TRUE on Unix (macOS, Linux, etc). When TRUE, will use more efficient libev library rather than select() for I/O polling on Unix" ${UNIX})
-if(BUILD_LIBEV)
+if(DKSDK_BUILD_LIBEV)
     DkSDKProject_MakeAvailable(libev)
 endif()
 
-add_subdirectory(lwt)
 add_subdirectory(sqlite3)
 add_subdirectory(zxing)
 

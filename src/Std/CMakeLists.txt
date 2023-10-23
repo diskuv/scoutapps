@@ -80,11 +80,13 @@ if(NOT DKSDK_GOLDEN_SOURCE_CODE)
     endif()
 endif()
 
-# No --import-path= are in .capnp
-set(include_args
+# Capnp --import-path=...
+set(import_COMPILE_ARGS
     #   Support `import "/capnp/java.capnp"`
-    --import-path=$<TARGET_PROPERTY:capnproto_java_host-lib,CAPNP_JAVA_IMPORT_PATH>
-)
+    --import-path=$<TARGET_PROPERTY:capnproto_java_host-lib,CAPNP_JAVA_IMPORT_PATH>)
+set(import_DEPENDS
+    # include/capnp/java.capnp (schema extensions for Java)
+    capnproto_java_host-lib)
 
 # --------------
 # OCaml Message Schema
@@ -98,6 +100,7 @@ if(NOT DKSDK_GOLDEN_SOURCE_CODE)
         DEPENDS
         capnproto_host-capnp-exe # Launcher for Cap n' Proto compilers
         capnpc-ocaml # Cap n' Proto compiler for OCaml
+        ${import_DEPENDS}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMAND
 
@@ -105,7 +108,7 @@ if(NOT DKSDK_GOLDEN_SOURCE_CODE)
         ${CMAKE_COMMAND} -E env PATH=${CMAKE_OCamlDune_DUNE_PROJECT_PATH}/_build/install/default/bin
         $<TARGET_FILE:capnproto_host-capnp-exe>
         compile
-        ${include_args}
+        ${import_COMPILE_ARGS}
         --output=ocaml
         schema.capnp
         VERBATIM
@@ -123,7 +126,7 @@ if(NOT DKSDK_GOLDEN_SOURCE_CODE)
             DEPENDS
             capnproto_host-capnp-exe # Launcher for Cap n' Proto compilers
             capnproto_java_host-capnpc-java-exe # capnpc-java.exe (Cap n' Proto compiler for Java)
-            capnproto_java_host-lib # include/capnp/java.capnp (schema extensions for Java)
+            ${import_DEPENDS}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             COMMAND
             #   Add capnpc-java.exe to PATH
@@ -133,7 +136,7 @@ if(NOT DKSDK_GOLDEN_SOURCE_CODE)
             #   Run capnp.exe
             $<TARGET_FILE:capnproto_host-capnp-exe>
             compile
-            ${include_args}
+            ${import_COMPILE_ARGS}
             --output=java
             schema.capnp
             VERBATIM)

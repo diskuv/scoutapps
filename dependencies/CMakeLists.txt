@@ -72,7 +72,7 @@ DkSDKProject_MakeAvailable(
         cmdliner
         fmt
         logs
-        lwt lwt_react #   lwt and lwt_react go together
+        lwt
 
         # required by capnp
         stdint

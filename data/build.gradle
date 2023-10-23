@@ -1,4 +1,5 @@
 import com.diskuv.dksdk.core.gradle.plugins.CMakeEnvironmentPlugin
+import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureTask
 import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureWithJniTask
 
 buildscript {
@@ -31,8 +32,8 @@ tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
             dir: rootDir,
             includes: [
                     "CMakeLists.txt",
-                    "dependencies/**/CMakeLists.txt",
-                    "data/**/CMakeLists.txt"
+                    "dependencies/CMakeLists.txt",
+                    "data/src/main/cpp/CMakeLists.txt"
             ]
     )
 }
@@ -98,4 +99,60 @@ dependencies {
     androidTestImplementation "androidx.test:rules:1.5.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
+
+abstract class DisplayAllSources extends DefaultTask {
+    @InputFiles
+    abstract ListProperty<Directory> getSourceFolders()
+
+    @TaskAction
+    void taskAction() {
+        getSourceFolders().get().forEach { directory ->
+            def dirFile = directory.asFile
+            println("Directory : ${dirFile.absolutePath}")
+            if (dirFile.exists()) {
+                dirFile.traverse(type: groovy.io.FileType.FILES) { file ->
+                    println("File : ${file.absolutePath}")
+                }
+            }
+        }
+    }
+}
+
+abstract class GeneratedJavaCMakeConfigureTask extends CMakeConfigureTask {
+    @OutputDirectory
+    abstract DirectoryProperty getGeneratedJavaDir()
+}
+
+androidComponents {
+    onVariants(selector().all(), { variant ->
+        def java = variant.sources.java
+        if (java) {
+            def taskName = "cmakeConfigure${variant.name.capitalize()}Capnp"
+            def generatedJavaDir0 = layout.buildDirectory.dir("generated/java/${taskName}") // can't change this for some reason
+            def cmakeConfigureForCapnp = tasks.register(taskName, GeneratedJavaCMakeConfigureTask) {
+                arguments.add "-DGENERATE_CAPNP_ONLY=1"
+                arguments.add "-DGENERATE_CAPNP_DIR=${generatedJavaDir0.get()}"
+
+                sources fileTree(
+                        dir: rootDir,
+                        includes: [
+                                "CMakeLists.txt",
+                                "dependencies/CMakeLists.txt",
+                                "data/src/main/cpp/CMakeLists.txt",
+                                "CMakePresets.json"
+                        ]
+                )
+
+                binaryDirectory  = layout.buildDirectory.dir("cmakes/${variant.name}Capnp")
+                generatedJavaDir = generatedJavaDir0
+            }
+
+            java.addGeneratedSourceDirectory(cmakeConfigureForCapnp, { it.generatedJavaDir })
+
+            tasks.register("${variant.name}DisplayAllSources", DisplayAllSources) {
+                sourceFolders.set(java.all)
+            }
+        }
+    })
 }

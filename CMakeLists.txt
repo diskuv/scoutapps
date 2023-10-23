@@ -23,28 +23,30 @@ set(CMAKE_C_EXTENSIONS NO)
 
 add_subdirectory(dependencies)
 
-# ---- Find JNI
-# TODO: Create DkSDKJava_FindJNI() to replace all of this section
+if(NOT GENERATE_CAPNP_ONLY)
+    # ---- Find JNI
+    # TODO: Create DkSDKJava_FindJNI() to replace all of this section
 
-if(JAVA_HOME)
-    message(STATUS "JAVA_HOME = ${JAVA_HOME}")
-    cmake_path(NORMAL_PATH JAVA_HOME)
-else()
-    message(STATUS "No JAVA_HOME variable set")
-endif()
-include(FindJNI)
+    if(JAVA_HOME)
+        message(STATUS "JAVA_HOME = ${JAVA_HOME}")
+        cmake_path(NORMAL_PATH JAVA_HOME)
+    else()
+        message(STATUS "No JAVA_HOME variable set")
+    endif()
+    include(FindJNI)
 
-if(NOT JNI_FOUND)
-    message(FATAL_ERROR "The JNI headers and library were not found. The JAVA_HOME=${JAVA_HOME} variable should reference a valid JDK")
-endif()
+    if(NOT JNI_FOUND)
+        message(FATAL_ERROR "The JNI headers and library were not found. The JAVA_HOME=${JAVA_HOME} variable should reference a valid JDK")
+    endif()
 
-# FindJNI in CMake 3.24+ defines JNI::JNI and other targets. Backport it.
-if(NOT TARGET JNI::JNI)
-    add_library(jni_lib INTERFACE)
-    add_library(JNI::JNI ALIAS jni_lib)
-    target_sources(jni_lib INTERFACE ${JAVA_INCLUDE_PATH}/jni.h)
-    target_include_directories(jni_lib INTERFACE ${JNI_INCLUDE_DIRS})
-    target_link_directories(jni_lib INTERFACE ${JNI_LIBRARIES})
+    # FindJNI in CMake 3.24+ defines JNI::JNI and other targets. Backport it.
+    if(NOT TARGET JNI::JNI)
+        add_library(jni_lib INTERFACE)
+        add_library(JNI::JNI ALIAS jni_lib)
+        target_sources(jni_lib INTERFACE ${JAVA_INCLUDE_PATH}/jni.h)
+        target_include_directories(jni_lib INTERFACE ${JNI_INCLUDE_DIRS})
+        target_link_directories(jni_lib INTERFACE ${JNI_LIBRARIES})
+    endif()
 endif()
 
 # ---- Build source code

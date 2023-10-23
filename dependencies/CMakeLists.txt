@@ -39,7 +39,9 @@ set(DKSDK_FFI_JAVA_EMBEDDER_LIBRARY data_foreground)
 FetchContent_Declare(dksdk-ffi-java # override with cmake -D FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-JAVA=...
     GIT_REPOSITORY "${dksdk-ffi-java_REPOSITORY}"
     GIT_TAG next)
-DkSDKFetchContent_MakeAvailableNoInstall(dksdk-ffi-java)
+if(NOT GENERATE_CAPNP_ONLY)
+    DkSDKFetchContent_MakeAvailableNoInstall(dksdk-ffi-java)
+endif()
 
 # --- Declare dksdk-ffi-ocaml but MakeAvailable will happen in START USER (ocaml-backend)
 
@@ -82,7 +84,9 @@ function(DeclareButAllowLocalOverride)
     FetchContent_Declare(${ARG_NAME}
             GIT_REPOSITORY "${ARG_GIT_REPOSITORY}"
             GIT_TAG ${ARG_GIT_TAG})
-    DkSDKFetchContent_MakeAvailableNoInstall(${ARG_NAME})
+    if(NOT GENERATE_CAPNP_ONLY)
+        DkSDKFetchContent_MakeAvailableNoInstall(${ARG_NAME})
+    endif()
 endfunction()
 
 DeclareButAllowLocalOverride(

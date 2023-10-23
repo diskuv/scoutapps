@@ -89,7 +89,7 @@
 
 (* module Foo = Foo.Make (Capnp.BytesMessage) *)
 (*
-   module Schema = Schema.Make (Capnp.BytesMessage)
+   module ProjectSchema = SquirrelScout_Std.Schema (Capnp.BytesMessage)
 
    let test =
      let rw = Schema.Builder.RawMatchData.init_root () in

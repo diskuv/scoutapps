@@ -167,21 +167,21 @@ module Table : Table_type = struct
     match result with _ :: [] -> true | _ -> false
 
   let insert_record db capnp_string =
-    let module Schema = Schema.Make (Capnp.BytesMessage) in
+    let module ProjectSchema = Schema.Make (Capnp.BytesMessage) in
     let match_data =
       match
         Capnp.Codecs.FramedStream.get_next_frame
           (Capnp.Codecs.FramedStream.of_string ~compression:`None capnp_string)
       with
-      | Result.Ok message -> Schema.Reader.RawMatchData.of_message message
+      | Result.Ok message -> ProjectSchema.Reader.RawMatchData.of_message message
       | Result.Error _ -> failwith "could not decode capnp data"
     in
 
-    let climb_to_string = function
-      | Schema.Reader.Climb.Docked -> "DOCKED"
-      | Schema.Reader.Climb.Engaged -> "ENGAGED"
-      | Schema.Reader.Climb.None -> "NONE"
-      | Schema.Reader.Climb.Undefined _ -> "UNDEFINED"
+    let climb_to_string : ProjectSchema.Reader.Climb.t -> string = function
+      | Docked -> "DOCKED"
+      | Engaged -> "ENGAGED"
+      | None -> "NONE"
+      | Undefined _ -> "UNDEFINED"
     in
 
     let string_to_cmd_line_form s = "\"" ^ s ^ "\"" in
@@ -190,7 +190,7 @@ module Table : Table_type = struct
       match bool with true -> "1" | false -> "0"
     in
 
-    let open Schema.Reader.RawMatchData in
+    let open ProjectSchema.Reader.RawMatchData in
     let team_number = match_data |> team_number_get in
     let match_number = match_data |> match_number_get in
     let scouter_name = match_data |> scouter_name_get in

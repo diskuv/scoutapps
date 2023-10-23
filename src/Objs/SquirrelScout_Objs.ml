@@ -11,12 +11,20 @@ let create_object v args =
   let obj = SquirrelScout_Std.create_object ~db_path () in
   Ret.v_new v obj
 
-(* args: [DATA]. return: [DATA] *)
-let generate_qr_code v args =
-  let blob = Reader.Sd.(i1_get (of_message args)) in
+(* args: [RawMatchData]. return: [DATA] *)
+let qr_code_of_raw_match_data v args =
+  let (_ : ProjectSchema.Reader.RawMatchData.t) =
+    (* Validate args is RawMatchData *)
+    ProjectSchema.Reader.RawMatchData.of_message args
+  in
+  (* The QR code needs binary data, so serialize the RawMatchData
+     into bytes *)
+  let blob = ComCodecs.serialize ~compression:`None args in
   match SquirrelScout_Std.generate_qr_code blob with
   | Error msg -> failwith msg
   | Ok qrcode ->
+      (* Now that we have the QR code as a SVG image, wrap it
+         in [DATA] *)
       let bldr =
         Builder.Sd.(
           let r = init_root () in
@@ -107,5 +115,5 @@ let register_objects com =
     ];
   register com ~classname:"SquirrelScout::QR"
     [
-      class_method ~name:"generate" ~f:generate_qr_code ();
+      class_method ~name:"qr_code_of_raw_match_data" ~f:qr_code_of_raw_match_data ();
     ]

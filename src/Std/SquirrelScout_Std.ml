@@ -34,10 +34,10 @@ let test_function db_name () =
 
 let create_capnp_string ~team_number ~team_name ~match_number mobility auto_cone
     auto_cube tele_cone tele_cube =
-  let module Schema = Schema.Make (Capnp.BytesMessage) in
-  let rw = Schema.Builder.RawMatchData.init_root () in
+  let module ProjectSchema = Schema.Make (Capnp.BytesMessage) in
+  let rw = ProjectSchema.Builder.RawMatchData.init_root () in
 
-  let open Schema.Builder.RawMatchData in
+  let open ProjectSchema.Builder.RawMatchData in
   team_number_set_exn rw team_number;
   team_name_set rw team_name;
   match_number_set_exn rw match_number;

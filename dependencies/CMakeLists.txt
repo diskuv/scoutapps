@@ -91,12 +91,7 @@ DkSDKProject_MakeAvailable(
         # ABIs. The target ABI is almost always useless.
         #odoc
         ocaml_lsp_server
-        # ocamlformat + ocamlformat_rpc_lib need to be done together
-        #       Or else get: Too many opam files for package "ocamlformat-rpc-lib"
-        #
-        #       This is a hack though. There should be a better way to express
-        #       dependencies.
-        ocamlformat ocamlformat_rpc_lib
+        ocamlformat
 )
 DkSDKFetchContent_MakeAvailableNoInstall(
         # "Build tools" that must run on the build host.

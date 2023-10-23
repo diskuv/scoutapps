@@ -74,6 +74,7 @@ DkSDKProject_MakeAvailable(
         yojson
         core
         base64
+        sqlite3
 
         # "Development tools".
         # Implementation: Built by Dune.
@@ -95,7 +96,6 @@ DkSDKFetchContent_MakeAvailableNoInstall(
 DkSDKProject_MakeAvailable(TEST
         tezt)
 
-add_subdirectory(sqlite3)
 add_subdirectory(zxing)
 
 DkSDKRequire_Add(FFI OCaml PRERELEASE)

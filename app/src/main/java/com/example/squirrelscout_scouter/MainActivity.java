@@ -16,12 +16,14 @@ import androidx.core.content.ContextCompat;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGImageView;
+import com.diskuv.dksdk.ffi.java.Com;
 import com.example.squirrelscout.data.ComDataForegroundListener;
-import com.example.squirrelscout.data.models.ComDataModel;
 import com.example.squirrelscout.data.ComDataRequestCallback;
+import com.example.squirrelscout.data.capnp.Schema;
+import com.example.squirrelscout.data.models.ComDataModel;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
 
-import java.nio.charset.StandardCharsets;
+import org.capnproto.MessageBuilder;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ComDataRequestCallback {
     private Handler uiThreadHandler;
@@ -213,7 +215,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onComDataReady(ComDataModel data) {
         /* Use data COM object */
-        SVG svg = data.getScoutQR().generate("hello squirrel scouters!".getBytes(StandardCharsets.UTF_8));
+        MessageBuilder rawMatchData = Com.newMessageBuilder();
+        Schema.RawMatchData.Builder builder = rawMatchData.initRoot(Schema.RawMatchData.factory);
+        builder.setNotes("hello squirrel scouters!");
+        SVG svg = data.getScoutQR().qrCodeOfRawMatchData(rawMatchData);
 
         /* Sending data results back to the UI thread */
         uiThreadHandler.post(() -> qrCode.setSVG(svg));

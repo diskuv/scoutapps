@@ -6,6 +6,7 @@ import com.diskuv.dksdk.ffi.java.Clazz;
 import com.diskuv.dksdk.ffi.java.Com;
 import com.diskuv.dksdk.ffi.java.Method;
 import com.diskuv.dksdk.schema.StdSchema;
+import com.example.squirrelscout.data.capnp.Schema;
 
 import org.capnproto.MessageBuilder;
 import org.capnproto.MessageReader;
@@ -14,7 +15,7 @@ import java.io.ByteArrayInputStream;
 
 public class ScoutQR {
     private static Clazz g_clazz;
-    private static final Method M_GENERATE_QR_CODE = Method.ofName("generate");
+    private static final Method M_QR_CODE_OF_RAW_MATCH_DATA = Method.ofName("qr_code_of_raw_match_data");
     private final Clazz clazz;
 
     private ScoutQR(Clazz clazz) {
@@ -32,14 +33,14 @@ public class ScoutQR {
         return new ScoutQR(getClazz(com));
     }
 
-    public SVG generate(byte[] blob) {
-        /* args: [DATA] */
-        MessageBuilder arguments = Com.newMessageBuilder();
-        StdSchema.Sd.Builder builder = arguments.initRoot(StdSchema.Sd.factory);
-        builder.setI1(blob);
-
+    /**
+     * Create a QR code for {@link Schema.RawMatchData}.
+     * @param rawMatchDataMessage A message built with {@link Schema.RawMatchData#factory}
+     * @return an SVG image of the QR code
+     */
+    public SVG qrCodeOfRawMatchData(MessageBuilder rawMatchDataMessage) {
         /* return: [DATA] */
-        MessageReader response = clazz.call(M_GENERATE_QR_CODE, arguments);
+        MessageReader response = clazz.call(M_QR_CODE_OF_RAW_MATCH_DATA, rawMatchDataMessage);
         StdSchema.GenericReturn.Reader<StdSchema.Sd.Reader> grReader =
                 response.getRoot(StdSchema.GenericReturn.newFactory(StdSchema.Sd.factory));
         StdSchema.Sd.Reader reader = grReader.getValue();

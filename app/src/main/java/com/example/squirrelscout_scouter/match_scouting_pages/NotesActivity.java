@@ -17,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGImageView;
 import com.example.squirrelscout.data.ComDataForegroundListener;
 import com.example.squirrelscout.data.ComDataRequestCallback;
 import com.example.squirrelscout.data.models.ComDataModel;
@@ -34,6 +36,7 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
     ImageButton page1, page2;
     private ScoutingSessionViewModel model;
     private Handler uiThreadHandler;
+    private SVGImageView qrCode;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,7 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         scoutInfo = (TextView) findViewById(R.id.textView3);
         pageTitle = (TextView) findViewById(R.id.textView2);
         notesText = (EditText) findViewById(R.id.Name_Input);
+        qrCode = findViewById(R.id.svgViewQrCode);
 
         //start animation
         animationStart();
@@ -116,5 +120,10 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
 
     @Override
     public void onComDataReady(ComDataModel data) {
+        /* Use data COM object */
+        SVG svg = model.generateQrCode(data);
+
+        /* Sending data results back to the UI thread */
+        uiThreadHandler.post(() -> qrCode.setSVG(svg));
     }
 }

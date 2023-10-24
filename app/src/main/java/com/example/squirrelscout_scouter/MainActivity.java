@@ -16,22 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.caverock.androidsvg.SVG;
-import com.caverock.androidsvg.SVGImageView;
-import com.diskuv.dksdk.ffi.java.Com;
-import com.example.squirrelscout.data.ComDataForegroundListener;
-import com.example.squirrelscout.data.ComDataRequestCallback;
-import com.example.squirrelscout.data.capnp.Schema;
-import com.example.squirrelscout.data.models.ComDataModel;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
 import com.example.squirrelscout_scouter.ui.viewmodels.MainViewModel;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
-import org.capnproto.MessageBuilder;
-
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ComDataRequestCallback {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Handler uiThreadHandler;
 
     //instances
@@ -39,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     View firstCard, secondCard;
     EditText scouterNameI, teamNameI;
     TextView title, titleSecondary, nameText, teamText;
-    private SVGImageView qrCode;
 
     //variables
     String ScoutName, TeamNum;
@@ -57,9 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // view model scoped to this activity only
         model = new ViewModelProvider(this).get(MainViewModel.class);
-
-        // route data to ComDataRequestCallback (this)
-        ComDataForegroundListener.listen(this, getLifecycle(), this);
 
         //buttons
         startScoutingButton = findViewById(R.id.START_SCOUTING);
@@ -82,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nameText = findViewById(R.id.Name_Label);
         firstCard = findViewById(R.id.view2);
         secondCard = findViewById(R.id.view3);
-        qrCode = findViewById(R.id.svgViewQrCode);
 
         // bind view model updates to the UI
         model.getScoutName().observe(this, scoutName -> scouterNameI.setText(scoutName));
@@ -217,17 +203,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void animateButton(Button button) {
         button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->
                 button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(150)).start();
-    }
-
-    @Override
-    public void onComDataReady(ComDataModel data) {
-        /* Use data COM object */
-        MessageBuilder rawMatchData = Com.newMessageBuilder();
-        Schema.RawMatchData.Builder builder = rawMatchData.initRoot(Schema.RawMatchData.factory);
-        builder.setNotes("hello squirrel scouters!");
-        SVG svg = data.getScoutQR().qrCodeOfRawMatchData(rawMatchData);
-
-        /* Sending data results back to the UI thread */
-        uiThreadHandler.post(() -> qrCode.setSVG(svg));
     }
 }

@@ -48,9 +48,16 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_scouting);
 
-        // view model
+        // view model scoped to the entire scouting session that starts at StartScoutingActivity
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
         ScoutingSessionViewModel model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+
+        // new session
+        Intent intent = getIntent();
+        model.startNewSessionIfNecessary(
+                intent.getLongExtra(ScoutingSessionViewModel.INTENT_INITIAL_LONG_SESSION_NUMBER, 0L),
+                intent.getStringExtra(ScoutingSessionViewModel.INTENT_INITIAL_STRING_SCOUT_NAME),
+                intent.getShortExtra(ScoutingSessionViewModel.INTENT_INITIAL_SHORT_TEAM_NUMBER, (short) 0));
 
         //buttons
         incrementMatch = (Button) findViewById(R.id.MATCH_INCREMENT);

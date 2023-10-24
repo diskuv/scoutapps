@@ -11,7 +11,8 @@ import org.immutables.value.Value;
  * part of the "data" layer model object).
  */
 @Value.Immutable
-public interface RawMatchDataUiState extends WithRawMatchDataUiState {
+@Value.Modifiable
+public interface RawMatchDataUiState {
 
     String scoutName();
 

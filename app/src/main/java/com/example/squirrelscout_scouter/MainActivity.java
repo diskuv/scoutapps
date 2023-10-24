@@ -3,6 +3,7 @@ package com.example.squirrelscout_scouter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGImageView;
@@ -22,8 +24,12 @@ import com.example.squirrelscout.data.ComDataRequestCallback;
 import com.example.squirrelscout.data.capnp.Schema;
 import com.example.squirrelscout.data.models.ComDataModel;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
+import com.example.squirrelscout_scouter.ui.viewmodels.MainViewModel;
+import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
 import org.capnproto.MessageBuilder;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ComDataRequestCallback {
     private Handler uiThreadHandler;
@@ -37,9 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //variables
     String ScoutName, TeamNum;
-
-    //singleton
-    public ScoutInfo scoutInfo;
+    private MainViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // fields that ideally should be dependency injected
         uiThreadHandler = ((MainApplication) getApplication()).getUiThreadHandler();
+
+        // view model scoped to this activity only
+        model = new ViewModelProvider(this).get(MainViewModel.class);
 
         // route data to ComDataRequestCallback (this)
         ComDataForegroundListener.listen(this, getLifecycle(), this);
@@ -77,13 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         secondCard = findViewById(R.id.view3);
         qrCode = findViewById(R.id.svgViewQrCode);
 
+        // bind view model updates to the UI
+        model.getScoutName().observe(this, scoutName -> scouterNameI.setText(scoutName));
+        model.getScoutTeam().observe(this, scoutTeam -> teamNameI.setText(String.format(Locale.ENGLISH, "%d", scoutTeam)));
+
         //start animation
         animationStart();
-
-        //load info if created
-        scoutInfo = ScoutInfo.getInstance();
-        loadScoutInfo();
-
     }
 
     @Override
@@ -106,6 +112,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private static boolean isTeamNumber(String text) {
+        try {
+            short i = Short.parseShort(text);
+            return i >= 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
     public void startScoutingLogic() {
         ScoutName = scouterNameI.getText().toString();
@@ -119,10 +133,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (TeamNum.isEmpty()) {
                 teamNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
             }
+        } else if (!isTeamNumber((TeamNum))) {
+            Log.d("d", "team number is not a short, positive number");
+            Toast.makeText(MainActivity.this, "Not a team number", Toast.LENGTH_SHORT).show();
+            teamNameI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
         } else {
+            short validatedTeamNum = Short.parseShort(TeamNum);
             uiThreadHandler.postDelayed(() -> {
-                saveScoutData();
-                startActivity(new Intent(MainActivity.this, StartScoutingActivity.class));
+                model.saveScout(ScoutName, validatedTeamNum);
+                Intent intent = new Intent(MainActivity.this, StartScoutingActivity.class);
+                intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_LONG_SESSION_NUMBER, SystemClock.elapsedRealtimeNanos());
+                intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_STRING_SCOUT_NAME, ScoutName);
+                intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_SHORT_TEAM_NUMBER, validatedTeamNum);
+                startActivity(intent);
                 Log.d("d", "scouter name: " + ScoutName);
                 Toast.makeText(MainActivity.this, ScoutName, Toast.LENGTH_SHORT).show();
                 Toast.makeText(MainActivity.this, TeamNum, Toast.LENGTH_SHORT).show();
@@ -194,22 +217,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void animateButton(Button button) {
         button.animate().scaleXBy(0.025f).scaleYBy(0.025f).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->
                 button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(150)).start();
-    }
-
-    //loads the info of the scout if already known
-    public void loadScoutInfo() {
-        if (scoutInfo.getScoutName() != null) {
-            scouterNameI.setText(scoutInfo.getScoutName());
-        }
-        if (scoutInfo.getScoutTeam() != -1) {
-            teamNameI.setText(scoutInfo.getScoutTeam());
-        }
-    }
-
-    //save data
-    public void saveScoutData() {
-        scoutInfo.setScoutTeam(Integer.parseInt(TeamNum));
-        scoutInfo.setScoutName(ScoutName);
     }
 
     @Override

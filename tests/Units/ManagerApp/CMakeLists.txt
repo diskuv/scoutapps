@@ -26,9 +26,12 @@ function(add_qt_test)
     if (QTDIR)
         set_property(TEST ${ARG_NAME} APPEND PROPERTY
             ENVIRONMENT_MODIFICATION
-            PATH=path_list_prepend:${QTDIR})
+            PATH=path_list_prepend:${QTDIR}
+            # Add OCaml backtrace if an exception is thrown
+            OCAMLRUNPARAM=set:b)
     endif()
 endfunction()
 
-add_qt_test(NAME ManagerAppQtReaderTest COMMAND ManagerAppQtReader "${CMAKE_CURRENT_LIST_DIR}/qrcode-7/01-01.png" -- test.db)
+add_qt_test(NAME ManagerAppQtReaderTest
+    COMMAND ManagerAppQtReader "${CMAKE_CURRENT_LIST_DIR}/qrcode-7/01-01.png" -- test.db)
 add_qt_test(NAME ManagerAppQtCamReaderTest COMMAND ManagerAppQtCamReader -- test.db)

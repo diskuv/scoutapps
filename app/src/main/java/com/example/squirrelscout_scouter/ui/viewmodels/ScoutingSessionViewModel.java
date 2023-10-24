@@ -79,7 +79,7 @@ public class ScoutingSessionViewModel extends ViewModel {
      * Return a non-null RawMatchData if and only if the session fields are complete.
      *
      * @param session the partially completed session
-     * @return the completed RawMatchData
+     * @return the completed RawMatchData, or null if incomplete
      */
     private ImmutableRawMatchDataUiState fromSessionToCompleted(ImmutableRawMatchDataSessionUiState session) {
         // TODO: The UI is not complete:
@@ -96,6 +96,7 @@ public class ScoutingSessionViewModel extends ViewModel {
             clone.toImmutable();
         } catch (IllegalStateException e) {
             Log.e("ScoutingSession", "The UI has not been completed! For now we'll try to patch the UI fields. The following error message should tell you which fields still need to be set: " + e.getMessage());
+            // TODO: Keyush/Archit: For Saturday. All of these should be marked DONE once they are set from the *Activity pages
             // DONE: if (!clone.scoutTeamIsSet()) clone.setScoutTeam(-1);
             // DONE: if (!clone.scoutNameIsSet()) clone.setScoutName("UI needs setScoutName");
             if (!clone.positionScoutingIsSet())

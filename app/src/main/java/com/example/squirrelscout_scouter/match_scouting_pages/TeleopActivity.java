@@ -141,6 +141,9 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
+        // bind view model updates to the UI
+
         //...
         scoutInfo = ScoutInfo.getInstance();
         loadScoutInfo();
@@ -421,6 +424,7 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
     }
 
     public void saveScoutInfo(){
+        // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureTeleop()
         scoutInfo.setHighConeTele(Integer.parseInt((String) coneHigh.getText()));
         scoutInfo.setMidConeTele(Integer.parseInt((String) coneMid.getText()));
         scoutInfo.setLowConeTele(Integer.parseInt((String) coneLow.getText()));

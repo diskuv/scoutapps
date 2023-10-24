@@ -129,6 +129,9 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
             }
         });
 
+        // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
+        // bind view model updates to the UI
+
         //start animation
         animationStart();
 
@@ -376,6 +379,7 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     }
 
     public void saveScoutInfo(){
+        // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureAutonomous()
         scoutInfo.setHighConeAuto(Integer.parseInt((String) coneHigh.getText()));
         scoutInfo.setMidConeAuto(Integer.parseInt((String) coneMid.getText()));
         scoutInfo.setLowConeAuto(Integer.parseInt((String) coneLow.getText()));

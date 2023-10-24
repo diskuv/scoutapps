@@ -69,6 +69,10 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         qrCode = findViewById(R.id.svgViewQrCode);
         qrCode.setVisibility(View.INVISIBLE);
 
+        // TODO: Keyush/Archit: For Saturday. Do the Model -> UI.
+        // bind view model updates to the UI (partially done with the finishButton visibility,
+        // but have not set the notesText on the model)
+
         // control visibility of the finish button. Only when the session
         // is complete should it be visible.
         finishButton.setVisibility(View.INVISIBLE);
@@ -78,6 +82,7 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
 
         //start animation
         animationStart();
+
     }
 
     public void onClick(View view){
@@ -98,6 +103,7 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         //add data to the database
         //create qr code
         //go to qr code page
+        // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureNotes()
         Toast.makeText(NotesActivity.this, "Creating QR code and going to next page", Toast.LENGTH_SHORT).show();
         Log.i("Notes", "Session as QR code is being created: " + model.printSession());
         model.requestQrCode();

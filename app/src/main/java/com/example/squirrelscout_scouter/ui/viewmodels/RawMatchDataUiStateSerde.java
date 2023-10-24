@@ -26,6 +26,7 @@ class RawMatchDataUiStateSerde {
         MessageBuilder message = Com.newMessageBuilder();
         Schema.RawMatchData.Builder rawMatchData = message.initRoot(Schema.RawMatchData.factory);
 
+        // TODO: Keyush/Archit: For Saturday. Finish conversion to capnp.
         // etc.
         rawMatchData.setAutoConeHigh((short) v.coneHighA());
 

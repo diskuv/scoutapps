@@ -11,51 +11,51 @@ import org.immutables.value.Value;
  * part of the "data" layer model object).
  */
 @Value.Immutable
-public abstract class RawMatchDataUiState {
+public interface RawMatchDataUiState extends WithRawMatchDataUiState {
 
-    public abstract String scoutName();
+    String scoutName();
 
-    public abstract String positionScouting();
+    String positionScouting();
 
-    public abstract String autoClimb();
+    String autoClimb();
 
-    public abstract String teleClimb();
+    String teleClimb();
 
-    public abstract String notes();
+    String notes();
 
-    public abstract int scoutTeam();
+    int scoutTeam();
 
-    public abstract int matchScouting();
+    int matchScouting();
 
-    public abstract int robotScouting();
+    int robotScouting();
 
-    public abstract int coneHighA();
+    int coneHighA();
 
-    public abstract int coneMidA();
+    int coneMidA();
 
-    public abstract int coneLowA();
+    int coneLowA();
 
-    public abstract int cubeHighA();
+    int cubeHighA();
 
-    public abstract int cubeMidA();
+    int cubeMidA();
 
-    public abstract int cubeLowA();
+    int cubeLowA();
 
-    public abstract int coneHighT();
+    int coneHighT();
 
-    public abstract int coneMidT();
+    int coneMidT();
 
-    public abstract int coneLowT();
+    int coneLowT();
 
-    public abstract int cubeHighT();
+    int cubeHighT();
 
-    public abstract int cubeMidT();
+    int cubeMidT();
 
-    public abstract int cubeLowT();
+    int cubeLowT();
 
-    public abstract boolean mobility();
+    boolean mobility();
 
-    public abstract boolean defense();
+    boolean defense();
 
-    public abstract boolean incapacitated();
+    boolean incapacitated();
 }

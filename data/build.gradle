@@ -13,6 +13,13 @@ plugins {
 }
 apply plugin: CMakeEnvironmentPlugin
 
+// Allow local development
+def localDataProjectDir = rootProject.file("../ocaml-backend")
+def localDevCmakeArgs = []
+if(localDataProjectDir.exists()) {
+    localDevCmakeArgs.add "-DFETCHCONTENT_SOURCE_DIR_OCAML-BACKEND=${localDataProjectDir.getAbsolutePath()}"
+}
+
 tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     def jniCompiler = javaToolchains.compilerFor {
         // Avoid: androidx/activity/lint/ActivityIssueRegistry has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 55.0
@@ -27,6 +34,7 @@ tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     defaultFetchContentDksdkFfiC = rootProject.file("fetch/dksdk-ffi-c")
     defaultFetchContentDksdkFfiJava = rootProject.file("fetch/dksdk-ffi-java")
     defaultFetchContentDksdkFfiOCaml = rootProject.file("fetch/dksdk-ffi-ocaml")
+    arguments.addAll localDevCmakeArgs
 
     sources fileTree(
             dir: rootDir,
@@ -133,6 +141,7 @@ androidComponents {
             def cmakeConfigureForCapnp = tasks.register(taskName, GeneratedJavaCMakeConfigureTask) {
                 arguments.add "-DGENERATE_CAPNP_ONLY=1"
                 arguments.add "-DGENERATE_CAPNP_DIR=${generatedJavaDir0.get()}"
+                arguments.addAll localDevCmakeArgs
 
                 sources fileTree(
                         dir: rootDir,

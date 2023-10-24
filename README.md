@@ -21,7 +21,19 @@ with-dkml sh ci/git-clone.sh -l
 with-dkml sh ci/git-clone.sh -p .ci/cmake/bin/cmake
 ```
 
-SECOND, run the following commands in Unix or Windows PowerShell:
+SECOND, if you want to do co-development of the data layer (the project is called `ocaml-backend`)
+then checkout the `ocaml-backend` project *beside* your `SquirrelScout_Scouter` project.
+
+So your directory structure should look like:
+
+```text
+~/source
+├── ... any other projects you want ...
+├── ocaml-backend
+└── SquirrelScout_Scouter
+```
+
+THIRD, run the following commands in Unix or Windows PowerShell:
 
 ```sh
 ./dk dksdk.cmake.link
@@ -60,7 +72,7 @@ where you will see something like:
      | Detected by:        Gradle property 'org.gradle.java.installations.paths'
 ```
 
-Finally, if you want to run Android Studio, run:
+FINALLY, if you want to run Android Studio, run:
 
 ```shell
 # One-time

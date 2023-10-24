@@ -42,7 +42,7 @@
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-ffi-ocaml"
         },
-        "FETCHCONTENT_SOURCE_DIR_OCAML_BACKEND": {
+        "FETCHCONTENT_SOURCE_DIR_OCAML-BACKEND": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/ocaml-backend"
         }

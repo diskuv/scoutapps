@@ -1,5 +1,6 @@
 package com.example.squirrelscout_scouter.ui.viewmodels;
 
+import com.diskuv.dksdk.ffi.java.Com;
 import com.example.squirrelscout.data.capnp.Schema;
 
 import org.capnproto.MessageBuilder;
@@ -22,7 +23,7 @@ class RawMatchDataUiStateSerde {
         https://developer.android.com/topic/architecture/recommendations#layered-architecture
      */
     public MessageBuilder toMessage(RawMatchDataUiState v) {
-        org.capnproto.MessageBuilder message = new org.capnproto.MessageBuilder();
+        MessageBuilder message = Com.newMessageBuilder();
         Schema.RawMatchData.Builder rawMatchData = message.initRoot(Schema.RawMatchData.factory);
 
         // etc.

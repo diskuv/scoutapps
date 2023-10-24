@@ -1,15 +1,18 @@
 package com.example.squirrelscout_scouter.ui.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.caverock.androidsvg.SVG;
-import com.diskuv.dksdk.ffi.java.Com;
-import com.example.squirrelscout.data.capnp.Schema;
 import com.example.squirrelscout.data.models.ComDataModel;
 
 import org.capnproto.MessageBuilder;
+
+import java.util.Objects;
 
 /**
  * The information associated with a single Start Scouting session.
@@ -39,19 +42,86 @@ public class ScoutingSessionViewModel extends ViewModel {
                     .modifiableRawMatchData(ModifiableRawMatchDataUiState.create())
                     .build());
 
-    private final MutableLiveData<Integer> qrRequests = new MutableLiveData<>();
+    private final MutableLiveData<ImmutableRawMatchDataUiState> qrRequests = new MutableLiveData<>();
 
+    private final LiveData<ImmutableRawMatchDataUiState> completedRawMatchData =
+            Transformations.distinctUntilChanged(
+                    Transformations.map(rawMatchDataSessionUiState, this::fromSessionToCompleted));
+
+    /**
+     * The "session" raw match data will be emitted whenever there is a change
+     * to the session fields.
+     */
     public LiveData<ImmutableRawMatchDataSessionUiState> getRawMatchDataSession() {
         return rawMatchDataSessionUiState;
     }
 
-    public LiveData<Integer> getQrRequests() {
+    /**
+     * The "completed" raw match data will be emitted when the session is complete.
+     */
+    public LiveData<ImmutableRawMatchDataUiState> getCompletedRawMatchData() {
+        return completedRawMatchData;
+    }
+
+    /**
+     * The "QR requests" will be emitted whenever there is a new request for a QR code.
+     */
+    public LiveData<ImmutableRawMatchDataUiState> getQrRequests() {
         return qrRequests;
     }
 
     private void updateAndSetSession(ImmutableRawMatchDataSessionUiState session) {
         ImmutableRawMatchDataSessionUiState updatedSession = session.withUpdateNumber(session.updateNumber() + 1);
         rawMatchDataSessionUiState.setValue(updatedSession);
+    }
+
+    /**
+     * Return a non-null RawMatchData if and only if the session fields are complete.
+     *
+     * @param session the partially completed session
+     * @return the completed RawMatchData
+     */
+    private ImmutableRawMatchDataUiState fromSessionToCompleted(ImmutableRawMatchDataSessionUiState session) {
+        // TODO: The UI is not complete:
+        // - We pretend as if the UI completed all the fields.
+        // - But we do _not_ touch the session ... we instead operate on a clone of the
+        //   session and fill in the clone's fields. That way the real UI can keep track
+        //   of which fields have been set and which haven't.
+        ModifiableRawMatchDataUiState clone = ModifiableRawMatchDataUiState.create().from(
+                session.modifiableRawMatchData()
+        );
+
+        // This check should not be needed when the UI is complete!
+        try {
+            clone.toImmutable();
+        } catch (IllegalStateException e) {
+            Log.e("ScoutingSession", "The UI has not been completed! For now we'll try to patch the UI fields. The following error message should tell you which fields still need to be set: " + e.getMessage());
+            // DONE: if (!clone.scoutTeamIsSet()) clone.setScoutTeam(-1);
+            // DONE: if (!clone.scoutNameIsSet()) clone.setScoutName("UI needs setScoutName");
+            if (!clone.positionScoutingIsSet())
+                clone.setPositionScouting("UI needs setPositionScouting");
+            if (!clone.matchScoutingIsSet()) clone.setMatchScouting(-1);
+            if (!clone.autoClimbIsSet()) clone.setAutoClimb("UI needs setAutoClimb");
+            if (!clone.incapacitatedIsSet()) clone.setIncapacitated(false);
+            if (!clone.defenseIsSet()) clone.setDefense(false);
+            if (!clone.mobilityIsSet()) clone.setMobility(false);
+            if (!clone.notesIsSet()) clone.setNotes("UI needs setNotes");
+            if (!clone.teleClimbIsSet()) clone.setTeleClimb("UI needs setTeleClimb");
+            if (!clone.coneHighAIsSet()) clone.setConeHighA(-1);
+            if (!clone.coneHighTIsSet()) clone.setConeHighT(-1);
+            if (!clone.coneMidAIsSet()) clone.setConeMidA(-1);
+            if (!clone.coneMidTIsSet()) clone.setConeMidT(-1);
+            if (!clone.coneLowAIsSet()) clone.setConeLowA(-1);
+            if (!clone.coneLowTIsSet()) clone.setConeLowT(-1);
+            if (!clone.cubeHighAIsSet()) clone.setCubeHighA(-1);
+            if (!clone.cubeHighTIsSet()) clone.setCubeHighT(-1);
+            if (!clone.cubeMidAIsSet()) clone.setCubeMidA(-1);
+            if (!clone.cubeMidTIsSet()) clone.setCubeMidT(-1);
+            if (!clone.cubeLowAIsSet()) clone.setCubeLowA(-1);
+            if (!clone.cubeLowTIsSet()) clone.setCubeLowT(-1);
+        }
+
+        return clone.toImmutable();
     }
 
     public String printSession() {
@@ -101,14 +171,16 @@ public class ScoutingSessionViewModel extends ViewModel {
     }
 
     public void requestQrCode() {
-        Integer value = qrRequests.getValue();
-        qrRequests.setValue(value == null ? 1 : value + 1);
+        ImmutableRawMatchDataUiState completeRawMatchData = completedRawMatchData.getValue();
+        /* Do nothing if the session is not complete. You should set the UI button (etc.) to
+           not be visible so you never request a QR code. */
+        if (completeRawMatchData == null) return;
+        qrRequests.setValue(completeRawMatchData);
     }
 
-    public SVG generateQrCode(ComDataModel data) {
-        MessageBuilder rawMatchData = Com.newMessageBuilder();
-        Schema.RawMatchData.Builder builder = rawMatchData.initRoot(Schema.RawMatchData.factory);
-        builder.setNotes("hello squirrel scouters!");
-        return data.getScoutQR().qrCodeOfRawMatchData(rawMatchData);
+    public SVG generateQrCode(ComDataModel data, ImmutableRawMatchDataUiState completeRawMatchData) {
+        MessageBuilder completeRawMatchDataMessage = new RawMatchDataUiStateSerde()
+                .toMessage(Objects.requireNonNull(completeRawMatchData));
+        return data.getScoutQR().qrCodeOfRawMatchData(completeRawMatchDataMessage);
     }
 }

@@ -69,6 +69,13 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         qrCode = findViewById(R.id.svgViewQrCode);
         qrCode.setVisibility(View.INVISIBLE);
 
+        // control visibility of the finish button. Only when the session
+        // is complete should it be visible.
+        finishButton.setVisibility(View.INVISIBLE);
+        model.getCompletedRawMatchData().observe(this, completed -> {
+            finishButton.setVisibility(completed == null ? View.INVISIBLE : View.VISIBLE);
+        });
+
         //start animation
         animationStart();
     }
@@ -125,9 +132,9 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         Log.d("Notes", "onComDataReady");
 
         uiThreadHandler.post(() ->
-            model.getQrRequests().observe(data, requestNum -> {
+            model.getQrRequests().observe(data, completeRawMatchData -> {
                 /* Use lifetime-scoped data COM objects */
-                SVG svg = model.generateQrCode(data);
+                SVG svg = model.generateQrCode(data, completeRawMatchData);
 
                 /* Sending data results back to the UI thread */
                 uiThreadHandler.post(() -> {

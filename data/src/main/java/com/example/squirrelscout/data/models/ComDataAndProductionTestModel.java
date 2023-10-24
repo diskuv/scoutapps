@@ -17,8 +17,8 @@ public class ComDataAndProductionTestModel extends ComDataModel {
     private final Multiply multiply;
     private final Calculations calculations;
 
-    public ComDataAndProductionTestModel(Com com, Context context) {
-        super(com, context);
+    public ComDataAndProductionTestModel(Com com, Context context, LifecycleRegistrySetter lifecycleSetter) {
+        super(com, context, lifecycleSetter);
         this.multiply = Multiply.create(com);
         this.add1 = Add1.create(com);
         this.calculations = Calculations.create(com);

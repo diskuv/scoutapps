@@ -9,6 +9,9 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleRegistry;
+
 import com.diskuv.dksdk.ffi.java.Com;
 import com.example.squirrelscout.data.models.ComDataAndProductionTestModel;
 import com.example.squirrelscout.data.models.ComDataModel;
@@ -42,16 +45,22 @@ import com.example.squirrelscout.data.models.ComDataModel;
  */
 public class ComDataForegroundService extends Service {
     private static native boolean init_ocaml(String processArg0);
+
     private static native void start_ocaml(String processArg0);
+
     private static native void stop_ocaml();
+
     private static native void terminate_ocaml();
+
     private static native void atexit_ocaml();
 
     private static ComDataHandler gServiceHandler;
     private static Com gCom;
     private final ComFactory.ComDomain comDomain = hasProductionTestObjects() ? ComFactory.ComDomain.PRODUCTION_TEST : ComFactory.ComDomain.PRODUCTION;
     private final IBinder binder = new ComDataBinder();
+
     private volatile ComDataModel data;
+    private LifecycleRegistry dataLifecycleRegistry;
 
     public final class ComDataBinder extends Binder {
         public ComDataForegroundService getService() {
@@ -96,18 +105,25 @@ public class ComDataForegroundService extends Service {
 
             // POINT D: Do all the borrowing of class objects in ComData.
             final ComDataModel data0;
+            final LifecycleRegistry[] registry0 = new LifecycleRegistry[1];
+            ComDataModel.LifecycleRegistrySetter registrySetter = lifecycleRegistry -> registry0[0] = lifecycleRegistry;
             switch (comDomain) {
                 case PRODUCTION:
-                    data0 = new ComDataModel(gCom, getApplicationContext());
+                    data0 = new ComDataModel(gCom, getApplicationContext(), registrySetter);
                     break;
                 case PRODUCTION_TEST:
-                    data0 = new ComDataAndProductionTestModel(gCom, getApplicationContext());
+                    data0 = new ComDataAndProductionTestModel(gCom, getApplicationContext(), registrySetter);
                     break;
                 default:
                     throw new IllegalStateException("No COM domain " + comDomain);
             }
+            assert registry0[0] != null;
             synchronized (ComDataForegroundService.class) {
                 data = data0;
+                dataLifecycleRegistry = registry0[0];
+
+                // [data] is CREATED
+                dataLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
             }
         }
 
@@ -118,6 +134,9 @@ public class ComDataForegroundService extends Service {
             // may be accidentally holding onto them).
             // For now, we simply stop any more use of [data].
             synchronized (ComDataForegroundService.class) {
+                // [data] will be DESTROYED
+                dataLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
+
                 data = null;
             }
 
@@ -143,7 +162,7 @@ public class ComDataForegroundService extends Service {
 
     @Override
     public void onCreate() {
-        synchronized(ComDataForegroundService.class) {
+        synchronized (ComDataForegroundService.class) {
             // POINT A: Do dksdk_ffi_host_create(), standard DkSDK FFI C class object registrations
             // and a service thread for OCaml
             if (gCom == null) {

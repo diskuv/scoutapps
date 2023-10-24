@@ -67,6 +67,7 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         pageTitle = (TextView) findViewById(R.id.textView2);
         notesText = (EditText) findViewById(R.id.Name_Input);
         qrCode = findViewById(R.id.svgViewQrCode);
+        qrCode.setVisibility(View.INVISIBLE);
 
         //start animation
         animationStart();
@@ -91,7 +92,8 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         //create qr code
         //go to qr code page
         Toast.makeText(NotesActivity.this, "Creating QR code and going to next page", Toast.LENGTH_SHORT).show();
-        Log.i(getComponentName().getShortClassName(), "Session as QR code is being created: " + model.printSession());
+        Log.i("Notes", "Session as QR code is being created: " + model.printSession());
+        model.requestQrCode();
     }
 
     public void animationStart(){
@@ -120,10 +122,18 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
 
     @Override
     public void onComDataReady(ComDataModel data) {
-        /* Use data COM object */
-        SVG svg = model.generateQrCode(data);
+        Log.d("Notes", "onComDataReady");
 
-        /* Sending data results back to the UI thread */
-        uiThreadHandler.post(() -> qrCode.setSVG(svg));
+        uiThreadHandler.post(() ->
+            model.getQrRequests().observe(data, requestNum -> {
+                /* Use lifetime-scoped data COM objects */
+                SVG svg = model.generateQrCode(data);
+
+                /* Sending data results back to the UI thread */
+                uiThreadHandler.post(() -> {
+                    qrCode.setSVG(svg);
+                    qrCode.setVisibility(View.VISIBLE);
+                });
+            }));
     }
 }

@@ -199,7 +199,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
             startButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
             model.findRobot();
-            Log.i(getComponentName().getShortClassName(), "Session after finding robot is now: " + model.printSession());
+            Log.d("StartScouting", "Session after finding robot is now: " + model.printSession());
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {

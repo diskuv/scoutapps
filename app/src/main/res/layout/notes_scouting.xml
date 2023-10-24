@@ -145,8 +145,8 @@
 
     <com.caverock.androidsvg.SVGImageView
         android:id="@+id/svgViewQrCode"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:contentDescription="@string/qr_code_description"
         app:layout_constraintBottom_toBottomOf="@+id/Name_Input"
         app:layout_constraintEnd_toEndOf="parent"

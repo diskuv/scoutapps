@@ -39,8 +39,14 @@ public class ScoutingSessionViewModel extends ViewModel {
                     .modifiableRawMatchData(ModifiableRawMatchDataUiState.create())
                     .build());
 
+    private final MutableLiveData<Integer> qrRequests = new MutableLiveData<>();
+
     public LiveData<ImmutableRawMatchDataSessionUiState> getRawMatchDataSession() {
         return rawMatchDataSessionUiState;
+    }
+
+    public LiveData<Integer> getQrRequests() {
+        return qrRequests;
     }
 
     private void updateAndSetSession(ImmutableRawMatchDataSessionUiState session) {
@@ -92,6 +98,11 @@ public class ScoutingSessionViewModel extends ViewModel {
         rawMatchData.setPositionScouting(robotPosition);
 
         updateAndSetSession(session);
+    }
+
+    public void requestQrCode() {
+        Integer value = qrRequests.getValue();
+        qrRequests.setValue(value == null ? 1 : value + 1);
     }
 
     public SVG generateQrCode(ComDataModel data) {

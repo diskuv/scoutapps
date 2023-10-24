@@ -1,8 +1,9 @@
 package com.example.squirrelscout_scouter.match_scouting_pages;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
@@ -11,15 +12,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.example.squirrelscout.data.ComDataForegroundListener;
+import com.example.squirrelscout.data.ComDataRequestCallback;
+import com.example.squirrelscout.data.models.ComDataModel;
 import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
-public class NotesActivity extends Activity implements View.OnClickListener{
+public class NotesActivity extends ComponentActivity implements View.OnClickListener, ComDataRequestCallback {
 
     //instances
     View topCard, mainCard;
@@ -27,14 +32,22 @@ public class NotesActivity extends Activity implements View.OnClickListener{
     EditText notesText;
     Button finishButton;
     ImageButton page1, page2;
+    private ScoutingSessionViewModel model;
+    private Handler uiThreadHandler;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_scouting);
 
+        // fields that ideally should be dependency injected
+        uiThreadHandler = ((MainApplication) getApplication()).getUiThreadHandler();
+
         // view model
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
-        ScoutingSessionViewModel model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+        model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+
+        // route data to ComDataRequestCallback (this)
+        ComDataForegroundListener.listen(this, getLifecycle(), this);
 
         //Button assignmnet
         finishButton = (Button) findViewById(R.id.NEXT);
@@ -74,6 +87,7 @@ public class NotesActivity extends Activity implements View.OnClickListener{
         //create qr code
         //go to qr code page
         Toast.makeText(NotesActivity.this, "Creating QR code and going to next page", Toast.LENGTH_SHORT).show();
+        Log.i(getComponentName().getShortClassName(), "Session as QR code is being created: " + model.printSession());
     }
 
     public void animationStart(){
@@ -98,5 +112,9 @@ public class NotesActivity extends Activity implements View.OnClickListener{
                 finishButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
             }).start();
         }).start();
+    }
+
+    @Override
+    public void onComDataReady(ComDataModel data) {
     }
 }

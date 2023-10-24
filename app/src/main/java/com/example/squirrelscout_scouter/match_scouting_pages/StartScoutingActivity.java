@@ -25,8 +25,10 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
-import com.example.squirrelscout_scouter.ScoutInfo;
+import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
+
+import java.util.Locale;
 
 public class StartScoutingActivity extends ComponentActivity implements  View.OnClickListener{
 
@@ -41,8 +43,8 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
 
     String robotPosition, m;
     int match;
+    private ScoutingSessionViewModel model;
 
-    ScoutInfo scoutInfo;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
 
         // view model scoped to the entire scouting session that starts at StartScoutingActivity
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
-        ScoutingSessionViewModel model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+        model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
         // new session
         Intent intent = getIntent();
@@ -98,9 +100,16 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
         //animate
         animationStart();
 
-        //load info if created
-        scoutInfo = ScoutInfo.getInstance();
-        loadScoutInfo();
+        // bind view model updates to the UI
+        model.getRawMatchDataSession().observe(this, session -> {
+            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+            // TODO: Keyush/Archit: Is this getScoutMatch?
+            if(rawMatchData.matchScoutingIsSet())
+                chooseMatchI.setText(String.format(Locale.ENGLISH, "%d", rawMatchData.matchScouting()));
+            // TODO: Keyush/Archit: Is this getRobotPosition?
+            if(rawMatchData.positionScoutingIsSet())
+                dropdown.setText(rawMatchData.positionScouting());
+        });
     }
 
     @Override
@@ -189,11 +198,13 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
             startButton.setText("Start Scouting");
             startButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            findRobot();
+            model.findRobot();
+            Log.i(getComponentName().getShortClassName(), "Session after finding robot is now: " + model.printSession());
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                saveScoutInfo();
+                model.captureMatchRobot(Integer.parseInt(m), robotPosition);
+
                 startActivity(new Intent(StartScoutingActivity.this, AutonomousActivity.class));
                 Toast.makeText(StartScoutingActivity.this, m, Toast.LENGTH_SHORT).show();
                 Toast.makeText(StartScoutingActivity.this, robotPosition, Toast.LENGTH_SHORT).show();
@@ -262,27 +273,5 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
         startButton.setText("Choose Robot");
         startButton.setTextColor(ContextCompat.getColor(this, R.color.white));
         startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
-    }
-
-    //need to implement
-    //gets the robot based on the match number and position
-    public void findRobot(){
-        //placement for now
-        scoutInfo.setRobotScouting(1234);
-    }
-
-
-    //loads scout data
-    private void loadScoutInfo(){
-        //...nothing to load on this page
-        if(scoutInfo.getScoutMatch() != -1){
-            chooseMatchI.setText("" + scoutInfo.getScoutMatch());
-            dropdown.setText("" + scoutInfo.getRobotPosition());
-        }
-    }
-
-    private void saveScoutInfo(){
-        scoutInfo.setScoutMatch(Integer.parseInt(m));
-        scoutInfo.setRobotPosition(robotPosition);
     }
 }

@@ -11,7 +11,6 @@ DkSDKTest_AddUnitTest(NAME Std
 # Test Objs
 DkSDKTest_AddUnitTest(NAME Objs
   MAIN generic-ffi-main.c
-  ML_RUNTIME SquirrelScout::Objs
-  C_RUNTIME DkSDK::FFI::C-Static)
+  ML_RUNTIME SquirrelScout::Objs)
 
 add_subdirectory(ManagerApp)

@@ -9,6 +9,36 @@ include(DkSDKFetchContent)
 include(DkSDKProject)
 DkSDKProject_AddDependencies()
 
+# ////// START OF SILLY SECTION.
+# ////// Only required for `#include "dksdk_ffi_c/dksdk_ffi_c.h"`
+# ////// in generic-ffi-main.c.
+# ////// 
+# ////// DkSDKRequire_Add(FFI OCaml PRERELEASE) 
+# ////// or DkSDKRequire_Add(FFI C) should expose the C headers needed
+# ////// by generic-ffi-main.c.
+
+# --- Set dksdk-ffi-c_REPOSITORY
+
+get_property(dksdk-ffi-c_REPOSITORY GLOBAL PROPERTY DKSDK_FFI_C_REPOSITORY)
+
+# --- Fetch dksdk-ffi-c
+
+FetchContent_Declare(dksdk-ffi-c # override with cmake -D FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-C=...
+    GIT_REPOSITORY "${dksdk-ffi-c_REPOSITORY}"
+    GIT_TAG main)
+# MSVC Fatal error: Unsupported relocation kind 0003 for __GSHandlerCheck in _deps\dksdk-ffi-c-build\src\dksdk_ffi_c-StaticExports.lib(_deps\dksdk-ffi-c-build\src\CMakeFiles\dksdk_ffi_c-StaticExports.dir\sha256.c.obj)
+function(do_fetch_dksdk_ffi_c)
+    if(MSVC AND DKSDK_FFI_OCAML_MITIGATE_MSVC_RELOCATION_KIND_0003_COMPILE_OPTIONS)
+        string(JOIN " " compileOptions ${DKSDK_FFI_OCAML_MITIGATE_MSVC_RELOCATION_KIND_0003_COMPILE_OPTIONS})
+        string(APPEND CMAKE_C_FLAGS " ${compileOptions}")
+    endif()
+
+    DkSDKFetchContent_MakeAvailableNoInstall(dksdk-ffi-c)
+endfunction()
+do_fetch_dksdk_ffi_c()
+
+# ////// END OF SILLY SECTION.
+
 # --- Declare Dependencies ---
 
 # >>> If you have any FetchContent_Declare(), this is the place

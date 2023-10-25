@@ -29,6 +29,8 @@ class RawMatchDataUiStateSerde {
         // TODO: Keyush/Archit: For Saturday. Finish conversion to capnp.
         // etc.
         rawMatchData.setAutoConeHigh((short) v.coneHighA());
+        rawMatchData.setScouterName(v.scoutName());
+        rawMatchData.setTeamNumber((short) v.scoutTeam());
 
         return message;
     }

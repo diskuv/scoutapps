@@ -39,6 +39,6 @@ endfunction()
 add_qt_test(NAME ManagerAppQtReaderTest-test_qr
     COMMAND ManagerAppQtReader "${CMAKE_CURRENT_LIST_DIR}/qrcode-generated/test_qr.png" -- test_qr.db)
 add_qt_test(NAME ManagerAppQtReaderTest-Screenshot_2023-10-24
-    COMMAND ManagerAppQtReader "${CMAKE_CURRENT_LIST_DIR}/qrcode-app/Screenshot_2023-10-24-09-26-05-776.jpeg" -- Screenshot_2023-10-24-09-26-05-776.db)
-
+    COMMAND ManagerAppQtReader "${CMAKE_CURRENT_LIST_DIR}/qrcode-app/Screenshot_2023-10-24-12-19-42-565.jpeg" -- Screenshot_2023-10-24-12-19-42-565.db)
+    
 add_qt_test(NAME ManagerAppQtCamReaderTest COMMAND ManagerAppQtCamReader -- test.db)

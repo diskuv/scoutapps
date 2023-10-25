@@ -6,6 +6,7 @@
         "ms-vscode.cmake-tools",
         "twxs.cmake",
         "yzhang.markdown-all-in-one",
-        "ms-vscode.cpptools-extension-pack"
+        "ms-vscode.cpptools-extension-pack",
+        "ocamllabs.ocaml-platform"
     ]
 }

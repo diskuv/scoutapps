@@ -131,9 +131,25 @@
       }
     },
     {
+      "name": "dev-Windows64-with-localocaml",
+      "inherits": [
+        "dev-Windows64"
+      ],
+      "displayName": "Dev Windows 64-bit + local OCaml",
+      "cacheVariables": {
+        "CMAKE_OCamlDune_COMPILER_EXTERNAL_REQUIRED": "OFF"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    },
+    {
       "name": "dev-Windows64-with-localsources-localocaml",
       "inherits": [
-        "dev-source-dirs",
         "dev-Windows64-with-localsources"
       ],
       "cacheVariables": {

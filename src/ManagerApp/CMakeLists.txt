@@ -98,10 +98,14 @@ target_link_libraries(ManagerAppReader
     
     )
 if (TARGET Qt::Gui)
-    target_link_libraries(ManagerAppQtReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
+    target_link_libraries(ManagerAppQtReader
+        SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
 endif()
 if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
-    target_link_libraries(ManagerAppQtCamReader SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
+    target_link_libraries(ManagerAppQtCamReader
+        SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
+        # for caml_c_thread_register()
+        DkSDK::OCaml::Compile)
 endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

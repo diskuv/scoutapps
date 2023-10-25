@@ -23,6 +23,9 @@
 #endif
 
 #include <squirrel_scout_manager/squirrel_scout_manager.h> /* SCOUT:ADDED */
+#include <caml/misc.h> /* SCOUT:ADDED */
+#include <caml/threads.h> /* SCOUT:ADDED */
+#undef callback /* SCOUT:ADDED */
 
 // This is some sample code to start a discussion about how a minimal and header-only Qt wrapper/helper could look like.
 
@@ -369,6 +372,7 @@ public slots:
 			/* SCOUT:ADDED */
 			auto bytes = res.bytes();
 			auto format = res.formatName().toStdString();
+			caml_c_thread_register();
 			squirrel_scout_manager_consume_qr(format.c_str(), bytes.data(), bytes.length());
 		}
 		return res;

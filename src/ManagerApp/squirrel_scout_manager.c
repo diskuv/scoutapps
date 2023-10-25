@@ -52,6 +52,10 @@ void squirrel_scout_manager_init(int argc0, SQUIRREL_SCOUT_MANAGER_portable_char
   /* Run module initializers of OCaml and wait for them to finish */
   caml_startup(caml_argv);
 
+  /* Allow other threads, especially the Qt render thread, to grab
+     the OCaml runtime lock and run OCaml code. */
+  caml_release_runtime_system();
+
   /* Make a C argv array, with room for NULL. */
   c_argv = calloc(1 + argv0_end_c_excl, sizeof(char *));
   for (i = 0; i < argv0_end_c_excl; ++i) {
@@ -78,6 +82,9 @@ void squirrel_scout_manager_destroy() {
   /* Dealloc OCaml argv */
   if (caml_argv != NULL) free(caml_argv);
   caml_argv = NULL;
+
+  /* Get the OCaml runtime lock so we can start the OCaml shutdown. */
+  caml_acquire_runtime_system();
 
   /* Release OCaml resources */
   caml_shutdown();

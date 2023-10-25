@@ -1,10 +1,10 @@
 {
   "cSpell.enabled" : true,
-  "sonarlint.pathToCompileCommands": "${workspaceFolder}/build_dev/compile_commands.json",
   "cmake.configureOnOpen" : false,
   "ocaml.sandbox" : 
   {
     "kind" : "custom",
-    "template" : "/home/keyush/coding/ocaml_database/db/dk dksdk.cmd.exec QUIET CMD $prog $args"
-  }
+    "template" : "/home/squirrel/source/ocaml-backend/dk dksdk.cmd.exec QUIET CMD $prog $args"
+  },
+  "sonarlint.pathToCompileCommands" : "${workspaceFolder}/build_dev/compile_commands.json"
 }

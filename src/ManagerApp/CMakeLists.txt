@@ -30,7 +30,7 @@ endif()
 
 add_library(ManagerApp_ml STATIC ManagerApp_ml.ml)
 add_library(SquirrelScout::ManagerApp_ml ALIAS ManagerApp_ml)
-target_link_libraries(ManagerApp_ml PRIVATE 
+target_link_libraries(ManagerApp_ml PRIVATE
     # We want the library that we wrote in ../Std/
     # to be available to the node's .ml code.
     SquirrelScout::Std)
@@ -93,15 +93,19 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
 endif()
 
 # ~~~ ADDITIONS
-target_link_libraries(ManagerAppReader 
+add_custom_target(ManagerApp_ALL)
+add_dependencies(ManagerApp_ALL ManagerAppReader)
+target_link_libraries(ManagerAppReader
     SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
 if (TARGET Qt::Gui)
+    add_dependencies(ManagerApp_ALL ManagerAppQtReader)
     target_link_libraries(ManagerAppQtReader
         SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
         # for caml_c_thread_register()
         DkSDK::OCaml::Compile)
 endif()
 if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
+    add_dependencies(ManagerApp_ALL ManagerAppQtCamReader)
     target_link_libraries(ManagerAppQtCamReader
         SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
         # for caml_c_thread_register()

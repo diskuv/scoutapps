@@ -14,11 +14,22 @@ plugins {
 apply plugin: CMakeEnvironmentPlugin
 
 // Allow local development
-def localDataProjectDir = rootProject.file("../ocaml-backend")
-def localDevCmakeArgs = []
-if(localDataProjectDir.exists()) {
-    localDevCmakeArgs.add "-DFETCHCONTENT_SOURCE_DIR_OCAML-BACKEND=${localDataProjectDir.getAbsolutePath()}"
-}
+def localDevProjects = [
+        // DkSDK standards
+        'dksdk-access',
+        'dksdk-cmake',
+        'dksdk-ffi-c',
+        'dksdk-ffi-java',
+        'dksdk-ffi-ocaml',
+        // Unique to our project
+        'ocaml-backend'
+]
+def localDevCmakeArgs = localDevProjects.
+        findAll { rootProject.file("../${it}").exists() }.
+        collect { {
+            def path = rootProject.file("../${it}").getAbsolutePath()
+            "-DFETCHCONTENT_SOURCE_DIR_${it.toUpperCase()}=${path}"
+        }}
 
 tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     def jniCompiler = javaToolchains.compilerFor {

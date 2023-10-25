@@ -61,10 +61,16 @@ BUSID  VID:PID    DEVICE                                                        
 10-2   20b1:0008  HIFI DSD, XMOS  DFU                                           Not attached
 
 C:\Users\beckf> usbipd bind --busid=1-5 --force
+usbipd: warning: A reboot may be required before the changes take effect.
 
 C:\Users\beckf> usbipd wsl attach --busid=1-5
 usbipd: info: Using default WSL distribution 'Debian'; specify the '--distribution' option to select a different one.
 ```
+
+> NOTE 1: If you received a `usbipd: warning: A reboot may be required before the changes take effect.` you
+> will need to reboot before the following `usbipd wsl attach ...` works.
+
+> NOTE 2: Yes, you can bind and attach USB cameras as well.
 
 THIRD,
 

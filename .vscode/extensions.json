@@ -5,6 +5,7 @@
         "josetr.cmake-language-support-vscode",
         "ms-vscode.cmake-tools",
         "twxs.cmake",
-        "yzhang.markdown-all-in-one"
+        "yzhang.markdown-all-in-one",
+        "ms-vscode.cpptools-extension-pack"
     ]
 }

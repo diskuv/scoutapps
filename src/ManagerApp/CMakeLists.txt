@@ -94,12 +94,12 @@ endif()
 
 # ~~~ ADDITIONS
 target_link_libraries(ManagerAppReader 
-    SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
-    
-    )
+    SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
 if (TARGET Qt::Gui)
     target_link_libraries(ManagerAppQtReader
-        SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
+        SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
+        # for caml_c_thread_register()
+        DkSDK::OCaml::Compile)
 endif()
 if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     target_link_libraries(ManagerAppQtCamReader

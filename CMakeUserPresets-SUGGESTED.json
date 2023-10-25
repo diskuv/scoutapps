@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 5,
   "configurePresets": [
     {
       "name": "dev-configure",
@@ -19,6 +19,9 @@
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-opam-repository-js"
         }
+      },
+      "environment": {
+        "PATH": "${sourceDir}/.ci/ninja/bin${pathListSep}$penv{PATH}"
       }
     },
     {
@@ -128,34 +131,15 @@
       }
     },
     {
-      "name": "dev-Windows64-with-localsources-envninja",
+      "name": "dev-Windows64-with-localsources-localocaml",
       "inherits": [
         "dev-source-dirs",
         "dev-Windows64-with-localsources"
       ],
       "cacheVariables": {
-        "CMAKE_MAKE_PROGRAM": "$env{DKSDK_NINJA_PROGRAM}",
-        "CMAKE_MAKE_PROGRAM_REASON": "Set DKSDK_NINJA_PROGRAM environment variable to specify ninja.exe"
-      },
-      "displayName": "Dev Windows 64-bit + local sources + env DKSDK_NINJA_PROGRAM",
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Windows"
-          ]
-        }
-      }
-    },
-    {
-      "name": "dev-Windows64-with-localsources-envninja-localocaml",
-      "inherits": [
-        "dev-source-dirs",
-        "dev-Windows64-with-localsources-envninja"
-      ],
-      "cacheVariables": {
         "CMAKE_OCamlDune_COMPILER_EXTERNAL_REQUIRED": "OFF"
       },
-      "displayName": "Dev Windows 64-bit + local OCaml + env DKSDK_NINJA_PROGRAM + local sources",
+      "displayName": "Dev Windows 64-bit + local OCaml + local sources",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": [

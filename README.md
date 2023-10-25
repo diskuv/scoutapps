@@ -57,6 +57,17 @@ You will want to start with the following targets:
 2. `DkSDKTest_UnitTests_ALL`
 3. `main-cli` in `src/MainCLI`
 
+## Launching Manager App
+
+### Manager App on Windows
+
+> These instructions do not include building the Manager App.
+
+```sh
+./dk dksdk.cmake.link QUIET
+.ci/cmake/bin/cmake -E env --modify PATH=path_list_prepend:5.15.2/msvc2019_64/bin --modify OCAMLRUNPARAM=set:b -- build_dev/src/ManagerApp/ManagerAppQtCamReader -- build_dev/test.db
+```
+
 ## Tutorial
 
 ### Manipulating Data

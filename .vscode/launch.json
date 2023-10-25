@@ -23,10 +23,18 @@
             "type": "cppvsdbg",            
             "request": "launch",
             "program": "${workspaceFolder}/build_dev/src/ManagerApp/ManagerAppQtCamReader.exe",
-            "args": [],
+            "args": [
+                "--",
+                "${workspaceFolder}/build_dev/test.db"
+            ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}/build_dev/src/ManagerApp",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "${workspaceFolder}/5.15.2/msvc2019_64/bin"
+                }
+            ],
             "console": "integratedTerminal"
         }
 

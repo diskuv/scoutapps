@@ -11,13 +11,49 @@
         "DKSDK_DEV_TOOLS": "ON",
         "DKSDK_OPAM_REPOSITORY": "git+file://${sourceDir}/fetch/dksdk-opam-repository/.git",
         "DKSDK_OPAM_REPOSITORY_JS": "git+file://${sourceDir}/fetch/dksdk-opam-repository-js/.git",
-          "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY": {
+        "FETCHCONTENT_SOURCE_DIR_DKML-COMPILER": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dkml-compiler"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKML-RUNTIME-COMMON": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dkml-runtime-common"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKML-RUNTIME-DISTRIBUTION": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dkml-runtime-distribution"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-ACCESS": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-access"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-cmake"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-C": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-ffi-c"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-OCAML": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-ffi-ocaml"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-opam-repository"
         },
         "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY-JS": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-opam-repository-js"
+        },
+        "FETCHCONTENT_SOURCE_DIR_OPAM-OVERLAYS": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/opam-overlays"
+        },
+        "FETCHCONTENT_SOURCE_DIR_OPAM-REPOSITORY": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/opam-repository"
         }
       },
       "environment": {
@@ -31,6 +67,14 @@
         "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
           "type": "FILEPATH",
           "value": "${sourceParentDir}/dksdk-cmake"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-C": {
+          "type": "FILEPATH",
+          "value": "${sourceParentDir}/dksdk-ffi-c"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-OCAML": {
+          "type": "FILEPATH",
+          "value": "${sourceParentDir}/dksdk-ffi-ocaml"
         }
       }
     },

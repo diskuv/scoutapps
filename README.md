@@ -45,14 +45,24 @@ cp CMakeUserPresets-SUGGESTED.json CMakeUserPresets.json
 .ci/cmake/bin/cmake --build build_dev --target main-cli DkSDK_DevTools DkSDKTest_UnitTests_ALL ManagerApp_ALL
 ```
 
+or do it from the **Windows with DkML** command line:
+
+```powershell
+./dk dksdk.cmake.link QUIET
+with-dkml cp CMakeUserPresets-SUGGESTED.json CMakeUserPresets.json
+with-dkml .ci/cmake/bin/cmake --preset dev-Windows64
+with-dkml .ci/cmake/bin/cmake --build build_dev --target main-cli DkSDK_DevTools DkSDKTest_UnitTests_ALL ManagerApp_ALL
+```
+
 ## Launching Manager App
 
 ### Manager App on Windows
 
-> These instructions do not include building the Manager App.
+First make sure you have followed [Development > Qt 5 Gui > Qt on Windows](./DEVELOPMENT.md#qt-on-windows).
+
+Then you can run the Manager App using:
 
 ```sh
-./dk dksdk.cmake.link QUIET
 .ci/cmake/bin/cmake -E env --modify PATH=path_list_prepend:5.15.2/msvc2019_64/bin --modify OCAMLRUNPARAM=set:b -- build_dev/src/ManagerApp/ManagerAppQtCamReader -- build_dev/test.db
 ```
 

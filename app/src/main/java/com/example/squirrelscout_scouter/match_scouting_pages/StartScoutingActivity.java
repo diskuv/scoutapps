@@ -204,8 +204,11 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 model.captureMatchRobot(Integer.parseInt(m), robotPosition);
-
-                startActivity(new Intent(StartScoutingActivity.this, AutonomousActivity.class));
+                // Create an Intent to launch the target activity
+                Intent intent = new Intent(StartScoutingActivity.this, AutonomousActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // Start the target activity with the Intent
+                startActivity(intent);
                 Toast.makeText(StartScoutingActivity.this, m, Toast.LENGTH_SHORT).show();
                 Toast.makeText(StartScoutingActivity.this, robotPosition, Toast.LENGTH_SHORT).show();
             }, 500);
@@ -216,7 +219,11 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
     private void backLogic(){
         Toast.makeText(StartScoutingActivity.this, "going back", Toast.LENGTH_SHORT).show();
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            startActivity(new Intent(StartScoutingActivity.this, MainActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(StartScoutingActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }, 500);
     }
 

@@ -25,13 +25,15 @@ import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ScoutInfo;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
+import org.w3c.dom.Text;
+
 public class AutonomousActivity extends Activity implements View.OnClickListener {
 
     //instances
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
     Button yesMobility, noMobility, nextButton;
     ImageButton homeButton, notesButton;
-    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info, title;
+    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info, title, defenseLabel2;
     AutoCompleteTextView dropdown;
     View titleCard, firstCard, secondCard, mainCard;
     LinearLayout cone1, cone2, cone3, cube1, cube2, cube3, mobilityLayout, climbLayout, menuLayout;
@@ -101,6 +103,7 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         mobilityLayout = (LinearLayout) findViewById(R.id.linearLayout7);
         climbLayout = (LinearLayout) findViewById(R.id.linearLayout8);
         menuLayout = (LinearLayout) findViewById(R.id.linearLayout9);
+        defenseLabel2 = (TextView) findViewById(R.id.DefenseLabel2);
 
         //counters
         coneHigh = (TextView) findViewById(R.id.ConeHighCounter);
@@ -154,11 +157,19 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         int clickedId = view.getId();
         if(clickedId == R.id.menu_item_1){
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, MainActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.menu_item_2){
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, NotesActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, NotesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.MOBILITY_YES){
             mobilityYesLogic();
@@ -246,7 +257,11 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(AutonomousActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, TeleopActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, TeleopActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
     }
 
@@ -311,6 +326,8 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         cube3.setAlpha(0);
         mobilityLayout.setAlpha(0f);
         mobilityLayout.setTranslationY(50);
+        defenseLabel2.setAlpha(0f);
+        defenseLabel2.setTranslationY(50);
         climbLayout.setAlpha(0f);
         climbLayout.setTranslationY(50);
         menuLayout.setAlpha(0f);
@@ -336,6 +353,7 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
                     cube2.animate().alpha(1f).translationXBy(50).setDuration(750);
                     cube3.animate().alpha(1f).translationXBy(50).setDuration(750);
                     mobilityLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
+                    defenseLabel2.animate().alpha(1f).translationYBy(-50).setDuration(750);
                     climbLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
                     menuLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
                     nextButton.animate().alpha(1f).translationYBy(-50).setDuration(750);

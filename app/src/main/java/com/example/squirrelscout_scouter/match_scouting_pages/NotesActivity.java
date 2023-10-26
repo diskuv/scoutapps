@@ -91,10 +91,18 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
             nextPageLogic();
         }
         else if(clickedId == R.id.menu_item_1){
-            startActivity(new Intent(NotesActivity.this, AutonomousActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(NotesActivity.this, AutonomousActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.menu_item_2){
-            startActivity(new Intent(NotesActivity.this, TeleopActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(NotesActivity.this, TeleopActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
     }
 

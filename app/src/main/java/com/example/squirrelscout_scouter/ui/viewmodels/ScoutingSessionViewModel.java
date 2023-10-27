@@ -149,15 +149,25 @@ public class ScoutingSessionViewModel extends ViewModel {
 
     //need to implement
     //gets the robot based on the match number and position
-    public void findRobot() {
+
+    //TODO: Add this functionality in later. Remove the manual entering of robot number
+//    public void findRobot() {
+//        ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
+//        assert session != null;
+//        ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+//
+//        //placement for now
+//        rawMatchData.setRobotScouting(1234);
+//
+//        updateAndSetSession(session);
+//    }
+
+    public void captureScoutingRobotNumber(int num){
         ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
         assert session != null;
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
-        //placement for now
-        rawMatchData.setRobotScouting(1234);
-
-        updateAndSetSession(session);
+        rawMatchData.setRobotScouting(num);
     }
 
     public void captureMatchRobot(int scoutMatch, String robotPosition) {

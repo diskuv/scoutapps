@@ -204,12 +204,14 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
             startButton.setText("Start Scouting");
             startButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            model.findRobot();
+//            model.findRobot();
             Log.d("StartScouting", "Session after finding robot is now: " + model.printSession());
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
+
                 model.captureMatchRobot(Integer.parseInt(m), robotPosition);
+                model.captureScoutingRobotNumber(Integer.parseInt(robotNumberI.getText().toString()));
                 // Create an Intent to launch the target activity
                 Intent intent = new Intent(StartScoutingActivity.this, AutonomousActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

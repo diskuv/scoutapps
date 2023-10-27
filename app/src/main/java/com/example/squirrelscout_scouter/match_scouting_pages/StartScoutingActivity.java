@@ -263,8 +263,8 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
         selectPositionTitle.setAlpha(0f);
         teamTitle.setTranslationX(200f);
         teamTitle.setAlpha(0f);
-        robotImage.setTranslationX(200f);
-        robotImage.setAlpha(0f);
+//        robotImage.setTranslationX(200f);
+//        robotImage.setAlpha(0f);
         firstCard.animate().alpha(1f).translationYBy(-1500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
             secondCard.animate().alpha(1f).translationYBy(-1500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
                 topCard.animate().alpha(1f).translationYBy(500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
@@ -276,7 +276,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
                     title.animate().alpha(1f).setDuration(300);
                     selectPositionTitle.animate().alpha(1f).translationYBy(-50).setDuration(750);
                     teamTitle.animate().alpha(1f).translationXBy(-200f).setDuration(500);
-                    robotImage.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+//                    robotImage.animate().alpha(1f).translationXBy(-200f).setDuration(500);
                 }).start();
             }).start();
         }).start();

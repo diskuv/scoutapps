@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,9 +23,10 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ScoutInfo;
+import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
-public class TeleopActivity extends Activity implements View.OnClickListener {
+public class TeleopActivity extends ComponentActivity implements View.OnClickListener {
 
     //instances
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
@@ -38,7 +40,9 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
     //variables
     boolean defenseBool, incapBool;
 
-    ScoutInfo scoutInfo;
+//    ScoutInfo scoutInfo;
+
+    private ScoutingSessionViewModel model;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
 
         // view model
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
-        ScoutingSessionViewModel model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+        model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
         //Buttons
         yesDefense = (Button) findViewById(R.id.DEFENSE_YES);
@@ -145,8 +149,50 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
         // bind view model updates to the UI
 
         //...
-        scoutInfo = ScoutInfo.getInstance();
-        loadScoutInfo();
+        model.getRawMatchDataSession().observe(this, session -> {
+            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+
+            if(rawMatchData.incapacitatedIsSet()){
+                if(rawMatchData.incapacitated()){
+                    incapYesLogic();
+                } else {
+                    incapNoLogic();
+                }
+            }
+
+            if(rawMatchData.defenseIsSet()){
+                if(rawMatchData.defense()){
+                    defenseYesLogic();
+                } else {
+                    defenseNoLogic();
+                }
+            }
+
+            if(rawMatchData.coneHighTIsSet()){
+                coneHigh.setText(String.valueOf(rawMatchData.coneHighT()));
+            }
+
+            if(rawMatchData.coneMidTIsSet()){
+                coneMid.setText(String.valueOf(rawMatchData.coneMidT()));
+            }
+
+            if(rawMatchData.coneLowTIsSet()) {
+                coneLow.setText(String.valueOf(rawMatchData.coneLowT()));
+            }
+
+            if(rawMatchData.cubeHighTIsSet()){
+                cubeHigh.setText(String.valueOf(rawMatchData.cubeHighT()));
+            }
+
+            if(rawMatchData.cubeMidTIsSet()){
+                cubeMid.setText(String.valueOf(rawMatchData.cubeMidT()));
+            }
+
+            if(rawMatchData.cubeLowTIsSet()){
+                cubeLow.setText(String.valueOf(rawMatchData.cubeLowT()));
+            }
+
+        });
 
         //start animation
         animationStart();
@@ -378,61 +424,19 @@ public class TeleopActivity extends Activity implements View.OnClickListener {
 
     }
 
-    //loading the scout info
-    public void loadScoutInfo(){
-        //gets the match and team number that the scout should be scouting
-        info.setText("Match #" + scoutInfo.getScoutMatch() + "\n" + scoutInfo.getRobotScouting());
-        if(scoutInfo.getHighConeTele() != -1){
-            coneHigh.setText("" + scoutInfo.getHighConeTele());
-            coneMid.setText("" + scoutInfo.getMidConeTele());
-            coneLow.setText("" + scoutInfo.getLowConeTele());
-            cubeHigh.setText("" + scoutInfo.getHighCubeTele());
-            cubeMid.setText("" + scoutInfo.getMidCubeTele());
-            cubeLow.setText("" + scoutInfo.getLowCubeTele());
-            dropdown.setText(scoutInfo.getTeleClimb());
-            if(scoutInfo.getDefense()){
-                yesDefense.setTextColor(ContextCompat.getColor(this, R.color.white));
-                yesDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-                noDefense.setTextColor(ContextCompat.getColor(this, R.color.black));
-                noDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-                defenseBool = true;
-            }
-            else{
-                yesIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
-                yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-                noIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
-                noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-                defenseBool = false;
-            }
-
-            if(scoutInfo.getIncap()){
-                yesIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
-                yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-                noIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
-                noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-                incapBool = true;
-            }
-            else{
-                yesIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
-                yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-                noIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
-                noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-                incapBool = false;
-            }
-        }
-        nextPageCheck();
-    }
-
     public void saveScoutInfo(){
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureTeleop()
-        scoutInfo.setHighConeTele(Integer.parseInt((String) coneHigh.getText()));
-        scoutInfo.setMidConeTele(Integer.parseInt((String) coneMid.getText()));
-        scoutInfo.setLowConeTele(Integer.parseInt((String) coneLow.getText()));
-        scoutInfo.setHighCubeTele(Integer.parseInt((String) cubeHigh.getText()));
-        scoutInfo.setMidCubeTele(Integer.parseInt((String) cubeMid.getText()));
-        scoutInfo.setLowCubeTele(Integer.parseInt((String) cubeLow.getText()));
-        scoutInfo.setDefense(defenseBool);
-        scoutInfo.setIncap(incapBool);
-        scoutInfo.setTeleClimb(dropdown.getText().toString());
+
+        model.captureTeleData(
+                dropdown.getText().toString(),
+                Integer.parseInt(coneHigh.getText().toString()),
+                Integer.parseInt(coneMid.getText().toString()),
+                Integer.parseInt(coneLow.getText().toString()),
+                Integer.parseInt(cubeHigh.getText().toString()),
+                Integer.parseInt(cubeMid.getText().toString()),
+                Integer.parseInt(cubeLow.getText().toString())
+        );
+
+        model.captureIncapAndDefense(incapBool, defenseBool);
     }
 }

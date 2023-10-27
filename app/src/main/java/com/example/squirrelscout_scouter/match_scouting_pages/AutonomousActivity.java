@@ -28,9 +28,6 @@ import com.example.squirrelscout_scouter.ScoutInfo;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
-import java.text.Format;
-import java.util.Locale;
-
 public class AutonomousActivity extends ComponentActivity implements View.OnClickListener {
 
     //instances
@@ -186,11 +183,19 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         int clickedId = view.getId();
         if(clickedId == R.id.menu_item_1){
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, MainActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.menu_item_2){
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, NotesActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, NotesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.MOBILITY_YES){
             mobilityYesLogic();
@@ -278,7 +283,11 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(AutonomousActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, TeleopActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, TeleopActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
     }
 

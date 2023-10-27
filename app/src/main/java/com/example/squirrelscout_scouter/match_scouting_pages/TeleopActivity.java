@@ -212,7 +212,11 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         int clickedId = view.getId();
         if(clickedId == R.id.menu_item_1){
             saveScoutInfo();
-            startActivity(new Intent(TeleopActivity.this, AutonomousActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(TeleopActivity.this, AutonomousActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.DEFENSE_YES){
             defenseYesLogic();
@@ -329,7 +333,11 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(TeleopActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
             saveScoutInfo();
-            startActivity(new Intent(TeleopActivity.this, NotesActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(TeleopActivity.this, NotesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
     }
 

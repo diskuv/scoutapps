@@ -52,6 +52,9 @@ DkSDKProject_AddProject(
         DUNE_VERSION 3.8
 )
 
+# [Fri, Jan 19, 2024  9:57:01 AM] Failed waiting for concurrent [dune build] using a timeout of 120 seconds. Increasing it!
+set(DKSDK_DUNE_LOCK_TIMEOUT_SECS 240 CACHE STRING "" FORCE)
+
 # Externally provided content
 add_subdirectory(dependencies)
 

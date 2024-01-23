@@ -22,6 +22,7 @@ import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
 import java.util.Locale;
 
+//trial comment 2024
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Handler uiThreadHandler;
 

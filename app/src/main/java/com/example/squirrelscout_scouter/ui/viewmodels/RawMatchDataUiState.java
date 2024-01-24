@@ -24,8 +24,6 @@ public interface RawMatchDataUiState {
 
     String notes();
 
-    int scoutTeam();
-
     int matchScouting();
 
     int robotScouting();

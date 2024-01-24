@@ -24,6 +24,7 @@ import com.example.squirrelscout.data.ComDataRequestCallback;
 import com.example.squirrelscout.data.models.ComDataModel;
 import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
+import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
 public class NotesActivity extends ComponentActivity implements View.OnClickListener, ComDataRequestCallback {
@@ -73,6 +74,14 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         // bind view model updates to the UI (partially done with the finishButton visibility,
         // but have not set the notesText on the model)
 
+        model.getRawMatchDataSession().observe(this, session -> {
+            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+
+            if(rawMatchData.notesIsSet()){
+                notesText.setText(rawMatchData.notes());
+            }
+        });
+
         // control visibility of the finish button. Only when the session
         // is complete should it be visible.
         finishButton.setVisibility(View.INVISIBLE);
@@ -91,10 +100,18 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
             nextPageLogic();
         }
         else if(clickedId == R.id.menu_item_1){
-            startActivity(new Intent(NotesActivity.this, AutonomousActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(NotesActivity.this, AutonomousActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.menu_item_2){
-            startActivity(new Intent(NotesActivity.this, TeleopActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(NotesActivity.this, TeleopActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
     }
 
@@ -104,6 +121,9 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         //create qr code
         //go to qr code page
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureNotes()
+
+        model.captureNotes(notesText.getText().toString());
+
         Toast.makeText(NotesActivity.this, "Creating QR code and going to next page", Toast.LENGTH_SHORT).show();
         Log.i("Notes", "Session as QR code is being created: " + model.printSession());
         model.requestQrCode();

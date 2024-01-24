@@ -3,6 +3,7 @@ package com.example.squirrelscout_scouter.match_scouting_pages;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,9 +25,10 @@ import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ScoutInfo;
+import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
-public class AutonomousActivity extends Activity implements View.OnClickListener {
+public class AutonomousActivity extends ComponentActivity implements View.OnClickListener {
 
     //instances
     Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
@@ -36,10 +39,12 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
     View titleCard, firstCard, secondCard, mainCard;
     LinearLayout cone1, cone2, cone3, cube1, cube2, cube3, mobilityLayout, climbLayout, menuLayout;
 
-    ScoutInfo scoutInfo;
+//    ScoutInfo scoutInfo;
 
     //variables
     boolean mobilityBool;
+
+    private ScoutingSessionViewModel model;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,7 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
 
         // view model
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
-        ScoutingSessionViewModel model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+        model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
         //Buttons
         yesMobility = (Button) findViewById(R.id.MOBILITY_YES);
@@ -131,13 +136,37 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
 
         // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
         // bind view model updates to the UI
+        model.getRawMatchDataSession().observe(this, session -> {
+            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+
+            if(rawMatchData.mobilityIsSet()){
+                if(rawMatchData.mobility()){
+                    mobilityYesLogic();
+                } else {
+                    mobilityNoLogic();
+                }
+            }
+
+            if(rawMatchData.autoClimbIsSet()){
+                dropdown.setText(rawMatchData.autoClimb());
+            }
+
+            if(rawMatchData.coneHighAIsSet()) {
+                coneHigh.setText(String.valueOf(rawMatchData.coneHighA()));
+            }
+
+            if(rawMatchData.coneMidAIsSet()){
+                coneMid.setText(String.valueOf(rawMatchData.coneMidA()));
+            }
+
+            if(rawMatchData.coneLowAIsSet()) {
+                coneLow.setText(String.valueOf( rawMatchData.coneLowA()));
+            }
+
+        });
 
         //start animation
         animationStart();
-
-        //load info if created
-        scoutInfo = ScoutInfo.getInstance();
-        loadScoutInfo();
     }
 
     @Override
@@ -154,11 +183,19 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         int clickedId = view.getId();
         if(clickedId == R.id.menu_item_1){
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, MainActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.menu_item_2){
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, NotesActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, NotesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
         else if(clickedId == R.id.MOBILITY_YES){
             mobilityYesLogic();
@@ -246,7 +283,11 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(AutonomousActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
             saveScoutInfo();
-            startActivity(new Intent(AutonomousActivity.this, TeleopActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(AutonomousActivity.this, TeleopActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }
     }
 
@@ -348,45 +389,20 @@ public class AutonomousActivity extends Activity implements View.OnClickListener
 
     }
 
-    //loading the scout info
-    public void loadScoutInfo(){
-        //gets the match and team number that the scout should be scouting
-        info.setText("Match #" + scoutInfo.getScoutMatch() + "\n" + scoutInfo.getRobotScouting());
-        if(scoutInfo.getHighConeAuto() != -1){
-            coneHigh.setText("" + scoutInfo.getHighConeAuto());
-            coneMid.setText("" + scoutInfo.getMidConeAuto());
-            coneLow.setText("" + scoutInfo.getLowConeAuto());
-            cubeHigh.setText("" + scoutInfo.getHighCubeAuto());
-            cubeMid.setText("" + scoutInfo.getMidCubeAuto());
-            cubeLow.setText("" + scoutInfo.getLowCubeAuto());
-            dropdown.setText(scoutInfo.getAutoClimb());
-            if(scoutInfo.getMobility()){
-                yesMobility.setTextColor(ContextCompat.getColor(this, R.color.white));
-                yesMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-                noMobility.setTextColor(ContextCompat.getColor(this, R.color.black));
-                noMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-                mobilityBool = true;
-            }
-            else{
-                yesMobility.setTextColor(ContextCompat.getColor(this, R.color.black));
-                yesMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-                noMobility.setTextColor(ContextCompat.getColor(this, R.color.white));
-                noMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-                mobilityBool = false;
-            }
-        }
-        nextPageCheck();
-    }
-
     public void saveScoutInfo(){
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureAutonomous()
-        scoutInfo.setHighConeAuto(Integer.parseInt((String) coneHigh.getText()));
-        scoutInfo.setMidConeAuto(Integer.parseInt((String) coneMid.getText()));
-        scoutInfo.setLowConeAuto(Integer.parseInt((String) coneLow.getText()));
-        scoutInfo.setHighCubeAuto(Integer.parseInt((String) cubeHigh.getText()));
-        scoutInfo.setMidCubeAuto(Integer.parseInt((String) cubeMid.getText()));
-        scoutInfo.setLowCubeAuto(Integer.parseInt((String) cubeLow.getText()));
-        scoutInfo.setMobility(mobilityBool);
-        scoutInfo.setAutoClimb(dropdown.getText().toString());
+
+        model.captureAutoData(
+                mobilityBool,
+                dropdown.getText().toString(),
+                Integer.parseInt(coneHigh.getText().toString()),
+                Integer.parseInt(coneMid.getText().toString()),
+                Integer.parseInt(coneLow.getText().toString()),
+                Integer.parseInt(cubeHigh.getText().toString()),
+                Integer.parseInt(cubeMid.getText().toString()),
+                Integer.parseInt(cubeLow.getText().toString())
+
+        );
+
     }
 }

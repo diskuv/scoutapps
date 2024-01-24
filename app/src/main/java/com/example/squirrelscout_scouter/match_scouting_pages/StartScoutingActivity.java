@@ -34,7 +34,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
 
     //instances
     Button incrementMatch, decrementMatch, startButton, backButton;
-    EditText chooseMatchI;
+    EditText chooseMatchI, robotNumberI;
     AutoCompleteTextView dropdown;
     View firstCard, secondCard, topCard;
     TextView title, selectMatchTitle, selectPositionTitle, teamTitle;
@@ -73,6 +73,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
 
         //others
         chooseMatchI = (EditText) findViewById(R.id.Choose_Match_Input);
+        robotNumberI = (EditText) findViewById(R.id.Robot_Number_Input);
         firstCard = (View) findViewById(R.id.view2);
         secondCard = (View) findViewById(R.id.view3);
         topCard = (View) findViewById(R.id.view);
@@ -81,7 +82,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
         selectMatchTitle = (TextView) findViewById(R.id.Choose_Match_Label);
         selectPositionTitle = (TextView) findViewById(R.id.Robot_Position_Label);
         teamTitle = (TextView) findViewById(R.id.Robot_Selected);
-        robotImage = (ImageView) findViewById(R.id.imageView) ;
+        //robotImage = (ImageView) findViewById(R.id.imageView) ;
 
         //dropdown
         dropdown = findViewById(R.id.dropdown);
@@ -184,7 +185,9 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
     private void startLogic(){
         m = chooseMatchI.getText().toString();
         robotPosition = dropdown.getText().toString();
-        if(m.isEmpty() || robotPosition.isEmpty()){
+        String num = robotNumberI.getText().toString();
+        //checking if all fields have input
+        if(m.isEmpty() || robotPosition.isEmpty() || num.isEmpty()){
             Log.d("d", "name is blank");
             Toast.makeText(StartScoutingActivity.this, "Missing field", Toast.LENGTH_SHORT).show();
             if (m.isEmpty()){
@@ -193,19 +196,27 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
             if(robotPosition.isEmpty()){
                 dropdown.setHintTextColor(ContextCompat.getColor(this, R.color.error));
             }
+            if(num.isEmpty()){
+                robotNumberI.setHintTextColor(ContextCompat.getColor(this, R.color.error));
+            }
         }
         else if(startButton.getText().toString().equals("Choose Robot")){
             startButton.setText("Start Scouting");
             startButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             startButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            model.findRobot();
+//            model.findRobot();
             Log.d("StartScouting", "Session after finding robot is now: " + model.printSession());
         }
         else {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                model.captureMatchRobot(Integer.parseInt(m), robotPosition);
 
-                startActivity(new Intent(StartScoutingActivity.this, AutonomousActivity.class));
+                model.captureMatchRobot(Integer.parseInt(m), robotPosition);
+                model.captureScoutingRobotNumber(Integer.parseInt(robotNumberI.getText().toString()));
+                // Create an Intent to launch the target activity
+                Intent intent = new Intent(StartScoutingActivity.this, AutonomousActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // Start the target activity with the Intent
+                startActivity(intent);
                 Toast.makeText(StartScoutingActivity.this, m, Toast.LENGTH_SHORT).show();
                 Toast.makeText(StartScoutingActivity.this, robotPosition, Toast.LENGTH_SHORT).show();
             }, 500);
@@ -216,7 +227,11 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
     private void backLogic(){
         Toast.makeText(StartScoutingActivity.this, "going back", Toast.LENGTH_SHORT).show();
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            startActivity(new Intent(StartScoutingActivity.this, MainActivity.class));
+            // Create an Intent to launch the target activity
+            Intent intent = new Intent(StartScoutingActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // Start the target activity with the Intent
+            startActivity(intent);
         }, 500);
     }
 
@@ -250,8 +265,8 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
         selectPositionTitle.setAlpha(0f);
         teamTitle.setTranslationX(200f);
         teamTitle.setAlpha(0f);
-        robotImage.setTranslationX(200f);
-        robotImage.setAlpha(0f);
+//        robotImage.setTranslationX(200f);
+//        robotImage.setAlpha(0f);
         firstCard.animate().alpha(1f).translationYBy(-1500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
             secondCard.animate().alpha(1f).translationYBy(-1500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
                 topCard.animate().alpha(1f).translationYBy(500).setDuration(150).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
@@ -263,7 +278,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
                     title.animate().alpha(1f).setDuration(300);
                     selectPositionTitle.animate().alpha(1f).translationYBy(-50).setDuration(750);
                     teamTitle.animate().alpha(1f).translationXBy(-200f).setDuration(500);
-                    robotImage.animate().alpha(1f).translationXBy(-200f).setDuration(500);
+//                    robotImage.animate().alpha(1f).translationXBy(-200f).setDuration(500);
                 }).start();
             }).start();
         }).start();

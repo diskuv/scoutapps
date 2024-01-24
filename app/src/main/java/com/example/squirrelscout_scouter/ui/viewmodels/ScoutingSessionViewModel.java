@@ -99,27 +99,27 @@ public class ScoutingSessionViewModel extends ViewModel {
             // TODO: Keyush/Archit: For Saturday. All of these should be marked DONE once they are set from the *Activity pages
             // DONE: if (!clone.scoutTeamIsSet()) clone.setScoutTeam(-1);
             // DONE: if (!clone.scoutNameIsSet()) clone.setScoutName("UI needs setScoutName");
-            if (!clone.positionScoutingIsSet())
-                clone.setPositionScouting("UI needs setPositionScouting");
-            if (!clone.matchScoutingIsSet()) clone.setMatchScouting(-1);
-            if (!clone.autoClimbIsSet()) clone.setAutoClimb("UI needs setAutoClimb");
-            if (!clone.incapacitatedIsSet()) clone.setIncapacitated(false);
-            if (!clone.defenseIsSet()) clone.setDefense(false);
-            if (!clone.mobilityIsSet()) clone.setMobility(false);
+//            if (!clone.positionScoutingIsSet())
+//                clone.setPositionScouting("UI needs setPositionScouting");
+//            if (!clone.matchScoutingIsSet()) clone.setMatchScouting(-1);
+//            if (!clone.autoClimbIsSet()) clone.setAutoClimb("UI needs setAutoClimb");
+//            if (!clone.incapacitatedIsSet()) clone.setIncapacitated(false);
+//            if (!clone.defenseIsSet()) clone.setDefense(false);
+//            if (!clone.mobilityIsSet()) clone.setMobility(false);
             if (!clone.notesIsSet()) clone.setNotes("UI needs setNotes");
-            if (!clone.teleClimbIsSet()) clone.setTeleClimb("UI needs setTeleClimb");
-            if (!clone.coneHighAIsSet()) clone.setConeHighA(-1);
-            if (!clone.coneHighTIsSet()) clone.setConeHighT(-1);
-            if (!clone.coneMidAIsSet()) clone.setConeMidA(-1);
-            if (!clone.coneMidTIsSet()) clone.setConeMidT(-1);
-            if (!clone.coneLowAIsSet()) clone.setConeLowA(-1);
-            if (!clone.coneLowTIsSet()) clone.setConeLowT(-1);
-            if (!clone.cubeHighAIsSet()) clone.setCubeHighA(-1);
-            if (!clone.cubeHighTIsSet()) clone.setCubeHighT(-1);
-            if (!clone.cubeMidAIsSet()) clone.setCubeMidA(-1);
-            if (!clone.cubeMidTIsSet()) clone.setCubeMidT(-1);
-            if (!clone.cubeLowAIsSet()) clone.setCubeLowA(-1);
-            if (!clone.cubeLowTIsSet()) clone.setCubeLowT(-1);
+//            if (!clone.teleClimbIsSet()) clone.setTeleClimb("UI needs setTeleClimb");
+//            if (!clone.coneHighAIsSet()) clone.setConeHighA(-1);
+//            if (!clone.coneHighTIsSet()) clone.setConeHighT(-1);
+//            if (!clone.coneMidAIsSet()) clone.setConeMidA(-1);
+//            if (!clone.coneMidTIsSet()) clone.setConeMidT(-1);
+//            if (!clone.coneLowAIsSet()) clone.setConeLowA(-1);
+//            if (!clone.coneLowTIsSet()) clone.setConeLowT(-1);
+//            if (!clone.cubeHighAIsSet()) clone.setCubeHighA(-1);
+//            if (!clone.cubeHighTIsSet()) clone.setCubeHighT(-1);
+//            if (!clone.cubeMidAIsSet()) clone.setCubeMidA(-1);
+//            if (!clone.cubeMidTIsSet()) clone.setCubeMidT(-1);
+//            if (!clone.cubeLowAIsSet()) clone.setCubeLowA(-1);
+//            if (!clone.cubeLowTIsSet()) clone.setCubeLowT(-1);
         }
 
         return clone.toImmutable();
@@ -136,7 +136,7 @@ public class ScoutingSessionViewModel extends ViewModel {
             // new session! everything should be cleared except the scout name and team number
             ModifiableRawMatchDataUiState state = ModifiableRawMatchDataUiState.create();
             state.setScoutName(scoutName);
-            state.setScoutTeam(teamNumber);
+
             rawMatchDataSessionUiState.setValue(
                     ImmutableRawMatchDataSessionUiState.builder()
                             .sessionNumber(sessionNumber)
@@ -149,15 +149,25 @@ public class ScoutingSessionViewModel extends ViewModel {
 
     //need to implement
     //gets the robot based on the match number and position
-    public void findRobot() {
+
+    //TODO: Add this functionality in later. Remove the manual entering of robot number
+//    public void findRobot() {
+//        ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
+//        assert session != null;
+//        ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+//
+//        //placement for now
+//        rawMatchData.setRobotScouting(1234);
+//
+//        updateAndSetSession(session);
+//    }
+
+    public void captureScoutingRobotNumber(int num){
         ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
         assert session != null;
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
-        //placement for now
-        rawMatchData.setRobotScouting(1234);
-
-        updateAndSetSession(session);
+        rawMatchData.setRobotScouting(num);
     }
 
     public void captureMatchRobot(int scoutMatch, String robotPosition) {
@@ -169,6 +179,69 @@ public class ScoutingSessionViewModel extends ViewModel {
         rawMatchData.setPositionScouting(robotPosition);
 
         updateAndSetSession(session);
+    }
+
+    public void captureAutoData(boolean mobility, String climb, int coneHigh, int coneMid, int coneLow, int cubeHigh, int cubeMid, int cubeLow){
+        ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
+        assert  session != null;
+
+        ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+
+        rawMatchData.setMobility(mobility);
+        rawMatchData.setAutoClimb(climb);
+
+        rawMatchData.setConeHighA(coneHigh);
+        rawMatchData.setConeMidA(coneMid);
+        rawMatchData.setConeLowA(coneLow);
+
+        rawMatchData.setCubeHighA(cubeHigh);
+        rawMatchData.setCubeMidA(cubeMid);
+        rawMatchData.setCubeLowA(cubeLow);
+
+        //does this need to be called? would this overwrite/lose the previous captureMatchRobot method's session data?
+        updateAndSetSession(session);
+    }
+
+    public void captureTeleData(String climb, int coneHigh, int coneMid, int coneLow, int cubeHigh, int cubeMid, int cubeLow){
+        ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
+        assert  session != null;
+
+        ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+
+        rawMatchData.setTeleClimb(climb);
+        rawMatchData.setConeHighT(coneHigh);
+        rawMatchData.setConeMidT(coneMid);
+        rawMatchData.setConeLowT(coneLow);
+
+        rawMatchData.setCubeHighT(cubeHigh);
+        rawMatchData.setCubeMidT(cubeMid);
+        rawMatchData.setCubeLowT(cubeLow);
+
+        updateAndSetSession(session);
+    }
+
+    public void captureIncapAndDefense(boolean incap, boolean playingDefense){
+        ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
+        assert  session != null;
+
+        ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+
+        rawMatchData.setIncapacitated(incap);
+        rawMatchData.setDefense(playingDefense);
+
+        updateAndSetSession(session);
+    }
+
+    public void captureNotes(String notes){
+        ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
+        assert  session != null;
+
+        ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+
+        rawMatchData.setNotes(notes);
+
+        updateAndSetSession(session);
+
     }
 
     public void requestQrCode() {

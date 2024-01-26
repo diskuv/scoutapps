@@ -26,7 +26,7 @@
         <View
             android:id="@+id/view2"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_500sdp"
+            android:layout_height="800dp"
             android:layout_marginTop="@dimen/_73sdp"
             android:background="@drawable/rounded_rectangle"
             android:backgroundTint="@color/secondary"
@@ -38,8 +38,8 @@
         <View
             android:id="@+id/view3"
             android:layout_width="@dimen/_279sdp"
-            android:layout_height="@dimen/_145sdp"
-            android:layout_marginTop="@dimen/_92sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_240sdp"
             android:layout_marginStart="@dimen/_14sdp"
             android:background="@drawable/round_rectangle_2"
             android:backgroundTint="@color/offwhite"
@@ -48,8 +48,8 @@
         <View
             android:id="@+id/view4"
             android:layout_width="@dimen/_279sdp"
-            android:layout_height="@dimen/_145sdp"
-            android:layout_marginTop="@dimen/_250sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_350sdp"
             android:layout_marginStart="@dimen/_14sdp"
             android:background="@drawable/round_rectangle_2"
             android:backgroundTint="@color/offwhite"
@@ -96,17 +96,95 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <!-- Robot Starting Layout -->
+        <TextView
+            android:id="@+id/Robot_Position_Label"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:gravity="center"
+            android:inputType="none"
+            android:text="Starting Position :"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_110sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/Start_Left"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="Left"
+                android:textColor="@color/green"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Start_Center"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="Center"
+                android:textColor="@color/error"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/Start_Right"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:gravity="right"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="Right"
+                android:textColor="@color/error"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
         <!-- Amp Scoring Layout -->
         <TextView
             android:id="@+id/AmpTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_marginTop="156dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_275sdp"
             android:translationX="-170dp"
             android:inputType="none"
             android:rotation="-90"
-            android:text="AMP Scoring"
+            android:text="AMP"
+            android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/accent"
             android:textSize="@dimen/_20ssp"
@@ -119,7 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_105sdp"
+            android:layout_marginTop="@dimen/_255sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +276,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_149sdp"
+            android:layout_marginTop="@dimen/_290sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
@@ -279,11 +357,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_350sdp"
+            android:layout_marginTop="@dimen/_380sdp"
             android:translationX="-170dp"
             android:inputType="none"
             android:rotation="-90"
-            android:text="SPEAKER  Scoring"
+            android:text="SPEAKER"
+            android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/accent"
             android:textSize="@dimen/_20ssp"
@@ -295,7 +374,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_264sdp"
+            android:layout_marginTop="@dimen/_365sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -374,7 +453,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_307sdp"
+            android:layout_marginTop="@dimen/_400sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -455,7 +534,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_408sdp"
+            android:layout_marginTop="@dimen/_460sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -467,7 +546,7 @@
                 android:layout_width="@dimen/_106sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:gravity="center|left"
+                android:gravity="center"
                 android:inputType="none"
                 android:text="LEAVE :"
                 android:textAllCaps="false"
@@ -515,7 +594,7 @@
             android:id="@+id/NEXT"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_500sdp"
+            android:layout_marginTop="@dimen/_575sdp"
             android:layout_marginStart="@dimen/_29sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:backgroundTint="@color/darkGrey"
@@ -528,24 +607,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_576sdp"
-            android:text=""
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
         <!-- Bottom menu item -->
         <LinearLayout
             android:id="@+id/linearLayout9"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/_547sdp"
+            android:layout_marginTop="@dimen/_600sdp"
             android:background="@drawable/menu_round"
             android:elevation="@dimen/_3sdp"
             android:orientation="horizontal"
@@ -579,6 +648,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="344dp"
+            android:layout_height="119dp"
+            app:srcCompat="@android:drawable/picture_frame"
+            tools:layout_editor_absoluteX="37dp"
+            tools:layout_editor_absoluteY="184dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,7 +27,6 @@ own project and team.*
 ```sh
 rm -rf _dn build build_dev
 sh ci/git-clone.sh -l
-./dk dksdk.vscode.ocaml.configure
 ```
 
 You will want to start with the following targets in your IDE:

@@ -4,7 +4,7 @@
   "ocaml.sandbox" : 
   {
     "kind" : "custom",
-    "template" : "/home/squirrel/source/ocaml-backend/dk dksdk.cmd.exec QUIET CMD $prog $args"
+    "template" : "${firstWorkspaceFolder}/dk dksdk.cmd.exec QUIET CMD $prog $args"
   },
   "sonarlint.pathToCompileCommands" : "${workspaceFolder}/build_dev/compile_commands.json"
 }

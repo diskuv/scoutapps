@@ -1,9 +1,7 @@
 package com.example.squirrelscout_scouter.match_scouting_pages;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
@@ -24,7 +22,6 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
-import com.example.squirrelscout_scouter.ScoutInfo;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
@@ -66,13 +63,13 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         notesButton = (ImageButton) findViewById(R.id.menu_item_2);
         notesButton.setOnClickListener(this);
         //...
-        coneHi = (Button) findViewById(R.id.CONE_HIGH_INCREMENT);
+        coneHi = (Button) findViewById(R.id.Amp_Score_Increment);
         coneHi.setOnClickListener(this);
-        coneHd = (Button) findViewById(R.id.CONE_HIGH_DECREMENT);
+        coneHd = (Button) findViewById(R.id.Amp_Score_Decrement);
         coneHd.setOnClickListener(this);
-        coneMi = (Button) findViewById(R.id.CONE_MID_INCREMENT);
+        coneMi = (Button) findViewById(R.id.Amp_Missed_Increment);
         coneMi.setOnClickListener(this);
-        coneMd = (Button) findViewById(R.id.CONE_MID_DECREMENT);
+        coneMd = (Button) findViewById(R.id.Amp_Missed_Decrement);
         coneMd.setOnClickListener(this);
         coneLi = (Button) findViewById(R.id.CONE_LOW_INCREMENT);
         coneLi.setOnClickListener(this);
@@ -108,8 +105,8 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         menuLayout = (LinearLayout) findViewById(R.id.linearLayout9);
 
         //counters
-        coneHigh = (TextView) findViewById(R.id.ConeHighCounter);
-        coneMid = (TextView) findViewById(R.id.ConeMidCounter) ;
+        coneHigh = (TextView) findViewById(R.id.AmpScoredCounter);
+        coneMid = (TextView) findViewById(R.id.AmpMissedCounter) ;
         coneLow = (TextView) findViewById(R.id.ConeLowCounter);
         cubeHigh = (TextView) findViewById(R.id.CubeHighCounter) ;
         cubeMid = (TextView) findViewById(R.id.CubeMidCounter);
@@ -207,16 +204,16 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             animateButton((Button) view);
             nextPageLogic();
         }
-        else if(clickedId == R.id.CONE_HIGH_INCREMENT){
+        else if(clickedId == R.id.Amp_Score_Increment){
             counterIncrementLogic(coneHigh);
         }
-        else if(clickedId == R.id.CONE_HIGH_DECREMENT){
+        else if(clickedId == R.id.Amp_Score_Decrement){
             counterDecrementLogic(coneHigh);
         }
-        else if(clickedId == R.id.CONE_MID_INCREMENT){
+        else if(clickedId == R.id.Amp_Missed_Increment){
             counterIncrementLogic(coneMid);
         }
-        else if(clickedId == R.id.CONE_MID_DECREMENT){
+        else if(clickedId == R.id.Amp_Missed_Decrement){
             counterDecrementLogic(coneMid);
         }
         else if(clickedId == R.id.CONE_LOW_INCREMENT){

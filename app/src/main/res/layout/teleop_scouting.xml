@@ -125,7 +125,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/ConeHighLabel"
+                android:id="@+id/AmpScoredLabel"
                 android:layout_width="@dimen/_115sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
@@ -143,7 +143,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/ConeHighCounter"
+                android:id="@+id/AmpScoredCounter"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:layout_alignParentEnd="true"
@@ -160,7 +160,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/CONE_HIGH_INCREMENT"
+                android:id="@+id/Amp_Score_Increment"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -176,7 +176,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/CONE_HIGH_DECREMENT"
+                android:id="@+id/Amp_Score_Decrement"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -214,7 +214,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/ConeMidLabel"
+                android:id="@+id/AmpMissedLabel"
                 android:layout_width="@dimen/_115sdp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
@@ -232,7 +232,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/ConeMidCounter"
+                android:id="@+id/AmpMissedCounter"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="@dimen/_29sdp"
                 android:layout_alignParentEnd="true"
@@ -249,7 +249,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/CONE_MID_INCREMENT"
+                android:id="@+id/Amp_Missed_Increment"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -265,7 +265,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/CONE_MID_DECREMENT"
+                android:id="@+id/Amp_Missed_Decrement"
                 android:layout_width="@dimen/_29sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

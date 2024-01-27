@@ -4,13 +4,13 @@
 #
 # When: Used when another project uses this project with
 # DkSDKFetchContent_DeclareButAllowLocalOverride(). For example, another project may
-# use this project (pretend it is called "This_Project") with the following:
+# use this project (pretend it is called "this-project") with the following:
 #
 #     DkSDKFetchContent_DeclareButAllowLocalOverride(
-#         NAME ocaml-backend
-#         GIT_REPOSITORY "https://github.com/SquirrelScout/ocaml-backend.git"
-#         GIT_TAG teamNamesTable)
-#     DkSDKFetchContent_MakeAvailableNoInstall(ocaml-backend)
+#         NAME this-project
+#         GIT_REPOSITORY "https://github.com/you/this-project.git"
+#         GIT_TAG main)
+#     DkSDKFetchContent_MakeAvailableNoInstall(this-project)
 #
 # How: This script will be run as a
 # `cmake -D CMAKE_INSTALL_PREFIX=... -P cmake/CloneSource.cmake` command from

@@ -31,14 +31,6 @@
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-cmake"
         },
-        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-C": {
-          "type": "FILEPATH",
-          "value": "${sourceDir}/fetch/dksdk-ffi-c"
-        },
-        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-OCAML": {
-          "type": "FILEPATH",
-          "value": "${sourceDir}/fetch/dksdk-ffi-ocaml"
-        },
         "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-opam-repository"

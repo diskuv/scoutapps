@@ -23,8 +23,6 @@
 # Suggestions?
 #   Ignore test folders. Why does another project need to run your tests?
 #
-#   Do not add CMakeLists.txt. Only the source code necessary for Dune is needed.
-#
 #   See https://cmake.org/cmake/help/latest/command/file.html#copy-file for
 #   all the options you can use.
 #
@@ -41,7 +39,7 @@ file(INSTALL
      # Dune files
      _all_cmake.dune dune dune-project
      # CMake files
-     CMakeLists.txt CMakePresets.json CMakeUserPresets.json
+     CMakeLists.txt CMakePresets.json
      DESTINATION "${CMAKE_INSTALL_PREFIX}"
      NO_SOURCE_PERMISSIONS
      FOLLOW_SYMLINK_CHAIN)

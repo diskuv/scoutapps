@@ -26,7 +26,7 @@
         <View
             android:id="@+id/view2"
             android:layout_width="wrap_content"
-            android:layout_height="800dp"
+            android:layout_height="780dp"
             android:layout_marginTop="@dimen/_73sdp"
             android:background="@drawable/rounded_rectangle"
             android:backgroundTint="@color/secondary"
@@ -39,17 +39,26 @@
             android:id="@+id/view3"
             android:layout_width="@dimen/_279sdp"
             android:layout_height="@dimen/_100sdp"
-            android:layout_marginTop="@dimen/_240sdp"
+            android:layout_marginTop="@dimen/_340sdp"
             android:layout_marginStart="@dimen/_14sdp"
             android:background="@drawable/round_rectangle_2"
             android:backgroundTint="@color/offwhite"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
         <View
+            android:id="@+id/view7"
+            android:layout_width="@dimen/_290sdp"
+            android:layout_height="@dimen/_180sdp"
+            android:layout_marginTop="@dimen/_150sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <View
             android:id="@+id/view4"
             android:layout_width="@dimen/_279sdp"
             android:layout_height="@dimen/_100sdp"
-            android:layout_marginTop="@dimen/_350sdp"
+            android:layout_marginTop="@dimen/_450sdp"
             android:layout_marginStart="@dimen/_14sdp"
             android:background="@drawable/round_rectangle_2"
             android:backgroundTint="@color/offwhite"
@@ -113,7 +122,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <LinearLayout
             android:id="@+id/linearLayout8"
             android:layout_width="match_parent"
@@ -173,14 +181,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
+        <!-- Field Map -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="360dp"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/_024field"
+            app:layout_editor_absoluteX="22dp"
+            tools:layout_editor_absoluteY="200dp" />
+
         <!-- Amp Scoring Layout -->
         <TextView
             android:id="@+id/AmpTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_275sdp"
-            android:translationX="-170dp"
+            android:layout_marginTop="@dimen/_375sdp"
+            android:translationX="-160dp"
             android:inputType="none"
             android:rotation="-90"
             android:text="AMP"
@@ -197,7 +215,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_255sdp"
+            android:layout_marginTop="@dimen/_350sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -277,7 +295,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_290sdp"
+            android:layout_marginTop="@dimen/_390sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
@@ -358,15 +376,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_380sdp"
-            android:translationX="-170dp"
+            android:layout_marginTop="@dimen/_487sdp"
+            android:translationX="-160dp"
             android:inputType="none"
             android:rotation="-90"
             android:text="SPEAKER"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/accent"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/_17ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -375,7 +393,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_365sdp"
+            android:layout_marginTop="@dimen/_465sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -454,7 +472,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_400sdp"
+            android:layout_marginTop="@dimen/_505sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -535,7 +553,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_460sdp"
+            android:layout_marginTop="@dimen/_560sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -595,7 +613,7 @@
             android:id="@+id/NEXT"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_575sdp"
+            android:layout_marginTop="@dimen/_595sdp"
             android:layout_marginStart="@dimen/_29sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:backgroundTint="@color/darkGrey"
@@ -615,7 +633,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/_600sdp"
+            android:layout_marginTop="830dp"
             android:background="@drawable/menu_round"
             android:elevation="@dimen/_3sdp"
             android:orientation="horizontal"
@@ -650,13 +668,102 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="421dp"
-            android:layout_height="182dp"
-            app:srcCompat="@drawable/_024field"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="143dp" />
+        <!-- Check Boxes -->
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_168sdp"
+            android:layout_marginStart="@dimen/_44sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="@dimen/_20sdp"
+                android:translationY="-2dp"
+                android:layout_height="wrap_content"/>
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:translationY="-14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:translationY="-28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_167sdp"
+            android:layout_marginStart="@dimen/_243sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox5"
+                android:translationY="-14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox6"
+                android:translationY="-28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!-- Check Boxes -->
+        <LinearLayout
+            android:id="@+id/linearLayout12"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_158sdp"
+            android:layout_marginStart="@dimen/_143sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox7"
+                android:translationY="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox8"
+                android:translationY="-8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox9"
+                android:translationY="-15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox10"
+                android:translationY="-23dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox11"
+                android:translationY="-30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

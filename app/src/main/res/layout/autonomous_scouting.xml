@@ -652,11 +652,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="488dp"
-            android:layout_height="177dp"
+            android:layout_width="421dp"
+            android:layout_height="182dp"
             app:srcCompat="@drawable/_024field"
-            tools:layout_editor_absoluteX="-12dp"
-            tools:layout_editor_absoluteY="139dp" />
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="143dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,3 +22,6 @@ local.properties
 
 # ci/git-clone.sh
 /fetch/
+
+# Dune
+/_build/

@@ -1,9 +1,10 @@
 # For more information about using CMake with Android Studio, read the
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
+# Preamble
 cmake_minimum_required(VERSION 3.22)
-
-# Import the DkSDK framework
+#   Import the DkSDK framework
+#       DkSDK gives you access to the OCamlDune language we'll use soon.
 include(FetchContent)
 set(REQUEST_DKSDK_VERSION 1.0)
 FetchContent_Declare(dksdk-access
@@ -11,13 +12,30 @@ FetchContent_Declare(dksdk-access
     GIT_TAG main)
 FetchContent_MakeAvailable(dksdk-access)
 get_property(dksdk-cmake_MODULES GLOBAL PROPERTY DKSDK_CMAKE_MODULES)
+get_property(dksdk-cmake_LANG_ASM GLOBAL PROPERTY DKSDK_CMAKE_LANG_ASM)
 list(APPEND CMAKE_MODULE_PATH ${dksdk-cmake_MODULES})
 
-project(Scouter)
+set(languages C)
+if(NOT GENERATE_CAPNP_ONLY)
+    list(APPEND languages CXX OCamlDune ${dksdk-cmake_LANG_ASM})
+endif()
+project(SquirrelScoutAndroidApp VERSION 1.0.0 LANGUAGES ${languages})
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_EXTENSIONS NO)
+#   Add our DkSDK project
+include(DkSDKProject)
+if(NOT GENERATE_CAPNP_ONLY)
+    DkSDKProject_AddProject(
+            MAINTAINER "Diskuv Support <support@diskuv.com>"
+            LICENSE "DocumentRef-Diskuv-Commercial-1.0:LicenseRef-AllRightsReserved-1"
+            SOURCE_URI "git+https://gitlab.com/diskuv/samples/SquirrelScout.git"
+            HOMEPAGE_URL "https://diskuv.com/cmake/help/latest"
+            BUG_REPORTS_URL "https://gitlab.com/diskuv/samples/SquirrelScout/-/issues"
+            DUNE_VERSION 3.8
+    )
+endif()
 
 # ---- Third party dependencies
 

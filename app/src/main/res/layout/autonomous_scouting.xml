@@ -270,6 +270,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </LinearLayout>
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -651,11 +652,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="344dp"
-            android:layout_height="119dp"
-            app:srcCompat="@android:drawable/picture_frame"
-            tools:layout_editor_absoluteX="37dp"
-            tools:layout_editor_absoluteY="184dp" />
+            android:layout_width="488dp"
+            android:layout_height="177dp"
+            app:srcCompat="@drawable/_024field"
+            tools:layout_editor_absoluteX="-12dp"
+            tools:layout_editor_absoluteY="139dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

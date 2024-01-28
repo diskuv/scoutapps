@@ -27,8 +27,15 @@ import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
 public class AutonomousActivity extends ComponentActivity implements View.OnClickListener {
 
-    //instances
-    Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
+    //Increment/decrement buttons
+    Button speakerScoreIncrement, speakerScoreDecrement, speakerMissIncrement, speakerMissDecrement, ampScoreIncrement, ampScoreDecrement, ampMissInrecement, ampMissDecrement;
+    TextView speakerScore, speakerMiss, ampScore, ampMiss;
+
+    //robot position
+    Button leftPosition, centerPosition, rightPosition;
+    String robotPosition;
+
+
     Button yesMobility, noMobility, nextButton;
     ImageButton homeButton, notesButton;
     TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info, title;
@@ -51,6 +58,41 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
         model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
+        //speaker & amp scoring
+        speakerScoreIncrement = (Button) findViewById(R.id.Speaker_Scored_increment);
+        speakerScoreIncrement.setOnClickListener(this);
+        speakerScoreDecrement = (Button) findViewById(R.id.Speaker_Scored_decrement);
+        speakerScoreDecrement.setOnClickListener(this);
+        speakerMissIncrement = (Button) findViewById(R.id.Speaker_Missed_Increment);
+        speakerMissIncrement.setOnClickListener(this);
+        speakerMissDecrement = (Button) findViewById(R.id.Speaker_Missed_Decrement);
+        speakerMissDecrement.setOnClickListener(this);
+        ampScoreIncrement = (Button) findViewById(R.id.Amp_Score_Increment);
+        ampScoreIncrement.setOnClickListener(this);
+        ampScoreDecrement = (Button) findViewById(R.id.Amp_Score_Decrement);
+        ampScoreDecrement.setOnClickListener(this);
+        ampMissInrecement = (Button) findViewById(R.id.Amp_Missed_Increment);
+        ampMissInrecement.setOnClickListener(this);
+        ampMissDecrement = (Button) findViewById(R.id.Amp_Missed_Decrement);
+        ampMissDecrement.setOnClickListener(this);
+        speakerScore = (TextView) findViewById(R.id.SpeakerScoredCounter);
+        speakerScore.setOnClickListener(this);
+        speakerMiss = (TextView) findViewById(R.id.SpeakerMissedCounter);
+        speakerMiss.setOnClickListener(this);
+        ampScore = (TextView) findViewById(R.id.AmpScoredCounter);
+        ampScore.setOnClickListener(this);
+        ampMiss = (TextView) findViewById(R.id.AmpMissedCounter);
+        ampMiss.setOnClickListener(this);
+
+        //robot Position
+        leftPosition = (Button) findViewById(R.id.Start_Left);
+        leftPosition.setOnClickListener(this);
+        centerPosition = (Button) findViewById(R.id.Start_Center);
+        centerPosition.setOnClickListener(this);
+        rightPosition = (Button) findViewById(R.id.Start_Right);
+        rightPosition.setOnClickListener(this);
+
+
         //Buttons
         yesMobility = (Button) findViewById(R.id.MOBILITY_YES);
         yesMobility.setOnClickListener(this);
@@ -62,31 +104,6 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         homeButton.setOnClickListener(this);
         notesButton = (ImageButton) findViewById(R.id.menu_item_2);
         notesButton.setOnClickListener(this);
-        //...
-        coneHi = (Button) findViewById(R.id.Amp_Score_Increment);
-        coneHi.setOnClickListener(this);
-        coneHd = (Button) findViewById(R.id.Amp_Score_Decrement);
-        coneHd.setOnClickListener(this);
-        coneMi = (Button) findViewById(R.id.Amp_Missed_Increment);
-        coneMi.setOnClickListener(this);
-        coneMd = (Button) findViewById(R.id.Amp_Missed_Decrement);
-        coneMd.setOnClickListener(this);
-        coneLi = (Button) findViewById(R.id.CONE_LOW_INCREMENT);
-        coneLi.setOnClickListener(this);
-        coneLd = (Button) findViewById(R.id.CONE_LOW_DECREMENT);
-        coneLd.setOnClickListener(this);
-        cubeHi = (Button) findViewById(R.id.CUBE_HIGH_INCREMENT);
-        cubeHi.setOnClickListener(this);
-        cubeHd = (Button) findViewById(R.id.CUBE_HIGH_DECREMENT);
-        cubeHd.setOnClickListener(this);
-        cubeMi = (Button) findViewById(R.id.CUBE_MID_INCREMENT);
-        cubeMi.setOnClickListener(this);
-        cubeMd = (Button) findViewById(R.id.CUBE_MID_DECREMENT);
-        cubeMd.setOnClickListener(this);
-        cubeLi = (Button) findViewById(R.id.CUBE_LOW_INCREMENT);
-        cubeLi.setOnClickListener(this);
-        cubeLd = (Button) findViewById(R.id.CUBE_LOW_DECREMENT);
-        cubeLd.setOnClickListener(this);
         //...
         info = (TextView) findViewById(R.id.textView3);
         titleCard = (View) findViewById(R.id.view);
@@ -103,14 +120,6 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         mobilityLayout = (LinearLayout) findViewById(R.id.linearLayout7);
         climbLayout = (LinearLayout) findViewById(R.id.linearLayout8);
         menuLayout = (LinearLayout) findViewById(R.id.linearLayout9);
-
-        //counters
-        coneHigh = (TextView) findViewById(R.id.AmpScoredCounter);
-        coneMid = (TextView) findViewById(R.id.AmpMissedCounter) ;
-        coneLow = (TextView) findViewById(R.id.ConeLowCounter);
-        cubeHigh = (TextView) findViewById(R.id.CubeHighCounter) ;
-        cubeMid = (TextView) findViewById(R.id.CubeMidCounter);
-        cubeLow = (TextView) findViewById(R.id.CubeLowCounter) ;
 
         //dropdown
         dropdown = findViewById(R.id.dropdown);
@@ -178,6 +187,43 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
     public void onClick(View view){
         int clickedId = view.getId();
+
+        if(clickedId == R.id.Amp_Score_Increment){
+            counterIncrementLogic(ampScore);
+        }
+        else if(clickedId == R.id.Amp_Score_Decrement){
+            counterDecrementLogic(ampScore);
+        }
+        else if(clickedId == R.id.Amp_Missed_Increment){
+            counterIncrementLogic(ampMiss);
+        }
+        else if(clickedId == R.id.Amp_Missed_Decrement){
+            counterDecrementLogic(ampMiss);
+        }
+        else if(clickedId == R.id.Speaker_Scored_increment){
+            counterIncrementLogic(speakerScore);
+        }
+        else if(clickedId == R.id.Speaker_Scored_decrement){
+            counterDecrementLogic(speakerScore);
+        }
+        else if(clickedId == R.id.Speaker_Missed_Increment){
+            counterIncrementLogic(speakerMiss);
+        }
+        else if(clickedId == R.id.Speaker_Missed_Decrement){
+            counterDecrementLogic(speakerMiss);
+        }
+        else if(clickedId == R.id.Start_Left){
+            robotLeftLogic();
+        }
+        else if(clickedId == R.id.Start_Center){
+            robotCenterLogic();
+        }
+        else if(clickedId == R.id.Start_Right){
+            robotLeftLogic();
+        }
+
+
+
         if(clickedId == R.id.menu_item_1){
             saveScoutInfo();
             // Create an Intent to launch the target activity
@@ -204,65 +250,46 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             animateButton((Button) view);
             nextPageLogic();
         }
-        else if(clickedId == R.id.Amp_Score_Increment){
-            counterIncrementLogic(coneHigh);
-        }
-        else if(clickedId == R.id.Amp_Score_Decrement){
-            counterDecrementLogic(coneHigh);
-        }
-        else if(clickedId == R.id.Amp_Missed_Increment){
-            counterIncrementLogic(coneMid);
-        }
-        else if(clickedId == R.id.Amp_Missed_Decrement){
-            counterDecrementLogic(coneMid);
-        }
-        else if(clickedId == R.id.CONE_LOW_INCREMENT){
-            counterIncrementLogic(coneLow);
-        }
-        else if(clickedId == R.id.CONE_LOW_DECREMENT){
-            counterDecrementLogic(coneLow);
-        }
-        else if(clickedId == R.id.CUBE_HIGH_INCREMENT){
-            counterIncrementLogic(cubeHigh);
-        }
-        else if(clickedId == R.id.CUBE_HIGH_DECREMENT){
-            counterDecrementLogic(cubeHigh);
-        }
-        else if(clickedId == R.id.CUBE_MID_INCREMENT){
-            counterIncrementLogic(cubeMid);
-        }
-        else if(clickedId == R.id.CUBE_MID_DECREMENT){
-            counterDecrementLogic(cubeMid);
-        }
-        else if(clickedId == R.id.CUBE_LOW_INCREMENT){
-            counterIncrementLogic(cubeLow);
-        }
-        else if(clickedId == R.id.CUBE_LOW_DECREMENT){
-            counterDecrementLogic(cubeLow);
-        }
 
     }
 
-    //mobility logic
-    private void mobilityYesLogic(){
+    //Robot position logic
+    private void robotLeftLogic(){
         //if not selected
-        if(yesMobility.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            yesMobility.setTextColor(ContextCompat.getColor(this, R.color.white));
-            yesMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            noMobility.setTextColor(ContextCompat.getColor(this, R.color.black));
-            noMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            mobilityBool = true;
+        if(leftPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
+            centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
+            rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            robotPosition = "Left";
             nextPageCheck();
         }
     }
-    private void mobilityNoLogic(){
+    private void robotRightLogic(){
+        ///if not selected
+        if(rightPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
+            centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
+            leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            robotPosition = "Right";
+            nextPageCheck();
+        }
+    }
+    private void robotCenterLogic(){
         //if not selected
-        if(noMobility.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            yesMobility.setTextColor(ContextCompat.getColor(this, R.color.black));
-            yesMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            noMobility.setTextColor(ContextCompat.getColor(this, R.color.white));
-            noMobility.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-            mobilityBool = false;
+        if(centerPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
+            leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
+            rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            robotPosition = "Center";
             nextPageCheck();
         }
     }

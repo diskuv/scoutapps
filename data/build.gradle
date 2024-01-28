@@ -17,12 +17,7 @@ apply plugin: CMakeEnvironmentPlugin
 def localDevProjects = [
         // DkSDK standards
         'dksdk-access',
-        'dksdk-cmake',
-        'dksdk-ffi-c',
-        'dksdk-ffi-java',
-        'dksdk-ffi-ocaml',
-        // Unique to our project
-        'ocaml-backend'
+        'dksdk-cmake'
 ]
 def localDevCmakeArgs = localDevProjects.
         findAll { rootProject.file("../${it}").exists() }.
@@ -42,9 +37,6 @@ tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     jdkHome = jniCompiler.map { it.metadata.installationPath }
     defaultFetchContentDksdkAccess = rootProject.file("fetch/dksdk-access")
     defaultFetchContentDksdkCmake = rootProject.file("fetch/dksdk-cmake")
-    defaultFetchContentDksdkFfiC = rootProject.file("fetch/dksdk-ffi-c")
-    defaultFetchContentDksdkFfiJava = rootProject.file("fetch/dksdk-ffi-java")
-    defaultFetchContentDksdkFfiOCaml = rootProject.file("fetch/dksdk-ffi-ocaml")
     arguments.addAll localDevCmakeArgs
 
     sources fileTree(

@@ -2,6 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../ocaml-backend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../dksdk-access" vcs="Git" />
   </component>
 </project>

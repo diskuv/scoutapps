@@ -29,22 +29,6 @@
         "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-cmake"
-        },
-        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-C": {
-          "type": "FILEPATH",
-          "value": "${sourceDir}/fetch/dksdk-ffi-c"
-        },
-        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-JAVA": {
-          "type": "FILEPATH",
-          "value": "${sourceDir}/fetch/dksdk-ffi-java"
-        },
-        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-OCAML": {
-          "type": "FILEPATH",
-          "value": "${sourceDir}/fetch/dksdk-ffi-ocaml"
-        },
-        "FETCHCONTENT_SOURCE_DIR_OCAML-BACKEND": {
-          "type": "FILEPATH",
-          "value": "${sourceDir}/fetch/ocaml-backend"
         }
       }
     },

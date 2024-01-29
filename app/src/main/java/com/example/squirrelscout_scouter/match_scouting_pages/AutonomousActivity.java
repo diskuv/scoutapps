@@ -220,39 +220,39 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
     //Robot position logic
     private void robotLeftLogic(){
         //if not selected
-        if(leftPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+        if(leftPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.black2)){
+            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.black2));
             leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
-            centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
-            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
-            rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
+            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
             robotPosition = "Left";
             nextPageCheck();
         }
     }
     private void robotRightLogic(){
         ///if not selected
-        if(rightPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+        if(rightPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.black2)){
+            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.black2));
             rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
-            centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
-            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
-            leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
+            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
             robotPosition = "Right";
             nextPageCheck();
         }
     }
     private void robotCenterLogic(){
         //if not selected
-        if(centerPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+        if(centerPosition.getTextColors() != ContextCompat.getColorStateList(this, R.color.black2)){
+            centerPosition.setTextColor(ContextCompat.getColor(this, R.color.black2));
             centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
-            leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
-            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.black));
-            rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+            leftPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
+            rightPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
+            rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
             robotPosition = "Center";
             nextPageCheck();
         }
@@ -284,7 +284,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
     //next page logic
     private void nextPageCheck(){
-        if(yesLeave.getTextColors() != ContextCompat.getColorStateList(this, R.color.black) && !(robotPosition.isEmpty())){
+        if(yesLeave.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(robotPosition.isEmpty())){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");

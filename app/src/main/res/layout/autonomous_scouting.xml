@@ -118,7 +118,7 @@
             android:inputType="none"
             android:text="Starting Position"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/accent"
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -196,8 +196,8 @@
             android:id="@+id/linearLayout10"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_168sdp"
-            android:layout_marginStart="@dimen/_44sdp"
+            android:layout_marginTop="@dimen/_173sdp"
+            android:layout_marginStart="@dimen/_60sdp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -211,14 +211,14 @@
                 android:drawableRight="@drawable/checkbox"/>
             <CheckBox
                 android:id="@+id/checkBox2"
-                android:translationY="-14dp"
+                android:translationY="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="@drawable/checkbox"/>
             <CheckBox
                 android:id="@+id/checkBox3"
-                android:translationY="-28dp"
+                android:translationY="28dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -229,8 +229,8 @@
             android:id="@+id/linearLayout11"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_167sdp"
-            android:layout_marginStart="@dimen/_243sdp"
+            android:layout_marginTop="@dimen/_173sdp"
+            android:layout_marginStart="@dimen/_225sdp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -244,14 +244,14 @@
                 android:drawableRight="@drawable/checkbox"/>
             <CheckBox
                 android:id="@+id/checkBox5"
-                android:translationY="-14dp"
+                android:translationY="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="@drawable/checkbox"/>
             <CheckBox
                 android:id="@+id/checkBox6"
-                android:translationY="-28dp"
+                android:translationY="28dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -262,7 +262,7 @@
             android:id="@+id/linearLayout12"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_158sdp"
+            android:layout_marginTop="@dimen/_166sdp"
             android:layout_marginStart="@dimen/_143sdp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -271,35 +271,34 @@
 
             <CheckBox
                 android:id="@+id/checkBox7"
-                android:translationY="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="@drawable/checkbox"/>
             <CheckBox
                 android:id="@+id/checkBox8"
-                android:translationY="-8dp"
+                android:translationY="21dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="@drawable/checkbox"/>
             <CheckBox
                 android:id="@+id/checkBox9"
-                android:translationY="-15dp"
+                android:translationY="43dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="@drawable/checkbox"/>
             <CheckBox
                 android:id="@+id/checkBox10"
-                android:translationY="-23dp"
+                android:translationY="65dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="@drawable/checkbox"/>
             <CheckBox
                 android:id="@+id/checkBox11"
-                android:translationY="-30dp"
+                android:translationY="85dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"

@@ -1,11 +1,14 @@
 package com.example.squirrelscout_scouter.match_scouting_pages;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
@@ -27,6 +30,10 @@ import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.squirrelscout_scouter.R;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class ImageTrial extends ComponentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +53,17 @@ public class ImageTrial extends ComponentActivity{
                         // Add a marker or perform any action you want
                         addMarker(event.getX(), event.getY(), imageView);
 
+                        // Save the marked image to the device's gallery
+                        saveImageToGallery(getMarkedImage(imageView), "Marked_Image");
+
                         return true;
                     }
                 }
 
                 return false;
             }
+        });
+    }
 
     private boolean isTouchInsideView(float x, float y, View view) {
         int[] location = new int[2];
@@ -88,5 +100,31 @@ public class ImageTrial extends ComponentActivity{
         imageView.draw(canvas);
 
         return originalBitmap;
+    }
+
+    private void saveImageToGallery(Bitmap bitmap, String displayName) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, displayName);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+
+        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/YourAppDirectoryName");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        File file = new File(directory, displayName + ".jpg");
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -38,11 +38,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ImageTrial extends ComponentActivity implements View.OnClickListener{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.heatmap_trial);
-
+        //image capture
         ImageView imageView = findViewById(R.id.imageView);
         Button saveButton = (Button) findViewById(R.id.button);
         saveButton.setOnClickListener(this);
@@ -103,7 +104,11 @@ public class ImageTrial extends ComponentActivity implements View.OnClickListene
         Paint paint = new Paint();
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(x, y, 20, paint); // Adjust the radius as needed
+        Paint paint2 = new Paint();
+        paint2.setColor(Color.LTGRAY);
+        paint2.setStyle(Paint.Style.FILL_AND_STROKE);
+        canvas.drawCircle(x, y, 10, paint); // Adjust the radius as needed
+        canvas.drawText("Team: 2930; Match: 2", 20, 20, paint2); // Adjust the text position as needed
 
         // Set the marked image with the added marker to the ImageView
         imageView.setImageBitmap(markerBitmap);

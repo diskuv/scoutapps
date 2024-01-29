@@ -4,12 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +15,6 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
@@ -35,19 +30,22 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
     Button leftPosition, centerPosition, rightPosition;
     String robotPosition;
 
+    //checkboxes
+    CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, checkBox7, checkBox8, checkBox9, checkBox10, checkBox11;
+    boolean wing1 = false;
+    boolean wing2 = false;
+    boolean wing3 = false;
 
-    Button yesMobility, noMobility, nextButton;
-    ImageButton homeButton, notesButton;
-    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info, title;
-    AutoCompleteTextView dropdown;
+    //Leave mobility
+    Button yesLeave, noLeave;
+    boolean leaveBool;
+
+    //next Button
+    Button nextButton;
+    TextView info, title;
     View titleCard, firstCard, secondCard, mainCard;
-    LinearLayout cone1, cone2, cone3, cube1, cube2, cube3, mobilityLayout, climbLayout, menuLayout;
 
 //    ScoutInfo scoutInfo;
-
-    //variables
-    boolean mobilityBool;
-
     private ScoutingSessionViewModel model;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,18 +90,39 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         rightPosition = (Button) findViewById(R.id.Start_Right);
         rightPosition.setOnClickListener(this);
 
+        //checkboxes
+        checkBox1 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox1.setOnClickListener(this);
+        checkBox2 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox2.setOnClickListener(this);
+        checkBox3 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox3.setOnClickListener(this);
+        checkBox4 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox4.setOnClickListener(this);
+        checkBox5 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox5.setOnClickListener(this);
+        checkBox6 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox6.setOnClickListener(this);
+        checkBox7 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox7.setOnClickListener(this);
+        checkBox8 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox8.setOnClickListener(this);
+        checkBox9 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox9.setOnClickListener(this);
+        checkBox10 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox10.setOnClickListener(this);
+        checkBox11 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox11.setOnClickListener(this);
+
+        //leave auto points
+        yesLeave = (Button) findViewById(R.id.LEAVE_YES);
+        yesLeave.setOnClickListener(this);
+        noLeave = (Button) findViewById(R.id.LEAVE_NO);
+        noLeave.setOnClickListener(this);
 
         //Buttons
-        yesMobility = (Button) findViewById(R.id.MOBILITY_YES);
-        yesMobility.setOnClickListener(this);
-        noMobility = (Button) findViewById(R.id.MOBILITY_NO);
-        noMobility.setOnClickListener(this);
         nextButton = (Button) findViewById(R.id.NEXT);
         nextButton.setOnClickListener(this);
-        homeButton = (ImageButton) findViewById(R.id.menu_item_1);
-        homeButton.setOnClickListener(this);
-        notesButton = (ImageButton) findViewById(R.id.menu_item_2);
-        notesButton.setOnClickListener(this);
         //...
         info = (TextView) findViewById(R.id.textView3);
         titleCard = (View) findViewById(R.id.view);
@@ -111,35 +130,8 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         firstCard = (View) findViewById(R.id.view3);
         secondCard = (View) findViewById(R.id.view4);
         title = (TextView) findViewById(R.id.textView2);
-        cone1 = (LinearLayout) findViewById(R.id.linearLayout1);
-        cone2 = (LinearLayout) findViewById(R.id.linearLayout2);
-        cone3 = (LinearLayout) findViewById(R.id.linearLayout3);
-        cube1 = (LinearLayout) findViewById(R.id.linearLayout4);
-        cube2 = (LinearLayout) findViewById(R.id.linearLayout5);
-        cube3 = (LinearLayout) findViewById(R.id.linearLayout6);
-        mobilityLayout = (LinearLayout) findViewById(R.id.linearLayout7);
-        climbLayout = (LinearLayout) findViewById(R.id.linearLayout8);
-        menuLayout = (LinearLayout) findViewById(R.id.linearLayout9);
 
-        //dropdown
-        dropdown = findViewById(R.id.dropdown);
-        String[] items = new String[]{"Docked", "Engaged", "No Attempt"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
-        dropdown.setAdapter(adapter);
-        dropdown.setKeyListener(null);
-        dropdown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dropdown.showDropDown();
-            }
-        });
-        dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                nextPageCheck();
-            }
-        });
-
+        /*
         // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
         // bind view model updates to the UI
         model.getRawMatchDataSession().observe(this, session -> {
@@ -173,16 +165,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
         //start animation
         animationStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Initialize the dropdown adapter with all options again
-        String[] items = new String[]{"Docked", "Engaged", "No Attempt"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
-        dropdown.setAdapter(adapter);
+         */
     }
 
     public void onClick(View view){
@@ -219,32 +202,13 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             robotCenterLogic();
         }
         else if(clickedId == R.id.Start_Right){
-            robotLeftLogic();
+            robotRightLogic();
         }
-
-
-
-        if(clickedId == R.id.menu_item_1){
-            saveScoutInfo();
-            // Create an Intent to launch the target activity
-            Intent intent = new Intent(AutonomousActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            // Start the target activity with the Intent
-            startActivity(intent);
+        else if(clickedId == R.id.LEAVE_YES){
+            yesLeaveLogic();
         }
-        else if(clickedId == R.id.menu_item_2){
-            saveScoutInfo();
-            // Create an Intent to launch the target activity
-            Intent intent = new Intent(AutonomousActivity.this, NotesActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            // Start the target activity with the Intent
-            startActivity(intent);
-        }
-        else if(clickedId == R.id.MOBILITY_YES){
-            mobilityYesLogic();
-        }
-        else if(clickedId == R.id.MOBILITY_NO){
-            mobilityNoLogic();
+        else if(clickedId == R.id.LEAVE_NO){
+            noLeaveLogic();
         }
         else if(clickedId == R.id.NEXT){
             animateButton((Button) view);
@@ -294,19 +258,52 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         }
     }
 
+    //Leave mobility logic
+    private void yesLeaveLogic(){
+        //if not selected
+        if(yesLeave.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            yesLeave.setTextColor(ContextCompat.getColor(this, R.color.white));
+            yesLeave.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            noLeave.setTextColor(ContextCompat.getColor(this, R.color.black2));
+            noLeave.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+            leaveBool = true;
+            nextPageCheck();
+        }
+    }
+    private void noLeaveLogic(){
+        //if not selected
+        if(noLeave.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            noLeave.setTextColor(ContextCompat.getColor(this, R.color.white));
+            noLeave.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            yesLeave.setTextColor(ContextCompat.getColor(this, R.color.black2));
+            yesLeave.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+            leaveBool = false;
+            nextPageCheck();
+        }
+    }
+
     //next page logic
     private void nextPageCheck(){
-        if(yesMobility.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown.getText().toString().isEmpty())){
+        if(yesLeave.getTextColors() != ContextCompat.getColorStateList(this, R.color.black2) && !(robotPosition.isEmpty())){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");
-            Toast.makeText(AutonomousActivity.this, dropdown.getText().toString(), Toast.LENGTH_SHORT).show();
         }
+        if(checkBox1.isChecked() || checkBox4.isChecked()){
+            wing1 = true;
+        }
+        else if(checkBox2.isChecked() || checkBox5.isChecked()){
+            wing2 = true;
+        }
+        else if(checkBox3.isChecked() || checkBox6.isChecked()){
+            wing3 = true;
+        }
+
     }
     private void nextPageLogic(){
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(AutonomousActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
-            saveScoutInfo();
+            //saveScoutInfo();
             // Create an Intent to launch the target activity
             Intent intent = new Intent(AutonomousActivity.this, TeleopActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -349,7 +346,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
         }).start();
     }
-
+/*
     private void animationStart(){
         //animations
         titleCard.setTranslationY(-500);
@@ -417,16 +414,23 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureAutonomous()
 
         model.captureAutoData(
-                mobilityBool,
-                dropdown.getText().toString(),
-                Integer.parseInt(coneHigh.getText().toString()),
-                Integer.parseInt(coneMid.getText().toString()),
-                Integer.parseInt(coneLow.getText().toString()),
-                Integer.parseInt(cubeHigh.getText().toString()),
-                Integer.parseInt(cubeMid.getText().toString()),
-                Integer.parseInt(cubeLow.getText().toString())
+                leaveBool,
+                robotPosition,
+                wing1,
+                wing2,
+                wing3,
+                checkBox7.isChecked(),
+                checkBox8.isChecked(),
+                checkBox9.isChecked(),
+                checkBox10.isChecked(),
+                checkBox11.isChecked(),
+                Integer.parseInt(speakerScore.getText().toString()),
+                Integer.parseInt(speakerMiss.getText().toString()),
+                Integer.parseInt(ampScore.getText().toString()),
+                Integer.parseInt(ampMiss.getText().toString())
 
         );
 
     }
+    */
 }

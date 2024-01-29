@@ -7,7 +7,7 @@
     android:background="@color/background">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/_500sdp"
         android:background="@color/background">
 
         <!-- Cards to make the design look nice -->
@@ -26,7 +26,7 @@
         <View
             android:id="@+id/view2"
             android:layout_width="wrap_content"
-            android:layout_height="780dp"
+            android:layout_height="@dimen/_560sdp"
             android:layout_marginTop="@dimen/_73sdp"
             android:background="@drawable/rounded_rectangle"
             android:backgroundTint="@color/secondary"
@@ -189,7 +189,101 @@
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/_024field"
             app:layout_editor_absoluteX="22dp"
-            tools:layout_editor_absoluteY="200dp" />
+            tools:layout_editor_absoluteY="200dp"
+            tools:ignore="MissingConstraints" />
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_168sdp"
+            android:layout_marginStart="@dimen/_44sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="@dimen/_20sdp"
+                android:translationY="-2dp"
+                android:layout_height="wrap_content"/>
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:translationY="-14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:translationY="-28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_167sdp"
+            android:layout_marginStart="@dimen/_243sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox5"
+                android:translationY="-14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox6"
+                android:translationY="-28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout12"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_158sdp"
+            android:layout_marginStart="@dimen/_143sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox7"
+                android:translationY="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox8"
+                android:translationY="-8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox9"
+                android:translationY="-15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox10"
+                android:translationY="-23dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/checkBox11"
+                android:translationY="-30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <!-- Amp Scoring Layout -->
         <TextView
@@ -577,7 +671,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/MOBILITY_YES"
+                android:id="@+id/LEAVE_YES"
                 android:layout_width="@dimen/_58sdp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -593,7 +687,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/MOBILITY_NO"
+                android:id="@+id/LEAVE_NO"
                 android:layout_width="@dimen/_58sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -613,9 +707,9 @@
             android:id="@+id/NEXT"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_595sdp"
-            android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginEnd="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_600sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:backgroundTint="@color/darkGrey"
             android:background="@drawable/rounded_rectangle_subtle"
             app:backgroundTint="@null"
@@ -625,145 +719,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-
-
-        <!-- Bottom menu item -->
-        <LinearLayout
-            android:id="@+id/linearLayout9"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="830dp"
-            android:background="@drawable/menu_round"
-            android:elevation="@dimen/_3sdp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <!-- menu items-->
-            <ImageButton
-                android:id="@+id/menu_item_1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:scaleType="fitCenter"
-                android:src="@drawable/home_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/menu_item_2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_4sdp"
-                android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
-                android:scaleType="fitCenter"
-                android:src="@drawable/notes_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-
-        <!-- Check Boxes -->
-        <LinearLayout
-            android:id="@+id/linearLayout10"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_168sdp"
-            android:layout_marginStart="@dimen/_44sdp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="@dimen/_20sdp"
-                android:translationY="-2dp"
-                android:layout_height="wrap_content"/>
-            <CheckBox
-                android:id="@+id/checkBox2"
-                android:translationY="-14dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/checkBox3"
-                android:translationY="-28dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/linearLayout11"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_167sdp"
-            android:layout_marginStart="@dimen/_243sdp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <CheckBox
-                android:id="@+id/checkBox4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/checkBox5"
-                android:translationY="-14dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/checkBox6"
-                android:translationY="-28dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <!-- Check Boxes -->
-        <LinearLayout
-            android:id="@+id/linearLayout12"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_158sdp"
-            android:layout_marginStart="@dimen/_143sdp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <CheckBox
-                android:id="@+id/checkBox7"
-                android:translationY="0dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/checkBox8"
-                android:translationY="-8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/checkBox9"
-                android:translationY="-15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/checkBox10"
-                android:translationY="-23dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <CheckBox
-                android:id="@+id/checkBox11"
-                android:translationY="-30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

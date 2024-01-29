@@ -181,7 +181,7 @@ public class ScoutingSessionViewModel extends ViewModel {
         updateAndSetSession(session);
     }
 
-    public void captureAutoData(boolean mobility, String climb, int coneHigh, int coneMid, int coneLow, int cubeHigh, int cubeMid, int cubeLow){
+    public void captureAutoData(boolean leave, String position, boolean wing1, boolean wing2, boolean wing3, boolean center1, boolean center2, boolean center3, boolean center4, boolean center5){
         ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
         assert  session != null;
 

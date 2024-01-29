@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="black2">#FF001000</color>
     <color name="white">#FFFFFFFF</color>
 
     <!-- Actual Theme trial -->
     <color name="Text">#f0f9fe</color>
     <color name="background">#021c2c</color>
-    <color name="primary">#f8a372</color>
     <color name="accent">#f36716</color>
     <color name="lightGrey">#C2C4C3</color>
     <color name="offwhite">#D1CAC3</color>

@@ -14,4 +14,12 @@
         android:translationX="@dimen/_15sdp"
         android:translationY="@dimen/_155sdp"
         android:layout_marginTop="@dimen/_100sdp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="475dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

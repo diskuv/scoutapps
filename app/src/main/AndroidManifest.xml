@@ -29,7 +29,8 @@
         <activity android:name=".match_scouting_pages.StartScoutingActivity" />
         <activity android:name=".match_scouting_pages.AutonomousActivity" />
         <activity android:name=".match_scouting_pages.TeleopActivity" />
-        <activity android:name=".match_scouting_pages.NotesActivity"/>
+        <activity android:name=".match_scouting_pages.NotesActivity" />
+        <activity android:name=".match_scouting_pages.ImageTrial"/>
 
     </application>
 

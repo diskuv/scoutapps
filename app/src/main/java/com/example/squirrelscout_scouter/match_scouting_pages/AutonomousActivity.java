@@ -28,7 +28,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
     //robot position
     Button leftPosition, centerPosition, rightPosition;
-    String robotPosition;
+    String robotPosition = "";
 
     //checkboxes
     CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, checkBox7, checkBox8, checkBox9, checkBox10, checkBox11;
@@ -284,7 +284,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
     //next page logic
     private void nextPageCheck(){
-        if(yesLeave.getTextColors() != ContextCompat.getColorStateList(this, R.color.black2) && !(robotPosition.isEmpty())){
+        if(yesLeave.getTextColors() != ContextCompat.getColorStateList(this, R.color.black) && !(robotPosition.isEmpty())){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");

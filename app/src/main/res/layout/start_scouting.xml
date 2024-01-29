@@ -11,6 +11,7 @@
 
 
     <!-- Cards to make the design look nice -->
+
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"

@@ -187,16 +187,16 @@ public class ScoutingSessionViewModel extends ViewModel {
 
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
-        rawMatchData.setMobility(mobility);
-        rawMatchData.setAutoClimb(climb);
-
-        rawMatchData.setConeHighA(coneHigh);
-        rawMatchData.setConeMidA(coneMid);
-        rawMatchData.setConeLowA(coneLow);
-
-        rawMatchData.setCubeHighA(cubeHigh);
-        rawMatchData.setCubeMidA(cubeMid);
-        rawMatchData.setCubeLowA(cubeLow);
+//        rawMatchData.setMobility(mobility);
+//        rawMatchData.setAutoClimb(climb);
+//
+//        rawMatchData.setConeHighA(coneHigh);
+//        rawMatchData.setConeMidA(coneMid);
+//        rawMatchData.setConeLowA(coneLow);
+//
+//        rawMatchData.setCubeHighA(cubeHigh);
+//        rawMatchData.setCubeMidA(cubeMid);
+//        rawMatchData.setCubeLowA(cubeLow);
 
         //does this need to be called? would this overwrite/lose the previous captureMatchRobot method's session data?
         updateAndSetSession(session);

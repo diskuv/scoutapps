@@ -9,7 +9,6 @@
     android:background="@color/background"
     tools:context=".MainActivity">
 
-
     <!-- Cards to make the design look nice -->
     <View
         android:id="@+id/view2"
@@ -222,4 +221,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

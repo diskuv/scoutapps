@@ -21,16 +21,17 @@ def localDevProjects = [
 ]
 def localDevCmakeArgs = localDevProjects.
         findAll { rootProject.file("../${it}").exists() }.
-        collect { {
+        collect { it ->
             def path = rootProject.file("../${it}").getAbsolutePath()
             "-DFETCHCONTENT_SOURCE_DIR_${it.toUpperCase()}=${path}"
-        }}
+        }
 
 tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     def jniCompiler = javaToolchains.compilerFor {
         // Avoid: androidx/activity/lint/ActivityIssueRegistry has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 55.0
         languageVersion = JavaLanguageVersion.of(17)
     }
+    def traceFile = layout.buildDirectory.file("cmake.trace").get()
 
     template true
     androidGradlePlugin true
@@ -38,6 +39,8 @@ tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     defaultFetchContentDksdkAccess = rootProject.file("fetch/dksdk-access")
     defaultFetchContentDksdkCmake = rootProject.file("fetch/dksdk-cmake")
     arguments.addAll localDevCmakeArgs
+    arguments.add "--trace-expand"
+    arguments.add "--trace-redirect=${traceFile}"
 
     sources fileTree(
             dir: rootDir,

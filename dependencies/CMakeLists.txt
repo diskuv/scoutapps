@@ -23,7 +23,7 @@ get_property(dksdk-ffi-c_REPOSITORY GLOBAL PROPERTY DKSDK_FFI_C_REPOSITORY)
 
 # --- Fetch dksdk-ffi-c
 
-DkSDKFetchContent_DeclareButAllowLocalOverride(NAME dksdk-ffi-c
+DkSDKFetchContent_DeclareSecondParty(NAME dksdk-ffi-c
     GIT_REPOSITORY "${dksdk-ffi-c_REPOSITORY}"
     GIT_TAG main)
 # MSVC Fatal error: Unsupported relocation kind 0003 for __GSHandlerCheck in _deps\dksdk-ffi-c-build\src\dksdk_ffi_c-StaticExports.lib(_deps\dksdk-ffi-c-build\src\CMakeFiles\dksdk_ffi_c-StaticExports.dir\sha256.c.obj)

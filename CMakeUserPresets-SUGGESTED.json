@@ -59,14 +59,6 @@
         "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
           "type": "FILEPATH",
           "value": "${sourceParentDir}/dksdk-cmake"
-        },
-        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-C": {
-          "type": "FILEPATH",
-          "value": "${sourceParentDir}/dksdk-ffi-c"
-        },
-        "FETCHCONTENT_SOURCE_DIR_DKSDK-FFI-OCAML": {
-          "type": "FILEPATH",
-          "value": "${sourceParentDir}/dksdk-ffi-ocaml"
         }
       }
     },

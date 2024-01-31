@@ -30,18 +30,12 @@ use_dksdk_ffi_repository(OCAML ocaml)
 # --- Fetch dksdk-ffi-java
 
 set(DKSDK_FFI_JAVA_EMBEDDER_LIBRARY data_foreground)
-DkSDKFetchContent_DeclareButAllowLocalOverride(NAME dksdk-ffi-java
+DkSDKFetchContent_DeclareSecondParty(NAME dksdk-ffi-java
     GIT_REPOSITORY "${dksdk-ffi-java_REPOSITORY}"
     GIT_TAG next)
 if(NOT GENERATE_CAPNP_ONLY)
     DkSDKFetchContent_MakeAvailableNoInstall(dksdk-ffi-java)
 endif()
-
-# --- Declare dksdk-ffi-ocaml but MakeAvailable will happen in START USER (ocaml-backend)
-
-DkSDKFetchContent_DeclareButAllowLocalOverride(NAME dksdk-ffi-ocaml
-        GIT_REPOSITORY "${dksdk-ffi-ocaml_REPOSITORY}"
-        GIT_TAG next)
 
 ## END DKSDK ~~~~~~~~~~~~~~~~~
 
@@ -51,12 +45,12 @@ DkSDKFetchContent_DeclareButAllowLocalOverride(NAME dksdk-ffi-ocaml
 
 # --- Local override
 
-DkSDKFetchContent_DeclareButAllowLocalOverride(
+DkSDKFetchContent_DeclareSecondParty(
         NAME ocaml-backend
         GIT_REPOSITORY "https://github.com/SquirrelScout/ocaml-backend.git"
         GIT_TAG teamNamesTable)
 if(NOT GENERATE_CAPNP_ONLY)
-    DkSDKFetchContent_MakeAvailableNoInstall(ocaml-backend)
+    DkSDKFetchContent_MakeAvailableToDune(ocaml-backend)
 endif()
 
 ## END USER ~~~~~~~~~~~~~~~~~

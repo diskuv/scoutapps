@@ -1,0 +1,2 @@
+; Created by ci/git-clone.sh. Do not edit.
+(dirs) ; disable scanning of any subdirectories

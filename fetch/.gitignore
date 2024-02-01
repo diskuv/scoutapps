@@ -1,0 +1,6 @@
+# ci/git-clone.sh
+#   Exclude everything except [dune] which ci/git-clone.sh generates,
+#   and exclude this file [.gitignore]
+*
+!dune
+!.gitignore

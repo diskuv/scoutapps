@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             short validatedTeamNum = Short.parseShort(TeamNum);
             uiThreadHandler.postDelayed(() -> {
                 model.saveScout(ScoutName, validatedTeamNum);
-                Intent intent = new Intent(MainActivity.this, AutonomousActivity.class);
+                Intent intent = new Intent(MainActivity.this, StartScoutingActivity.class);
                 intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_LONG_SESSION_NUMBER, SystemClock.elapsedRealtimeNanos());
                 intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_STRING_SCOUT_NAME, ScoutName);
                 intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_SHORT_TEAM_NUMBER, validatedTeamNum);

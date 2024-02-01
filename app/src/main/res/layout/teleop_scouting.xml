@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,11 +41,12 @@
 
         <View
             android:id="@+id/view3"
-            android:layout_width="@dimen/_279sdp"
-            android:layout_height="@dimen/_145sdp"
-            android:layout_marginStart="@dimen/_14sdp"
-            android:layout_marginTop="@dimen/_92sdp"
-            android:background="@drawable/round_rectangle_2"
+            android:layout_width="@dimen/_270sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_110sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
             android:backgroundTint="@color/offwhite"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -103,12 +105,32 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Speaker Scoring heatmap -->
+        <TextView
+            android:id="@+id/Robot_Position_Label"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:gravity="center"
+            android:inputType="none"
+            android:text="Speaker Scoring"
+            android:textAllCaps="false"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-
-
-
-
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/_260sdp"
+            android:layout_height="@dimen/_140sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/_024field"
+            android:translationX="@dimen/_30sdp"
+            android:translationY="@dimen/_115sdp"
+            android:layout_marginTop="@dimen/_100sdp" />
 
         <!-- Amp Scoring  -->
         <LinearLayout
@@ -516,6 +538,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -75,22 +75,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         coneMi.setOnClickListener(this);
         coneMd = (Button) findViewById(R.id.Amp_Missed_Decrement);
         coneMd.setOnClickListener(this);
-        coneLi = (Button) findViewById(R.id.CONE_LOW_INCREMENT);
-        coneLi.setOnClickListener(this);
-        coneLd = (Button) findViewById(R.id.CONE_LOW_DECREMENT);
-        coneLd.setOnClickListener(this);
-        cubeHi = (Button) findViewById(R.id.CUBE_HIGH_INCREMENT);
-        cubeHi.setOnClickListener(this);
-        cubeHd = (Button) findViewById(R.id.CUBE_HIGH_DECREMENT);
-        cubeHd.setOnClickListener(this);
-        cubeMi = (Button) findViewById(R.id.CUBE_MID_INCREMENT);
-        cubeMi.setOnClickListener(this);
-        cubeMd = (Button) findViewById(R.id.CUBE_MID_DECREMENT);
-        cubeMd.setOnClickListener(this);
-        cubeLi = (Button) findViewById(R.id.CUBE_LOW_INCREMENT);
-        cubeLi.setOnClickListener(this);
-        cubeLd = (Button) findViewById(R.id.CUBE_LOW_DECREMENT);
-        cubeLd.setOnClickListener(this);
         //...
         info = (TextView) findViewById(R.id.textView3);
         titleCard = (View) findViewById(R.id.view);
@@ -100,10 +84,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         title = (TextView) findViewById(R.id.textView2);
         cone1 = (LinearLayout) findViewById(R.id.linearLayout1);
         cone2 = (LinearLayout) findViewById(R.id.linearLayout2);
-        cone3 = (LinearLayout) findViewById(R.id.linearLayout3);
-        cube1 = (LinearLayout) findViewById(R.id.linearLayout4);
-        cube2 = (LinearLayout) findViewById(R.id.linearLayout5);
-        cube3 = (LinearLayout) findViewById(R.id.linearLayout6);
         defenseLayout = (LinearLayout) findViewById(R.id.linearLayout7);
         incapLayout = (LinearLayout) findViewById(R.id.linearLayout8);
         climbLayout = (LinearLayout) findViewById(R.id.linearLayout9);
@@ -113,10 +93,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         //counters
         coneHigh = (TextView) findViewById(R.id.AmpScoredCounter);
         coneMid = (TextView) findViewById(R.id.AmpMissedCounter) ;
-        coneLow = (TextView) findViewById(R.id.ConeLowCounter);
-        cubeHigh = (TextView) findViewById(R.id.CubeHighCounter) ;
-        cubeMid = (TextView) findViewById(R.id.CubeMidCounter);
-        cubeLow = (TextView) findViewById(R.id.CubeLowCounter) ;
 
         //dropdown
         dropdown = findViewById(R.id.dropdown);
@@ -244,30 +220,30 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         else if(clickedId == R.id.Amp_Missed_Decrement){
             counterDecrementLogic(coneMid);
         }
-        else if(clickedId == R.id.CONE_LOW_INCREMENT){
-            counterIncrementLogic(coneLow);
-        }
-        else if(clickedId == R.id.CONE_LOW_DECREMENT){
-            counterDecrementLogic(coneLow);
-        }
-        else if(clickedId == R.id.CUBE_HIGH_INCREMENT){
-            counterIncrementLogic(cubeHigh);
-        }
-        else if(clickedId == R.id.CUBE_HIGH_DECREMENT){
-            counterDecrementLogic(cubeHigh);
-        }
-        else if(clickedId == R.id.CUBE_MID_INCREMENT){
-            counterIncrementLogic(cubeMid);
-        }
-        else if(clickedId == R.id.CUBE_MID_DECREMENT){
-            counterDecrementLogic(cubeMid);
-        }
-        else if(clickedId == R.id.CUBE_LOW_INCREMENT){
-            counterIncrementLogic(cubeLow);
-        }
-        else if(clickedId == R.id.CUBE_LOW_DECREMENT){
-            counterDecrementLogic(cubeLow);
-        }
+//        else if(clickedId == R.id.CONE_LOW_INCREMENT){
+//            counterIncrementLogic(coneLow);
+//        }
+//        else if(clickedId == R.id.CONE_LOW_DECREMENT){
+//            counterDecrementLogic(coneLow);
+//        }
+//        else if(clickedId == R.id.CUBE_HIGH_INCREMENT){
+//            counterIncrementLogic(cubeHigh);
+//        }
+//        else if(clickedId == R.id.CUBE_HIGH_DECREMENT){
+//            counterDecrementLogic(cubeHigh);
+//        }
+//        else if(clickedId == R.id.CUBE_MID_INCREMENT){
+//            counterIncrementLogic(cubeMid);
+//        }
+//        else if(clickedId == R.id.CUBE_MID_DECREMENT){
+//            counterDecrementLogic(cubeMid);
+//        }
+//        else if(clickedId == R.id.CUBE_LOW_INCREMENT){
+//            counterIncrementLogic(cubeLow);
+//        }
+//        else if(clickedId == R.id.CUBE_LOW_DECREMENT){
+//            counterDecrementLogic(cubeLow);
+//        }
     }
 
     //defense logic

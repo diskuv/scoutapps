@@ -21,5 +21,8 @@
 .cxx/
 local.properties
 
+# ./dk
+/.ci/
+
 # Dune
 /_build/

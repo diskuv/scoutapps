@@ -57,8 +57,8 @@ function(parse_dktool_command_line)
     if(NOT DKTOOL_WORKDIR)
         message(FATAL_ERROR "Illegal state. Expecting DKTOOL_WORKDIR")
     endif()
-    set(CMAKE_BINARY_DIR ${DKTOOL_WORKDIR})
-    set(CMAKE_CURRENT_BINARY_DIR  ${CMAKE_BINARY_DIR})
+    set(CMAKE_BINARY_DIR "${DKTOOL_WORKDIR}")
+    set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_BINARY_DIR}")
 
     # Search in all the user scripts
     set(dot_function_names)
@@ -208,18 +208,13 @@ ${str_pretty_function_names}")
         message(FATAL_ERROR "No command '${command}' exists")
     endif()
 
+    # Make space for <command>
+    set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${expected_function_name}")
+    file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+
     # Call the <command> function
     cmake_language(EVAL CODE "${expected_function_name}()")
 endfunction()
-
-# DkML data home
-if(WIN32)
-    set(DKML_DATA_HOME "$ENV{LOCALAPPDATA}/Programs/DiskuvOCaml")
-elseif(DEFINED ENV{XDG_DATA_HOME})
-    set(DKML_DATA_HOME "$ENV{XDG_DATA_HOME}/diskuv-ocaml")
-else()
-    set(DKML_DATA_HOME "$ENV{HOME}/.local/share/diskuv-ocaml")
-endif()
 
 # DkSDK data home
 if(WIN32)
@@ -229,6 +224,19 @@ elseif(DEFINED ENV{XDG_DATA_HOME})
 else()
     set(DKSDK_DATA_HOME "$ENV{HOME}/.local/share/dksdk")
 endif()
+cmake_path(NORMAL_PATH DKSDK_DATA_HOME)
+
+# Nonce script
+if(CMAKE_HOST_WIN32)
+    set(post_script_suffix .cmd)
+else()
+    set(post_script_suffix .sh)
+endif()
+cmake_path(APPEND DKTOOL_WORKDIR "${DKTOOL_NONCE}${post_script_suffix}" OUTPUT_VARIABLE DKTOOL_POST_SCRIPT)
+cmake_path(NORMAL_PATH DKTOOL_POST_SCRIPT)
+
+# Escape any escape characters before EVAL CODE
+string(REPLACE "\\" "\\\\" DKTOOL_CMDLINE "${DKTOOL_CMDLINE}")
 
 # Splat DKTOOL_CMDLINE
 cmake_language(EVAL CODE "parse_dktool_command_line(${DKTOOL_CMDLINE})")

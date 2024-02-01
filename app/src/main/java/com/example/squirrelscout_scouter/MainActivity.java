@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.squirrelscout_scouter.match_scouting_pages.AutonomousActivity;
 import com.example.squirrelscout_scouter.match_scouting_pages.ImageTrial;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
 import com.example.squirrelscout_scouter.ui.viewmodels.MainViewModel;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             short validatedTeamNum = Short.parseShort(TeamNum);
             uiThreadHandler.postDelayed(() -> {
                 model.saveScout(ScoutName, validatedTeamNum);
-                Intent intent = new Intent(MainActivity.this, ImageTrial.class);
+                Intent intent = new Intent(MainActivity.this, AutonomousActivity.class);
                 intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_LONG_SESSION_NUMBER, SystemClock.elapsedRealtimeNanos());
                 intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_STRING_SCOUT_NAME, ScoutName);
                 intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_SHORT_TEAM_NUMBER, validatedTeamNum);

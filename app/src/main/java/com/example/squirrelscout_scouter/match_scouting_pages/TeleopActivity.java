@@ -9,7 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,19 +26,31 @@ import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 
+import org.w3c.dom.Text;
+
 public class TeleopActivity extends ComponentActivity implements View.OnClickListener {
 
-    //instances
-    Button coneHi, coneHd, coneMi, coneMd, coneLi, coneLd, cubeHi, cubeHd, cubeMi, cubeMd, cubeLi, cubeLd;
-    Button yesDefense, noDefense, yesIncap, noIncap,nextButton;
-    ImageButton backPage, notesPage;
-    TextView coneHigh, coneMid, coneLow, cubeHigh, cubeMid, cubeLow, info, title;
+    //Speaker Scoring
+    TextView speakerTitle;
+    ImageView fieldMap;
+    //AMP Scoring
+    TextView ampTitle;
+    Button ampScoreIncrement, ampScoreDecrement, ampMissIncrement, ampMissDecrement;
+    TextView ampMissLabel, ampScoreLabel;
+    //Breakdown
     AutoCompleteTextView dropdown;
-    View titleCard, firstCard, secondCard, mainCard;
-    LinearLayout cone1, cone2, cone3, cube1, cube2, cube3, defenseLayout, incapLayout, menuLayout, climbLayout;
+    //Pickup Location
+    Button groundButton, sourceButton;
+    //Defense
+    SeekBar defense;
+    //Endgame
+    Button parkYes, parkNo, trapYes, trapNo;
+    AutoCompleteTextView dropdown2;
+    boolean parkBool, trapBool;
 
-    //variables
-    boolean defenseBool, incapBool;
+    //...
+    Button nextButton;
+
 
 //    ScoutInfo scoutInfo;
 
@@ -51,50 +65,27 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
         model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
-        //Buttons
-        yesDefense = (Button) findViewById(R.id.DEFENSE_YES);
-        yesDefense.setOnClickListener(this);
-        noDefense = (Button) findViewById(R.id.DEFENSE_NO);
-        noDefense.setOnClickListener(this);
-        yesIncap = (Button) findViewById(R.id.INCAP_YES);
-        yesIncap.setOnClickListener(this);
-        noIncap = (Button) findViewById(R.id.INCAP_NO);
-        noIncap.setOnClickListener(this);
-        nextButton = (Button) findViewById(R.id.NEXT);
-        nextButton.setOnClickListener(this);
-        backPage = (ImageButton) findViewById(R.id.menu_item_1);
-        backPage.setOnClickListener(this);
-        notesPage = (ImageButton) findViewById(R.id.menu_item_2);
-        notesPage.setOnClickListener(this);
         //...
-        coneHi = (Button) findViewById(R.id.Amp_Score_Increment);
-        coneHi.setOnClickListener(this);
-        coneHd = (Button) findViewById(R.id.Amp_Score_Decrement);
-        coneHd.setOnClickListener(this);
-        coneMi = (Button) findViewById(R.id.Amp_Missed_Increment);
-        coneMi.setOnClickListener(this);
-        coneMd = (Button) findViewById(R.id.Amp_Missed_Decrement);
-        coneMd.setOnClickListener(this);
-        //...
-        info = (TextView) findViewById(R.id.textView3);
-        titleCard = (View) findViewById(R.id.view);
-        mainCard = (View) findViewById(R.id.view2);
-        firstCard = (View) findViewById(R.id.view3);
-        secondCard = (View) findViewById(R.id.view4);
-        title = (TextView) findViewById(R.id.textView2);
-        cone1 = (LinearLayout) findViewById(R.id.linearLayout1);
-        cone2 = (LinearLayout) findViewById(R.id.linearLayout2);
-        defenseLayout = (LinearLayout) findViewById(R.id.linearLayout7);
-        incapLayout = (LinearLayout) findViewById(R.id.linearLayout8);
-        climbLayout = (LinearLayout) findViewById(R.id.linearLayout9);
-        menuLayout = (LinearLayout) findViewById(R.id.linearLayout10);
+        speakerTitle = (TextView) findViewById(R.id.SpeakerTitle);
+        speakerTitle.setOnClickListener(this);
+        fieldMap = (ImageView) findViewById(R.id.imageView);
+        fieldMap.setOnClickListener(this);
+        ampTitle = (TextView) findViewById(R.id.AmpTitle);
+        ampTitle.setOnClickListener(this);
+        ampScoreIncrement = (Button) findViewById(R.id.Amp_Score_Increment);
+        ampScoreIncrement.setOnClickListener(this);
+        ampScoreDecrement = (Button) findViewById(R.id.Amp_Missed_Decrement);
+        ampScoreDecrement.setOnClickListener(this);
+        ampMissIncrement = (Button) findViewById(R.id.Amp_Missed_Increment);
+        ampMissIncrement.setOnClickListener(this);
+        ampMissDecrement = (Button) findViewById(R.id.Amp_Missed_Decrement);
+        ampMissDecrement.setOnClickListener(this);
+        ampMissLabel = (TextView) findViewById(R.id.AmpMissedLabel);
+        ampMissLabel.setOnClickListener(this);
+        ampScoreLabel = (TextView) findViewById(R.id.AmpScoredLabel);
+        ampScoreLabel.setOnClickListener(this);
 
-
-        //counters
-        coneHigh = (TextView) findViewById(R.id.AmpScoredCounter);
-        coneMid = (TextView) findViewById(R.id.AmpMissedCounter) ;
-
-        //dropdown
+        //Breakdown dropdown
         dropdown = findViewById(R.id.dropdown);
         String[] items = new String[]{"Docked", "Engaged", "No Attempt"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
@@ -119,6 +110,11 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             }
         });
 
+        //Buttons
+        nextButton = (Button) findViewById(R.id.NEXT);
+        nextButton.setOnClickListener(this);
+
+        /*
         // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
         // bind view model updates to the UI
 
@@ -170,6 +166,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
         //start animation
         animationStart();
+         */
     }
 
     @Override
@@ -350,6 +347,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         }).start();
     }
 
+    /*
     private void animationStart(){
         //animations
         titleCard.setTranslationY(-500);
@@ -421,4 +419,5 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
         model.captureIncapAndDefense(incapBool, defenseBool);
     }
+     */
 }

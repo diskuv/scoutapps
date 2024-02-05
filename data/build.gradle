@@ -43,8 +43,10 @@ tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     defaultFetchContentDksdkAccess = rootProject.file("fetch/dksdk-access")
     defaultFetchContentDksdkCmake = rootProject.file("fetch/dksdk-cmake")
     arguments.addAll localDevCmakeArgs
-    arguments.add "--trace-expand"
-    arguments.add "--trace-redirect=${traceFile}"
+    if (getLogger().isInfoEnabled()) {
+        arguments.add "--trace-expand"
+        arguments.add "--trace-redirect=${traceFile}"
+    }
 
     sources fileTree(
             dir: rootDir,

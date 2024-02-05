@@ -1,6 +1,7 @@
 import com.diskuv.dksdk.core.gradle.plugins.CMakeEnvironmentPlugin
 import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureTask
 import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureWithJniTask
+import com.diskuv.dksdk.core.gradle.tasks.DkSDKCmakeNdkEmulator
 
 buildscript {
     dependencies {
@@ -30,6 +31,10 @@ def localDevCmakeArgs = localDevProjects.
             "-DFETCHCONTENT_SOURCE_DIR_${it.toUpperCase()}=${path}"
         }
 
+def cmakeNdkEmulator = tasks.register('dksdkCmakeNdkEmulator', DkSDKCmakeNdkEmulator) {
+    cmakeEmulatorJsonFile = layout.buildDirectory.file("emulators/cmake-ndk.json")
+}
+
 tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     def jniCompiler = javaToolchains.compilerFor {
         // Avoid: androidx/activity/lint/ActivityIssueRegistry has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 55.0
@@ -39,6 +44,7 @@ tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
 
     template true
     androidGradlePlugin true
+    emulator cmakeNdkEmulator
     jdkHome = jniCompiler.map { it.metadata.installationPath }
     defaultFetchContentDksdkAccess = rootProject.file("fetch/dksdk-access")
     defaultFetchContentDksdkCmake = rootProject.file("fetch/dksdk-cmake")
@@ -67,6 +73,8 @@ android {
     // minSdkVersion (which determines which devices the app can be installed on).
 
     compileSdk 33
+
+    ndkVersion = cmakeNdkEmulator.map(emulator -> emulator.ndkVersion.get()).get()
 
     defaultConfig {
         /* Need 21+ so don't to avoid issues on https://developer.android.com/build/multidex */
@@ -151,6 +159,8 @@ androidComponents {
             def taskName = "cmakeConfigure${variant.name.capitalize()}Capnp"
             def generatedJavaDir0 = layout.buildDirectory.dir("generated/java/${taskName}") // can't change this for some reason
             def cmakeConfigureForCapnp = tasks.register(taskName, GeneratedJavaCMakeConfigureTask) {
+                emulator cmakeNdkEmulator
+
                 arguments.add "-DGENERATE_CAPNP_ONLY=1"
                 arguments.add "-DGENERATE_CAPNP_DIR=${generatedJavaDir0.get()}"
                 arguments.addAll localDevCmakeArgs

@@ -84,6 +84,24 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         ampMissLabel.setOnClickListener(this);
         ampScoreLabel = (TextView) findViewById(R.id.AmpScoredLabel);
         ampScoreLabel.setOnClickListener(this);
+        groundButton = (Button) findViewById(R.id.Ground_Pickup);
+        groundButton.setOnClickListener(this);
+        sourceButton = (Button) findViewById(R.id.Source_Pickup);
+        sourceButton.setOnClickListener(this);
+        defense = (SeekBar) findViewById(R.id.DefenseBar);
+        defense.setOnClickListener(this);
+        parkYes = (Button) findViewById(R.id.PARK_YES);
+        parkYes.setOnClickListener(this);
+        parkNo = (Button) findViewById(R.id.PARK_NO);
+        parkNo.setOnClickListener(this);
+        trapYes = (Button) findViewById(R.id.TRAP_YES);
+        trapYes.setOnClickListener(this);
+        trapNo = (Button) findViewById(R.id.TRAP_NO);
+        trapNo.setOnClickListener(this);
+
+        //Buttons
+        nextButton = (Button) findViewById(R.id.NEXT);
+        nextButton.setOnClickListener(this);
 
         //Breakdown dropdown
         dropdown = findViewById(R.id.dropdown);
@@ -110,9 +128,30 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             }
         });
 
-        //Buttons
-        nextButton = (Button) findViewById(R.id.NEXT);
-        nextButton.setOnClickListener(this);
+        //Climb dropdown
+        dropdown2 = findViewById(R.id.dropdown2);
+        String[] items2 = new String[]{"Success", "Failed", "DNA", "Harmony"};
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
+        dropdown2.setAdapter(adapter2);
+        dropdown2.setKeyListener(null);
+        dropdown2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dropdown2.showDropDown();
+            }
+        });
+        dropdown2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //...
+            }
+        });
+        dropdown2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                nextPageCheck();
+            }
+        });
 
         /*
         // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
@@ -181,119 +220,98 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
     public void onClick(View view){
         int clickedId = view.getId();
-        if(clickedId == R.id.menu_item_1){
-            saveScoutInfo();
-            // Create an Intent to launch the target activity
-            Intent intent = new Intent(TeleopActivity.this, AutonomousActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            // Start the target activity with the Intent
-            startActivity(intent);
+
+        if(clickedId == R.id.imageView){
+            //speaker scoring pop up
         }
-        else if(clickedId == R.id.DEFENSE_YES){
-            defenseYesLogic();
+        else if(clickedId == R.id.Amp_Score_Increment){
+            counterIncrementLogic(ampScoreLabel);
+
         }
-        else if(clickedId == R.id.DEFENSE_NO){
-            defenseNoLogic();
+        else if(clickedId == R.id.Amp_Score_Decrement){
+            counterDecrementLogic(ampScoreLabel);
         }
-        else if(clickedId == R.id.INCAP_YES){
-            incapYesLogic();
+        else if(clickedId == R.id.Amp_Missed_Increment){
+            counterIncrementLogic(ampMissLabel);
         }
-        else if(clickedId == R.id.INCAP_NO){
-            incapNoLogic();
+        else if(clickedId == R.id.Amp_Missed_Decrement){
+            counterDecrementLogic(ampMissLabel);
+        }
+        else if(clickedId == R.id.Source_Pickup){
+
+        }
+        else if(clickedId == R.id.Ground_Pickup){
+
+        }
+        else if(clickedId == R.id.PARK_YES){
+            parkYesLogic();
+        }
+        else if(clickedId == R.id.PARK_NO){
+            parkNoLogic();;
+        }
+        else if(clickedId == R.id.TRAP_YES){
+            trapYesLogic();
+        }
+        else if(clickedId == R.id.TRAP_NO){
+            trapNoLogic();
         }
         else if(clickedId == R.id.NEXT){
             animateButton((Button) view);
             nextPageLogic();
         }
-        else if(clickedId == R.id.Amp_Score_Increment){
-            counterIncrementLogic(coneHigh);
-        }
-        else if(clickedId == R.id.Amp_Score_Decrement){
-            counterDecrementLogic(coneHigh);
-        }
-        else if(clickedId == R.id.Amp_Missed_Increment){
-            counterIncrementLogic(coneMid);
-        }
-        else if(clickedId == R.id.Amp_Missed_Decrement){
-            counterDecrementLogic(coneMid);
-        }
-//        else if(clickedId == R.id.CONE_LOW_INCREMENT){
-//            counterIncrementLogic(coneLow);
-//        }
-//        else if(clickedId == R.id.CONE_LOW_DECREMENT){
-//            counterDecrementLogic(coneLow);
-//        }
-//        else if(clickedId == R.id.CUBE_HIGH_INCREMENT){
-//            counterIncrementLogic(cubeHigh);
-//        }
-//        else if(clickedId == R.id.CUBE_HIGH_DECREMENT){
-//            counterDecrementLogic(cubeHigh);
-//        }
-//        else if(clickedId == R.id.CUBE_MID_INCREMENT){
-//            counterIncrementLogic(cubeMid);
-//        }
-//        else if(clickedId == R.id.CUBE_MID_DECREMENT){
-//            counterDecrementLogic(cubeMid);
-//        }
-//        else if(clickedId == R.id.CUBE_LOW_INCREMENT){
-//            counterIncrementLogic(cubeLow);
-//        }
-//        else if(clickedId == R.id.CUBE_LOW_DECREMENT){
-//            counterDecrementLogic(cubeLow);
-//        }
     }
 
-    //defense logic
-    private void defenseYesLogic(){
+    //Park endgame logic
+    private void parkYesLogic(){
         //if not selected
-        if(yesDefense.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            yesDefense.setTextColor(ContextCompat.getColor(this, R.color.white));
-            yesDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            noDefense.setTextColor(ContextCompat.getColor(this, R.color.black));
-            noDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            defenseBool = true;
+        if(parkYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            parkYes.setTextColor(ContextCompat.getColor(this, R.color.white));
+            parkYes.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            parkNo.setTextColor(ContextCompat.getColor(this, R.color.black));
+            parkNo.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+            parkBool = true;
             nextPageCheck();
         }
     }
-    private void defenseNoLogic(){
+    private void parkNoLogic(){
         //if not selected
-        if(noDefense.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            yesDefense.setTextColor(ContextCompat.getColor(this, R.color.black));
-            yesDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            noDefense.setTextColor(ContextCompat.getColor(this, R.color.white));
-            noDefense.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-            defenseBool = false;
+        if(parkNo.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            parkYes.setTextColor(ContextCompat.getColor(this, R.color.black));
+            parkYes.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+            parkNo.setTextColor(ContextCompat.getColor(this, R.color.white));
+            parkNo.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+            parkBool = false;
             nextPageCheck();
         }
     }
 
-    //incap logic
-    private void incapYesLogic(){
+    //trap logic
+    private void trapYesLogic(){
         //if not selected
-        if(yesIncap.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            yesIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
-            yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            noIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
-            noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            incapBool = true;
+        if(trapYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            trapYes.setTextColor(ContextCompat.getColor(this, R.color.white));
+            trapYes.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+            trapNo.setTextColor(ContextCompat.getColor(this, R.color.black));
+            trapNo.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+            trapBool = true;
             nextPageCheck();
         }
     }
-    private void incapNoLogic(){
+    private void trapNoLogic(){
         //if not selected
-        if(noIncap.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            yesIncap.setTextColor(ContextCompat.getColor(this, R.color.black));
-            yesIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            noIncap.setTextColor(ContextCompat.getColor(this, R.color.white));
-            noIncap.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-            incapBool = false;
+        if(trapNo.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
+            trapYes.setTextColor(ContextCompat.getColor(this, R.color.black));
+            trapYes.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
+            trapNo.setTextColor(ContextCompat.getColor(this, R.color.white));
+            trapNo.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
+            trapBool = false;
             nextPageCheck();
         }
     }
 
     //next page logic
     private void nextPageCheck(){
-        if(yesDefense.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown.getText().toString().isEmpty()) && yesIncap.getTextColors() != ContextCompat.getColorStateList(this, R.color.green)){
+        if(parkYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown.getText().toString().isEmpty()) && dropdown2.getText().toString().isEmpty() &&trapYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green)){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");
@@ -303,7 +321,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     private void nextPageLogic(){
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(TeleopActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
-            saveScoutInfo();
+            //saveScoutInfo();
             // Create an Intent to launch the target activity
             Intent intent = new Intent(TeleopActivity.this, NotesActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

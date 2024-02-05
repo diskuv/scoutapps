@@ -44,8 +44,6 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
     Button nextButton;
     TextView info, title;
     View titleCard, firstCard, secondCard, mainCard;
-
-//    ScoutInfo scoutInfo;
     private ScoutingSessionViewModel model;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {

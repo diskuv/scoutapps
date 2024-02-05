@@ -20,6 +20,7 @@ apply plugin: CMakeNdkEnvironmentPlugin
 
 configurations {
     cmakeEmulatorpath {
+        canBeResolved = true
         canBeConsumed = false
     }
 }

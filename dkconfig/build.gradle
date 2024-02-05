@@ -1,3 +1,4 @@
+import com.diskuv.dksdk.core.gradle.plugins.CMakeNdkEnvironmentPlugin
 import com.diskuv.dksdk.core.gradle.tasks.DkSDKCmakeNdkEmulator
 
 buildscript {
@@ -13,6 +14,7 @@ buildscript {
 plugins {
     id 'java' // Needed for buildscript/dependencies/classpath
 }
+apply plugin: CMakeNdkEnvironmentPlugin
 
 configurations {
     cmakeEmulatorFiles {
@@ -23,6 +25,9 @@ configurations {
 
 tasks.register('dksdkCmakeNdkEmulator', DkSDKCmakeNdkEmulator) {
     cmakeEmulatorJsonFile = layout.buildDirectory.file("emulators/cmake-ndk.json")
+    /* Do download during configuration phase since android.externalNativeBuild.cmake
+    * expects the cmake directory to be present. */
+    download()
 }
 
 artifacts {

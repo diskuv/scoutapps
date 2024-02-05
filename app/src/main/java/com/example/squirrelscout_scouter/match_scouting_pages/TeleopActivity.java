@@ -2,6 +2,7 @@ package com.example.squirrelscout_scouter.match_scouting_pages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
@@ -34,18 +35,16 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     TextView speakerTitle;
     ImageView fieldMap;
     //AMP Scoring
-    TextView ampTitle;
+    TextView ampTitle, ampMissLabel, ampScoreLabel, ampScoreCounter, ampMissCounter;
     Button ampScoreIncrement, ampScoreDecrement, ampMissIncrement, ampMissDecrement;
-    TextView ampMissLabel, ampScoreLabel;
     //Breakdown
-    AutoCompleteTextView dropdown;
+    AutoCompleteTextView dropdown, dropdown2;
     //Pickup Location
     Button groundButton, sourceButton;
     //Defense
     SeekBar defense;
     //Endgame
     Button parkYes, parkNo, trapYes, trapNo;
-    AutoCompleteTextView dropdown2;
     boolean parkBool, trapBool;
 
     //...
@@ -63,7 +62,11 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
         // view model
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
-        model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+        //model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+
+        //...
+        ampScoreCounter = (TextView) findViewById(R.id.AmpScoredCounter);
+        ampMissCounter = (TextView) findViewById(R.id.AmpMissedCounter);
 
         //...
         speakerTitle = (TextView) findViewById(R.id.SpeakerTitle);
@@ -74,7 +77,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         ampTitle.setOnClickListener(this);
         ampScoreIncrement = (Button) findViewById(R.id.Amp_Score_Increment);
         ampScoreIncrement.setOnClickListener(this);
-        ampScoreDecrement = (Button) findViewById(R.id.Amp_Missed_Decrement);
+        ampScoreDecrement = (Button) findViewById(R.id.Amp_Score_Decrement);
         ampScoreDecrement.setOnClickListener(this);
         ampMissIncrement = (Button) findViewById(R.id.Amp_Missed_Increment);
         ampMissIncrement.setOnClickListener(this);
@@ -105,7 +108,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
         //Breakdown dropdown
         dropdown = findViewById(R.id.dropdown);
-        String[] items = new String[]{"Docked", "Engaged", "No Attempt"};
+        String[] items = new String[]{"Tipped", "Mechanical Failure", "Incapacitated"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
         dropdown.setAdapter(adapter);
         dropdown.setKeyListener(null);
@@ -118,32 +121,20 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //...
-            }
-        });
-        dropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 nextPageCheck();
             }
         });
 
         //Climb dropdown
         dropdown2 = findViewById(R.id.dropdown2);
-        String[] items2 = new String[]{"Success", "Failed", "DNA", "Harmony"};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
+        String[] items2 = new String[]{"Success", "Failed", "Did Not Attempt", "Harmony"};
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.dropdown_text, items2);
         dropdown2.setAdapter(adapter2);
         dropdown2.setKeyListener(null);
         dropdown2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dropdown2.showDropDown();
-            }
-        });
-        dropdown2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //...
             }
         });
         dropdown2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -208,16 +199,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
          */
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Initialize the dropdown adapter with all options again
-        String[] items = new String[]{"Docked", "Engaged", "No Attempt"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
-        dropdown.setAdapter(adapter);
-    }
-
     public void onClick(View view){
         int clickedId = view.getId();
 
@@ -225,23 +206,22 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             //speaker scoring pop up
         }
         else if(clickedId == R.id.Amp_Score_Increment){
-            counterIncrementLogic(ampScoreLabel);
-
+            counterIncrementLogic(ampScoreCounter);
         }
         else if(clickedId == R.id.Amp_Score_Decrement){
-            counterDecrementLogic(ampScoreLabel);
+            counterDecrementLogic(ampScoreCounter);
         }
         else if(clickedId == R.id.Amp_Missed_Increment){
-            counterIncrementLogic(ampMissLabel);
+            counterIncrementLogic(ampMissCounter);
         }
         else if(clickedId == R.id.Amp_Missed_Decrement){
-            counterDecrementLogic(ampMissLabel);
+            counterDecrementLogic(ampMissCounter);
         }
         else if(clickedId == R.id.Source_Pickup){
-
+            pickUpLocationLogic(sourceButton);
         }
         else if(clickedId == R.id.Ground_Pickup){
-
+            pickUpLocationLogic(groundButton);
         }
         else if(clickedId == R.id.PARK_YES){
             parkYesLogic();
@@ -311,7 +291,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
     //next page logic
     private void nextPageCheck(){
-        if(parkYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown.getText().toString().isEmpty()) && dropdown2.getText().toString().isEmpty() &&trapYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green)){
+        if(parkYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown.getText().toString().isEmpty()) && !(dropdown2.getText().toString().isEmpty()) && (trapYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green))){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");
@@ -355,6 +335,17 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             // Handle the case where the input string is not a valid integer
             // Display an error message or perform appropriate error handling
             e.printStackTrace();
+        }
+    }
+
+    //pick location logic
+    private void pickUpLocationLogic(Button button){
+        if(button.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
+            button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+        }
+        else {
+            button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
+
         }
     }
 

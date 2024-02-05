@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.squirrelscout_scouter.match_scouting_pages.AutonomousActivity;
 import com.example.squirrelscout_scouter.match_scouting_pages.ImageTrial;
 import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActivity;
+import com.example.squirrelscout_scouter.match_scouting_pages.TeleopActivity;
 import com.example.squirrelscout_scouter.ui.viewmodels.MainViewModel;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 

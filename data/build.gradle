@@ -1,7 +1,7 @@
-import com.diskuv.dksdk.core.gradle.plugins.CMakeEnvironmentPlugin
+import com.diskuv.dksdk.core.gradle.plugins.CMakeNdkEnvironmentPlugin
 import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureTask
 import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureWithJniTask
-import com.diskuv.dksdk.core.gradle.tasks.DkSDKCmakeNdkEmulator
+import com.diskuv.dksdk.core.gradle.tasks.DisplayAllSourcesTask
 
 buildscript {
     dependencies {
@@ -16,7 +16,30 @@ buildscript {
 plugins {
     id 'com.android.library'
 }
-apply plugin: CMakeEnvironmentPlugin
+apply plugin: CMakeNdkEnvironmentPlugin
+
+configurations {
+    cmakeEmulatorpath {
+        canBeConsumed = false
+    }
+}
+
+dependencies {
+    api 'com.diskuv.dksdk.ffi:ffi-java-android:1.0.0-SNAPSHOT'
+    api 'com.caverock:androidsvg-aar:1.4'
+
+    implementation 'androidx.startup:startup-runtime:1.1.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.5.0'
+
+    testImplementation 'junit:junit:4.13.2'
+
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    cmakeEmulatorpath project(configuration: 'cmakeEmulatorFiles', path: ':dkconfig')
+}
 
 // Allow local development
 def localDevProjects = [
@@ -31,20 +54,16 @@ def localDevCmakeArgs = localDevProjects.
             "-DFETCHCONTENT_SOURCE_DIR_${it.toUpperCase()}=${path}"
         }
 
-def cmakeNdkEmulator = tasks.register('dksdkCmakeNdkEmulator', DkSDKCmakeNdkEmulator) {
-    cmakeEmulatorJsonFile = layout.buildDirectory.file("emulators/cmake-ndk.json")
-}
-
 tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
     def jniCompiler = javaToolchains.compilerFor {
         // Avoid: androidx/activity/lint/ActivityIssueRegistry has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 55.0
         languageVersion = JavaLanguageVersion.of(17)
     }
-    def traceFile = layout.buildDirectory.file("cmake.trace").get()
+    def traceFile = layout.buildDirectory.file("cmake-trace.log").get()
 
     template true
     androidGradlePlugin true
-    emulator cmakeNdkEmulator
+    emulator configurations.cmakeEmulatorpath.elements
     jdkHome = jniCompiler.map { it.metadata.installationPath }
     defaultFetchContentDksdkAccess = rootProject.file("fetch/dksdk-access")
     defaultFetchContentDksdkCmake = rootProject.file("fetch/dksdk-cmake")
@@ -74,7 +93,7 @@ android {
 
     compileSdk 33
 
-    ndkVersion = cmakeNdkEmulator.map(emulator -> emulator.ndkVersion.get()).get()
+    ndkVersion = cmakeNdkEnvironment.ndkVersion.get()
 
     defaultConfig {
         /* Need 21+ so don't to avoid issues on https://developer.android.com/build/multidex */
@@ -105,45 +124,12 @@ android {
     externalNativeBuild {
         cmake {
             path project.rootProject.file("CMakeLists.txt")
-            version cmakeEnvironment.version
+            version cmakeNdkEnvironment.cmakeVersion.get()
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
-
-dependencies {
-    api 'com.diskuv.dksdk.ffi:ffi-java-android:1.0.0-SNAPSHOT'
-    api 'com.caverock:androidsvg-aar:1.4'
-
-    implementation 'androidx.startup:startup-runtime:1.1.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.5.0'
-
-    testImplementation 'junit:junit:4.13.2'
-
-    androidTestImplementation "androidx.test:rules:1.5.0"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-}
-
-abstract class DisplayAllSources extends DefaultTask {
-    @InputFiles
-    abstract ListProperty<Directory> getSourceFolders()
-
-    @TaskAction
-    void taskAction() {
-        getSourceFolders().get().forEach { directory ->
-            def dirFile = directory.asFile
-            println("Directory : ${dirFile.absolutePath}")
-            if (dirFile.exists()) {
-                dirFile.traverse(type: groovy.io.FileType.FILES) { file ->
-                    println("File : ${file.absolutePath}")
-                }
-            }
-        }
     }
 }
 
@@ -159,7 +145,7 @@ androidComponents {
             def taskName = "cmakeConfigure${variant.name.capitalize()}Capnp"
             def generatedJavaDir0 = layout.buildDirectory.dir("generated/java/${taskName}") // can't change this for some reason
             def cmakeConfigureForCapnp = tasks.register(taskName, GeneratedJavaCMakeConfigureTask) {
-                emulator cmakeNdkEmulator
+                emulator configurations.cmakeEmulatorpath.elements
 
                 arguments.add "-DGENERATE_CAPNP_ONLY=1"
                 arguments.add "-DGENERATE_CAPNP_DIR=${generatedJavaDir0.get()}"
@@ -181,7 +167,7 @@ androidComponents {
 
             java.addGeneratedSourceDirectory(cmakeConfigureForCapnp, { it.generatedJavaDir })
 
-            tasks.register("${variant.name}DisplayAllSources", DisplayAllSources) {
+            tasks.register("${variant.name}DisplayAllSources", DisplayAllSourcesTask) {
                 sourceFolders.set(java.all)
             }
         }

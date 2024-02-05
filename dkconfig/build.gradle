@@ -1,0 +1,32 @@
+import com.diskuv.dksdk.core.gradle.tasks.DkSDKCmakeNdkEmulator
+
+buildscript {
+    dependencies {
+        classpath 'com.diskuv.dksdk.core:gradle:1.0.0-SNAPSHOT'
+    }
+    configurations.all {
+        // Don't wait forever if using -SNAPSHOT in the above dependencies.
+        resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
+    }
+}
+
+plugins {
+    id 'java' // Needed for buildscript/dependencies/classpath
+}
+
+configurations {
+    cmakeEmulatorFiles {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+}
+
+tasks.register('dksdkCmakeNdkEmulator', DkSDKCmakeNdkEmulator) {
+    cmakeEmulatorJsonFile = layout.buildDirectory.file("emulators/cmake-ndk.json")
+}
+
+artifacts {
+    cmakeEmulatorFiles(dksdkCmakeNdkEmulator.cmakeEmulatorJsonFile) {
+        builtBy dksdkCmakeNdkEmulator
+    }
+}

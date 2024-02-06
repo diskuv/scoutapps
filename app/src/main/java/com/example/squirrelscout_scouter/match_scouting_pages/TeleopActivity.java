@@ -1,8 +1,13 @@
 package com.example.squirrelscout_scouter.match_scouting_pages;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Debug;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
@@ -46,6 +51,8 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     //Endgame
     Button parkYes, parkNo, trapYes, trapNo;
     boolean parkBool, trapBool;
+    private boolean popUpWindowLaunched = false;
+    private static final int REQUEST_POPUP = 1;
 
     //...
     Button nextButton;
@@ -71,7 +78,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         //...
         speakerTitle = (TextView) findViewById(R.id.SpeakerTitle);
         speakerTitle.setOnClickListener(this);
-        fieldMap = (ImageView) findViewById(R.id.imageView);
+        fieldMap = findViewById(R.id.imageView);
         fieldMap.setOnClickListener(this);
         ampTitle = (TextView) findViewById(R.id.AmpTitle);
         ampTitle.setOnClickListener(this);
@@ -197,6 +204,28 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         //start animation
         animationStart();
          */
+        fieldMap.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (!popUpWindowLaunched) {
+                    Intent popUpWindow = new Intent(TeleopActivity.this, PopUpWindow.class);
+                    startActivityForResult(popUpWindow, REQUEST_POPUP);
+                    popUpWindowLaunched = true;
+                }
+                return true;
+            }
+        });
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_POPUP) {
+            // Reset the flag when the PopUpWindow is closed
+            popUpWindowLaunched = false;
+        }
     }
 
     public void onClick(View view){

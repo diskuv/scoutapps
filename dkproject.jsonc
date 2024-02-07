@@ -1,0 +1,51 @@
+{
+    "$comment": "Documentation is available at https://gitlab.com/diskuv/dksdk-access/-/blob/main/README.md",
+    "dependencies": {
+      // This dependency is required, and in this version of DkSDK it must be 1.0
+      "dksdk": "1.0",
+      // The next set of dependencies (dksdk-*) are available to DkSDK subscribers
+      "dksdk-cmake": {
+        // The URLs are searched in order. The first URL that exists and can be
+        // successfully authenticated is used.
+        "urls": [
+          "file://${sourceParentDir}/dksdk-cmake",
+          "file://${sourceDir}/fetch/dksdk-cmake",
+          "${dksdk-cmake_REPOSITORY}"
+        ]
+      },
+      "dksdk-ffi-c": {
+        "urls": [
+          "file://${sourceParentDir}/dksdk-ffi-c",
+          "file://${sourceDir}/fetch/dksdk-ffi-c",
+          "${dksdk-ffi-c_REPOSITORY}"
+        ]
+      },
+      "dksdk-ffi-ocaml": {
+        "urls": [
+          "file://${sourceParentDir}/dksdk-ffi-ocaml",
+          "file://${sourceDir}/fetch/dksdk-ffi-ocaml",
+          "${dksdk-ffi-ocaml_REPOSITORY}"
+        ]
+      },
+      "dksdk-opam-repository": {
+        "urls": [
+          "file://${sourceParentDir}/dksdk-opam-repository",
+          "file://${sourceDir}/fetch/dksdk-opam-repository",
+          "${dksdk-BASE_REPOSITORY_URL}/dksdk-opam-repository.git"
+        ]
+      },
+      "dksdk-opam-repository-js": {
+        "urls": [
+          "file://${sourceParentDir}/dksdk-opam-repository-js",
+          "file://${sourceDir}/fetch/dksdk-opam-repository-js",
+          "${dksdk-BASE_REPOSITORY_URL}/dksdk-opam-repository-js.git"
+        ]
+      },
+      // The remaining dependencies are third-party open source projects (TODO: not all of them are needed)
+      "dkml-runtime-common": { "urls": [ "https://github.com/diskuv/dkml-runtime-common.git" ] },
+      "dkml-runtime-distribution": { "urls": [ "https://github.com/diskuv/dkml-runtime-distribution.git" ] },
+      "dkml-compiler": { "urls": [ "https://github.com/diskuv/dkml-compiler.git" ] },
+      "opam-overlays": { "urls": [ "https://github.com/dune-universe/opam-overlays.git#master" ] },
+      "opam-repository": { "urls": [ "https://github.com/ocaml/opam-repository.git#master" ] }
+    }
+  }

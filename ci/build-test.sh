@@ -48,7 +48,7 @@ fi
 cmdrun sh ci/download-build-tools.sh "$dkml_host_abi" "$abi_pattern" .ci/local
 
 # Clone private dependencies
-cmdrun sh ci/git-clone.sh -p .ci/local/bin/cmake
+cmdrun sh ./dk dksdk.project.get
 
 # Accessors
 

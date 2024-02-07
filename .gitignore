@@ -41,7 +41,6 @@ user.envrc
 /cmake_bin/
 /cmake_bin.tmp/
 /ninja_bin/
-/fetch/
 /.tools/
 
 # Troubleshooting

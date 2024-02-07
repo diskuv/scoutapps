@@ -25,8 +25,8 @@ own project and team.*
 ### First Steps
 
 ```sh
-rm -rf _dn build build_dev
-sh ci/git-clone.sh -l
+rm -rf build build_dev
+./dk dksdk.project.get
 ```
 
 You will want to start with the following targets in your IDE:
@@ -121,8 +121,7 @@ rm -rf build fetch _dn
 
 ./dk dksdk.cmake.link
 ./dk dksdk.android.ndk.download NO_SYSTEM_PATH
-sh ci/git-clone.sh -l
-sh ci/git-clone.sh -p .ci/cmake/bin/cmake
+./dk dksdk.project.get
 #   Use ci-linux_x86_64_X_android_arm64v8a for the real Android device.
 #   Use ci-linux_x86_64_X_android_x86_64 for the Android Emulator.
 .ci/cmake/bin/cmake --preset ci-linux_x86_64_X_android_x86_64

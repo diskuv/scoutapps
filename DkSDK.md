@@ -75,8 +75,8 @@ Using CLion?
 #### Android NDK x86_64 on WSL2
 
 ```shell
+./dk dksdk.project.get
 sh ci/download-build-tools.sh linux_x86_64 linux_x86_64-android_x86_64 .ci/local
-sh ci/git-clone.sh -p .ci/local/bin/cmake
 
 # Do configure with CMake 3.25.2 to avoid https://discourse.cmake.org/t/cmake-exception/2240/2
 # with CLion's 3.24.
@@ -94,8 +94,8 @@ sh ci/git-clone.sh -p .ci/local/bin/cmake
 #### Android NDK arm32-v7a on WSL2
 
 ```shell
+./dk dksdk.project.get
 sh ci/download-build-tools.sh linux_x86 linux_x86_64-android_arm32v7a .ci/local
-sh ci/git-clone.sh -p .ci/local/bin/cmake
 
 # Do configure with CMake 3.25.2 to avoid https://discourse.cmake.org/t/cmake-exception/2240/2
 # with CLion's 3.24.
@@ -212,7 +212,7 @@ to do static linking).
 #### Android NDK x86_64 on Linux
 
 ```shell
-sh ci/git-clone.sh -l
+./dk dksdk.project.get
 sh ci/download-build-tools.sh linux_x86_64 linux-android_x86_64 .ci/local
 ```
 
@@ -224,7 +224,7 @@ CMake IDE.
 #### Android NDK arm64-v8a on Apple Silicon
 
 ```shell
-sh ci/git-clone.sh -l
+./dk dksdk.project.get
 sh ci/download-build-tools.sh darwin_arm64 macos-android_arm64v8a .ci/local
 ```
 
@@ -360,9 +360,8 @@ In a POSIX compatible shell (ex. `bash` on Linux and macOS) do the following:
 ```shell
 sh ci/setup-dkml/pc/setup-dkml-linux_x86.sh --SKIP_OPAM_MODIFICATIONS=true
 
-sh ci/git-clone.sh -l
+./dk dksdk.project.get
 .ci/sd4/opamrun/cmdrun sh ci/download-build-tools.sh linux_x86 manylinux2014-linux_x86 .ci/dockcross
-.ci/sd4/opamrun/cmdrun sh ci/git-clone.sh -p .ci/dockcross/bin/cmake
 .ci/sd4/opamrun/cmdrun -it bash
 ```
 
@@ -393,9 +392,8 @@ In a POSIX compatible shell (ex. `bash` on Linux and macOS) do the following:
 ```shell
 sh ci/setup-dkml/pc/setup-dkml-linux_x86_64.sh --SKIP_OPAM_MODIFICATIONS=true --dockcross_image=dockcross/manylinux_2_28-x64
 
-sh ci/git-clone.sh -l
+./dk dksdk.project.get
 .ci/sd4/opamrun/cmdrun sh ci/download-build-tools.sh linux_x86_64 manylinux_2_28-linux_x86_64 .ci/dockcross
-.ci/sd4/opamrun/cmdrun sh ci/git-clone.sh -p .ci/dockcross/bin/cmake
 .ci/sd4/opamrun/cmdrun -it bash
 ```
 
@@ -426,9 +424,8 @@ In a POSIX compatible shell (ex. `bash` on Linux and macOS) do the following:
 ```shell
 sh ci/setup-dkml/pc/setup-dkml-linux_x86_64.sh --SKIP_OPAM_MODIFICATIONS=true --dockcross_image=dockcross/manylinux_2_28-x64
 
-sh ci/git-clone.sh -l
+./dk dksdk.project.get
 .ci/sd4/opamrun/cmdrun sh ci/download-build-tools.sh linux_x86_64 manylinux_2_28-android_x86_64 .ci/local
-.ci/sd4/opamrun/cmdrun sh ci/git-clone.sh -p .ci/local/bin/cmake
 .ci/sd4/opamrun/cmdrun -it bash
 ```
 

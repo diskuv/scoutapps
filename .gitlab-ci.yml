@@ -118,7 +118,7 @@ test-gl-win32:
   script:
     # vcvarsall.bat %vsstudio_arch% 10.0.18362.0 -vcvars_ver=14.26
     - .ci/sd4/vsenv.ps1
-    - msys64\usr\bin\sh -l ci/git-clone.sh -l
+    - ./dk dksdk.project.get
     - echo "-host_arch=$env:vsstudio_hostarch -arch=$env:vsstudio_arch -winsdk=$env:VS_WINSDKVER -vcvars_ver=$env:VS_VCVARSVER"
     - CMD /C "`"%VS_DIR%\Common7\Tools\VsDevCmd.bat`" -host_arch=$env:vsstudio_hostarch -arch=$env:vsstudio_arch -winsdk=$env:VS_WINSDKVER -vcvars_ver=$env:VS_VCVARSVER &&
         msys64\usr\bin\sh -lc `"ci/build-test.sh -D DKSDK_MSYS2_DIR=msys64`""
@@ -147,7 +147,7 @@ test-gl-win32-devtools:
     CMAKE_BUILD_PRESET: ci-devtools
   script:
     - .ci/sd4/vsenv.ps1
-    - msys64\usr\bin\sh -l ci/git-clone.sh -l
+    - ./dk dksdk.project.get
     - echo "-host_arch=$env:vsstudio_hostarch -arch=$env:vsstudio_arch -winsdk=$env:VS_WINSDKVER -vcvars_ver=$env:VS_VCVARSVER"
     - CMD /C "`"%VS_DIR%\Common7\Tools\VsDevCmd.bat`" -host_arch=$env:vsstudio_hostarch -arch=$env:vsstudio_arch -winsdk=$env:VS_WINSDKVER -vcvars_ver=$env:VS_VCVARSVER &&
         msys64\usr\bin\sh -lc `"ci/build-test.sh -D DKSDK_MSYS2_DIR=msys64 -D BUILD_TESTING=OFF -D DKSDK_DEV_TOOLS=ON`""
@@ -188,7 +188,7 @@ test-gl-macos:
       if ! brew install openssl@3; then
         echo "WARNING: brew install openssl@3 failed: $?" # continue
       fi
-    - sh ci/git-clone.sh -l
+    - ./dk dksdk.project.get
     - sh ci/build-test.sh
 
 test-gl-linux:
@@ -224,7 +224,7 @@ test-gl-linux:
 
     ]
   script:
-    - sh ci/git-clone.sh -l
+    - ./dk dksdk.project.get
     - sh ci/build-test.sh
 
 test-gl-android:
@@ -273,7 +273,7 @@ test-gl-android:
   image: debian:stable-slim
   script:
     - if [ -n "$apt_packages" ]; then apt-get -qq -o=Dpkg::Use-Pty=0 -y install $apt_packages; fi
-    - sh ci/git-clone.sh -l
+    - ./dk dksdk.project.get
     - sh ci/build-test.sh
 
 # ------------------------------------

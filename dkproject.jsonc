@@ -1,0 +1,47 @@
+{
+  "$comment": "Documentation is available at https://gitlab.com/diskuv/dksdk-access/-/blob/main/README.md",
+  "dependencies": {
+    // This dependency is required, and in this version of DkSDK it must be 1.0
+    "dksdk": "1.0",
+    // The next set of dependencies (dksdk-*) are available to DkSDK subscribers
+    "dksdk-cmake": {
+      // The URLs are searched in order. The first URL that exists and can be
+      // successfully authenticated is used.
+      "urls": [
+        "file://${sourceParentDir}/dksdk-cmake",
+        "file://${sourceDir}/fetch/dksdk-cmake",
+        "${dksdk-cmake_REPOSITORY}"
+      ]
+    },
+    "dksdk-ffi-c": {
+      "urls": [
+        "file://${sourceParentDir}/dksdk-ffi-c",
+        "file://${sourceDir}/fetch/dksdk-ffi-c",
+        "${dksdk-ffi-c_REPOSITORY}"
+      ]
+    },
+    "dksdk-ffi-java": {
+      "urls": [
+        "file://${sourceParentDir}/dksdk-ffi-java",
+        "file://${sourceDir}/fetch/dksdk-ffi-java",
+        "${dksdk-ffi-java_REPOSITORY}"
+      ]
+    },
+    "dksdk-ffi-ocaml": {
+      "urls": [
+        "file://${sourceParentDir}/dksdk-ffi-ocaml",
+        "file://${sourceDir}/fetch/dksdk-ffi-ocaml",
+        "${dksdk-ffi-ocaml_REPOSITORY}"
+      ]
+    },
+    // The remaining dependencies are sister projects in the same application
+    "ocaml-backend": {
+      "urls": [
+        "file://${sourceParentDir}/ocaml-backend",
+        "file://${sourceDir}/fetch/ocaml-backend",
+        "git@github.com:SquirrelScout/ocaml-backend.git",
+        "https://github.com/SquirrelScout/ocaml-backend.git"
+      ]
+    }
+  }
+}

@@ -7,16 +7,10 @@
 > If you use Windows Subsystem for Linux (WSL2), follow [WSL2.md](./WSL2.md)
 > before doing any of the following instructions.
 
-FIRST you will need external source code. On Unix run:
+FIRST you will need external source code. On Unix or Windows PowerShell (not Windows Command Prompt) run:
 
 ```shell
-sh ci/git-clone.sh -l
-```
-
-or on Windows with DkML installed run:
-
-```powershell
-with-dkml sh ci/git-clone.sh -l
+./dk dksdk.project.get
 ```
 
 SECOND, if you want to do co-development of the data layer (the project is called `ocaml-backend`)

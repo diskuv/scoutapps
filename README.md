@@ -80,6 +80,11 @@ FINALLY, if you want to run Android Studio, run:
 GDK_SCALE=2 ./dk dksdk.android.studio.run
 ```
 
+### Android Studio
+
+To make Android Studio speedier, you will want to go to `Actions` (Ctrl-Shift-A on Windows)
+and then start typing and select `Check Ignored but not Excluded Directories`.
+
 ### Testing
 
 ```sh

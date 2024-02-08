@@ -6,20 +6,153 @@
     android:layout_height="match_parent">
 
     <!--android:scaleType="centerCrop"-->
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/_211sdp"
+        android:layout_height="@dimen/_332sdp"
+        android:background="@color/background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_280sdp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:background="@drawable/round_rectangle_2"
+        android:backgroundTint="@color/secondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_99sdp"
+        android:layout_marginTop="@dimen/_83sdp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:background="@color/thirdButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/_270sdp"
-        android:layout_height="@dimen/_140sdp"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_95sdp"
+        android:scaleType="centerCrop"
+        android:layout_marginStart="@dimen/_5sdp"
         android:src="@drawable/_024field"
-        android:translationX="@dimen/_15sdp"
-        android:translationY="@dimen/_155sdp"
-        android:layout_marginTop="@dimen/_100sdp" />
+        android:layout_marginTop="@dimen/_85sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Cancel Button -->
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="115dp"
-        tools:layout_editor_absoluteY="483dp" />
+        android:id="@+id/cancel"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:text="X"
+        android:textAlignment="center"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/white"
+        android:background="@drawable/checkbox"
+        android:translationX="@dimen/_180sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Speaker Scoring Layout -->
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="@dimen/_211sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_29sdp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/SuccessTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center"
+            android:text="Success : "
+            android:textColor="@color/offwhite"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/SuccessCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/MissedTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center"
+            android:text="Missed : "
+            android:layout_marginStart="@dimen/_30sdp"
+            android:textColor="@color/offwhite"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/MissedCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_200sdp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/ScoredButton"
+            android:layout_width="@dimen/_175sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            android:backgroundTint="@color/white"
+            android:text="Scored"
+            android:textColor="@color/green"
+            android:textSize="@dimen/_20ssp"
+            android:layout_gravity="center"
+            app:backgroundTint="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/MissedButton"
+            android:layout_width="@dimen/_175sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            android:backgroundTint="@color/white"
+            android:text="Missed"
+            android:textColor="@color/error"
+            android:textSize="@dimen/_20ssp"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

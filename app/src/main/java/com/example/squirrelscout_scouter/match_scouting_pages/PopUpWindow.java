@@ -34,7 +34,7 @@ public class PopUpWindow extends AppCompatActivity implements View.OnClickListen
 
         getWindow().setAttributes(params);
 
-        Button exit = (Button) findViewById(R.id.button);
+        Button exit = (Button) findViewById(R.id.cancel);
         exit.setOnClickListener(this);
     }
 
@@ -42,7 +42,7 @@ public class PopUpWindow extends AppCompatActivity implements View.OnClickListen
     public void onClick(View view) {
         int clickedId = view.getId();
 
-        if(clickedId == R.id.button){
+        if(clickedId == R.id.cancel){
             //speaker scoring pop up
             finish();
         }

@@ -45,7 +45,7 @@ public class ImageTrial extends ComponentActivity implements View.OnClickListene
         setContentView(R.layout.heatmap_trial);
         //image capture
         ImageView imageView = findViewById(R.id.imageView);
-        Button saveButton = (Button) findViewById(R.id.button);
+        Button saveButton = (Button) findViewById(R.id.cancel);
         saveButton.setOnClickListener(this);
 
 
@@ -74,7 +74,7 @@ public class ImageTrial extends ComponentActivity implements View.OnClickListene
     public void onClick(View view) {
         int clickedId = view.getId();
 
-        if(clickedId == R.id.button){
+        if(clickedId == R.id.cancel){
             // Save the marked image to the device's gallery
             ImageView imageView = findViewById(R.id.imageView);
             saveImageToGallery(getMarkedImage(imageView), "Marked_Image");

@@ -1,12 +1,15 @@
 package com.example.squirrelscout_scouter.match_scouting_pages;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
+import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -31,6 +34,7 @@ import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
+import com.example.squirrelscout_scouter.util.SharedImageSingleton;
 
 import org.w3c.dom.Text;
 
@@ -38,7 +42,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
     //Speaker Scoring
     TextView speakerTitle;
-    ImageView fieldMap;
     //AMP Scoring
     TextView ampTitle, ampMissLabel, ampScoreLabel, ampScoreCounter, ampMissCounter;
     Button ampScoreIncrement, ampScoreDecrement, ampMissIncrement, ampMissDecrement;
@@ -46,16 +49,23 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     AutoCompleteTextView dropdown, dropdown2;
     //Pickup Location
     Button groundButton, sourceButton;
-    //Defense
-    SeekBar defense;
     //Endgame
     Button parkYes, parkNo, trapYes, trapNo;
     boolean parkBool, trapBool;
     private boolean popUpWindowLaunched = false;
     private static final int REQUEST_POPUP = 1;
 
+    int speakerScore = 0;
+    int speakerMissed = 0;
+    float a, b;
+    private MotionEvent savedEvent;
+    ImageView imageView;
+    Bitmap markerBitmap;
+    SharedImageSingleton sharedImageSingleton = SharedImageSingleton.getInstance();
+
     //...
     Button nextButton;
+
 
 
 //    ScoutInfo scoutInfo;
@@ -78,8 +88,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         //...
         speakerTitle = (TextView) findViewById(R.id.SpeakerTitle);
         speakerTitle.setOnClickListener(this);
-        fieldMap = findViewById(R.id.imageView);
-        fieldMap.setOnClickListener(this);
         ampTitle = (TextView) findViewById(R.id.AmpTitle);
         ampTitle.setOnClickListener(this);
         ampScoreIncrement = (Button) findViewById(R.id.Amp_Score_Increment);
@@ -98,8 +106,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         groundButton.setOnClickListener(this);
         sourceButton = (Button) findViewById(R.id.Source_Pickup);
         sourceButton.setOnClickListener(this);
-        defense = (SeekBar) findViewById(R.id.DefenseBar);
-        defense.setOnClickListener(this);
         parkYes = (Button) findViewById(R.id.PARK_YES);
         parkYes.setOnClickListener(this);
         parkNo = (Button) findViewById(R.id.PARK_NO);
@@ -150,6 +156,42 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
                 nextPageCheck();
             }
         });
+
+        //Image Heatmap logics
+        //image capture
+        imageView = findViewById(R.id.imageView);
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getActionMasked();
+                savedEvent = event;
+
+                if (!popUpWindowLaunched) {
+                    // Save the touch event details
+
+                    Intent popUpWindow = new Intent(TeleopActivity.this, PopUpWindow.class);
+                    startActivityForResult(popUpWindow, REQUEST_POPUP);
+                    popUpWindowLaunched = true;
+                }
+
+                if (action == MotionEvent.ACTION_DOWN) {
+                    // Check if the touch is within the bounds of the ImageView
+                    if (isTouchInsideView(event.getRawX(), event.getRawY(), imageView)) {
+                        // Add a marker or perform any action you want
+                        a = savedEvent.getX();
+                        b = savedEvent.getY();
+                        addMarker(savedEvent.getX(), savedEvent.getY(), imageView, 3); //no
+                        sharedImageSingleton.setMarkedImage(markerBitmap);
+
+                        return true;
+                    }
+                }
+
+                return true;
+            }
+        });
+
+
 
         /*
         // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
@@ -204,17 +246,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         //start animation
         animationStart();
          */
-        fieldMap.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (!popUpWindowLaunched) {
-                    Intent popUpWindow = new Intent(TeleopActivity.this, PopUpWindow.class);
-                    startActivityForResult(popUpWindow, REQUEST_POPUP);
-                    popUpWindowLaunched = true;
-                }
-                return true;
-            }
-        });
     }
 
 
@@ -225,16 +256,22 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         if (requestCode == REQUEST_POPUP) {
             // Reset the flag when the PopUpWindow is closed
             popUpWindowLaunched = false;
+
+            if (requestCode == REQUEST_POPUP) {
+                // Reset the flag and savedEvent to allow launching the PopUpWindow again
+                System.out.println(sharedImageSingleton.getScored());
+                addMarker(a, b, imageView, sharedImageSingleton.getScored());
+                sharedImageSingleton.setMarkedImage(markerBitmap);
+                popUpWindowLaunched = false;
+                savedEvent = null;
+            }
         }
     }
 
     public void onClick(View view){
         int clickedId = view.getId();
 
-        if(clickedId == R.id.imageView){
-            //speaker scoring pop up
-        }
-        else if(clickedId == R.id.Amp_Score_Increment){
+        if(clickedId == R.id.Amp_Score_Increment){
             counterIncrementLogic(ampScoreCounter);
         }
         else if(clickedId == R.id.Amp_Score_Decrement){
@@ -320,7 +357,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
     //next page logic
     private void nextPageCheck(){
-        if(parkYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown.getText().toString().isEmpty()) && !(dropdown2.getText().toString().isEmpty()) && (trapYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green))){
+        if(parkYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown2.getText().toString().isEmpty()) && (trapYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green))){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");
@@ -335,6 +372,8 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             Intent intent = new Intent(TeleopActivity.this, NotesActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Start the target activity with the Intent
+            addMarker(0,0,imageView,4);
+            saveImageToGallery(getMarkedImage(imageView), "Trial");
             startActivity(intent);
         }
     }
@@ -375,6 +414,88 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         else {
             button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
 
+        }
+    }
+
+    //heatmap logic functions
+    private boolean isTouchInsideView(float x, float y, View view) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+
+        int viewX = location[0];
+        int viewY = location[1];
+        int viewWidth = view.getWidth();
+        int viewHeight = view.getHeight();
+
+        return (x > viewX && x < (viewX + viewWidth) && y > viewY && y < (viewY + viewHeight));
+    }
+
+    private void addMarker(float x, float y, ImageView imageView, int num) {
+        // Create a marker (in this example, a red circle)
+        Bitmap originalBitmap = getMarkedImage(imageView);
+        markerBitmap = Bitmap.createBitmap(originalBitmap.getWidth(), originalBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(markerBitmap);
+        canvas.drawBitmap(originalBitmap, 0, 0, null);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5f);
+        Paint paint2 = new Paint();
+        paint2.setColor(Color.LTGRAY);
+        paint2.setStyle(Paint.Style.STROKE);
+        if(num == 1){
+            paint.setColor(Color.GREEN);
+            canvas.drawCircle(x, y, 10, paint); // Adjust the radius as needed
+        }
+        else if(num == 0){
+            paint.setColor(Color.RED);
+            canvas.drawCircle(x, y, 10, paint); // Adjust the radius as needed
+        }
+        else if(num == 3){
+            canvas.drawPoint(1,1,paint2);
+        }
+        else if(num == 4){
+            paint2.setStrokeWidth(2f);
+            paint2.setTextSize(20f);
+            canvas.drawText("Team: 2930; Match: 2", 250, 40, paint2); // Adjust the text position as needed
+        }
+
+        // Set the marked image with the added marker to the ImageView
+        imageView.setImageBitmap(markerBitmap);
+    }
+
+    private Bitmap getMarkedImage(ImageView imageView) {
+        // Create a bitmap from the ImageView
+        Bitmap originalBitmap = Bitmap.createBitmap(imageView.getWidth(), imageView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(originalBitmap);
+        imageView.draw(canvas);
+
+        return originalBitmap;
+    }
+
+    private void saveImageToGallery(Bitmap bitmap, String displayName) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, displayName);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+
+        // Save the image to the Photos (or Gallery) using MediaStore
+        try {
+            // Use insertImage method to add image to the gallery
+            String imageUrl = MediaStore.Images.Media.insertImage(
+                    getContentResolver(),
+                    bitmap,
+                    displayName,
+                    "Image with marker"
+            );
+
+            // If the insertion was successful, notify the media scanner
+            if (imageUrl != null) {
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(imageUrl)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

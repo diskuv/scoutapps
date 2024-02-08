@@ -56,7 +56,7 @@
             android:layout_width="@dimen/_270sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginStart="@dimen/_14sdp"
-            android:layout_marginTop="@dimen/_270sdp"
+            android:layout_marginTop="@dimen/_280sdp"
             android:background="@drawable/round_rectangle_2"
             android:backgroundTint="@color/offwhite"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
             android:layout_width="@dimen/_270sdp"
             android:layout_height="@dimen/_70sdp"
             android:layout_marginStart="@dimen/_14sdp"
-            android:layout_marginTop="@dimen/_420sdp"
+            android:layout_marginTop="@dimen/_432sdp"
             android:background="@drawable/round_rectangle_2"
             android:backgroundTint="@color/offwhite"
             app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_285sdp"
+            android:layout_marginTop="@dimen/_295sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -247,7 +247,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_325sdp"
+            android:layout_marginTop="@dimen/_335sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
@@ -328,7 +328,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_378sdp"
+            android:layout_marginTop="@dimen/_390sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -366,7 +366,7 @@
             android:layout_width="@dimen/_190sdp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/_420sdp"
+            android:layout_marginTop="@dimen/_432sdp"
             android:gravity="center"
             android:inputType="none"
             android:text="Pickup Location"
@@ -384,7 +384,7 @@
             android:layout_height="@dimen/_29sdp"
             android:gravity="center"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_450sdp"
+            android:layout_marginTop="@dimen/_462sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -417,49 +417,13 @@
                 app:backgroundTint="@null" />
         </LinearLayout>
 
-        <!-- Defense Layout -->
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_29sdp"
-            android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_500sdp"
-            android:layout_marginEnd="@dimen/_29sdp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/DefenseTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_29sdp"
-                android:layout_gravity="top|center"
-                android:text="Defense :"
-                android:textAlignment="center"
-                android:textColor="@color/Text"
-                android:textSize="@dimen/_20ssp"
-                android:textStyle="bold" />
-
-            <SeekBar
-                android:id="@+id/DefenseBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:max="100"
-                android:progress="0"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-        </LinearLayout>
-
         <!-- Park Layout -->
         <LinearLayout
             android:id="@+id/linearLayout8"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_540sdp"
+            android:layout_marginTop="@dimen/_520sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -520,7 +484,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="@dimen/_580sdp"
+            android:layout_marginTop="@dimen/_570sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -619,7 +583,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_29sdp"
-            android:layout_marginTop="1325dp"
+            android:layout_marginTop="1320dp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:background="@drawable/rounded_rectangle_subtle"
             android:backgroundTint="@color/darkGrey"

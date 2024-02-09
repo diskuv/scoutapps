@@ -29,6 +29,11 @@ tasks.register('dksdkCmakeNdkEmulator', DkSDKCmakeNdkEmulator) {
     * expects the cmake directory to be present. */
     download()
 }
+clean {
+    /* Extend the [clean] task to delete the JSON file created during configuration phase
+     * (which is not visible to Gradle). */
+    delete dksdkCmakeNdkEmulator.cmakeEmulatorJsonFile
+}
 
 artifacts {
     cmakeEmulatorFiles(dksdkCmakeNdkEmulator.cmakeEmulatorJsonFile) {

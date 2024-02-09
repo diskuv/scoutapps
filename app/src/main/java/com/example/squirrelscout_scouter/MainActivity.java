@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //starts scouting logic and goes to page where you enter name "position" and name of robot
     public void startScoutingLogic() {
         ScoutName = scouterNameI.getText().toString();
         TeamNum = teamNameI.getText().toString();

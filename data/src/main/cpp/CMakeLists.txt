@@ -1,5 +1,18 @@
 include(FetchContent)
 
+# Requirement CLEAN:
+#   Android NDK does not document that we need a [clean] target. But we do:
+#     https://android.googlesource.com/platform/tools/base/+/refs/tags/studio-2023.3.1-canary8/build-system/gradle-core/src/main/java/com/android/build/gradle/internal/cxx/build/CxxRegularBuilder.kt#158
+#   The [clean] target should delete the `.so` files.
+#   What is not obvious is that although [cmake --target clean] works, Android NDK
+#   needs the clean target in the build.ninja script, so it needs to be a first-class
+#   add_custom_target().
+add_custom_target(clean
+        # Android Studio already deletes the `.so` files. (I think the
+        # `externalNativeBuildClean` tasks use the CMake API to know what to delete).
+        # So just remove the cache file so that reconfiguration is done.
+        COMMAND "${CMAKE_COMMAND}" -E rm -f "${CMAKE_BINARY_DIR}/CMakeCache.txt")
+
 if(GENERATE_CAPNP_ONLY)
     if(NOT GENERATE_CAPNP_DIR)
 	    message(FATAL_ERROR "Missing GENERATE_CAPNP_DIR variable")

@@ -20,7 +20,7 @@
       "dksdk-cmake": { "inherits": "_local", "urls": [ "${dksdk-cmake_REPOSITORY}" ] },
       "dksdk-ffi-c": { "inherits": "_local", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },
       "dksdk-ffi-ocaml": { "inherits": "_local", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
-      "dksdk-opam-repository": { "inherits": "_local", "urls": [ "${dksdk-BASE_REPOSITORY_URL}/dksdk-opam-repository.git" ] },
+      "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-BASE_REPOSITORY_URL}/dksdk-opam-repository-core.git" ] },
       "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-BASE_REPOSITORY_URL}/dksdk-opam-repository-js.git"] },
       // The remaining dependencies are third-party open source projects (TODO: not all of them are needed)
       "dkml-runtime-common": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-runtime-common.git" ] },

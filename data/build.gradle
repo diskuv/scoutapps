@@ -106,7 +106,6 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags ""
-                group cmakeConfigureTemplate.group
                 arguments.addAll cmakeConfigureTemplate.fullArguments.get()
                 targets "data_foreground"
             }

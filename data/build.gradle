@@ -106,6 +106,7 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags ""
+                group cmakeConfigureTemplate.group
                 arguments.addAll cmakeConfigureTemplate.fullArguments.get()
                 targets "data_foreground"
             }
@@ -148,6 +149,7 @@ androidComponents {
             def cmakeConfigureForCapnp = tasks.register(taskName, GeneratedJavaCMakeConfigureTask) {
                 emulator configurations.cmakeEmulatorpath.elements
 
+                arguments.add "--no-warn-unused-cli"
                 arguments.add "-DGENERATE_CAPNP_ONLY=1"
                 arguments.add "-DGENERATE_CAPNP_DIR=${generatedJavaDir0.get()}"
                 arguments.addAll localDevCmakeArgs

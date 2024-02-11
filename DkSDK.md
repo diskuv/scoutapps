@@ -75,8 +75,10 @@ Using CLion?
 #### Android NDK x86_64 on WSL2
 
 ```shell
+./dk dksdk.ninja.link
+./dk dksdk.cmake.link
+./dk dksdk.android.ndk.download
 ./dk dksdk.project.get
-sh ci/download-build-tools.sh linux_x86_64 linux_x86_64-android_x86_64 .ci/local
 
 # Do configure with CMake 3.25.2 to avoid https://discourse.cmake.org/t/cmake-exception/2240/2
 # with CLion's 3.24.
@@ -94,8 +96,10 @@ sh ci/download-build-tools.sh linux_x86_64 linux_x86_64-android_x86_64 .ci/local
 #### Android NDK arm32-v7a on WSL2
 
 ```shell
+./dk dksdk.ninja.link
+./dk dksdk.cmake.link
+./dk dksdk.android.ndk.download
 ./dk dksdk.project.get
-sh ci/download-build-tools.sh linux_x86 linux_x86_64-android_arm32v7a .ci/local
 
 # Do configure with CMake 3.25.2 to avoid https://discourse.cmake.org/t/cmake-exception/2240/2
 # with CLion's 3.24.
@@ -156,7 +160,8 @@ In `Settings > Build, Execution, Deployment > CMake > Toolchains`, make sure the
 In Powershell or Command Prompt, run the following commands:
 
 ```shell
-wsl -d Debian -- ci/download-build-tools.sh linux_x86_64 linux-android_x86_64 .ci/wsl2
+./dk dksdk.project.get
+wsl -d Debian -- sh -cx './dk dksdk.ninja.copy && dksdk.cmake.copy && ./dk dksdk.android.ndk.download'
 wsl -d Debian
 ```
 
@@ -213,7 +218,9 @@ to do static linking).
 
 ```shell
 ./dk dksdk.project.get
-sh ci/download-build-tools.sh linux_x86_64 linux-android_x86_64 .ci/local
+./dk dksdk.ninja.link
+./dk dksdk.cmake.link
+./dk dksdk.android.ndk.download
 ```
 
 Then use the `ci-linux_x86_64_X_android_x86_64` CMake profile in your favorite
@@ -225,7 +232,9 @@ CMake IDE.
 
 ```shell
 ./dk dksdk.project.get
-sh ci/download-build-tools.sh darwin_arm64 macos-android_arm64v8a .ci/local
+./dk dksdk.ninja.link
+./dk dksdk.cmake.link
+./dk dksdk.android.ndk.download
 ```
 
 Then use the `ci-darwin_arm64_X_android_arm64v8a` CMake profile in your favorite
@@ -361,7 +370,7 @@ In a POSIX compatible shell (ex. `bash` on Linux and macOS) do the following:
 sh ci/setup-dkml/pc/setup-dkml-linux_x86.sh --SKIP_OPAM_MODIFICATIONS=true
 
 ./dk dksdk.project.get
-.ci/sd4/opamrun/cmdrun sh ci/download-build-tools.sh linux_x86 manylinux2014-linux_x86 .ci/dockcross
+.ci/sd4/opamrun/cmdrun sh -cx './dk dksdk.ninja.copy && dksdk.cmake.copy && ./dk dksdk.android.ndk.download'
 .ci/sd4/opamrun/cmdrun -it bash
 ```
 
@@ -393,7 +402,7 @@ In a POSIX compatible shell (ex. `bash` on Linux and macOS) do the following:
 sh ci/setup-dkml/pc/setup-dkml-linux_x86_64.sh --SKIP_OPAM_MODIFICATIONS=true --dockcross_image=dockcross/manylinux_2_28-x64
 
 ./dk dksdk.project.get
-.ci/sd4/opamrun/cmdrun sh ci/download-build-tools.sh linux_x86_64 manylinux_2_28-linux_x86_64 .ci/dockcross
+.ci/sd4/opamrun/cmdrun sh -cx './dk dksdk.ninja.copy && dksdk.cmake.copy && ./dk dksdk.android.ndk.download'
 .ci/sd4/opamrun/cmdrun -it bash
 ```
 
@@ -425,7 +434,7 @@ In a POSIX compatible shell (ex. `bash` on Linux and macOS) do the following:
 sh ci/setup-dkml/pc/setup-dkml-linux_x86_64.sh --SKIP_OPAM_MODIFICATIONS=true --dockcross_image=dockcross/manylinux_2_28-x64
 
 ./dk dksdk.project.get
-.ci/sd4/opamrun/cmdrun sh ci/download-build-tools.sh linux_x86_64 manylinux_2_28-android_x86_64 .ci/local
+.ci/sd4/opamrun/cmdrun sh -cx './dk dksdk.ninja.copy && dksdk.cmake.copy && ./dk dksdk.android.ndk.download'
 .ci/sd4/opamrun/cmdrun -it bash
 ```
 

@@ -64,7 +64,6 @@ variables:
   CACHE_PREFIX: "20230315-1_0_0"
   # Allow relative paths in CMakePresets.json to be resolved to absolute paths.
   #   The trailing directory separator (the slash) is required.
-  #   Relative paths are used for the Android NDK from ci/download-build-tool.sh.
   #   Important for integration tests that clone the project with
   #   `./dk dksdk.project.new` and then run presets.
   DKSDK_PROJECT_BASE: $CI_PROJECT_DIR/

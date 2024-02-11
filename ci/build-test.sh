@@ -45,7 +45,7 @@ fi
 
 # Install CMake, Ninja and Android Command Line Tools if not pre-installed
 # and necessary
-cmdrun sh ci/download-build-tools.sh "$dkml_host_abi" "$abi_pattern" .ci/local
+cmdrun sh -cx './dk dksdk.ninja.copy && dksdk.cmake.copy && ./dk dksdk.android.ndk.download'
 
 # Clone private dependencies
 cmdrun sh ./dk dksdk.project.get

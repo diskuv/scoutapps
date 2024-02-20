@@ -85,9 +85,9 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         // control visibility of the finish button. Only when the session
         // is complete should it be visible.
         finishButton.setVisibility(View.INVISIBLE);
-        model.getCompletedRawMatchData().observe(this, completed -> {
-            finishButton.setVisibility(completed == null ? View.INVISIBLE : View.VISIBLE);
-        });
+//        model.getCompletedRawMatchData().observe(this, completed -> {
+//            finishButton.setVisibility(completed == null ? View.INVISIBLE : View.VISIBLE);
+//        });
 
         //start animation
         animationStart();

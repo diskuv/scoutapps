@@ -19,6 +19,7 @@ import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
+import com.example.squirrelscout_scouter.util.ScoutSingleton;
 
 public class AutonomousActivity extends ComponentActivity implements View.OnClickListener {
 
@@ -49,6 +50,11 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             setContentView(R.layout.autonomous_scouting);
+
+            //...
+        ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
+        TextView label = (TextView) findViewById(R.id.textView3);
+        label.setText("Match #" + scoutSingleton.getMatchNum() + "\n" + scoutSingleton.getRobotNum());
 
         // view model
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();

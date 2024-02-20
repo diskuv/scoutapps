@@ -32,6 +32,7 @@
         <activity android:name=".match_scouting_pages.NotesActivity" />
         <activity android:name=".match_scouting_pages.ImageTrial"/>
         <activity android:name=".match_scouting_pages.PopUpWindow"/>
+        <activity android:name=".match_scouting_pages.QRCodeActivity"/>
 
     </application>
 

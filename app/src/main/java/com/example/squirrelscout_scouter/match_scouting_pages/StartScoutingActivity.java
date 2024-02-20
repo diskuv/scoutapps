@@ -27,6 +27,7 @@ import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
+import com.example.squirrelscout_scouter.util.ScoutSingleton;
 
 import java.util.Locale;
 
@@ -44,6 +45,8 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
     String robotPosition, m;
     int match;
     private ScoutingSessionViewModel model;
+
+    ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -212,6 +215,8 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
 
                 model.captureMatchRobot(Integer.parseInt(m), robotPosition);
                 model.captureScoutingRobotNumber(Integer.parseInt(robotNumberI.getText().toString()));
+                scoutSingleton.setRobotNum(Integer.parseInt(robotNumberI.getText().toString()));
+                scoutSingleton.setMatchNum(Integer.parseInt(chooseMatchI.getText().toString()));
                 // Create an Intent to launch the target activity
                 Intent intent = new Intent(StartScoutingActivity.this, AutonomousActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

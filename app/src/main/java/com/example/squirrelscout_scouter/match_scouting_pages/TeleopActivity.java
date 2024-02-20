@@ -34,9 +34,10 @@ import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
+import com.example.squirrelscout_scouter.util.ScoutSingleton;
 import com.example.squirrelscout_scouter.util.SharedImageSingleton;
 
-import org.w3c.dom.Text;
+import org.capnproto.Text;
 
 public class TeleopActivity extends ComponentActivity implements View.OnClickListener {
 
@@ -77,7 +78,12 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teleop_scouting);
 
-        // view model
+        //...
+        ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
+        TextView label = (TextView) findViewById(R.id.textView3);
+        label.setText("Match #" + scoutSingleton.getMatchNum() + "\n" + scoutSingleton.getRobotNum());
+
+                // view model
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
         //model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
@@ -369,7 +375,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             Toast.makeText(TeleopActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
             //saveScoutInfo();
             // Create an Intent to launch the target activity
-            Intent intent = new Intent(TeleopActivity.this, NotesActivity.class);
+            Intent intent = new Intent(TeleopActivity.this, QRCodeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Start the target activity with the Intent
             addMarker(0,0,imageView,4);
@@ -456,9 +462,10 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             canvas.drawPoint(1,1,paint2);
         }
         else if(num == 4){
-            paint2.setStrokeWidth(2f);
+            paint2.setStrokeWidth(1.5f);
             paint2.setTextSize(20f);
-            canvas.drawText("Team: 2930; Match: 2", 250, 40, paint2); // Adjust the text position as needed
+            String s = ("Team: " + ScoutSingleton.getInstance().getRobotNum() + "; Match: " + ScoutSingleton.getInstance().getMatchNum());
+            canvas.drawText(s, 250, 40, paint2); // Adjust the text position as needed
         }
 
         // Set the marked image with the added marker to the ImageView

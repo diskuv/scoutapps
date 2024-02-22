@@ -5,6 +5,7 @@ using Java = import "/capnp/java.capnp";
 $Java.package("com.example.squirrelscout.data.capnp");
 $Java.outerClassname("Schema");
 
+#testing
 struct RawMatchData {
   # generic data 
   teamNumber @0 :Int16;

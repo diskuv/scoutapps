@@ -5,7 +5,7 @@ using Java = import "/capnp/java.capnp";
 $Java.package("com.example.squirrelscout.data.capnp");
 $Java.outerClassname("Schema");
 
-#testing
+#2024 testing
 struct RawMatchData {
   # generic data 
   teamNumber @0 :Int16;
@@ -13,38 +13,53 @@ struct RawMatchData {
   matchNumber @2 :Int16;
   scouterName @3 :Text;
 
-  # misc 
-  incap @4 :Bool;
-  playingDefense @5 :Bool;
-  notes @6 :Text;
-
   # game specific | auto 
-  autoMobility @7 :Bool;
-  autoClimb @8 :Climb;
-  autoConeHigh @9 :Int16;
-  autoConeMid @10 :Int16;
-  autoConeLow @11 :Int16;
-  autoCubeHigh @12 :Int16;
-  autoCubeMid @13 :Int16;
-  autoCubeLow @14 :Int16;
-
+  startingPosition @7 :SPosition;
+  wingNote1 @8 : Bool;
+  wingNote2 @9 : Bool;
+  wingNote3 @10 : Bool;
+  centerNote1 @11 : Bool;
+  centerNote2 @12 : Bool;
+  centerNote3 @13 : Bool;
+  centerNote4 @14 : Bool;
+  centerNote5 @15 : Bool;
+  autoAmpScore @16 : Int16;
+  autoAmpMiss @17 : Int16;
+  autoSpeakerScore @18 : Int16;
+  autoSpeakerMiss @19 : Int16;
+  autoLeave @20 : Bool;
 
   # game specific  teleop
-  teleClimb @15 :Climb;
-  teleConeHigh @16 :Int16;
-  teleConeMid @17 :Int16;
-  teleConeLow @18 :Int16;
-  teleCubeHigh @19 :Int16;
-  teleCubeMid @20 :Int16;
-  teleCubeLow @21 :Int16;
+  teleSpeakerScore @21 : Int16;
+  teleSpeakerMiss @22 : Int16;
+  teleAmpScore @23 : Int16;
+  teleAmpMiss @24 : Int16;
+  teleBreakdown @25: TBreakdown;
+  endgamePark @26 : Bool;
+  endgameClimb @27 : EClimb;
+  endgameTrap @28 : Bool;
 
   
 }
 
-enum Climb {
+enum SPosition{
+  left @0;
+  center @1;
+  right @2;
+}
+
+enum TBreakdown{
   none @0;
-  docked @1;
-  engaged @2;
+  tipped @1;
+  mechanicalFailure @2;
+  incapacitated @3;
+}
+
+enum EClimb{
+  success @0;
+  failed @1;
+  didNotAttempt @2;
+  harmony @3;
 }
 
 enum RobotPosition {

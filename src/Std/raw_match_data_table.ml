@@ -38,26 +38,29 @@ module Table : Table_type = struct
     | Team_name
     | Match_Number
     | Scouter_Name
-    | (*[not game specific] misc data *)
-      Incap
-    | Playing_Defense
-    | Notes
     | (* [Game specific] auto*)
-      Auto_climb
-    | Auto_Cone_high
-    | Auto_Cone_mid
-    | Auto_Cone_low
-    | Auto_Cube_high
-    | Auto_Cube_mid
-    | Auto_Cube_low
+    | Starting_Position
+    | Wing_Note1
+    | Wing_Note2
+    | Wing_Note3
+    | Center_Note1
+    | Center_Note2
+    | Center_Note3
+    | Center_Note4
+    | Center_Note5
+    | Auto_Amp_Score
+    | Auto_Amp_Miss
+    | Auto_Speaker_Score
+    | Auto_Speaker_Miss
+    | Auto_Leave
     | (* [Game specific] tele  *)
-      Tele_climb
-    | Tele_Cone_high
-    | Tele_Cone_mid
-    | Tele_Cone_low
-    | Tele_Cube_high
-    | Tele_Cube_mid
-    | Tele_Cube_low
+    | Tele_Speaker_Score
+    | Tele_Speaker_Miss
+    | Tele_Amp_Score
+    | Tele_Amp_Miss
+    | Tele_Breakdown
+    | Endgame_Climb
+    | Endgame_Trap
 
   (* FIXME  *)
   let colum_name = function
@@ -66,25 +69,28 @@ module Table : Table_type = struct
     | Match_Number -> "match_number"
     | Scouter_Name -> "scouter_name"
     (*  *)
-    | Incap -> "incap"
-    | Playing_Defense -> "playing_defense"
-    | Notes -> "notes"
+    | Starting_Position -> "starting_position"
+    | Wing_Note1 -> "wing_note1"
+    | Wing_Note2 -> "wing_note2"
+    | Wing_Note3 -> "wing_note3"
+    | Center_Note1 -> "center_note1"
+    | Center_Note2 -> "center_note2"
+    | Center_Note3 -> "center_note3"
+    | Center_Note4 -> "center_note4"
+    | Center_Note5 -> "center_note5"
+    | Auto_Amp_Score -> "auto_amp_score"
+    | Auto_Amp_Miss -> "auto_amp_miss"
+    | Auto_Speaker_Score -> "auto_speaker_score"
+    | Auto_Speaker_Miss -> "auto_speaker_miss"
+    | Auto_Leave -> "auto_leave"
     (*  *)
-    | Auto_climb -> "auto_climb"
-    | Auto_Cone_high -> "auto_cone_high"
-    | Auto_Cone_mid -> "auto_cone_mid"
-    | Auto_Cone_low -> "auto_cone_low"
-    | Auto_Cube_high -> "auto_cube_high"
-    | Auto_Cube_mid -> "auto_cube_mid"
-    | Auto_Cube_low -> "auto_cube_low"
-    (*  *)
-    | Tele_climb -> "tele_climb"
-    | Tele_Cone_high -> "tele_cone_high"
-    | Tele_Cone_mid -> "tele_cone_mid"
-    | Tele_Cone_low -> "tele_cone_low"
-    | Tele_Cube_high -> "tele_cube_high"
-    | Tele_Cube_mid -> "tele_cube_mid"
-    | Tele_Cube_low -> "tele_cube_low"
+    | Tele_Speaker_Score -> "tele_speaker_score"
+    | Tele_Speaker_Miss -> "tele_speaker_miss"
+    | Tele_Amp_Score -> "tele_amp_score"
+    | Tele_Amp_Miss -> "tele_amp_miss"
+    | Tele_Breakdown -> "tele_breakdown"
+    | Endgame_cLIMB -> "endgame_climb"
+    | Endgame_Trap -> "endgame_trap"
 
   (* FIXME *)
   let colum_datatype = function
@@ -93,25 +99,28 @@ module Table : Table_type = struct
     | Match_Number -> "INT"
     | Scouter_Name -> "TEXT"
     (*  *)
-    | Incap -> "INT"
-    | Playing_Defense -> "INT"
-    | Notes -> "TEXT"
+    | Starting_Position -> "TEXT"
+    | Wing_Note1 -> "TEXT"
+    | Wing_Note2 -> "TEXT"
+    | Wing_Note3 -> "TEXT"
+    | Center_Note1 -> "TEXT"
+    | Center_Note2 -> "TEXT"
+    | Center_Note3 -> "TEXT"
+    | Center_Note4 -> "TEXT"
+    | Center_Note5 -> "TEXT"
+    | Auto_Amp_Score -> "INT"
+    | Auto_Amp_Miss -> "INT"
+    | Auto_Speaker_Score -> "INT"
+    | Auto_Speaker_Miss -> "INT"
+    | Auto_Leave -> "TEXT"
     (*  *)
-    | Auto_climb -> "TEXT"
-    | Auto_Cone_high -> "INT"
-    | Auto_Cone_mid -> "INT"
-    | Auto_Cone_low -> "INT"
-    | Auto_Cube_high -> "INT"
-    | Auto_Cube_mid -> "INT"
-    | Auto_Cube_low -> "INT"
-    (*  *)
-    | Tele_climb -> "TEXT"
-    | Tele_Cone_high -> "INT"
-    | Tele_Cone_mid -> "INT"
-    | Tele_Cone_low -> "INT"
-    | Tele_Cube_high -> "INT"
-    | Tele_Cube_mid -> "INT"
-    | Tele_Cube_low -> "INT"
+    | Tele_Speaker_Score -> "INT"
+    | Tele_Speaker_Miss -> "INT"
+    | Tele_Amp_Score -> "INT"
+    | Tele_Amp_Miss -> "INT"
+    | Tele_Breakdown -> "TEXT"
+    | Endgame_Climb -> "TEXT"
+    | Endgame_Trap -> "TEXT"
 
   (* FIXME *)
   let colums_in_order =
@@ -121,25 +130,28 @@ module Table : Table_type = struct
       Match_Number;
       Scouter_Name;
       (*  *)
-      Incap;
-      Playing_Defense;
-      Notes;
+      Starting_Position
+      Wing_Note1
+      Wing_Note2
+      Wing_Note3
+      Center_Note1
+      Center_Note2
+      Center_Note3
+      Center_Note4
+      Center_Note5
+      Auto_Amp_Score
+      Auto_Amp_Miss
+      Auto_Speaker_Score
+      Auto_Speaker_Miss
+      Auto_Leave
       (*  *)
-      Auto_climb;
-      Auto_Cone_high;
-      Auto_Cone_mid;
-      Auto_Cone_low;
-      Auto_Cube_high;
-      Auto_Cube_mid;
-      Auto_Cube_low;
-      (*  *)
-      Tele_climb;
-      Tele_Cone_high;
-      Tele_Cone_mid;
-      Tele_Cone_low;
-      Tele_Cube_high;
-      Tele_Cube_mid;
-      Tele_Cube_low;
+      Tele_Speaker_Score
+      Tele_Speaker_Miss
+      Tele_Amp_Score
+      Tele_Amp_Miss
+      Tele_Breakdown
+      Endgame_Climb
+      Endgame_Trap
     ]
 
   let primary_keys = [ Team_number; Match_Number; Scouter_Name ]
@@ -177,10 +189,26 @@ module Table : Table_type = struct
       | Result.Error _ -> failwith "could not decode capnp data"
     in
 
-    let climb_to_string : ProjectSchema.Reader.Climb.t -> string = function
-      | Docked -> "DOCKED"
-      | Engaged -> "ENGAGED"
+    let position_to_string : ProjectSchema.Reader.SPostion.t -> string = function
+      | Left -> "LEFT"
+      | Center -> "CENTER"
+      | Right -> "RIGHT"
+      | Undefined _ -> "UNDEFINED"
+    in
+
+    let breakdown_to_string : ProjectSchema.Reader.TBreakdown.t -> string = function
       | None -> "NONE"
+      | Tipped -> "TIPPED"
+      | MechanicalFailure -> "MECHANICAL_FAILURE"
+      | Incapacitated -> "INCAPACITATED"
+      | Undefined _ -> "UNDEFINED"
+    in
+
+    let teleopClimb_to_string : ProjectSchema.Reader.EClimb.t -> string = function
+      | Success -> "SUCCESS"
+      | Failed -> "FAILED"
+      | DidNotAttempt -> "DID_NOT_ATTEMPT"
+      | Harmony -> "HARMONY"
       | Undefined _ -> "UNDEFINED"
     in
 
@@ -210,34 +238,38 @@ module Table : Table_type = struct
          do is make a special QR code and they could hack your phone. *)
       let values =
         Printf.sprintf
-          "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
-          \         %s, %s, %s, %s"
-          (match_data |> team_number_get |> string_of_int)
-          (match_data |> team_name_get |> string_to_cmd_line_form)
-          (match_data |> match_number_get |> string_of_int)
-          (match_data |> scouter_name_get |> string_to_cmd_line_form)
-          (*  *)
-          (match_data |> incap_get |> bool_to_string_as_num)
-          (match_data |> playing_defense_get |> bool_to_string_as_num)
-          (match_data |> notes_get |> string_to_cmd_line_form)
-          (*  *)
-          (match_data |> auto_climb_get |> climb_to_string
-         |> string_to_cmd_line_form)
-          (match_data |> auto_cone_high_get |> string_of_int)
-          (match_data |> auto_cone_mid_get |> string_of_int)
-          (match_data |> auto_cone_low_get |> string_of_int)
-          (match_data |> auto_cube_high_get |> string_of_int)
-          (match_data |> auto_cube_mid_get |> string_of_int)
-          (match_data |> auto_cube_low_get |> string_of_int)
-          (*  *)
-          (match_data |> tele_climb_get |> climb_to_string
-         |> string_to_cmd_line_form)
-          (match_data |> tele_cone_high_get |> string_of_int)
-          (match_data |> tele_cone_mid_get |> string_of_int)
-          (match_data |> tele_cone_low_get |> string_of_int)
-          (match_data |> tele_cube_high_get |> string_of_int)
-          (match_data |> tele_cube_mid_get |> string_of_int)
-          (match_data |> tele_cube_low_get |> string_of_int)
+        "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
+        \         %s, %s, %s, %s"
+        (match_data |> team_number_get |> string_of_int)
+        (match_data |> team_name_get |> string_to_cmd_line_form)
+        (match_data |> match_number_get |> string_of_int)
+        (match_data |> scouter_name_get |> string_to_cmd_line_form)
+        (*  *)
+        (match_data |> starting_position_get |> position_to_string
+       |> string_to_cmd_line_form)
+        (match_data |> wing_note1_get |> bool_to_string_as_num)
+        (match_data |> wing_note2_get |> bool_to_string_as_num)
+        (match_data |> wing_note3_get |> bool_to_string_as_num)
+        (match_data |> center_note1_get |> bool_to_string_as_num)
+        (match_data |> center_note2_get |> bool_to_string_as_num)
+        (match_data |> center_note3_get |> bool_to_string_as_num)
+        (match_data |> center_note4_get |> bool_to_string_as_num)
+        (match_data |> center_note5_get |> bool_to_string_as_num)
+        (match_data |> auto_amp_score_get |> string_of_int)
+        (match_data |> auto_amp_miss_get |> string_of_int)
+        (match_data |> auto_speaker_score_get |> string_of_int)
+        (match_data |> auto_speaker_miss_get |> string_of_int)
+        (match_data |> auto_leave_get |> bool_to_string_as_num)
+        (*  *)
+        (match_data |> tele_speaker_score_get |> string_of_int)
+        (match_data |> tele_speaker_miss_get |> string_of_int)
+        (match_data |> tele_amp_score_get |> string_of_int)
+        (match_data |> tele_amp_miss_get |> string_of_int)
+        (match_data |> tele_breakdown_get |> breakdown_to_string
+       |> string_to_cmd_line_form)
+        (match_data |> endgame_climb_get |> teleopClimb_to_string
+       |> string_to_cmd_line_form)
+        (match_data |> endgame_trap_get |> bool_to_string_as_num)
       in
 
       let sql = "INSERT INTO " ^ table_name ^ " VALUES(" ^ values ^ ")" in

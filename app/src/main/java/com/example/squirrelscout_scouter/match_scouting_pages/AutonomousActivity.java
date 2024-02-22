@@ -135,6 +135,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         secondCard = (View) findViewById(R.id.view4);
         title = (TextView) findViewById(R.id.textView2);
 
+
         /*
         // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
         // bind view model updates to the UI
@@ -166,10 +167,10 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             }
 
         });
+        */
 
         //start animation
-        animationStart();
-         */
+        //animationStart();
     }
 
     public void onClick(View view){
@@ -414,6 +415,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
     }
 
+ */
     public void saveScoutInfo(){
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureAutonomous()
 
@@ -436,5 +438,4 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         );
 
     }
-    */
 }

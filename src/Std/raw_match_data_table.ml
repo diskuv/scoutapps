@@ -38,7 +38,7 @@ module Table : Table_type = struct
     | Team_name
     | Match_Number
     | Scouter_Name
-    | (* [Game specific] auto*)
+    (* [Game specific] auto*)
     | Starting_Position
     | Wing_Note1
     | Wing_Note2
@@ -53,7 +53,7 @@ module Table : Table_type = struct
     | Auto_Speaker_Score
     | Auto_Speaker_Miss
     | Auto_Leave
-    | (* [Game specific] tele  *)
+    (* [Game specific] tele  *)
     | Tele_Speaker_Score
     | Tele_Speaker_Miss
     | Tele_Amp_Score
@@ -89,7 +89,7 @@ module Table : Table_type = struct
     | Tele_Amp_Score -> "tele_amp_score"
     | Tele_Amp_Miss -> "tele_amp_miss"
     | Tele_Breakdown -> "tele_breakdown"
-    | Endgame_cLIMB -> "endgame_climb"
+    | Endgame_Climb -> "endgame_climb"
     | Endgame_Trap -> "endgame_trap"
 
   (* FIXME *)
@@ -130,28 +130,28 @@ module Table : Table_type = struct
       Match_Number;
       Scouter_Name;
       (*  *)
-      Starting_Position
-      Wing_Note1
-      Wing_Note2
-      Wing_Note3
-      Center_Note1
-      Center_Note2
-      Center_Note3
-      Center_Note4
-      Center_Note5
-      Auto_Amp_Score
-      Auto_Amp_Miss
-      Auto_Speaker_Score
-      Auto_Speaker_Miss
-      Auto_Leave
+      Starting_Position;
+      Wing_Note1;
+      Wing_Note2;
+      Wing_Note3;
+      Center_Note1;
+      Center_Note2;
+      Center_Note3;
+      Center_Note4;
+      Center_Note5;
+      Auto_Amp_Score;
+      Auto_Amp_Miss;
+      Auto_Speaker_Score;
+      Auto_Speaker_Miss;
+      Auto_Leave;
       (*  *)
-      Tele_Speaker_Score
-      Tele_Speaker_Miss
-      Tele_Amp_Score
-      Tele_Amp_Miss
-      Tele_Breakdown
-      Endgame_Climb
-      Endgame_Trap
+      Tele_Speaker_Score;
+      Tele_Speaker_Miss;
+      Tele_Amp_Score;
+      Tele_Amp_Miss;
+      Tele_Breakdown;
+      Endgame_Climb;
+      Endgame_Trap;
     ]
 
   let primary_keys = [ Team_number; Match_Number; Scouter_Name ]
@@ -189,7 +189,7 @@ module Table : Table_type = struct
       | Result.Error _ -> failwith "could not decode capnp data"
     in
 
-    let position_to_string : ProjectSchema.Reader.SPostion.t -> string = function
+    let position_to_string : ProjectSchema.Reader.SPosition.t -> string = function
       | Left -> "LEFT"
       | Center -> "CENTER"
       | Right -> "RIGHT"
@@ -239,7 +239,7 @@ module Table : Table_type = struct
       let values =
         Printf.sprintf
         "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
-        \         %s, %s, %s, %s"
+        \         %s, %s, %s, %s, %s, %s, %s, %s"
         (match_data |> team_number_get |> string_of_int)
         (match_data |> team_name_get |> string_to_cmd_line_form)
         (match_data |> match_number_get |> string_of_int)

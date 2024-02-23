@@ -14,30 +14,30 @@ struct RawMatchData {
   scouterName @3 :Text;
 
   # game specific | auto 
-  startingPosition @7 :SPosition;
-  wingNote1 @8 : Bool;
-  wingNote2 @9 : Bool;
-  wingNote3 @10 : Bool;
-  centerNote1 @11 : Bool;
-  centerNote2 @12 : Bool;
-  centerNote3 @13 : Bool;
-  centerNote4 @14 : Bool;
-  centerNote5 @15 : Bool;
-  autoAmpScore @16 : Int16;
-  autoAmpMiss @17 : Int16;
-  autoSpeakerScore @18 : Int16;
-  autoSpeakerMiss @19 : Int16;
-  autoLeave @20 : Bool;
+  startingPosition @4 :SPosition;
+  wingNote1 @5 : Bool;
+  wingNote2 @6 : Bool;
+  wingNote3 @7 : Bool;
+  centerNote1 @8 : Bool;
+  centerNote2 @9 : Bool;
+  centerNote3 @10 : Bool;
+  centerNote4 @11 : Bool;
+  centerNote5 @12 : Bool;
+  autoAmpScore @13 : Int16;
+  autoAmpMiss @14 : Int16;
+  autoSpeakerScore @15 : Int16;
+  autoSpeakerMiss @16 : Int16;
+  autoLeave @17 : Bool;
 
   # game specific  teleop
-  teleSpeakerScore @21 : Int16;
-  teleSpeakerMiss @22 : Int16;
-  teleAmpScore @23 : Int16;
-  teleAmpMiss @24 : Int16;
-  teleBreakdown @25: TBreakdown;
-  endgamePark @26 : Bool;
-  endgameClimb @27 : EClimb;
-  endgameTrap @28 : Bool;
+  teleSpeakerScore @18 : Int16;
+  teleSpeakerMiss @19 : Int16;
+  teleAmpScore @20 : Int16;
+  teleAmpMiss @21 : Int16;
+  teleBreakdown @22: TBreakdown;
+  endgamePark @23 : Bool;
+  endgameClimb @24 : EClimb;
+  endgameTrap @25 : Bool;
 
   
 }

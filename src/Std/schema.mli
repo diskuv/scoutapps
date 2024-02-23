@@ -19,11 +19,27 @@ module type S = sig
       | Blue3
       | Undefined of int
   end
-  module Climb_17059552977753218409 : sig
+  module EClimb_13533464256854897024 : sig
+    type t =
+      | Success
+      | Failed
+      | DidNotAttempt
+      | Harmony
+      | Undefined of int
+  end
+  module TBreakdown_16560530708388719165 : sig
     type t =
       | None
-      | Docked
-      | Engaged
+      | Tipped
+      | MechanicalFailure
+      | Incapacitated
+      | Undefined of int
+  end
+  module SPosition_15975123903786802361 : sig
+    type t =
+      | Left
+      | Center
+      | Right
       | Undefined of int
   end
 
@@ -41,33 +57,52 @@ module type S = sig
       val match_number_get : t -> int
       val has_scouter_name : t -> bool
       val scouter_name_get : t -> string
-      val incap_get : t -> bool
-      val playing_defense_get : t -> bool
-      val has_notes : t -> bool
-      val notes_get : t -> string
-      val auto_mobility_get : t -> bool
-      val auto_climb_get : t -> Climb_17059552977753218409.t
-      val auto_cone_high_get : t -> int
-      val auto_cone_mid_get : t -> int
-      val auto_cone_low_get : t -> int
-      val auto_cube_high_get : t -> int
-      val auto_cube_mid_get : t -> int
-      val auto_cube_low_get : t -> int
-      val tele_climb_get : t -> Climb_17059552977753218409.t
-      val tele_cone_high_get : t -> int
-      val tele_cone_mid_get : t -> int
-      val tele_cone_low_get : t -> int
-      val tele_cube_high_get : t -> int
-      val tele_cube_mid_get : t -> int
-      val tele_cube_low_get : t -> int
+      val starting_position_get : t -> SPosition_15975123903786802361.t
+      val wing_note1_get : t -> bool
+      val wing_note2_get : t -> bool
+      val wing_note3_get : t -> bool
+      val center_note1_get : t -> bool
+      val center_note2_get : t -> bool
+      val center_note3_get : t -> bool
+      val center_note4_get : t -> bool
+      val center_note5_get : t -> bool
+      val auto_amp_score_get : t -> int
+      val auto_amp_miss_get : t -> int
+      val auto_speaker_score_get : t -> int
+      val auto_speaker_miss_get : t -> int
+      val auto_leave_get : t -> bool
+      val tele_speaker_score_get : t -> int
+      val tele_speaker_miss_get : t -> int
+      val tele_amp_score_get : t -> int
+      val tele_amp_miss_get : t -> int
+      val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
+      val endgame_park_get : t -> bool
+      val endgame_climb_get : t -> EClimb_13533464256854897024.t
+      val endgame_trap_get : t -> bool
       val of_message : 'cap message_t -> t
       val of_builder : struct_t builder_t -> t
     end
-    module Climb : sig
-      type t = Climb_17059552977753218409.t =
+    module SPosition : sig
+      type t = SPosition_15975123903786802361.t =
+        | Left
+        | Center
+        | Right
+        | Undefined of int
+    end
+    module TBreakdown : sig
+      type t = TBreakdown_16560530708388719165.t =
         | None
-        | Docked
-        | Engaged
+        | Tipped
+        | MechanicalFailure
+        | Incapacitated
+        | Undefined of int
+    end
+    module EClimb : sig
+      type t = EClimb_13533464256854897024.t =
+        | Success
+        | Failed
+        | DidNotAttempt
+        | Harmony
         | Undefined of int
     end
     module RobotPosition : sig
@@ -116,56 +151,80 @@ module type S = sig
       val has_scouter_name : t -> bool
       val scouter_name_get : t -> string
       val scouter_name_set : t -> string -> unit
-      val incap_get : t -> bool
-      val incap_set : t -> bool -> unit
-      val playing_defense_get : t -> bool
-      val playing_defense_set : t -> bool -> unit
-      val has_notes : t -> bool
-      val notes_get : t -> string
-      val notes_set : t -> string -> unit
-      val auto_mobility_get : t -> bool
-      val auto_mobility_set : t -> bool -> unit
-      val auto_climb_get : t -> Climb_17059552977753218409.t
-      val auto_climb_set : t -> Climb_17059552977753218409.t -> unit
-      val auto_climb_set_unsafe : t -> Climb_17059552977753218409.t -> unit
-      val auto_cone_high_get : t -> int
-      val auto_cone_high_set_exn : t -> int -> unit
-      val auto_cone_mid_get : t -> int
-      val auto_cone_mid_set_exn : t -> int -> unit
-      val auto_cone_low_get : t -> int
-      val auto_cone_low_set_exn : t -> int -> unit
-      val auto_cube_high_get : t -> int
-      val auto_cube_high_set_exn : t -> int -> unit
-      val auto_cube_mid_get : t -> int
-      val auto_cube_mid_set_exn : t -> int -> unit
-      val auto_cube_low_get : t -> int
-      val auto_cube_low_set_exn : t -> int -> unit
-      val tele_climb_get : t -> Climb_17059552977753218409.t
-      val tele_climb_set : t -> Climb_17059552977753218409.t -> unit
-      val tele_climb_set_unsafe : t -> Climb_17059552977753218409.t -> unit
-      val tele_cone_high_get : t -> int
-      val tele_cone_high_set_exn : t -> int -> unit
-      val tele_cone_mid_get : t -> int
-      val tele_cone_mid_set_exn : t -> int -> unit
-      val tele_cone_low_get : t -> int
-      val tele_cone_low_set_exn : t -> int -> unit
-      val tele_cube_high_get : t -> int
-      val tele_cube_high_set_exn : t -> int -> unit
-      val tele_cube_mid_get : t -> int
-      val tele_cube_mid_set_exn : t -> int -> unit
-      val tele_cube_low_get : t -> int
-      val tele_cube_low_set_exn : t -> int -> unit
+      val starting_position_get : t -> SPosition_15975123903786802361.t
+      val starting_position_set : t -> SPosition_15975123903786802361.t -> unit
+      val starting_position_set_unsafe : t -> SPosition_15975123903786802361.t -> unit
+      val wing_note1_get : t -> bool
+      val wing_note1_set : t -> bool -> unit
+      val wing_note2_get : t -> bool
+      val wing_note2_set : t -> bool -> unit
+      val wing_note3_get : t -> bool
+      val wing_note3_set : t -> bool -> unit
+      val center_note1_get : t -> bool
+      val center_note1_set : t -> bool -> unit
+      val center_note2_get : t -> bool
+      val center_note2_set : t -> bool -> unit
+      val center_note3_get : t -> bool
+      val center_note3_set : t -> bool -> unit
+      val center_note4_get : t -> bool
+      val center_note4_set : t -> bool -> unit
+      val center_note5_get : t -> bool
+      val center_note5_set : t -> bool -> unit
+      val auto_amp_score_get : t -> int
+      val auto_amp_score_set_exn : t -> int -> unit
+      val auto_amp_miss_get : t -> int
+      val auto_amp_miss_set_exn : t -> int -> unit
+      val auto_speaker_score_get : t -> int
+      val auto_speaker_score_set_exn : t -> int -> unit
+      val auto_speaker_miss_get : t -> int
+      val auto_speaker_miss_set_exn : t -> int -> unit
+      val auto_leave_get : t -> bool
+      val auto_leave_set : t -> bool -> unit
+      val tele_speaker_score_get : t -> int
+      val tele_speaker_score_set_exn : t -> int -> unit
+      val tele_speaker_miss_get : t -> int
+      val tele_speaker_miss_set_exn : t -> int -> unit
+      val tele_amp_score_get : t -> int
+      val tele_amp_score_set_exn : t -> int -> unit
+      val tele_amp_miss_get : t -> int
+      val tele_amp_miss_set_exn : t -> int -> unit
+      val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
+      val tele_breakdown_set : t -> TBreakdown_16560530708388719165.t -> unit
+      val tele_breakdown_set_unsafe : t -> TBreakdown_16560530708388719165.t -> unit
+      val endgame_park_get : t -> bool
+      val endgame_park_set : t -> bool -> unit
+      val endgame_climb_get : t -> EClimb_13533464256854897024.t
+      val endgame_climb_set : t -> EClimb_13533464256854897024.t -> unit
+      val endgame_climb_set_unsafe : t -> EClimb_13533464256854897024.t -> unit
+      val endgame_trap_get : t -> bool
+      val endgame_trap_set : t -> bool -> unit
       val of_message : rw message_t -> t
       val to_message : t -> rw message_t
       val to_reader : t -> struct_t reader_t
       val init_root : ?message_size:int -> unit -> t
       val init_pointer : pointer_t -> t
     end
-    module Climb : sig
-      type t = Climb_17059552977753218409.t =
+    module SPosition : sig
+      type t = SPosition_15975123903786802361.t =
+        | Left
+        | Center
+        | Right
+        | Undefined of int
+    end
+    module TBreakdown : sig
+      type t = TBreakdown_16560530708388719165.t =
         | None
-        | Docked
-        | Engaged
+        | Tipped
+        | MechanicalFailure
+        | Incapacitated
+        | Undefined of int
+    end
+    module EClimb : sig
+      type t = EClimb_13533464256854897024.t =
+        | Success
+        | Failed
+        | DidNotAttempt
+        | Harmony
         | Undefined of int
     end
     module RobotPosition : sig

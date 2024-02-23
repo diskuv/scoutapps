@@ -42,17 +42,18 @@ let create_capnp_string ~team_number ~team_name ~match_number mobility auto_cone
   team_name_set rw team_name;
   match_number_set_exn rw match_number;
 
-  auto_mobility_set rw mobility;
+  (*Talk with keyush*)
+ (* auto_mobility_set rw mobility;
 
   auto_cone_high_set_exn rw auto_cone;
   auto_cube_high_set_exn rw auto_cube;
 
   tele_cone_high_set_exn rw tele_cone;
-  tele_cube_high_set_exn rw tele_cube;
+  tele_cube_high_set_exn rw tele_cube;*)
 
   scouter_name_set rw "admin";
 
-  notes_set rw "no notes";
+  (* notes_set rw "no notes"; *)
 
   let message = to_message rw in
 

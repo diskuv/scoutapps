@@ -19,11 +19,27 @@ module type S = sig
       | Blue3
       | Undefined of int
   end
-  module Climb_17059552977753218409 : sig
+  module EClimb_13533464256854897024 : sig
+    type t =
+      | Success
+      | Failed
+      | DidNotAttempt
+      | Harmony
+      | Undefined of int
+  end
+  module TBreakdown_16560530708388719165 : sig
     type t =
       | None
-      | Docked
-      | Engaged
+      | Tipped
+      | MechanicalFailure
+      | Incapacitated
+      | Undefined of int
+  end
+  module SPosition_15975123903786802361 : sig
+    type t =
+      | Left
+      | Center
+      | Right
       | Undefined of int
   end
 
@@ -41,33 +57,52 @@ module type S = sig
       val match_number_get : t -> int
       val has_scouter_name : t -> bool
       val scouter_name_get : t -> string
-      val incap_get : t -> bool
-      val playing_defense_get : t -> bool
-      val has_notes : t -> bool
-      val notes_get : t -> string
-      val auto_mobility_get : t -> bool
-      val auto_climb_get : t -> Climb_17059552977753218409.t
-      val auto_cone_high_get : t -> int
-      val auto_cone_mid_get : t -> int
-      val auto_cone_low_get : t -> int
-      val auto_cube_high_get : t -> int
-      val auto_cube_mid_get : t -> int
-      val auto_cube_low_get : t -> int
-      val tele_climb_get : t -> Climb_17059552977753218409.t
-      val tele_cone_high_get : t -> int
-      val tele_cone_mid_get : t -> int
-      val tele_cone_low_get : t -> int
-      val tele_cube_high_get : t -> int
-      val tele_cube_mid_get : t -> int
-      val tele_cube_low_get : t -> int
+      val starting_position_get : t -> SPosition_15975123903786802361.t
+      val wing_note1_get : t -> bool
+      val wing_note2_get : t -> bool
+      val wing_note3_get : t -> bool
+      val center_note1_get : t -> bool
+      val center_note2_get : t -> bool
+      val center_note3_get : t -> bool
+      val center_note4_get : t -> bool
+      val center_note5_get : t -> bool
+      val auto_amp_score_get : t -> int
+      val auto_amp_miss_get : t -> int
+      val auto_speaker_score_get : t -> int
+      val auto_speaker_miss_get : t -> int
+      val auto_leave_get : t -> bool
+      val tele_speaker_score_get : t -> int
+      val tele_speaker_miss_get : t -> int
+      val tele_amp_score_get : t -> int
+      val tele_amp_miss_get : t -> int
+      val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
+      val endgame_park_get : t -> bool
+      val endgame_climb_get : t -> EClimb_13533464256854897024.t
+      val endgame_trap_get : t -> bool
       val of_message : 'cap message_t -> t
       val of_builder : struct_t builder_t -> t
     end
-    module Climb : sig
-      type t = Climb_17059552977753218409.t =
+    module SPosition : sig
+      type t = SPosition_15975123903786802361.t =
+        | Left
+        | Center
+        | Right
+        | Undefined of int
+    end
+    module TBreakdown : sig
+      type t = TBreakdown_16560530708388719165.t =
         | None
-        | Docked
-        | Engaged
+        | Tipped
+        | MechanicalFailure
+        | Incapacitated
+        | Undefined of int
+    end
+    module EClimb : sig
+      type t = EClimb_13533464256854897024.t =
+        | Success
+        | Failed
+        | DidNotAttempt
+        | Harmony
         | Undefined of int
     end
     module RobotPosition : sig
@@ -116,56 +151,80 @@ module type S = sig
       val has_scouter_name : t -> bool
       val scouter_name_get : t -> string
       val scouter_name_set : t -> string -> unit
-      val incap_get : t -> bool
-      val incap_set : t -> bool -> unit
-      val playing_defense_get : t -> bool
-      val playing_defense_set : t -> bool -> unit
-      val has_notes : t -> bool
-      val notes_get : t -> string
-      val notes_set : t -> string -> unit
-      val auto_mobility_get : t -> bool
-      val auto_mobility_set : t -> bool -> unit
-      val auto_climb_get : t -> Climb_17059552977753218409.t
-      val auto_climb_set : t -> Climb_17059552977753218409.t -> unit
-      val auto_climb_set_unsafe : t -> Climb_17059552977753218409.t -> unit
-      val auto_cone_high_get : t -> int
-      val auto_cone_high_set_exn : t -> int -> unit
-      val auto_cone_mid_get : t -> int
-      val auto_cone_mid_set_exn : t -> int -> unit
-      val auto_cone_low_get : t -> int
-      val auto_cone_low_set_exn : t -> int -> unit
-      val auto_cube_high_get : t -> int
-      val auto_cube_high_set_exn : t -> int -> unit
-      val auto_cube_mid_get : t -> int
-      val auto_cube_mid_set_exn : t -> int -> unit
-      val auto_cube_low_get : t -> int
-      val auto_cube_low_set_exn : t -> int -> unit
-      val tele_climb_get : t -> Climb_17059552977753218409.t
-      val tele_climb_set : t -> Climb_17059552977753218409.t -> unit
-      val tele_climb_set_unsafe : t -> Climb_17059552977753218409.t -> unit
-      val tele_cone_high_get : t -> int
-      val tele_cone_high_set_exn : t -> int -> unit
-      val tele_cone_mid_get : t -> int
-      val tele_cone_mid_set_exn : t -> int -> unit
-      val tele_cone_low_get : t -> int
-      val tele_cone_low_set_exn : t -> int -> unit
-      val tele_cube_high_get : t -> int
-      val tele_cube_high_set_exn : t -> int -> unit
-      val tele_cube_mid_get : t -> int
-      val tele_cube_mid_set_exn : t -> int -> unit
-      val tele_cube_low_get : t -> int
-      val tele_cube_low_set_exn : t -> int -> unit
+      val starting_position_get : t -> SPosition_15975123903786802361.t
+      val starting_position_set : t -> SPosition_15975123903786802361.t -> unit
+      val starting_position_set_unsafe : t -> SPosition_15975123903786802361.t -> unit
+      val wing_note1_get : t -> bool
+      val wing_note1_set : t -> bool -> unit
+      val wing_note2_get : t -> bool
+      val wing_note2_set : t -> bool -> unit
+      val wing_note3_get : t -> bool
+      val wing_note3_set : t -> bool -> unit
+      val center_note1_get : t -> bool
+      val center_note1_set : t -> bool -> unit
+      val center_note2_get : t -> bool
+      val center_note2_set : t -> bool -> unit
+      val center_note3_get : t -> bool
+      val center_note3_set : t -> bool -> unit
+      val center_note4_get : t -> bool
+      val center_note4_set : t -> bool -> unit
+      val center_note5_get : t -> bool
+      val center_note5_set : t -> bool -> unit
+      val auto_amp_score_get : t -> int
+      val auto_amp_score_set_exn : t -> int -> unit
+      val auto_amp_miss_get : t -> int
+      val auto_amp_miss_set_exn : t -> int -> unit
+      val auto_speaker_score_get : t -> int
+      val auto_speaker_score_set_exn : t -> int -> unit
+      val auto_speaker_miss_get : t -> int
+      val auto_speaker_miss_set_exn : t -> int -> unit
+      val auto_leave_get : t -> bool
+      val auto_leave_set : t -> bool -> unit
+      val tele_speaker_score_get : t -> int
+      val tele_speaker_score_set_exn : t -> int -> unit
+      val tele_speaker_miss_get : t -> int
+      val tele_speaker_miss_set_exn : t -> int -> unit
+      val tele_amp_score_get : t -> int
+      val tele_amp_score_set_exn : t -> int -> unit
+      val tele_amp_miss_get : t -> int
+      val tele_amp_miss_set_exn : t -> int -> unit
+      val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
+      val tele_breakdown_set : t -> TBreakdown_16560530708388719165.t -> unit
+      val tele_breakdown_set_unsafe : t -> TBreakdown_16560530708388719165.t -> unit
+      val endgame_park_get : t -> bool
+      val endgame_park_set : t -> bool -> unit
+      val endgame_climb_get : t -> EClimb_13533464256854897024.t
+      val endgame_climb_set : t -> EClimb_13533464256854897024.t -> unit
+      val endgame_climb_set_unsafe : t -> EClimb_13533464256854897024.t -> unit
+      val endgame_trap_get : t -> bool
+      val endgame_trap_set : t -> bool -> unit
       val of_message : rw message_t -> t
       val to_message : t -> rw message_t
       val to_reader : t -> struct_t reader_t
       val init_root : ?message_size:int -> unit -> t
       val init_pointer : pointer_t -> t
     end
-    module Climb : sig
-      type t = Climb_17059552977753218409.t =
+    module SPosition : sig
+      type t = SPosition_15975123903786802361.t =
+        | Left
+        | Center
+        | Right
+        | Undefined of int
+    end
+    module TBreakdown : sig
+      type t = TBreakdown_16560530708388719165.t =
         | None
-        | Docked
-        | Engaged
+        | Tipped
+        | MechanicalFailure
+        | Incapacitated
+        | Undefined of int
+    end
+    module EClimb : sig
+      type t = EClimb_13533464256854897024.t =
+        | Success
+        | Failed
+        | DidNotAttempt
+        | Harmony
         | Undefined of int
     end
     module RobotPosition : sig
@@ -263,26 +322,78 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       | Blue3 -> 5
       | Undefined x -> x
   end
-  module Climb_17059552977753218409 = struct
+  module EClimb_13533464256854897024 = struct
+    type t =
+      | Success
+      | Failed
+      | DidNotAttempt
+      | Harmony
+      | Undefined of int
+    let decode u16 = match u16 with
+      | 0 -> Success
+      | 1 -> Failed
+      | 2 -> DidNotAttempt
+      | 3 -> Harmony
+      | v -> Undefined v
+    let encode_safe enum = match enum with
+      | Success -> 0
+      | Failed -> 1
+      | DidNotAttempt -> 2
+      | Harmony -> 3
+      | Undefined x -> invalid_msg "Cannot encode undefined enum value."
+    let encode_unsafe enum = match enum with
+      | Success -> 0
+      | Failed -> 1
+      | DidNotAttempt -> 2
+      | Harmony -> 3
+      | Undefined x -> x
+  end
+  module TBreakdown_16560530708388719165 = struct
     type t =
       | None
-      | Docked
-      | Engaged
+      | Tipped
+      | MechanicalFailure
+      | Incapacitated
       | Undefined of int
     let decode u16 = match u16 with
       | 0 -> None
-      | 1 -> Docked
-      | 2 -> Engaged
+      | 1 -> Tipped
+      | 2 -> MechanicalFailure
+      | 3 -> Incapacitated
       | v -> Undefined v
     let encode_safe enum = match enum with
       | None -> 0
-      | Docked -> 1
-      | Engaged -> 2
+      | Tipped -> 1
+      | MechanicalFailure -> 2
+      | Incapacitated -> 3
       | Undefined x -> invalid_msg "Cannot encode undefined enum value."
     let encode_unsafe enum = match enum with
       | None -> 0
-      | Docked -> 1
-      | Engaged -> 2
+      | Tipped -> 1
+      | MechanicalFailure -> 2
+      | Incapacitated -> 3
+      | Undefined x -> x
+  end
+  module SPosition_15975123903786802361 = struct
+    type t =
+      | Left
+      | Center
+      | Right
+      | Undefined of int
+    let decode u16 = match u16 with
+      | 0 -> Left
+      | 1 -> Center
+      | 2 -> Right
+      | v -> Undefined v
+    let encode_safe enum = match enum with
+      | Left -> 0
+      | Center -> 1
+      | Right -> 2
+      | Undefined x -> invalid_msg "Cannot encode undefined enum value."
+    let encode_unsafe enum = match enum with
+      | Left -> 0
+      | Center -> 1
+      | Right -> 2
       | Undefined x -> x
   end
   module DefaultsCopier_ =
@@ -314,54 +425,77 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         RA_.has_field x 1
       let scouter_name_get x =
         RA_.get_text ~default:"" x 1
-      let incap_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:4 ~bit_ofs:0
-      let playing_defense_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:4 ~bit_ofs:1
-      let has_notes x =
-        RA_.has_field x 2
-      let notes_get x =
-        RA_.get_text ~default:"" x 2
-      let auto_mobility_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:4 ~bit_ofs:2
-      let auto_climb_get x =
-        let discr = RA_.get_uint16 ~default:0 x 6 in
-        Climb_17059552977753218409.decode discr
-      let auto_cone_high_get x =
+      let starting_position_get x =
+        let discr = RA_.get_uint16 ~default:0 x 4 in
+        SPosition_15975123903786802361.decode discr
+      let wing_note1_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:0
+      let wing_note2_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:1
+      let wing_note3_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:2
+      let center_note1_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:3
+      let center_note2_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:4
+      let center_note3_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:5
+      let center_note4_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:6
+      let center_note5_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:7
+      let auto_amp_score_get x =
         RA_.get_int16 ~default:(0) x 8
-      let auto_cone_mid_get x =
+      let auto_amp_miss_get x =
         RA_.get_int16 ~default:(0) x 10
-      let auto_cone_low_get x =
+      let auto_speaker_score_get x =
         RA_.get_int16 ~default:(0) x 12
-      let auto_cube_high_get x =
+      let auto_speaker_miss_get x =
         RA_.get_int16 ~default:(0) x 14
-      let auto_cube_mid_get x =
+      let auto_leave_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:0
+      let tele_speaker_score_get x =
         RA_.get_int16 ~default:(0) x 16
-      let auto_cube_low_get x =
+      let tele_speaker_miss_get x =
         RA_.get_int16 ~default:(0) x 18
-      let tele_climb_get x =
-        let discr = RA_.get_uint16 ~default:0 x 20 in
-        Climb_17059552977753218409.decode discr
-      let tele_cone_high_get x =
+      let tele_amp_score_get x =
+        RA_.get_int16 ~default:(0) x 20
+      let tele_amp_miss_get x =
         RA_.get_int16 ~default:(0) x 22
-      let tele_cone_mid_get x =
-        RA_.get_int16 ~default:(0) x 24
-      let tele_cone_low_get x =
-        RA_.get_int16 ~default:(0) x 26
-      let tele_cube_high_get x =
-        RA_.get_int16 ~default:(0) x 28
-      let tele_cube_mid_get x =
-        RA_.get_int16 ~default:(0) x 30
-      let tele_cube_low_get x =
-        RA_.get_int16 ~default:(0) x 32
+      let tele_breakdown_get x =
+        let discr = RA_.get_uint16 ~default:0 x 24 in
+        TBreakdown_16560530708388719165.decode discr
+      let endgame_park_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
+      let endgame_climb_get x =
+        let discr = RA_.get_uint16 ~default:0 x 26 in
+        EClimb_13533464256854897024.decode discr
+      let endgame_trap_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:2
       let of_message x = RA_.get_root_struct (RA_.Message.readonly x)
       let of_builder x = Some (RA_.StructStorage.readonly x)
     end
-    module Climb = struct
-      type t = Climb_17059552977753218409.t =
+    module SPosition = struct
+      type t = SPosition_15975123903786802361.t =
+        | Left
+        | Center
+        | Right
+        | Undefined of int
+    end
+    module TBreakdown = struct
+      type t = TBreakdown_16560530708388719165.t =
         | None
-        | Docked
-        | Engaged
+        | Tipped
+        | MechanicalFailure
+        | Incapacitated
+        | Undefined of int
+    end
+    module EClimb = struct
+      type t = EClimb_13533464256854897024.t =
+        | Success
+        | Failed
+        | DidNotAttempt
+        | Harmony
         | Undefined of int
     end
     module RobotPosition = struct
@@ -427,99 +561,132 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.get_text ~default:"" x 1
       let scouter_name_set x v =
         BA_.set_text x 1 v
-      let incap_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:4 ~bit_ofs:0
-      let incap_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:4 ~bit_ofs:0 v
-      let playing_defense_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:4 ~bit_ofs:1
-      let playing_defense_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:4 ~bit_ofs:1 v
-      let has_notes x =
-        BA_.has_field x 2
-      let notes_get x =
-        BA_.get_text ~default:"" x 2
-      let notes_set x v =
-        BA_.set_text x 2 v
-      let auto_mobility_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:4 ~bit_ofs:2
-      let auto_mobility_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:4 ~bit_ofs:2 v
-      let auto_climb_get x =
-        let discr = BA_.get_uint16 ~default:0 x 6 in
-        Climb_17059552977753218409.decode discr
-      let auto_climb_set x e =
-        BA_.set_uint16 ~default:0 x 6 (Climb_17059552977753218409.encode_safe e)
-      let auto_climb_set_unsafe x e =
-        BA_.set_uint16 ~default:0 x 6 (Climb_17059552977753218409.encode_unsafe e)
-      let auto_cone_high_get x =
+      let starting_position_get x =
+        let discr = BA_.get_uint16 ~default:0 x 4 in
+        SPosition_15975123903786802361.decode discr
+      let starting_position_set x e =
+        BA_.set_uint16 ~default:0 x 4 (SPosition_15975123903786802361.encode_safe e)
+      let starting_position_set_unsafe x e =
+        BA_.set_uint16 ~default:0 x 4 (SPosition_15975123903786802361.encode_unsafe e)
+      let wing_note1_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:0
+      let wing_note1_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:0 v
+      let wing_note2_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:1
+      let wing_note2_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:1 v
+      let wing_note3_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:2
+      let wing_note3_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:2 v
+      let center_note1_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:3
+      let center_note1_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:3 v
+      let center_note2_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:4
+      let center_note2_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:4 v
+      let center_note3_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:5
+      let center_note3_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:5 v
+      let center_note4_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:6
+      let center_note4_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:6 v
+      let center_note5_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:7
+      let center_note5_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:7 v
+      let auto_amp_score_get x =
         BA_.get_int16 ~default:(0) x 8
-      let auto_cone_high_set_exn x v =
+      let auto_amp_score_set_exn x v =
         BA_.set_int16 ~default:(0) x 8 v
-      let auto_cone_mid_get x =
+      let auto_amp_miss_get x =
         BA_.get_int16 ~default:(0) x 10
-      let auto_cone_mid_set_exn x v =
+      let auto_amp_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 10 v
-      let auto_cone_low_get x =
+      let auto_speaker_score_get x =
         BA_.get_int16 ~default:(0) x 12
-      let auto_cone_low_set_exn x v =
+      let auto_speaker_score_set_exn x v =
         BA_.set_int16 ~default:(0) x 12 v
-      let auto_cube_high_get x =
+      let auto_speaker_miss_get x =
         BA_.get_int16 ~default:(0) x 14
-      let auto_cube_high_set_exn x v =
+      let auto_speaker_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 14 v
-      let auto_cube_mid_get x =
+      let auto_leave_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:0
+      let auto_leave_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:0 v
+      let tele_speaker_score_get x =
         BA_.get_int16 ~default:(0) x 16
-      let auto_cube_mid_set_exn x v =
+      let tele_speaker_score_set_exn x v =
         BA_.set_int16 ~default:(0) x 16 v
-      let auto_cube_low_get x =
+      let tele_speaker_miss_get x =
         BA_.get_int16 ~default:(0) x 18
-      let auto_cube_low_set_exn x v =
+      let tele_speaker_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 18 v
-      let tele_climb_get x =
-        let discr = BA_.get_uint16 ~default:0 x 20 in
-        Climb_17059552977753218409.decode discr
-      let tele_climb_set x e =
-        BA_.set_uint16 ~default:0 x 20 (Climb_17059552977753218409.encode_safe e)
-      let tele_climb_set_unsafe x e =
-        BA_.set_uint16 ~default:0 x 20 (Climb_17059552977753218409.encode_unsafe e)
-      let tele_cone_high_get x =
+      let tele_amp_score_get x =
+        BA_.get_int16 ~default:(0) x 20
+      let tele_amp_score_set_exn x v =
+        BA_.set_int16 ~default:(0) x 20 v
+      let tele_amp_miss_get x =
         BA_.get_int16 ~default:(0) x 22
-      let tele_cone_high_set_exn x v =
+      let tele_amp_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 22 v
-      let tele_cone_mid_get x =
-        BA_.get_int16 ~default:(0) x 24
-      let tele_cone_mid_set_exn x v =
-        BA_.set_int16 ~default:(0) x 24 v
-      let tele_cone_low_get x =
-        BA_.get_int16 ~default:(0) x 26
-      let tele_cone_low_set_exn x v =
-        BA_.set_int16 ~default:(0) x 26 v
-      let tele_cube_high_get x =
-        BA_.get_int16 ~default:(0) x 28
-      let tele_cube_high_set_exn x v =
-        BA_.set_int16 ~default:(0) x 28 v
-      let tele_cube_mid_get x =
-        BA_.get_int16 ~default:(0) x 30
-      let tele_cube_mid_set_exn x v =
-        BA_.set_int16 ~default:(0) x 30 v
-      let tele_cube_low_get x =
-        BA_.get_int16 ~default:(0) x 32
-      let tele_cube_low_set_exn x v =
-        BA_.set_int16 ~default:(0) x 32 v
-      let of_message x = BA_.get_root_struct ~data_words:5 ~pointer_words:3 x
+      let tele_breakdown_get x =
+        let discr = BA_.get_uint16 ~default:0 x 24 in
+        TBreakdown_16560530708388719165.decode discr
+      let tele_breakdown_set x e =
+        BA_.set_uint16 ~default:0 x 24 (TBreakdown_16560530708388719165.encode_safe e)
+      let tele_breakdown_set_unsafe x e =
+        BA_.set_uint16 ~default:0 x 24 (TBreakdown_16560530708388719165.encode_unsafe e)
+      let endgame_park_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
+      let endgame_park_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1 v
+      let endgame_climb_get x =
+        let discr = BA_.get_uint16 ~default:0 x 26 in
+        EClimb_13533464256854897024.decode discr
+      let endgame_climb_set x e =
+        BA_.set_uint16 ~default:0 x 26 (EClimb_13533464256854897024.encode_safe e)
+      let endgame_climb_set_unsafe x e =
+        BA_.set_uint16 ~default:0 x 26 (EClimb_13533464256854897024.encode_unsafe e)
+      let endgame_trap_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:2
+      let endgame_trap_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:2 v
+      let of_message x = BA_.get_root_struct ~data_words:4 ~pointer_words:2 x
       let to_message x = x.BA_.NM.StructStorage.data.MessageWrapper.Slice.msg
       let to_reader x = Some (RA_.StructStorage.readonly x)
       let init_root ?message_size () =
-        BA_.alloc_root_struct ?message_size ~data_words:5 ~pointer_words:3 ()
+        BA_.alloc_root_struct ?message_size ~data_words:4 ~pointer_words:2 ()
       let init_pointer ptr =
-        BA_.init_struct_pointer ptr ~data_words:5 ~pointer_words:3
+        BA_.init_struct_pointer ptr ~data_words:4 ~pointer_words:2
     end
-    module Climb = struct
-      type t = Climb_17059552977753218409.t =
+    module SPosition = struct
+      type t = SPosition_15975123903786802361.t =
+        | Left
+        | Center
+        | Right
+        | Undefined of int
+    end
+    module TBreakdown = struct
+      type t = TBreakdown_16560530708388719165.t =
         | None
-        | Docked
-        | Engaged
+        | Tipped
+        | MechanicalFailure
+        | Incapacitated
+        | Undefined of int
+    end
+    module EClimb = struct
+      type t = EClimb_13533464256854897024.t =
+        | Success
+        | Failed
+        | DidNotAttempt
+        | Harmony
         | Undefined of int
     end
     module RobotPosition = struct

@@ -340,10 +340,20 @@ sha256compute() {
         sha256compute_FILE=$(/usr/bin/cygpath -a "$sha256compute_FILE")
     fi
 
-    if [ -x /usr/bin/shasum ]; then
-        /usr/bin/shasum -a 256 "$sha256compute_FILE" | awk '{print $1}'
-    elif [ -x /usr/bin/sha256sum ]; then
-        /usr/bin/sha256sum "$sha256compute_FILE" | awk '{print $1}'
+    autodetect_system_binaries
+    if [ -x /usr/bin/shasum ]; then # macOS, OpenBSD, Debian
+        # CODESITE #1 (duplicates elsewhere).
+        # On Debian shasum is a perl script, and perl needs locale settings or it will complain.
+        # Confer: https://www.thomas-krenn.com/en/wiki/Perl_warning_Setting_locale_failed_in_Debian
+        # Confer: https://stackoverflow.com/a/52004330/21513816
+        #   shellcheck disable=SC2016
+        LANG=C.UTF-8 LC_ALL=C.UTF-8 /usr/bin/shasum -a 256 "$sha256compute_FILE" | "$DKMLSYS_AWK" '{print $1}'
+    elif [ -x /usr/bin/sha256sum ]; then # Linux, MSYS2
+        #   shellcheck disable=SC2016
+        /usr/bin/sha256sum "$sha256compute_FILE" | "$DKMLSYS_AWK" '{print $1}'
+    elif [ -x /sbin/sha256 ]; then # FreeBSD
+        #   shellcheck disable=SC2016
+        /sbin/sha256 -r "$sha256compute_FILE" | "$DKMLSYS_AWK" '{print $1}'
     else
         printf "FATAL: %s\n" "No sha256 checksum utility found" >&2
         exit 107
@@ -357,12 +367,27 @@ sha256check() {
     shift
     sha256check_SUM="$1"
     shift
-    if [ -x /usr/bin/shasum ]; then
-        printf "%s  %s" "$sha256check_SUM" "$sha256check_FILE" | /usr/bin/shasum -a 256 -c >&2
-    elif [ -x /usr/bin/sha256sum ]; then
+
+    if [ -x /usr/bin/shasum ]; then # macOS, OpenBSD, Debian
+        # CODESITE #1 (duplicates elsewhere).
+        # On Debian shasum is a perl script, and perl needs locale settings or it will complain.
+        # Confer: https://www.thomas-krenn.com/en/wiki/Perl_warning_Setting_locale_failed_in_Debian
+        # Confer: https://stackoverflow.com/a/52004330/21513816
+        #   shellcheck disable=SC2016
+        printf "%s  %s" "$sha256check_SUM" "$sha256check_FILE" | LANG=C.UTF-8 LC_ALL=C.UTF-8 /usr/bin/shasum -a 256 -c >&2
+    elif [ -x /usr/bin/sha256sum ]; then # Linux, MSYS2
         printf "%s  %s" "$sha256check_SUM" "$sha256check_FILE" | /usr/bin/sha256sum -c >&2
+    elif [ -x /sbin/sha256 ]; then # FreeBSD
+        /sbin/sha256 -c "$sha256check_SUM" "$sha256check_FILE" >&2
     else
         printf "FATAL: %s\n" "No sha256 checksum utility found" >&2
+
+        # REMOVEME!
+        if [ -d /sbin ]; then printf "/sbin:\n" >&2; ls /sbin >&2; fi
+        if [ -d /usr/sbin ]; then printf "/usr/sbin:\n" >&2; ls /usr/sbin >&2; fi
+        if [ -d /bin ]; then printf "/bin:\n" >&2; ls /bin >&2; fi
+        if [ -d /usr/bin ]; then printf "/usr/bin:\n" >&2; ls /usr/bin >&2; fi
+
         exit 107
     fi
 }
@@ -478,15 +503,32 @@ fi
 # PREREQS
 # -------
 
+cmake_majmin_ver=3.25
+cmake_majminpat_ver=3.25.2
+cmake_cksum256_linux_x86_64="783da74f132fd1fea91b8236d267efa4df5b91c5eec1dea0a87f0cf233748d99"
+cmake_cksum256_linux_x86="715ef82e81b48db3e4c7744614c15ff361d53f6987fd70b1b66b0880595f2e2c"
+cmake_cksum256_linux_arm64="9216ecf0449ade700e66e0def11eeaebf9fa7d4428c02f49cb59f11418d3f8a5"
+
 install_linux_prog() {
   install_linux_prog_NAME=$1
   shift
   install_linux_prog_PKG=$1
   shift
+  install_linux_prog_ALPINE_PKG=$1
+  shift
   if [ -x "/usr/bin/$install_linux_prog_NAME" ]; then
     export DK_PROG_INSTALLED_LOCATION="/usr/bin/$install_linux_prog_NAME"
+  elif [ -x "/bin/$install_linux_prog_NAME" ]; then
+    export DK_PROG_INSTALLED_LOCATION="/bin/$install_linux_prog_NAME"
   else
-    if command -v yum > /dev/null 2> /dev/null; then
+    if [ -x /sbin/apk ]; then
+      if [ "$(id -u)" -eq 0 ]; then
+        /sbin/apk add "$install_linux_prog_ALPINE_PKG"
+      else
+        echo "Running: sudo /sbin/apk add $install_linux_prog_ALPINE_PKG"
+        sudo /sbin/apk add "$install_linux_prog_ALPINE_PKG"
+      fi
+    elif command -v yum > /dev/null 2> /dev/null; then
       if [ "$(id -u)" -eq 0 ]; then
         yum install -y "$install_linux_prog_PKG"
       else
@@ -526,6 +568,8 @@ install_macos_prog() {
   shift
   if [ -x "/usr/bin/$install_macos_prog_NAME" ]; then
     export DK_PROG_INSTALLED_LOCATION="/usr/bin/$install_macos_prog_NAME"
+  elif [ -x "/bin/$install_macos_prog_NAME" ]; then
+    export DK_PROG_INSTALLED_LOCATION="/bin/$install_macos_prog_NAME"
   elif [ -x "/usr/local/bin/$install_macos_prog_NAME" ]; then
     export DK_PROG_INSTALLED_LOCATION="/usr/local/bin/$install_macos_prog_NAME"
   elif get_homebrew_binary "$install_macos_prog_NAME"; then
@@ -554,8 +598,12 @@ install_macos_prog() {
 
 case $BUILDHOST_ARCH in
   linux_*)
-    install_linux_prog wget wget # For [downloadfile]
-    install_linux_prog tar tar # For handling tar balls later in this script
+    #   Need either [wget] or [curl] for [downloadfile]
+    if [ ! -x /usr/bin/wget ] && [ ! -x /bin/wget ] && [ ! -x /usr/bin/curl ] && [ ! -x /bin/curl ]; then
+      install_linux_prog wget wget wget || install_linux_prog curl curl curl
+    fi
+    #   For handling tar balls later in this script
+    install_linux_prog tar tar tar
     ;;
 esac
 
@@ -569,7 +617,7 @@ case $BUILDHOST_ARCH in
     install_macos_prog ninja ninja
     NINJA_EXE=$DK_PROG_INSTALLED_LOCATION;;
   linux_*)
-    install_linux_prog ninja ninja-build
+    install_linux_prog ninja ninja-build ninja
     NINJA_EXE=$DK_PROG_INSTALLED_LOCATION;;
 esac
 
@@ -579,17 +627,15 @@ esac
 case $BUILDHOST_ARCH in
   linux_*)
     #   This is for CMake to do FetchContent()
-    install_linux_prog git git ;;
+    install_linux_prog git git git ;;
 esac
 case $BUILDHOST_ARCH in
   linux_x86)
     #   This is for Python wheel extraction
-    install_linux_prog unzip unzip ;;
+    install_linux_prog unzip unzip unzip ;;
 esac
 
 cmake_base=
-cmake_majmin_ver=3.25
-cmake_majminpat_ver=3.25.2
 cmake_bindir=
 cmake_destdir=$tools_dir/cmake-$cmake_majminpat_ver
 install -d "$tools_dir/dl"
@@ -600,29 +646,41 @@ download_cmake() {
       cmake_bindir=$(dirname "$DK_PROG_INSTALLED_LOCATION")
       ;;
     linux_x86_64)
-      cmake_base="cmake-$cmake_majminpat_ver-linux-x86_64"
-      printf "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux x86_64" >&2
-      downloadfile \
-        "https://github.com/Kitware/CMake/releases/download/v$cmake_majminpat_ver/$cmake_base.tar.gz" \
-        "$tools_dir/dl/cmake.tar.gz" \
-        783da74f132fd1fea91b8236d267efa4df5b91c5eec1dea0a87f0cf233748d99
-      cmake_bindir="$cmake_destdir/bin" ;;
+      if [ -x /sbin/apk ]; then
+        install_linux_prog cmake cmake cmake
+      else
+        cmake_base="cmake-$cmake_majminpat_ver-linux-x86_64"
+        printf "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux x86_64" >&2
+        downloadfile \
+          "https://github.com/Kitware/CMake/releases/download/v$cmake_majminpat_ver/$cmake_base.tar.gz" \
+          "$tools_dir/dl/cmake.tar.gz" \
+          $cmake_cksum256_linux_x86_64
+        cmake_bindir="$cmake_destdir/bin"
+      fi ;;
     linux_x86)
-      # CMake does not provide 32-bit binaries. But pypi does at https://pypi.org/project/cmake/
-      printf "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux x86" >&2
-      downloadfile \
-        https://files.pythonhosted.org/packages/11/6e/aeeddf2f5b16542b6a30ceab4896421e8705d8e9a9296dba79395db11b00/cmake-3.25.2-py2.py3-none-manylinux_2_17_i686.manylinux2014_i686.whl \
-        "$tools_dir/dl/cmake.whl" \
-        715ef82e81b48db3e4c7744614c15ff361d53f6987fd70b1b66b0880595f2e2c
-      cmake_bindir="$cmake_destdir/bin" ;;
+      if [ -x /sbin/apk ]; then
+        install_linux_prog cmake cmake cmake
+      else
+        # CMake does not provide 32-bit binaries. But pypi does at https://pypi.org/project/cmake/
+        printf "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux x86" >&2
+        downloadfile \
+          https://files.pythonhosted.org/packages/11/6e/aeeddf2f5b16542b6a30ceab4896421e8705d8e9a9296dba79395db11b00/cmake-3.25.2-py2.py3-none-manylinux_2_17_i686.manylinux2014_i686.whl \
+          "$tools_dir/dl/cmake.whl" \
+          $cmake_cksum256_linux_x86
+        cmake_bindir="$cmake_destdir/bin"
+      fi ;;
     linux_arm64)
-      cmake_base="cmake-$cmake_majminpat_ver-linux-aarch64"
-      printf "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux ARM64" >&2
-      downloadfile \
-        "https://github.com/Kitware/CMake/releases/download/v$cmake_majminpat_ver/$cmake_base.tar.gz" \
-        "$tools_dir/dl/cmake.tar.gz" \
-        9216ecf0449ade700e66e0def11eeaebf9fa7d4428c02f49cb59f11418d3f8a5
-      cmake_bindir="$cmake_destdir/bin" ;;
+      if [ -x /sbin/apk ]; then
+        install_linux_prog cmake cmake cmake
+      else
+        cmake_base="cmake-$cmake_majminpat_ver-linux-aarch64"
+        printf "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux ARM64" >&2
+        downloadfile \
+          "https://github.com/Kitware/CMake/releases/download/v$cmake_majminpat_ver/$cmake_base.tar.gz" \
+          "$tools_dir/dl/cmake.tar.gz" \
+          $cmake_cksum256_linux_arm64
+        cmake_bindir="$cmake_destdir/bin"
+      fi ;;
   esac
 }
 export_cmake_vars() {
@@ -635,10 +693,12 @@ export_cmake_vars() {
         cmake_bindir=$(dirname "$cmake_bindir")
       fi
       ;;
-    linux_x86_64)
-      cmake_bindir="$cmake_destdir/bin" ;;
-    linux_x86)
-      cmake_bindir="$cmake_destdir/bin" ;;
+    linux_x86_64|linux_x86|linux_arm64)
+      if [ -x /sbin/apk ]; then
+        cmake_bindir=/usr/bin
+      else
+        cmake_bindir="$cmake_destdir/bin"
+      fi ;;
   esac
 }
 have_correct_cmake=0
@@ -702,9 +762,12 @@ fi
 
 # Put tools in PATH
 export_cmake_vars
-if [ -n "$cmake_bindir" ] && [ -d "$cmake_bindir" ]; then
+if [ ! "$cmake_bindir" = "/usr/bin" ]; then
+  true
+elif [ -n "$cmake_bindir" ] && [ -d "$cmake_bindir" ]; then
   tools_bin_dir=$(cd "$cmake_bindir" && pwd)
   export PATH="$tools_bin_dir:$PATH"
+  unset tools_bin_dir
 else
   echo "This platform is not supported. No cmake 3.25+ download logic has been added" >&2
   exit 1

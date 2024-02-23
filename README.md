@@ -71,13 +71,20 @@ FINALLY, if you want to run Android Studio, run:
 ./dk dksdk.android.studio.download NO_SYSTEM_PATH
 
 # Each time
-GDK_SCALE=2 ./dk dksdk.android.studio.run
+./dk dksdk.android.studio.run SCALE=2
 ```
 
 ### Android Studio
 
 To make Android Studio speedier, you will want to go to `Actions` (Ctrl-Shift-A on Windows)
 and then start typing and select `Check Ignored but not Excluded Directories`.
+
+You may also experience time-consuming `Scanning index files`, `Loading symbols` and `Indexing` actions.
+To avoid these in the future, right-click on any `\\wsl.localhost` based `build/DkSDKFiles` folders and **Mark Directory as Excluded**:
+
+![Mark build/DkSDKFiles directory as Excluded](static/exclude-DkSDKFiles.png)
+
+You can then restart Android Studio.
 
 ### Testing
 

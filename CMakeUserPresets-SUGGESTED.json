@@ -69,6 +69,7 @@
         "ci-host-darwin_arm64",
         "ci-target-darwin_arm64"
       ],
+      "binaryDir": "build_dev",
       "displayName": "Dev Apple Silicon",
       "generator": "Ninja",
       "vendor": {
@@ -101,6 +102,7 @@
         "ci-host-linux_x86_64",
         "ci-target-linux_x86_64"
       ],
+      "binaryDir": "build_dev",
       "displayName": "Dev Linux x86_64",
       "generator": "Ninja",
       "vendor": {
@@ -133,6 +135,7 @@
         "ci-host-windows_x86_64",
         "ci-target-windows_x86_64"
       ],
+      "binaryDir": "build_dev",
       "displayName": "Dev Windows 64-bit",
       "generator": "Ninja",
       "vendor": {

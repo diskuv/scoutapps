@@ -114,6 +114,14 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
             if(rawMatchData.positionScoutingIsSet())
                 dropdown.setText(rawMatchData.positionScouting());
         });
+
+        //populate text fields if info available
+        if(scoutSingleton.getMatchNum() != -1){
+            chooseMatchI.setText(String.valueOf(scoutSingleton.getRobotNum()));
+        }
+        if(scoutSingleton.getRobotColor() != ""){
+            dropdown.setText(String.valueOf(scoutSingleton.getRobotColor()));
+        }
     }
 
     @Override
@@ -217,6 +225,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
                 model.captureScoutingRobotNumber(Integer.parseInt(robotNumberI.getText().toString()));
                 scoutSingleton.setRobotNum(Integer.parseInt(robotNumberI.getText().toString()));
                 scoutSingleton.setMatchNum(Integer.parseInt(chooseMatchI.getText().toString()));
+                scoutSingleton.setRobotColor(dropdown.getText().toString());
                 // Create an Intent to launch the target activity
                 Intent intent = new Intent(StartScoutingActivity.this, AutonomousActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

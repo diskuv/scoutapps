@@ -79,6 +79,7 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setTeleCubeHigh((short) v.cubeHighT());
         rawMatchData.setTeleCubeMid((short) v.cubeMidT());
         rawMatchData.setTeleCubeLow((short) v.cubeLowT());
+        //rawMatchData.setAmpScore((short) v.ampScore());
 
 
 

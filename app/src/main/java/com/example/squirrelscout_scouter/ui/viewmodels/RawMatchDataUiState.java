@@ -57,4 +57,5 @@ public interface RawMatchDataUiState {
     boolean defense();
 
     boolean incapacitated();
+    int ampScore();
 }

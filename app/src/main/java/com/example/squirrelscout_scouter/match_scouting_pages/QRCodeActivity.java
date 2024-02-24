@@ -41,6 +41,8 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
         ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
         TextView label = (TextView) findViewById(R.id.textView3);
         label.setText("Match #" + scoutSingleton.getMatchNum() + "\n" + scoutSingleton.getRobotNum());
+        Button qrButton = (Button) findViewById(R.id.NEXT);
+        qrButton.setOnClickListener(this);
     }
 
     public void onClick(View view){

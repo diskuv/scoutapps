@@ -152,7 +152,7 @@ module Table : Table_type = struct
       Tele_Speaker_Miss;
       Tele_Amp_Score;
       Tele_Amp_Miss;
-      Tele_Range
+      Tele_Range;
       Tele_Breakdown;
       Endgame_Climb;
       Endgame_Trap;
@@ -194,9 +194,9 @@ module Table : Table_type = struct
     in
 
     let position_to_string : ProjectSchema.Reader.SPosition.t -> string = function
-      | Left -> "AMPSIDE"
+      | AmpSide -> "AMPSIDE"
       | Center -> "CENTER"
-      | Right -> "SOURCESIDE"
+      | SourceSide -> "SOURCESIDE"
       | Undefined _ -> "UNDEFINED"
     in
 
@@ -213,7 +213,7 @@ module Table : Table_type = struct
       | Failed -> "FAILED"
       | DidNotAttempt -> "DID_NOT_ATTEMPT"
       | Harmony -> "HARMONY"
-      | Parked -> "PARKED"
+      | Park -> "PARK"
       | Undefined _ -> "UNDEFINED"
     in
 
@@ -244,7 +244,7 @@ module Table : Table_type = struct
       let values =
         Printf.sprintf
         "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
-        \         %s, %s, %s, %s, %s, %s, %s, %s"
+        \         %s, %s, %s, %s, %s, %s, %s, %s, %s"
         (match_data |> team_number_get |> string_of_int)
         (match_data |> team_name_get |> string_to_cmd_line_form)
         (match_data |> match_number_get |> string_of_int)
@@ -270,7 +270,7 @@ module Table : Table_type = struct
         (match_data |> tele_speaker_miss_get |> string_of_int)
         (match_data |> tele_amp_score_get |> string_of_int)
         (match_data |> tele_amp_miss_get |> string_of_int)
-        (match_data |> tele_range_get |> string_of_int)
+        (match_data |> t_range_get |> string_to_cmd_line_form)
         (match_data |> tele_breakdown_get |> breakdown_to_string
        |> string_to_cmd_line_form)
         (match_data |> endgame_climb_get |> teleopClimb_to_string

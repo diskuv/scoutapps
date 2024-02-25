@@ -76,6 +76,8 @@ module type S = sig
       val tele_speaker_miss_get : t -> int
       val tele_amp_score_get : t -> int
       val tele_amp_miss_get : t -> int
+      val has_t_range : t -> bool
+      val t_range_get : t -> string
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_trap_get : t -> bool
@@ -189,6 +191,9 @@ module type S = sig
       val tele_amp_score_set_exn : t -> int -> unit
       val tele_amp_miss_get : t -> int
       val tele_amp_miss_set_exn : t -> int -> unit
+      val has_t_range : t -> bool
+      val t_range_get : t -> string
+      val t_range_set : t -> string -> unit
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
       val tele_breakdown_set : t -> TBreakdown_16560530708388719165.t -> unit
       val tele_breakdown_set_unsafe : t -> TBreakdown_16560530708388719165.t -> unit
@@ -466,6 +471,10 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         RA_.get_int16 ~default:(0) x 20
       let tele_amp_miss_get x =
         RA_.get_int16 ~default:(0) x 22
+      let has_t_range x =
+        RA_.has_field x 2
+      let t_range_get x =
+        RA_.get_text ~default:"" x 2
       let tele_breakdown_get x =
         let discr = RA_.get_uint16 ~default:0 x 24 in
         TBreakdown_16560530708388719165.decode discr
@@ -639,6 +648,12 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.get_int16 ~default:(0) x 22
       let tele_amp_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 22 v
+      let has_t_range x =
+        BA_.has_field x 2
+      let t_range_get x =
+        BA_.get_text ~default:"" x 2
+      let t_range_set x v =
+        BA_.set_text x 2 v
       let tele_breakdown_get x =
         let discr = BA_.get_uint16 ~default:0 x 24 in
         TBreakdown_16560530708388719165.decode discr
@@ -657,13 +672,13 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
       let endgame_trap_set x v =
         BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1 v
-      let of_message x = BA_.get_root_struct ~data_words:4 ~pointer_words:2 x
+      let of_message x = BA_.get_root_struct ~data_words:4 ~pointer_words:3 x
       let to_message x = x.BA_.NM.StructStorage.data.MessageWrapper.Slice.msg
       let to_reader x = Some (RA_.StructStorage.readonly x)
       let init_root ?message_size () =
-        BA_.alloc_root_struct ?message_size ~data_words:4 ~pointer_words:2 ()
+        BA_.alloc_root_struct ?message_size ~data_words:4 ~pointer_words:3 ()
       let init_pointer ptr =
-        BA_.init_struct_pointer ptr ~data_words:4 ~pointer_words:2
+        BA_.init_struct_pointer ptr ~data_words:4 ~pointer_words:3
     end
     module SPosition = struct
       type t = SPosition_15975123903786802361.t =

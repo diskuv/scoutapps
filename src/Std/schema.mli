@@ -76,6 +76,8 @@ module type S = sig
       val tele_speaker_miss_get : t -> int
       val tele_amp_score_get : t -> int
       val tele_amp_miss_get : t -> int
+      val has_t_range : t -> bool
+      val t_range_get : t -> string
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_trap_get : t -> bool
@@ -189,6 +191,9 @@ module type S = sig
       val tele_amp_score_set_exn : t -> int -> unit
       val tele_amp_miss_get : t -> int
       val tele_amp_miss_set_exn : t -> int -> unit
+      val has_t_range : t -> bool
+      val t_range_get : t -> string
+      val t_range_set : t -> string -> unit
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
       val tele_breakdown_set : t -> TBreakdown_16560530708388719165.t -> unit
       val tele_breakdown_set_unsafe : t -> TBreakdown_16560530708388719165.t -> unit

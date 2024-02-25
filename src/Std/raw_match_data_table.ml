@@ -58,6 +58,7 @@ module Table : Table_type = struct
     | Tele_Speaker_Miss
     | Tele_Amp_Score
     | Tele_Amp_Miss
+    | Tele_Range
     | Tele_Breakdown
     | Endgame_Climb
     | Endgame_Trap
@@ -88,6 +89,7 @@ module Table : Table_type = struct
     | Tele_Speaker_Miss -> "tele_speaker_miss"
     | Tele_Amp_Score -> "tele_amp_score"
     | Tele_Amp_Miss -> "tele_amp_miss"
+    | Tele_Range -> "tele_range"
     | Tele_Breakdown -> "tele_breakdown"
     | Endgame_Climb -> "endgame_climb"
     | Endgame_Trap -> "endgame_trap"
@@ -118,6 +120,7 @@ module Table : Table_type = struct
     | Tele_Speaker_Miss -> "INT"
     | Tele_Amp_Score -> "INT"
     | Tele_Amp_Miss -> "INT"
+    | Tele_Range -> "Text"
     | Tele_Breakdown -> "TEXT"
     | Endgame_Climb -> "TEXT"
     | Endgame_Trap -> "TEXT"
@@ -149,6 +152,7 @@ module Table : Table_type = struct
       Tele_Speaker_Miss;
       Tele_Amp_Score;
       Tele_Amp_Miss;
+      Tele_Range
       Tele_Breakdown;
       Endgame_Climb;
       Endgame_Trap;
@@ -266,6 +270,7 @@ module Table : Table_type = struct
         (match_data |> tele_speaker_miss_get |> string_of_int)
         (match_data |> tele_amp_score_get |> string_of_int)
         (match_data |> tele_amp_miss_get |> string_of_int)
+        (match_data |> tele_range_get |> string_of_int)
         (match_data |> tele_breakdown_get |> breakdown_to_string
        |> string_to_cmd_line_form)
         (match_data |> endgame_climb_get |> teleopClimb_to_string

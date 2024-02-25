@@ -129,7 +129,7 @@ module Table : Table_type = struct
       Team_name;
       Match_Number;
       Scouter_Name;
-      (*  *)
+      (* Auto *)
       Starting_Position;
       Wing_Note1;
       Wing_Note2;
@@ -144,7 +144,7 @@ module Table : Table_type = struct
       Auto_Speaker_Score;
       Auto_Speaker_Miss;
       Auto_Leave;
-      (*  *)
+      (* Teleop *)
       Tele_Speaker_Score;
       Tele_Speaker_Miss;
       Tele_Amp_Score;
@@ -190,9 +190,9 @@ module Table : Table_type = struct
     in
 
     let position_to_string : ProjectSchema.Reader.SPosition.t -> string = function
-      | Left -> "LEFT"
+      | Left -> "AMPSIDE"
       | Center -> "CENTER"
-      | Right -> "RIGHT"
+      | Right -> "SOURCESIDE"
       | Undefined _ -> "UNDEFINED"
     in
 
@@ -209,6 +209,7 @@ module Table : Table_type = struct
       | Failed -> "FAILED"
       | DidNotAttempt -> "DID_NOT_ATTEMPT"
       | Harmony -> "HARMONY"
+      | Parked -> "PARKED"
       | Undefined _ -> "UNDEFINED"
     in
 

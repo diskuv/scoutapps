@@ -25,6 +25,7 @@ module type S = sig
       | Failed
       | DidNotAttempt
       | Harmony
+      | Park
       | Undefined of int
   end
   module TBreakdown_16560530708388719165 : sig
@@ -37,9 +38,9 @@ module type S = sig
   end
   module SPosition_15975123903786802361 : sig
     type t =
-      | Left
+      | AmpSide
       | Center
-      | Right
+      | SourceSide
       | Undefined of int
   end
 
@@ -76,7 +77,6 @@ module type S = sig
       val tele_amp_score_get : t -> int
       val tele_amp_miss_get : t -> int
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
-      val endgame_park_get : t -> bool
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_trap_get : t -> bool
       val of_message : 'cap message_t -> t
@@ -84,9 +84,9 @@ module type S = sig
     end
     module SPosition : sig
       type t = SPosition_15975123903786802361.t =
-        | Left
+        | AmpSide
         | Center
-        | Right
+        | SourceSide
         | Undefined of int
     end
     module TBreakdown : sig
@@ -103,6 +103,7 @@ module type S = sig
         | Failed
         | DidNotAttempt
         | Harmony
+        | Park
         | Undefined of int
     end
     module RobotPosition : sig
@@ -191,8 +192,6 @@ module type S = sig
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
       val tele_breakdown_set : t -> TBreakdown_16560530708388719165.t -> unit
       val tele_breakdown_set_unsafe : t -> TBreakdown_16560530708388719165.t -> unit
-      val endgame_park_get : t -> bool
-      val endgame_park_set : t -> bool -> unit
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_climb_set : t -> EClimb_13533464256854897024.t -> unit
       val endgame_climb_set_unsafe : t -> EClimb_13533464256854897024.t -> unit
@@ -206,9 +205,9 @@ module type S = sig
     end
     module SPosition : sig
       type t = SPosition_15975123903786802361.t =
-        | Left
+        | AmpSide
         | Center
-        | Right
+        | SourceSide
         | Undefined of int
     end
     module TBreakdown : sig
@@ -225,6 +224,7 @@ module type S = sig
         | Failed
         | DidNotAttempt
         | Harmony
+        | Park
         | Undefined of int
     end
     module RobotPosition : sig

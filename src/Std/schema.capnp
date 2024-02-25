@@ -35,17 +35,15 @@ struct RawMatchData {
   teleAmpScore @20 : Int16;
   teleAmpMiss @21 : Int16;
   teleBreakdown @22: TBreakdown;
-  endgamePark @23 : Bool;
-  endgameClimb @24 : EClimb;
-  endgameTrap @25 : Bool;
-
+  endgameClimb @23 : EClimb;
+  endgameTrap @24 : Bool;
   
 }
 
 enum SPosition{
-  left @0;
+  ampSide @0;
   center @1;
-  right @2;
+  sourceSide @2;
 }
 
 enum TBreakdown{
@@ -60,6 +58,7 @@ enum EClimb{
   failed @1;
   didNotAttempt @2;
   harmony @3;
+  park @4;
 }
 
 enum RobotPosition {

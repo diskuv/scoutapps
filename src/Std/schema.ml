@@ -25,6 +25,7 @@ module type S = sig
       | Failed
       | DidNotAttempt
       | Harmony
+      | Park
       | Undefined of int
   end
   module TBreakdown_16560530708388719165 : sig
@@ -37,9 +38,9 @@ module type S = sig
   end
   module SPosition_15975123903786802361 : sig
     type t =
-      | Left
+      | AmpSide
       | Center
-      | Right
+      | SourceSide
       | Undefined of int
   end
 
@@ -76,7 +77,6 @@ module type S = sig
       val tele_amp_score_get : t -> int
       val tele_amp_miss_get : t -> int
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
-      val endgame_park_get : t -> bool
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_trap_get : t -> bool
       val of_message : 'cap message_t -> t
@@ -84,9 +84,9 @@ module type S = sig
     end
     module SPosition : sig
       type t = SPosition_15975123903786802361.t =
-        | Left
+        | AmpSide
         | Center
-        | Right
+        | SourceSide
         | Undefined of int
     end
     module TBreakdown : sig
@@ -103,6 +103,7 @@ module type S = sig
         | Failed
         | DidNotAttempt
         | Harmony
+        | Park
         | Undefined of int
     end
     module RobotPosition : sig
@@ -191,8 +192,6 @@ module type S = sig
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
       val tele_breakdown_set : t -> TBreakdown_16560530708388719165.t -> unit
       val tele_breakdown_set_unsafe : t -> TBreakdown_16560530708388719165.t -> unit
-      val endgame_park_get : t -> bool
-      val endgame_park_set : t -> bool -> unit
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_climb_set : t -> EClimb_13533464256854897024.t -> unit
       val endgame_climb_set_unsafe : t -> EClimb_13533464256854897024.t -> unit
@@ -206,9 +205,9 @@ module type S = sig
     end
     module SPosition : sig
       type t = SPosition_15975123903786802361.t =
-        | Left
+        | AmpSide
         | Center
-        | Right
+        | SourceSide
         | Undefined of int
     end
     module TBreakdown : sig
@@ -225,6 +224,7 @@ module type S = sig
         | Failed
         | DidNotAttempt
         | Harmony
+        | Park
         | Undefined of int
     end
     module RobotPosition : sig
@@ -328,24 +328,28 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       | Failed
       | DidNotAttempt
       | Harmony
+      | Park
       | Undefined of int
     let decode u16 = match u16 with
       | 0 -> Success
       | 1 -> Failed
       | 2 -> DidNotAttempt
       | 3 -> Harmony
+      | 4 -> Park
       | v -> Undefined v
     let encode_safe enum = match enum with
       | Success -> 0
       | Failed -> 1
       | DidNotAttempt -> 2
       | Harmony -> 3
+      | Park -> 4
       | Undefined x -> invalid_msg "Cannot encode undefined enum value."
     let encode_unsafe enum = match enum with
       | Success -> 0
       | Failed -> 1
       | DidNotAttempt -> 2
       | Harmony -> 3
+      | Park -> 4
       | Undefined x -> x
   end
   module TBreakdown_16560530708388719165 = struct
@@ -376,24 +380,24 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
   end
   module SPosition_15975123903786802361 = struct
     type t =
-      | Left
+      | AmpSide
       | Center
-      | Right
+      | SourceSide
       | Undefined of int
     let decode u16 = match u16 with
-      | 0 -> Left
+      | 0 -> AmpSide
       | 1 -> Center
-      | 2 -> Right
+      | 2 -> SourceSide
       | v -> Undefined v
     let encode_safe enum = match enum with
-      | Left -> 0
+      | AmpSide -> 0
       | Center -> 1
-      | Right -> 2
+      | SourceSide -> 2
       | Undefined x -> invalid_msg "Cannot encode undefined enum value."
     let encode_unsafe enum = match enum with
-      | Left -> 0
+      | AmpSide -> 0
       | Center -> 1
-      | Right -> 2
+      | SourceSide -> 2
       | Undefined x -> x
   end
   module DefaultsCopier_ =
@@ -465,21 +469,19 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       let tele_breakdown_get x =
         let discr = RA_.get_uint16 ~default:0 x 24 in
         TBreakdown_16560530708388719165.decode discr
-      let endgame_park_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
       let endgame_climb_get x =
         let discr = RA_.get_uint16 ~default:0 x 26 in
         EClimb_13533464256854897024.decode discr
       let endgame_trap_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:2
+        RA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
       let of_message x = RA_.get_root_struct (RA_.Message.readonly x)
       let of_builder x = Some (RA_.StructStorage.readonly x)
     end
     module SPosition = struct
       type t = SPosition_15975123903786802361.t =
-        | Left
+        | AmpSide
         | Center
-        | Right
+        | SourceSide
         | Undefined of int
     end
     module TBreakdown = struct
@@ -496,6 +498,7 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         | Failed
         | DidNotAttempt
         | Harmony
+        | Park
         | Undefined of int
     end
     module RobotPosition = struct
@@ -643,10 +646,6 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.set_uint16 ~default:0 x 24 (TBreakdown_16560530708388719165.encode_safe e)
       let tele_breakdown_set_unsafe x e =
         BA_.set_uint16 ~default:0 x 24 (TBreakdown_16560530708388719165.encode_unsafe e)
-      let endgame_park_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
-      let endgame_park_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1 v
       let endgame_climb_get x =
         let discr = BA_.get_uint16 ~default:0 x 26 in
         EClimb_13533464256854897024.decode discr
@@ -655,9 +654,9 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       let endgame_climb_set_unsafe x e =
         BA_.set_uint16 ~default:0 x 26 (EClimb_13533464256854897024.encode_unsafe e)
       let endgame_trap_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:2
+        BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
       let endgame_trap_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:2 v
+        BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1 v
       let of_message x = BA_.get_root_struct ~data_words:4 ~pointer_words:2 x
       let to_message x = x.BA_.NM.StructStorage.data.MessageWrapper.Slice.msg
       let to_reader x = Some (RA_.StructStorage.readonly x)
@@ -668,9 +667,9 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
     end
     module SPosition = struct
       type t = SPosition_15975123903786802361.t =
-        | Left
+        | AmpSide
         | Center
-        | Right
+        | SourceSide
         | Undefined of int
     end
     module TBreakdown = struct
@@ -687,6 +686,7 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         | Failed
         | DidNotAttempt
         | Harmony
+        | Park
         | Undefined of int
     end
     module RobotPosition = struct

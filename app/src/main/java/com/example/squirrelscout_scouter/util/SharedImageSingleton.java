@@ -52,4 +52,10 @@ public class SharedImageSingleton extends Application {
     public int getMiss(){
         return miss;
     }
+
+    public void reset(){
+        scored = 0;
+        success = 0;
+        miss = 0;
+    }
 }

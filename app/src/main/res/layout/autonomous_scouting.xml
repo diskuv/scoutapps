@@ -129,7 +129,7 @@
             android:id="@+id/linearLayout8"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_29sdp"
-            android:layout_marginStart="@dimen/_28sdp"
+            android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_110sdp"
             android:layout_marginEnd="@dimen/_29sdp"
             android:orientation="horizontal"
@@ -139,12 +139,12 @@
 
             <Button
                 android:id="@+id/Start_Left"
-                android:layout_width="@dimen/_75sdp"
+                android:layout_width="@dimen/_80sdp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:background="@drawable/rounded_rectangle_subtle"
                 android:backgroundTint="@color/white"
-                android:text="Left"
+                android:text="Amp Side"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15ssp"
                 app:backgroundTint="@null"
@@ -154,7 +154,7 @@
 
             <Button
                 android:id="@+id/Start_Center"
-                android:layout_width="@dimen/_75sdp"
+                android:layout_width="@dimen/_70sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@drawable/rounded_rectangle_subtle"
@@ -166,17 +166,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/Start_Right"
-                android:layout_width="@dimen/_75sdp"
+                android:layout_width="@dimen/_85sdp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:gravity="center"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:background="@drawable/rounded_rectangle_subtle"
                 android:backgroundTint="@color/white"
-                android:text="Right"
+                android:gravity="center"
+                android:text="Source Side"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_15ssp"
+                android:textSize="@dimen/_13ssp"
                 app:backgroundTint="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

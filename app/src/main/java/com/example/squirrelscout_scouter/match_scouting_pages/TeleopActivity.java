@@ -51,8 +51,8 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     //Pickup Location
     Button groundButton, sourceButton;
     //Endgame
-    Button parkYes, parkNo, trapYes, trapNo;
-    boolean parkBool, trapBool;
+    Button trapYes, trapNo;
+    boolean trapBool;
     private boolean popUpWindowLaunched = false;
     private static final int REQUEST_POPUP = 1;
 
@@ -82,6 +82,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
         TextView label = (TextView) findViewById(R.id.textView3);
         label.setText("Match #" + scoutSingleton.getMatchNum() + "\n" + scoutSingleton.getRobotNum());
+        sharedImageSingleton.reset();
 
                 // view model
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
@@ -112,10 +113,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         groundButton.setOnClickListener(this);
         sourceButton = (Button) findViewById(R.id.Source_Pickup);
         sourceButton.setOnClickListener(this);
-        parkYes = (Button) findViewById(R.id.PARK_YES);
-        parkYes.setOnClickListener(this);
-        parkNo = (Button) findViewById(R.id.PARK_NO);
-        parkNo.setOnClickListener(this);
         trapYes = (Button) findViewById(R.id.TRAP_YES);
         trapYes.setOnClickListener(this);
         trapNo = (Button) findViewById(R.id.TRAP_NO);
@@ -146,7 +143,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
         //Climb dropdown
         dropdown2 = findViewById(R.id.dropdown2);
-        String[] items2 = new String[]{"Success", "Failed", "Did Not Attempt", "Harmony"};
+        String[] items2 = new String[]{"Park", "Success", "Failed", "Did Not Attempt", "Harmony"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.dropdown_text, items2);
         dropdown2.setAdapter(adapter2);
         dropdown2.setKeyListener(null);
@@ -295,12 +292,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         else if(clickedId == R.id.Ground_Pickup){
             pickUpLocationLogic(groundButton);
         }
-        else if(clickedId == R.id.PARK_YES){
-            parkYesLogic();
-        }
-        else if(clickedId == R.id.PARK_NO){
-            parkNoLogic();;
-        }
         else if(clickedId == R.id.TRAP_YES){
             trapYesLogic();
         }
@@ -310,30 +301,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         else if(clickedId == R.id.NEXT){
             animateButton((Button) view);
             nextPageLogic();
-        }
-    }
-
-    //Park endgame logic
-    private void parkYesLogic(){
-        //if not selected
-        if(parkYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            parkYes.setTextColor(ContextCompat.getColor(this, R.color.white));
-            parkYes.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.green));
-            parkNo.setTextColor(ContextCompat.getColor(this, R.color.black));
-            parkNo.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            parkBool = true;
-            nextPageCheck();
-        }
-    }
-    private void parkNoLogic(){
-        //if not selected
-        if(parkNo.getTextColors() != ContextCompat.getColorStateList(this, R.color.white)){
-            parkYes.setTextColor(ContextCompat.getColor(this, R.color.black));
-            parkYes.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.lightGrey));
-            parkNo.setTextColor(ContextCompat.getColor(this, R.color.white));
-            parkNo.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.error));
-            parkBool = false;
-            nextPageCheck();
         }
     }
 
@@ -363,7 +330,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
     //next page logic
     private void nextPageCheck(){
-        if(parkYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(dropdown2.getText().toString().isEmpty()) && (trapYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green))){
+        if(!(dropdown2.getText().toString().isEmpty()) && (trapYes.getTextColors() != ContextCompat.getColorStateList(this, R.color.green))){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");

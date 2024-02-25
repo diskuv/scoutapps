@@ -420,7 +420,6 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureAutonomous()
 
         model.captureAutoData(
-                leaveBool,
                 robotPosition,
                 wing1,
                 wing2,
@@ -430,11 +429,11 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
                 checkBox9.isChecked(),
                 checkBox10.isChecked(),
                 checkBox11.isChecked(),
+                Integer.parseInt(ampScore.getText().toString()),
+                Integer.parseInt(ampMiss.getText().toString()),
                 Integer.parseInt(speakerScore.getText().toString()),
                 Integer.parseInt(speakerMiss.getText().toString()),
-                Integer.parseInt(ampScore.getText().toString()),
-                Integer.parseInt(ampMiss.getText().toString())
-
+                leaveBool
         );
 
     }

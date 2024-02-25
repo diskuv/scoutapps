@@ -18,47 +18,9 @@ public interface RawMatchDataUiState {
 
     String positionScouting();
 
-    //delete later
-    String autoClimb();
-
-    String teleClimb();
-
-    String notes();
-
     int matchScouting();
 
     int robotScouting();
-
-    int coneHighA();
-
-    int coneMidA();
-
-    int coneLowA();
-
-    int cubeHighA();
-
-    int cubeMidA();
-
-    int cubeLowA();
-
-    int coneHighT();
-
-    int coneMidT();
-
-    int coneLowT();
-
-    int cubeHighT();
-
-    int cubeMidT();
-
-    int cubeLowT();
-
-    boolean mobility();
-
-    boolean defense();
-
-    boolean incapacitated();
-
 
     //auto
     String startingPosition();
@@ -81,8 +43,8 @@ public interface RawMatchDataUiState {
     int teleSpeakerMiss();
     int teleAmpScore();
     int teleAmpMiss();
+    String teleRange();
     String teleBreakdown();
-    boolean endgamePark();
     String endgameClimb();
     boolean endgameTrap();
 }

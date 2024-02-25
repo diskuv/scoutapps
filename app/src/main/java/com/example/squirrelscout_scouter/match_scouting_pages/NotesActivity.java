@@ -77,9 +77,9 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         model.getRawMatchDataSession().observe(this, session -> {
             ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
-            if(rawMatchData.notesIsSet()){
-                notesText.setText(rawMatchData.notes());
-            }
+//            if(rawMatchData.notesIsSet()){
+//                notesText.setText(rawMatchData.notes());
+//            }
         });
 
         // control visibility of the finish button. Only when the session

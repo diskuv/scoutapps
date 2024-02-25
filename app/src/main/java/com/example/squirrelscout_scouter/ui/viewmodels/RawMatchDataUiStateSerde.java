@@ -23,19 +23,56 @@ class RawMatchDataUiStateSerde {
         https://developer.android.com/topic/architecture/recommendations#layered-architecture
      */
 
-    public Schema.Climb stringToClimb(String climbString) {
-        switch (climbString){
-            case "Docked":
-                return Schema.Climb.DOCKED;
+    public Schema.SPosition stringToSPosition(String sp){
+        switch(sp){
+            case "Amp Side":
+                return Schema.SPosition.AMP_SIDE;
+            case "Center":
+                return Schema.SPosition.CENTER;
+            case "Source Side":
+                return Schema.SPosition.SOURCE_SIDE;
+            default:
+                return Schema.SPosition._NOT_IN_SCHEMA;
+        }
+    }
+    public Schema.TBreakdown stringToTBreakdown(String breakdown){
+        switch(breakdown){
+            case "None":
+                return Schema.TBreakdown.NONE;
 
-            case "Engaged":
-                return Schema.Climb.ENGAGED;
+            case "Tipped":
+                return Schema.TBreakdown.TIPPED;
 
-            case "No Attempt":
-                return Schema.Climb.NONE;
+            case "Mechanical Failure":
+                return Schema.TBreakdown.MECHANICAL_FAILURE;
+
+            case "Incapacitated":
+                return Schema.TBreakdown.INCAPACITATED;
 
             default:
-                return Schema.Climb.NONE;
+                return Schema.TBreakdown._NOT_IN_SCHEMA;
+        }
+    }
+
+    public Schema.EClimb stringToEClimb(String climb){
+        switch(climb){
+            case "Success":
+                return Schema.EClimb.SUCCESS;
+
+            case "Failed":
+                return Schema.EClimb.FAILED;
+
+            case "Did Not Attempt":
+                return Schema.EClimb.DID_NOT_ATTEMPT;
+
+            case "Harmony":
+                return Schema.EClimb.HARMONY;
+
+            case "Park":
+                return Schema.EClimb.PARK;
+
+            default:
+                return Schema.EClimb._NOT_IN_SCHEMA;
         }
     }
     public MessageBuilder toMessage(RawMatchDataUiState v) {
@@ -52,33 +89,52 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setTeamName("NO_NAME");
         rawMatchData.setMatchNumber( (short) v.matchScouting());
 
-        //general non-game specific
-        rawMatchData.setIncap(v.incapacitated());
-        rawMatchData.setPlayingDefense(v.defense());
-        rawMatchData.setNotes(v.notes());
+        //2024 auto
+        rawMatchData.setStartingPosition(stringToSPosition(v.startingPosition()));
+        rawMatchData.setWingNote1(v.wingNote1());
+        rawMatchData.setWingNote2(v.wingNote2());
+        rawMatchData.setWingNote3(v.wingNote3());
+        rawMatchData.setCenterNote1(v.centerNote1());
+        rawMatchData.setCenterNote2(v.centerNote2());
+        rawMatchData.setCenterNote3(v.centerNote3());
+        rawMatchData.setCenterNote4(v.centerNote4());
+        rawMatchData.setCenterNote5(v.centerNote5());
+        rawMatchData.setAutoAmpScore((short) v.autoAmpScore());
+        rawMatchData.setAutoAmpMiss((short) v.autoAmpMiss());
+        rawMatchData.setAutoLeave(v.autoLeave());
+        //2024 Tele-op
+        rawMatchData.setTeleSpeakerScore((short) v.teleSpeakerScore());
+        rawMatchData.setTeleSpeakerMiss((short) v.teleSpeakerMiss());
+        rawMatchData.setTeleAmpScore((short) v.teleAmpScore());
+        rawMatchData.setTeleAmpMiss((short) v.teleAmpMiss());
+        rawMatchData.setDistance(v.teleRange());
+        rawMatchData.setTeleBreakdown(stringToTBreakdown(v.teleBreakdown()));
+        rawMatchData.setEndgameClimb(stringToEClimb(v.endgameClimb()));
+        rawMatchData.setEndgameTrap(v.endgameTrap());
+
 
         //auto
-        rawMatchData.setAutoClimb(stringToClimb(v.autoClimb()));
-        rawMatchData.setAutoMobility(v.mobility());
-
-        rawMatchData.setAutoConeHigh((short) v.coneHighA());
-        rawMatchData.setAutoConeMid((short) v.coneMidA());
-        rawMatchData.setAutoConeLow((short) v.coneLowA());
-
-        rawMatchData.setAutoCubeHigh((short) v.cubeHighA());
-        rawMatchData.setAutoCubeMid((short) v.cubeMidA());
-        rawMatchData.setAutoCubeLow((short) v.cubeLowA());
-
-        //tele
-        rawMatchData.setTeleClimb(stringToClimb(v.teleClimb()));
-
-        rawMatchData.setTeleConeHigh((short) v.coneHighT());
-        rawMatchData.setTeleConeMid((short) v.coneMidT());
-        rawMatchData.setTeleConeLow((short) v.coneLowT());
-
-        rawMatchData.setTeleCubeHigh((short) v.cubeHighT());
-        rawMatchData.setTeleCubeMid((short) v.cubeMidT());
-        rawMatchData.setTeleCubeLow((short) v.cubeLowT());
+//        rawMatchData.setAutoClimb(stringToClimb(v.autoClimb()));
+//        rawMatchData.setAutoMobility(v.mobility());
+//
+//        rawMatchData.setAutoConeHigh((short) v.coneHighA());
+//        rawMatchData.setAutoConeMid((short) v.coneMidA());
+//        rawMatchData.setAutoConeLow((short) v.coneLowA());
+//
+//        rawMatchData.setAutoCubeHigh((short) v.cubeHighA());
+//        rawMatchData.setAutoCubeMid((short) v.cubeMidA());
+//        rawMatchData.setAutoCubeLow((short) v.cubeLowA());
+//
+//        //tele
+//        rawMatchData.setTeleClimb(stringToClimb(v.teleClimb()));
+//
+//        rawMatchData.setTeleConeHigh((short) v.coneHighT());
+//        rawMatchData.setTeleConeMid((short) v.coneMidT());
+//        rawMatchData.setTeleConeLow((short) v.coneLowT());
+//
+//        rawMatchData.setTeleCubeHigh((short) v.cubeHighT());
+//        rawMatchData.setTeleCubeMid((short) v.cubeMidT());
+//        rawMatchData.setTeleCubeLow((short) v.cubeLowT());
         //rawMatchData.setAmpScore((short) v.ampScore());
 
 
@@ -91,7 +147,7 @@ class RawMatchDataUiStateSerde {
         ImmutableRawMatchDataUiState.Builder builder = ImmutableRawMatchDataUiState.builder();
 
         // etc.
-        builder.coneHighA(root.getAutoConeHigh());
+        //builder.coneHighA(root.getAutoConeHigh());
 
         return builder.build();
     }

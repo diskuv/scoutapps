@@ -106,7 +106,7 @@ public class ScoutingSessionViewModel extends ViewModel {
 //            if (!clone.incapacitatedIsSet()) clone.setIncapacitated(false);
 //            if (!clone.defenseIsSet()) clone.setDefense(false);
 //            if (!clone.mobilityIsSet()) clone.setMobility(false);
-            if (!clone.notesIsSet()) clone.setNotes("UI needs setNotes");
+           // if (!clone.notesIsSet()) clone.setNotes("UI needs setNotes");
 //            if (!clone.teleClimbIsSet()) clone.setTeleClimb("UI needs setTeleClimb");
 //            if (!clone.coneHighAIsSet()) clone.setConeHighA(-1);
 //            if (!clone.coneHighTIsSet()) clone.setConeHighT(-1);
@@ -181,11 +181,27 @@ public class ScoutingSessionViewModel extends ViewModel {
         updateAndSetSession(session);
     }
 
-    public void captureAutoData(boolean leave, String position, boolean wing1, boolean wing2, boolean wing3, boolean center1, boolean center2, boolean center3, boolean center4, boolean center5, int speakerScore, int speakerMiss, int ampScore, int ampMiss){
+    public void captureAutoData(String startingPos, boolean wn1, boolean wn2, boolean wn3, boolean cn1, boolean cn2, boolean cn3, boolean cn4, boolean cn5, int ampScore, int ampMiss, int speakerScore, int speakerMiss, boolean autoLeave ){
         ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
         assert  session != null;
 
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+
+        //2024
+        rawMatchData.setStartingPosition(startingPos);
+        rawMatchData.setWingNote1(wn1);
+        rawMatchData.setWingNote2(wn3);
+        rawMatchData.setWingNote3(wn3);
+        rawMatchData.setCenterNote1(cn1);
+        rawMatchData.setCenterNote2(cn2);
+        rawMatchData.setCenterNote3(cn3);
+        rawMatchData.setCenterNote4(cn4);
+        rawMatchData.setCenterNote5(cn5);
+        rawMatchData.setAutoAmpScore(ampScore);
+        rawMatchData.setAutoAmpMiss(ampMiss);
+        rawMatchData.setAutoSpeakerScore(speakerScore);
+        rawMatchData.setAutoSpeakerMiss(speakerMiss);
+        rawMatchData.setAutoLeave(autoLeave);
 
         //have to change
 //        rawMatchData.setMobility(mobility);
@@ -209,14 +225,14 @@ public class ScoutingSessionViewModel extends ViewModel {
 
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
-        rawMatchData.setTeleClimb(climb);
-        rawMatchData.setConeHighT(coneHigh);
-        rawMatchData.setConeMidT(coneMid);
-        rawMatchData.setConeLowT(coneLow);
-
-        rawMatchData.setCubeHighT(cubeHigh);
-        rawMatchData.setCubeMidT(cubeMid);
-        rawMatchData.setCubeLowT(cubeLow);
+//        rawMatchData.setTeleClimb(climb);
+//        rawMatchData.setConeHighT(coneHigh);
+//        rawMatchData.setConeMidT(coneMid);
+//        rawMatchData.setConeLowT(coneLow);
+//
+//        rawMatchData.setCubeHighT(cubeHigh);
+//        rawMatchData.setCubeMidT(cubeMid);
+//        rawMatchData.setCubeLowT(cubeLow);
 
         updateAndSetSession(session);
     }
@@ -227,8 +243,8 @@ public class ScoutingSessionViewModel extends ViewModel {
 
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
-        rawMatchData.setIncapacitated(incap);
-        rawMatchData.setDefense(playingDefense);
+//        rawMatchData.setIncapacitated(incap);
+//        rawMatchData.setDefense(playingDefense);
 
         updateAndSetSession(session);
     }
@@ -239,7 +255,7 @@ public class ScoutingSessionViewModel extends ViewModel {
 
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
-        rawMatchData.setNotes(notes);
+        //rawMatchData.setNotes(notes);
 
         updateAndSetSession(session);
 

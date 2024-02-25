@@ -7,6 +7,7 @@
     android:background="@color/background">
 
     <!-- Cards to make the design look nice -->
+
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
@@ -100,4 +101,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.caverock.androidsvg.SVGImageView
+        android:id="@+id/svgViewQrCode2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/qr_code_description"
+        app:layout_constraintBottom_toBottomOf="@+id/Name_Input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:svg="cartman.svg" />
 </androidx.constraintlayout.widget.ConstraintLayout>

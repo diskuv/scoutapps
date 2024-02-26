@@ -1,5 +1,6 @@
 package com.example.squirrelscout_scouter.ui.viewmodels;
 
+import android.os.Debug;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -190,7 +191,7 @@ public class ScoutingSessionViewModel extends ViewModel {
         //2024
         rawMatchData.setStartingPosition(startingPos);
         rawMatchData.setWingNote1(wn1);
-        rawMatchData.setWingNote2(wn3);
+        rawMatchData.setWingNote2(wn2);
         rawMatchData.setWingNote3(wn3);
         rawMatchData.setCenterNote1(cn1);
         rawMatchData.setCenterNote2(cn2);
@@ -219,12 +220,22 @@ public class ScoutingSessionViewModel extends ViewModel {
         updateAndSetSession(session);
     }
 
-    public void captureTeleData(String climb, int coneHigh, int coneMid, int coneLow, int cubeHigh, int cubeMid, int cubeLow){
+    public void captureTeleData(int speakerScore, int speakerMiss, int ampScore, int ampMiss, String distance, String breakdown, String climb, boolean trap, String pickup){
         ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
         assert  session != null;
 
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
+        //2024 tele
+        rawMatchData.setTeleSpeakerScore(speakerScore);
+        rawMatchData.setTeleSpeakerMiss(speakerMiss);
+        rawMatchData.setTeleAmpScore(ampScore);
+        rawMatchData.setTeleAmpMiss(ampMiss);
+        rawMatchData.setTeleRange(distance);
+        rawMatchData.setTeleBreakdown(breakdown);
+        rawMatchData.setEndgameClimb(climb);
+        rawMatchData.setEndgameTrap(trap);
+        rawMatchData.setPickUpAbility(pickup);
 //        rawMatchData.setTeleClimb(climb);
 //        rawMatchData.setConeHighT(coneHigh);
 //        rawMatchData.setConeMidT(coneMid);
@@ -265,7 +276,10 @@ public class ScoutingSessionViewModel extends ViewModel {
         ImmutableRawMatchDataUiState completeRawMatchData = completedRawMatchData.getValue();
         /* Do nothing if the session is not complete. You should set the UI button (etc.) to
            not be visible so you never request a QR code. */
-        if (completeRawMatchData == null) return;
+        if (completeRawMatchData == null) {
+            Log.d("Notes", "Null rawMatchData");
+            return;
+        }
         qrRequests.setValue(completeRawMatchData);
     }
 

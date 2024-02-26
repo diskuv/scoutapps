@@ -96,27 +96,16 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
         //checkboxes
         checkBox1 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox1.setOnClickListener(this);
-        checkBox2 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox2.setOnClickListener(this);
-        checkBox3 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox3.setOnClickListener(this);
-        checkBox4 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox4.setOnClickListener(this);
-        checkBox5 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox5.setOnClickListener(this);
-        checkBox6 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox6.setOnClickListener(this);
-        checkBox7 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox7.setOnClickListener(this);
-        checkBox8 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox8.setOnClickListener(this);
-        checkBox9 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox9.setOnClickListener(this);
-        checkBox10 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox10.setOnClickListener(this);
-        checkBox11 = (CheckBox) findViewById(R.id.checkBox);
-        checkBox11.setOnClickListener(this);
+        checkBox2 = (CheckBox) findViewById(R.id.checkBox2);
+        checkBox3 = (CheckBox) findViewById(R.id.checkBox3);
+        checkBox4 = (CheckBox) findViewById(R.id.checkBox4);
+        checkBox5 = (CheckBox) findViewById(R.id.checkBox5);
+        checkBox6 = (CheckBox) findViewById(R.id.checkBox6);
+        checkBox7 = (CheckBox) findViewById(R.id.checkBox7);
+        checkBox8 = (CheckBox) findViewById(R.id.checkBox8);
+        checkBox9 = (CheckBox) findViewById(R.id.checkBox9);
+        checkBox10 = (CheckBox) findViewById(R.id.checkBox10);
+        checkBox11 = (CheckBox) findViewById(R.id.checkBox11);
 
         //leave auto points
         yesLeave = (Button) findViewById(R.id.LEAVE_YES);
@@ -232,7 +221,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
             rightPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
             rightPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
-            robotPosition = "Left";
+            robotPosition = "Amp Side";
             nextPageCheck();
         }
     }
@@ -245,7 +234,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             centerPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
             leftPosition.setTextColor(ContextCompat.getColor(this, R.color.white));
             leftPosition.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.darkGrey));
-            robotPosition = "Right";
+            robotPosition = "Source Side";
             nextPageCheck();
         }
     }
@@ -294,16 +283,6 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
             nextButton.setText("NEXT PAGE");
         }
-        if(checkBox1.isChecked() || checkBox4.isChecked()){
-            wing1 = true;
-        }
-        else if(checkBox2.isChecked() || checkBox5.isChecked()){
-            wing2 = true;
-        }
-        else if(checkBox3.isChecked() || checkBox6.isChecked()){
-            wing3 = true;
-        }
-
     }
     private void nextPageLogic(){
         if(nextButton.getText().toString().equals("NEXT PAGE")){
@@ -313,6 +292,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             Intent intent = new Intent(AutonomousActivity.this, TeleopActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Start the target activity with the Intent
+            saveScoutInfo();
             startActivity(intent);
         }
     }
@@ -418,6 +398,16 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
  */
     public void saveScoutInfo(){
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureAutonomous()
+
+        if(checkBox1.isChecked() || checkBox4.isChecked()){
+            wing1 = true;
+        }
+        if(checkBox2.isChecked() || checkBox5.isChecked()){
+            wing2 = true;
+        }
+        if(checkBox3.isChecked() || checkBox6.isChecked()){
+            wing3 = true;
+        }
 
         model.captureAutoData(
                 robotPosition,

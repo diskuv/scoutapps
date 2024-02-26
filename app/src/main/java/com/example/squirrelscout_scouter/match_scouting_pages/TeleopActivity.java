@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,11 +54,9 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     //Endgame
     Button trapYes, trapNo;
     boolean trapBool;
+    CheckBox checkBox1, checkBox2, checkBox3;
     private boolean popUpWindowLaunched = false;
     private static final int REQUEST_POPUP = 1;
-
-    int speakerScore = 0;
-    int speakerMissed = 0;
     float a, b;
     private MotionEvent savedEvent;
     ImageView imageView;
@@ -84,9 +83,9 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         label.setText("Match #" + scoutSingleton.getMatchNum() + "\n" + scoutSingleton.getRobotNum());
         sharedImageSingleton.reset();
 
-                // view model
+        // view model
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
-        //model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
+        model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
         //...
         ampScoreCounter = (TextView) findViewById(R.id.AmpScoredCounter);
@@ -117,6 +116,9 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         trapYes.setOnClickListener(this);
         trapNo = (Button) findViewById(R.id.TRAP_NO);
         trapNo.setOnClickListener(this);
+        checkBox1 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox2 = (CheckBox) findViewById(R.id.checkBox1);
+        checkBox3 = (CheckBox) findViewById(R.id.checkBox2);
 
         //Buttons
         nextButton = (Button) findViewById(R.id.NEXT);
@@ -347,6 +349,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             // Start the target activity with the Intent
             addMarker(0,0,imageView,4);
             saveImageToGallery(getMarkedImage(imageView), "Trial");
+            saveScoutInfo();
             startActivity(intent);
         }
     }
@@ -480,6 +483,46 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         }).start();
     }
 
+    private String getDistance(){
+        String dist = "";
+        if(checkBox1.isChecked()){
+            dist = "Subwoofer";
+        }
+        if(checkBox2.isChecked()){
+            if(!dist.equals("")){
+                dist += "-Wing";
+            }
+            else{
+                dist = "Wing";
+            }
+        }
+        if(checkBox3.isChecked()){
+            if(!dist.equals("")){
+                dist += "-Center Line";
+            }
+            else{
+                dist = "Center Line";
+            }
+        }
+        return dist;
+    }
+
+    private String getPickup(){
+        String p = "";
+        if(sourceButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
+            if(groundButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
+                p = "Source & Ground ";
+            }
+            else{
+                p = "Source";
+            }
+        }
+        else if(groundButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
+            p = "Ground";
+        }
+        return p;
+    }
+
     /*
     private void animationStart(){
         //animations
@@ -536,21 +579,21 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         }).start();
 
     }
-
+*/
     public void saveScoutInfo(){
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureTeleop()
 
         model.captureTeleData(
+                sharedImageSingleton.getSuccess(),
+                sharedImageSingleton.getMiss(),
+                Integer.parseInt(ampScoreCounter.getText().toString()),
+                Integer.parseInt(ampMissCounter.getText().toString()),
+                getDistance(),
                 dropdown.getText().toString(),
-                Integer.parseInt(coneHigh.getText().toString()),
-                Integer.parseInt(coneMid.getText().toString()),
-                Integer.parseInt(coneLow.getText().toString()),
-                Integer.parseInt(cubeHigh.getText().toString()),
-                Integer.parseInt(cubeMid.getText().toString()),
-                Integer.parseInt(cubeLow.getText().toString())
+                dropdown2.getText().toString(),
+                trapBool,
+                getPickup()
         );
-
-        model.captureIncapAndDefense(incapBool, defenseBool);
     }
-     */
+
 }

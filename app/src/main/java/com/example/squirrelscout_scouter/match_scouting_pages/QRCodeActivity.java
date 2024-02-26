@@ -57,7 +57,7 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
         Button qrButton = (Button) findViewById(R.id.NEXT);
         qrButton.setOnClickListener(this);
         qrCode = findViewById(R.id.svgViewQrCode2);
-        qrCode.setVisibility(View.INVISIBLE);
+        //qrCode.setVisibility(View.INVISIBLE);
 
         // TODO: Keyush/Archit: For Saturday. Do the Model -> UI.
         // bind view model updates to the UI (partially done with the finishButton visibility,
@@ -97,7 +97,6 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
                     /* Sending data results back to the UI thread */
                     uiThreadHandler.post(() -> {
                         qrCode.setSVG(svg);
-                        qrCode.setVisibility(View.VISIBLE);
                     });
                 }));
     }

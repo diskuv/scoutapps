@@ -34,8 +34,11 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
     private ScoutingSessionViewModel model;
     private Handler uiThreadHandler;
     private SVGImageView qrCode;
+    int click;
+    Button generate;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        click = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.qrcode_page);
 
@@ -57,15 +60,19 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
         Button qrButton = (Button) findViewById(R.id.NEXT);
         qrButton.setOnClickListener(this);
         qrCode = findViewById(R.id.svgViewQrCode2);
-        //qrCode.setVisibility(View.INVISIBLE);
+        qrCode.setVisibility(View.INVISIBLE);
+
+        generate = (Button) findViewById(R.id.generateQR);
+        generate.setOnClickListener(this);
 
         // TODO: Keyush/Archit: For Saturday. Do the Model -> UI.
         // bind view model updates to the UI (partially done with the finishButton visibility,
         // but have not set the notesText on the model)
 
-        model.getRawMatchDataSession().observe(this, session -> {
-            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
-        });
+//        model.getRawMatchDataSession().observe(this, session -> {
+//            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
+//        });
+
     }
 
     public void onClick(View view){
@@ -73,13 +80,20 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
         if(clickedId == R.id.NEXT){
             nextPageLogic();
         }
+        else if(clickedId == R.id.generateQR && click == 0){
+            click++;
+            generateQRCode();
+        }
     }
     public void nextPageLogic(){
-//        // Create an Intent to launch the target activity
-//        Intent intent = new Intent(QRCodeActivity.this, StartScoutingActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        // Start the target activity with the Intent
-//        startActivity(intent);
+        // Create an Intent to launch the target activity
+        Intent intent = new Intent(QRCodeActivity.this, StartScoutingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // Start the target activity with the Intent
+        startActivity(intent);
+    }
+
+    public void generateQRCode(){
         Toast.makeText(QRCodeActivity.this, "Creating QR code and going to next page", Toast.LENGTH_SHORT).show();
         Log.i("Notes", "Session as QR code is being created: " + model.printSession());
         model.requestQrCode();
@@ -97,6 +111,7 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
                     /* Sending data results back to the UI thread */
                     uiThreadHandler.post(() -> {
                         qrCode.setSVG(svg);
+                        qrCode.setVisibility(View.VISIBLE);
                     });
                 }));
     }

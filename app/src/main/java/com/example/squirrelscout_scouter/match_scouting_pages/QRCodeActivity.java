@@ -60,7 +60,13 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
         Button qrButton = (Button) findViewById(R.id.NEXT);
         qrButton.setOnClickListener(this);
         qrCode = findViewById(R.id.svgViewQrCode2);
+
+        // control visibility of the QR code button. Only when the session
+        // is complete should it be visible.
         qrCode.setVisibility(View.INVISIBLE);
+        model.getCompletedRawMatchData().observe(this, completed -> {
+            qrCode.setVisibility(completed == null ? View.INVISIBLE : View.VISIBLE);
+        });
 
         generate = (Button) findViewById(R.id.generateQR);
         generate.setOnClickListener(this);

@@ -1,5 +1,7 @@
 {
   "$comment": "Documentation is available at https://gitlab.com/diskuv/dksdk-access/-/blob/main/README.md",
+  // This is the default. Included for documentation purposes.
+  "fetchSubdirectory": "fetch",
   "dependencies": {
     // This dependency is required, and in this version of DkSDK it must be 1.0
     "dksdk": "1.0",

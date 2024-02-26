@@ -112,33 +112,6 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setEndgameClimb(stringToEClimb(v.endgameClimb()));
         rawMatchData.setEndgameTrap(v.endgameTrap());
 
-
-        //auto
-//        rawMatchData.setAutoClimb(stringToClimb(v.autoClimb()));
-//        rawMatchData.setAutoMobility(v.mobility());
-//
-//        rawMatchData.setAutoConeHigh((short) v.coneHighA());
-//        rawMatchData.setAutoConeMid((short) v.coneMidA());
-//        rawMatchData.setAutoConeLow((short) v.coneLowA());
-//
-//        rawMatchData.setAutoCubeHigh((short) v.cubeHighA());
-//        rawMatchData.setAutoCubeMid((short) v.cubeMidA());
-//        rawMatchData.setAutoCubeLow((short) v.cubeLowA());
-//
-//        //tele
-//        rawMatchData.setTeleClimb(stringToClimb(v.teleClimb()));
-//
-//        rawMatchData.setTeleConeHigh((short) v.coneHighT());
-//        rawMatchData.setTeleConeMid((short) v.coneMidT());
-//        rawMatchData.setTeleConeLow((short) v.coneLowT());
-//
-//        rawMatchData.setTeleCubeHigh((short) v.cubeHighT());
-//        rawMatchData.setTeleCubeMid((short) v.cubeMidT());
-//        rawMatchData.setTeleCubeLow((short) v.cubeLowT());
-        //rawMatchData.setAmpScore((short) v.ampScore());
-
-
-
         return message;
     }
 

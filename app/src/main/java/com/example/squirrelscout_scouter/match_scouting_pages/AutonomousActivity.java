@@ -124,40 +124,6 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         secondCard = (View) findViewById(R.id.view4);
         title = (TextView) findViewById(R.id.textView2);
 
-
-        /*
-        // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
-        // bind view model updates to the UI
-        model.getRawMatchDataSession().observe(this, session -> {
-            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
-
-            if(rawMatchData.mobilityIsSet()){
-                if(rawMatchData.mobility()){
-                    mobilityYesLogic();
-                } else {
-                    mobilityNoLogic();
-                }
-            }
-
-            if(rawMatchData.autoClimbIsSet()){
-                dropdown.setText(rawMatchData.autoClimb());
-            }
-
-            if(rawMatchData.coneHighAIsSet()) {
-                coneHigh.setText(String.valueOf(rawMatchData.coneHighA()));
-            }
-
-            if(rawMatchData.coneMidAIsSet()){
-                coneMid.setText(String.valueOf(rawMatchData.coneMidA()));
-            }
-
-            if(rawMatchData.coneLowAIsSet()) {
-                coneLow.setText(String.valueOf( rawMatchData.coneLowA()));
-            }
-
-        });
-        */
-
         //start animation
         //animationStart();
     }
@@ -287,7 +253,6 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
     private void nextPageLogic(){
         if(nextButton.getText().toString().equals("NEXT PAGE")){
             Toast.makeText(AutonomousActivity.this, "Going to Next Page", Toast.LENGTH_SHORT).show();
-            //saveScoutInfo();
             // Create an Intent to launch the target activity
             Intent intent = new Intent(AutonomousActivity.this, TeleopActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -65,14 +65,6 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
         generate = (Button) findViewById(R.id.generateQR);
         generate.setOnClickListener(this);
 
-        // TODO: Keyush/Archit: For Saturday. Do the Model -> UI.
-        // bind view model updates to the UI (partially done with the finishButton visibility,
-        // but have not set the notesText on the model)
-
-//        model.getRawMatchDataSession().observe(this, session -> {
-//            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
-//        });
-
     }
 
     public void onClick(View view){

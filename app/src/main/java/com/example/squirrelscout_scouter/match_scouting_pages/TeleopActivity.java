@@ -196,58 +196,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
             }
         });
 
-
-
         /*
-        // TODO: Keyush/Archit: For Saturday. Do the Model -> UI, and remove scoutInfo.
-        // bind view model updates to the UI
-
-        //...
-        model.getRawMatchDataSession().observe(this, session -> {
-            ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
-
-            if(rawMatchData.incapacitatedIsSet()){
-                if(rawMatchData.incapacitated()){
-                    incapYesLogic();
-                } else {
-                    incapNoLogic();
-                }
-            }
-
-            if(rawMatchData.defenseIsSet()){
-                if(rawMatchData.defense()){
-                    defenseYesLogic();
-                } else {
-                    defenseNoLogic();
-                }
-            }
-
-            if(rawMatchData.coneHighTIsSet()){
-                coneHigh.setText(String.valueOf(rawMatchData.coneHighT()));
-            }
-
-            if(rawMatchData.coneMidTIsSet()){
-                coneMid.setText(String.valueOf(rawMatchData.coneMidT()));
-            }
-
-            if(rawMatchData.coneLowTIsSet()) {
-                coneLow.setText(String.valueOf(rawMatchData.coneLowT()));
-            }
-
-            if(rawMatchData.cubeHighTIsSet()){
-                cubeHigh.setText(String.valueOf(rawMatchData.cubeHighT()));
-            }
-
-            if(rawMatchData.cubeMidTIsSet()){
-                cubeMid.setText(String.valueOf(rawMatchData.cubeMidT()));
-            }
-
-            if(rawMatchData.cubeLowTIsSet()){
-                cubeLow.setText(String.valueOf(rawMatchData.cubeLowT()));
-            }
-
-        });
-
         //start animation
         animationStart();
          */

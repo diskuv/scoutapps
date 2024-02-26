@@ -209,18 +209,6 @@ public class ScoutingSessionViewModel extends ViewModel {
         rawMatchData.setAutoSpeakerMiss(speakerMiss);
         rawMatchData.setAutoLeave(autoLeave);
 
-        //have to change
-//        rawMatchData.setMobility(mobility);
-//        rawMatchData.setAutoClimb(climb);
-//
-//        rawMatchData.setConeHighA(coneHigh);
-//        rawMatchData.setConeMidA(coneMid);
-//        rawMatchData.setConeLowA(coneLow);
-//
-//        rawMatchData.setCubeHighA(cubeHigh);
-//        rawMatchData.setCubeMidA(cubeMid);
-//        rawMatchData.setCubeLowA(cubeLow);
-
         //does this need to be called? would this overwrite/lose the previous captureMatchRobot method's session data?
         updateAndSetSession(session);
     }
@@ -241,40 +229,8 @@ public class ScoutingSessionViewModel extends ViewModel {
         rawMatchData.setEndgameClimb(climb);
         rawMatchData.setEndgameTrap(trap);
         rawMatchData.setPickUpAbility(pickup);
-//        rawMatchData.setTeleClimb(climb);
-//        rawMatchData.setConeHighT(coneHigh);
-//        rawMatchData.setConeMidT(coneMid);
-//        rawMatchData.setConeLowT(coneLow);
-//
-//        rawMatchData.setCubeHighT(cubeHigh);
-//        rawMatchData.setCubeMidT(cubeMid);
-//        rawMatchData.setCubeLowT(cubeLow);
 
         updateAndSetSession(session);
-    }
-
-    public void captureIncapAndDefense(boolean incap, boolean playingDefense){
-        ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
-        assert  session != null;
-
-        ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
-
-//        rawMatchData.setIncapacitated(incap);
-//        rawMatchData.setDefense(playingDefense);
-
-        updateAndSetSession(session);
-    }
-
-    public void captureNotes(String notes){
-        ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
-        assert  session != null;
-
-        ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
-
-        //rawMatchData.setNotes(notes);
-
-        updateAndSetSession(session);
-
     }
 
     public void requestQrCode() {

@@ -122,8 +122,6 @@ public class NotesActivity extends ComponentActivity implements View.OnClickList
         //go to qr code page
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureNotes()
 
-        model.captureNotes(notesText.getText().toString());
-
         Toast.makeText(NotesActivity.this, "Creating QR code and going to next page", Toast.LENGTH_SHORT).show();
         Log.i("Notes", "Session as QR code is being created: " + model.printSession());
         model.requestQrCode();

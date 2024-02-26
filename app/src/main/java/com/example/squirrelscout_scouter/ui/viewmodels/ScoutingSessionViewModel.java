@@ -83,6 +83,7 @@ public class ScoutingSessionViewModel extends ViewModel {
      * @return the completed RawMatchData, or null if incomplete
      */
     private ImmutableRawMatchDataUiState fromSessionToCompleted(ImmutableRawMatchDataSessionUiState session) {
+        Log.d("Qr Code", "Generating");
         // TODO: The UI is not complete:
         // - We pretend as if the UI completed all the fields.
         // - But we do _not_ touch the session ... we instead operate on a clone of the
@@ -100,29 +101,33 @@ public class ScoutingSessionViewModel extends ViewModel {
             // TODO: Keyush/Archit: For Saturday. All of these should be marked DONE once they are set from the *Activity pages
             // DONE: if (!clone.scoutTeamIsSet()) clone.setScoutTeam(-1);
             // DONE: if (!clone.scoutNameIsSet()) clone.setScoutName("UI needs setScoutName");
-//            if (!clone.positionScoutingIsSet())
-//                clone.setPositionScouting("UI needs setPositionScouting");
-//            if (!clone.matchScoutingIsSet()) clone.setMatchScouting(-1);
-//            if (!clone.autoClimbIsSet()) clone.setAutoClimb("UI needs setAutoClimb");
-//            if (!clone.incapacitatedIsSet()) clone.setIncapacitated(false);
-//            if (!clone.defenseIsSet()) clone.setDefense(false);
-//            if (!clone.mobilityIsSet()) clone.setMobility(false);
-           // if (!clone.notesIsSet()) clone.setNotes("UI needs setNotes");
-//            if (!clone.teleClimbIsSet()) clone.setTeleClimb("UI needs setTeleClimb");
-//            if (!clone.coneHighAIsSet()) clone.setConeHighA(-1);
-//            if (!clone.coneHighTIsSet()) clone.setConeHighT(-1);
-//            if (!clone.coneMidAIsSet()) clone.setConeMidA(-1);
-//            if (!clone.coneMidTIsSet()) clone.setConeMidT(-1);
-//            if (!clone.coneLowAIsSet()) clone.setConeLowA(-1);
-//            if (!clone.coneLowTIsSet()) clone.setConeLowT(-1);
-//            if (!clone.cubeHighAIsSet()) clone.setCubeHighA(-1);
-//            if (!clone.cubeHighTIsSet()) clone.setCubeHighT(-1);
-//            if (!clone.cubeMidAIsSet()) clone.setCubeMidA(-1);
-//            if (!clone.cubeMidTIsSet()) clone.setCubeMidT(-1);
-//            if (!clone.cubeLowAIsSet()) clone.setCubeLowA(-1);
-//            if (!clone.cubeLowTIsSet()) clone.setCubeLowT(-1);
+            if (!clone.positionScoutingIsSet())
+                clone.setPositionScouting("UI needs setPositionScouting");
+            if (!clone.matchScoutingIsSet()) clone.setMatchScouting(-1);
+            if (!clone.startingPositionIsSet()) clone.setStartingPosition("UI needs Starting Position");
+            if (!clone.wingNote1IsSet()) clone.setWingNote1(false);
+            if (!clone.wingNote2IsSet()) clone.setWingNote2(false);
+            if (!clone.wingNote3IsSet()) clone.setWingNote3(false);
+            if (!clone.centerNote1IsSet()) clone.setCenterNote1(false);
+            if (!clone.centerNote2IsSet()) clone.setCenterNote2(false);
+            if (!clone.centerNote3IsSet()) clone.setCenterNote3(false);
+            if (!clone.centerNote4IsSet()) clone.setCenterNote4(false);
+            if (!clone.centerNote5IsSet()) clone.setCenterNote5(false);
+            if (!clone.autoAmpScoreIsSet()) clone.setAutoAmpScore(-1);
+            if (!clone.autoAmpMissIsSet()) clone.setAutoAmpMiss(-1);
+            if (!clone.autoSpeakerScoreIsSet()) clone.setAutoSpeakerScore(-1);
+            if (!clone.autoSpeakerMissIsSet()) clone.setAutoSpeakerMiss(-1);
+            if (!clone.autoLeaveIsSet()) clone.setAutoLeave(false);
+            if (!clone.teleSpeakerScoreIsSet()) clone.setTeleSpeakerScore(-1);
+            if (!clone.teleSpeakerMissIsSet()) clone.setTeleSpeakerMiss(-1);
+            if (!clone.teleAmpScoreIsSet()) clone.setTeleAmpScore(-1);
+            if (!clone.teleAmpMissIsSet()) clone.setTeleAmpMiss(-1);
+            if (!clone.teleRangeIsSet()) clone.setTeleRange("UI needs Tele Range");
+            if (!clone.teleBreakdownIsSet()) clone.setTeleBreakdown("UI needs breakdown");
+            if (!clone.pickUpAbilityIsSet()) clone.setPickUpAbility("UI needs Pickup");
+            if (!clone.endgameClimbIsSet()) clone.setEndgameClimb("UI needs endgame climb");
+            if (!clone.endgameTrapIsSet()) clone.setEndgameTrap(false);
         }
-
         return clone.toImmutable();
     }
 

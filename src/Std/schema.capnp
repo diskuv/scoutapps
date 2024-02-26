@@ -34,10 +34,11 @@ struct RawMatchData {
   teleSpeakerMiss @19 : Int16;
   teleAmpScore @20 : Int16;
   teleAmpMiss @21 : Int16;
-  tRange @22 : Text;
+  distance @22 : Text;
   teleBreakdown @23: TBreakdown;
-  endgameClimb @24 : EClimb;
-  endgameTrap @25 : Bool;
+  telePickup @24: Text;
+  endgameClimb @25 : EClimb;
+  endgameTrap @26 : Bool;
   
 }
 

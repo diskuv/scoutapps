@@ -76,9 +76,11 @@ module type S = sig
       val tele_speaker_miss_get : t -> int
       val tele_amp_score_get : t -> int
       val tele_amp_miss_get : t -> int
-      val has_t_range : t -> bool
-      val t_range_get : t -> string
+      val has_distance : t -> bool
+      val distance_get : t -> string
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
+      val has_tele_pickup : t -> bool
+      val tele_pickup_get : t -> string
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_trap_get : t -> bool
       val of_message : 'cap message_t -> t
@@ -191,12 +193,15 @@ module type S = sig
       val tele_amp_score_set_exn : t -> int -> unit
       val tele_amp_miss_get : t -> int
       val tele_amp_miss_set_exn : t -> int -> unit
-      val has_t_range : t -> bool
-      val t_range_get : t -> string
-      val t_range_set : t -> string -> unit
+      val has_distance : t -> bool
+      val distance_get : t -> string
+      val distance_set : t -> string -> unit
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
       val tele_breakdown_set : t -> TBreakdown_16560530708388719165.t -> unit
       val tele_breakdown_set_unsafe : t -> TBreakdown_16560530708388719165.t -> unit
+      val has_tele_pickup : t -> bool
+      val tele_pickup_get : t -> string
+      val tele_pickup_set : t -> string -> unit
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_climb_set : t -> EClimb_13533464256854897024.t -> unit
       val endgame_climb_set_unsafe : t -> EClimb_13533464256854897024.t -> unit
@@ -471,13 +476,17 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         RA_.get_int16 ~default:(0) x 20
       let tele_amp_miss_get x =
         RA_.get_int16 ~default:(0) x 22
-      let has_t_range x =
+      let has_distance x =
         RA_.has_field x 2
-      let t_range_get x =
+      let distance_get x =
         RA_.get_text ~default:"" x 2
       let tele_breakdown_get x =
         let discr = RA_.get_uint16 ~default:0 x 24 in
         TBreakdown_16560530708388719165.decode discr
+      let has_tele_pickup x =
+        RA_.has_field x 3
+      let tele_pickup_get x =
+        RA_.get_text ~default:"" x 3
       let endgame_climb_get x =
         let discr = RA_.get_uint16 ~default:0 x 26 in
         EClimb_13533464256854897024.decode discr
@@ -648,11 +657,11 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.get_int16 ~default:(0) x 22
       let tele_amp_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 22 v
-      let has_t_range x =
+      let has_distance x =
         BA_.has_field x 2
-      let t_range_get x =
+      let distance_get x =
         BA_.get_text ~default:"" x 2
-      let t_range_set x v =
+      let distance_set x v =
         BA_.set_text x 2 v
       let tele_breakdown_get x =
         let discr = BA_.get_uint16 ~default:0 x 24 in
@@ -661,6 +670,12 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.set_uint16 ~default:0 x 24 (TBreakdown_16560530708388719165.encode_safe e)
       let tele_breakdown_set_unsafe x e =
         BA_.set_uint16 ~default:0 x 24 (TBreakdown_16560530708388719165.encode_unsafe e)
+      let has_tele_pickup x =
+        BA_.has_field x 3
+      let tele_pickup_get x =
+        BA_.get_text ~default:"" x 3
+      let tele_pickup_set x v =
+        BA_.set_text x 3 v
       let endgame_climb_get x =
         let discr = BA_.get_uint16 ~default:0 x 26 in
         EClimb_13533464256854897024.decode discr
@@ -672,13 +687,13 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
       let endgame_trap_set x v =
         BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1 v
-      let of_message x = BA_.get_root_struct ~data_words:4 ~pointer_words:3 x
+      let of_message x = BA_.get_root_struct ~data_words:4 ~pointer_words:4 x
       let to_message x = x.BA_.NM.StructStorage.data.MessageWrapper.Slice.msg
       let to_reader x = Some (RA_.StructStorage.readonly x)
       let init_root ?message_size () =
-        BA_.alloc_root_struct ?message_size ~data_words:4 ~pointer_words:3 ()
+        BA_.alloc_root_struct ?message_size ~data_words:4 ~pointer_words:4 ()
       let init_pointer ptr =
-        BA_.init_struct_pointer ptr ~data_words:4 ~pointer_words:3
+        BA_.init_struct_pointer ptr ~data_words:4 ~pointer_words:4
     end
     module SPosition = struct
       type t = SPosition_15975123903786802361.t =

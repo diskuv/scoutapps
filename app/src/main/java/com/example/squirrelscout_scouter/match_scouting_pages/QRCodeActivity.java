@@ -75,7 +75,7 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
 
     public void onClick(View view){
         int clickedId = view.getId();
-        if(clickedId == R.id.NEXT){
+        if(clickedId == R.id.NEXT && click != 0){
             nextPageLogic();
         }
         else if(clickedId == R.id.generateQR && click == 0){

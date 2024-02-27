@@ -17,7 +17,8 @@ module QRTest = struct
       let open ProjectSchema.Builder.RawMatchData in
       let r = init_root () in
       scouter_name_set r scouter_name;
-      notes_set r notes;
+      (* notes_set r notes; *)
+      ignore notes;
       to_message r
     in
     let ret_ptr = Com.call_class_method cls method_qr_code_of_raw_match_data args in

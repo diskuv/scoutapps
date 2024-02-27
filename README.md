@@ -37,7 +37,7 @@ You will want to start with the following targets in your IDE:
 
 or do it from the **Linux**, **WSL2 Debian** or **WSL2 Ubuntu** command line:
 
-```sh
+```sh   
 ./dk dksdk.cmake.link QUIET
 cp CMakeUserPresets-SUGGESTED.json CMakeUserPresets.json
 .ci/cmake/bin/cmake --preset dev-Linux-x86_64

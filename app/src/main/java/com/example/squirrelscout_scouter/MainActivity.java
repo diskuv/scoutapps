@@ -22,6 +22,7 @@ import com.example.squirrelscout_scouter.match_scouting_pages.StartScoutingActiv
 import com.example.squirrelscout_scouter.match_scouting_pages.TeleopActivity;
 import com.example.squirrelscout_scouter.ui.viewmodels.MainViewModel;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
+import com.example.squirrelscout_scouter.util.ScoutSingleton;
 
 import java.util.Locale;
 
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //variables
     String ScoutName, TeamNum;
     private MainViewModel model;
+
+    ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +134,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             short validatedTeamNum = Short.parseShort(TeamNum);
             uiThreadHandler.postDelayed(() -> {
                 model.saveScout(ScoutName, validatedTeamNum);
+                scoutSingleton.setScoutName(ScoutName);
+                scoutSingleton.setValTN(Short.parseShort(TeamNum));
+                long s = SystemClock.elapsedRealtimeNanos();
+                scoutSingleton.setSn(s);
                 Intent intent = new Intent(MainActivity.this, StartScoutingActivity.class);
-                intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_LONG_SESSION_NUMBER, SystemClock.elapsedRealtimeNanos());
+                intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_LONG_SESSION_NUMBER, s);
                 intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_STRING_SCOUT_NAME, ScoutName);
                 intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_SHORT_TEAM_NUMBER, validatedTeamNum);
                 startActivity(intent);

@@ -3,6 +3,7 @@ package com.example.squirrelscout_scouter.match_scouting_pages;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -22,6 +23,7 @@ import com.caverock.androidsvg.SVGImageView;
 import com.example.squirrelscout.data.ComDataForegroundListener;
 import com.example.squirrelscout.data.ComDataRequestCallback;
 import com.example.squirrelscout.data.models.ComDataModel;
+import com.example.squirrelscout_scouter.MainActivity;
 import com.example.squirrelscout_scouter.MainApplication;
 import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
@@ -36,6 +38,8 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
     private SVGImageView qrCode;
     int click;
     Button generate;
+
+    ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         click = 0;
@@ -85,10 +89,15 @@ public class QRCodeActivity extends ComponentActivity implements View.OnClickLis
     }
     public void nextPageLogic(){
         // Create an Intent to launch the target activity
-        Intent intent = new Intent(QRCodeActivity.this, StartScoutingActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        // Start the target activity with the Intent
-        startActivity(intent);
+        uiThreadHandler.postDelayed(() -> {
+            Intent intent = new Intent(QRCodeActivity.this, StartScoutingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_LONG_SESSION_NUMBER, scoutSingleton.getSn());
+            intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_STRING_SCOUT_NAME, scoutSingleton.getScoutName());
+            intent.putExtra(ScoutingSessionViewModel.INTENT_INITIAL_SHORT_TEAM_NUMBER, scoutSingleton.getValTN());
+            // Start the target activity with the Intent
+            startActivity(intent);
+        }, 250);
     }
 
     public void generateQRCode(){

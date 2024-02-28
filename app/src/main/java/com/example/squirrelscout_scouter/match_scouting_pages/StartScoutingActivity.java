@@ -115,7 +115,7 @@ public class StartScoutingActivity extends ComponentActivity implements  View.On
 
         //populate text fields if info available
         if(scoutSingleton.getMatchNum() != -1){
-            chooseMatchI.setText(String.valueOf(scoutSingleton.getRobotNum()));
+            chooseMatchI.setText(String.valueOf(scoutSingleton.getMatchNum()));
         }
         if(scoutSingleton.getRobotColor() != ""){
             dropdown.setText(String.valueOf(scoutSingleton.getRobotColor()));

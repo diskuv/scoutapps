@@ -58,8 +58,8 @@
     "dksdk-ffi-c": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },
     "dksdk-ffi-java": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-java_REPOSITORY}" ] },
     "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
-    "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
-    "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
+    "dksdk-opam-repository-core": { "inherits": "_mirror", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
+    "dksdk-opam-repository-js": { "inherits": "_mirror", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
     // The remaining dependencies are sister projects in the same application
     "ocaml-backend": {
       "inherits": "_mirror",

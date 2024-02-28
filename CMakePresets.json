@@ -29,6 +29,14 @@
         "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dksdk-cmake"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY-CORE": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-opam-repository-core"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY-JS": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-opam-repository-js"
         }
       }
     },

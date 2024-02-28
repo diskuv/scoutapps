@@ -16,6 +16,8 @@
           "file://${sourceDir}/fetch/${dependencyName}"
         ]
       },
+      // DkSDK Access is needed to get any other dependencies
+      "dksdk-access": { "inherits": "_local", "urls": [ "https://gitlab.com/diskuv/dksdk-access.git#main" ] },
       // The next set of dependencies (dksdk-*) are available to DkSDK subscribers
       "dksdk-cmake": { "inherits": "_local", "urls": [ "${dksdk-cmake_REPOSITORY}" ] },
       "dksdk-ffi-c": { "inherits": "_local", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },

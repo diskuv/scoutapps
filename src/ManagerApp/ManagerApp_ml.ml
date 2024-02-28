@@ -34,13 +34,13 @@ let process_qr db qr_format qr_bytes =
   match rc with
   | Successful -> Printf.printf "PROCESSED QR CODE SUCCESSFULLY"
   | Failed -> Printf.printf "FAILED QR CODE PROCESSING"
-
-(* let args = Array.to_list Sys.argv |> String.concat " " in
+;
+ let args = Array.to_list Sys.argv |> String.concat " " in
    Format.eprintf
      "[%s:%d] I am processing (YAY!) the QR format '%s' with bytes: %s\n\
       Command Line Arguments:%s\n\
       %!"
-     __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args *)
+     __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args 
 
 let main () =
   if Array.length Sys.argv < 2 then

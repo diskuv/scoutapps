@@ -235,6 +235,7 @@ module Table : Table_type = struct
     let record_already_exists =
       already_contains_record db ~team_number ~match_number ~scouter_name
     in
+    Format.eprintf "auto_speaker_score_get = %d@." (auto_speaker_score_get match_data);
 
     if record_already_exists then Db_utils.Successful
     else

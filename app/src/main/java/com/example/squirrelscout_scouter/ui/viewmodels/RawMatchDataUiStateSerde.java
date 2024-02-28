@@ -101,6 +101,8 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setCenterNote5(v.centerNote5());
         rawMatchData.setAutoAmpScore((short) v.autoAmpScore());
         rawMatchData.setAutoAmpMiss((short) v.autoAmpMiss());
+        rawMatchData.setAutoSpeakerScore((short) v.autoSpeakerScore());
+        rawMatchData.setAutoAmpMiss((short) v.autoSpeakerMiss());
         rawMatchData.setAutoLeave(v.autoLeave());
         //2024 Tele-op
         rawMatchData.setTeleSpeakerScore((short) v.teleSpeakerScore());
@@ -111,6 +113,7 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setTeleBreakdown(stringToTBreakdown(v.teleBreakdown()));
         rawMatchData.setEndgameClimb(stringToEClimb(v.endgameClimb()));
         rawMatchData.setEndgameTrap(v.endgameTrap());
+        rawMatchData.setTelePickup(v.pickUpAbility());
 
         return message;
     }

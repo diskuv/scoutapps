@@ -134,8 +134,8 @@ static int ocaml_initialized;
 static int ocaml_terminated;
 
 JNIEXPORT jboolean JNICALL
-Java_com_example_squirrelscout_data_ComDataForegroundService_init_1ocaml(JNIEnv *env, jclass cls,
-                                                                         jstring process_argv0) {
+Java_com_example_squirrelscout_data_OCamlServiceHandler_init_1ocaml(JNIEnv *env, jclass cls,
+                                                                    jstring process_argv0) {
     /* Only initialize OCaml with caml_startup once. Confer D01 in COM-DATA-DESIGN.md */
     if (ocaml_initialized) return JNI_FALSE;
     ocaml_initialized = 1;
@@ -189,7 +189,7 @@ Java_com_example_squirrelscout_data_ComDataForegroundService_init_1ocaml(JNIEnv 
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataForegroundService_start_1ocaml(JNIEnv *env, jclass cls,
+Java_com_example_squirrelscout_data_OCamlServiceHandler_start_1ocaml(JNIEnv *env, jclass cls,
                                                                           jstring process_argv0) {
     (void)env;
     (void)cls;
@@ -244,7 +244,7 @@ Java_com_example_squirrelscout_data_ComDataForegroundService_start_1ocaml(JNIEnv
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataForegroundService_stop_1ocaml(JNIEnv *env, jclass cls) {
+Java_com_example_squirrelscout_data_OCamlServiceHandler_stop_1ocaml(JNIEnv *env, jclass cls) {
     /* Get the class name (Ex. ComDataService) for logging */
     GET_CLAZZ_NAME();
 
@@ -258,7 +258,7 @@ Java_com_example_squirrelscout_data_ComDataForegroundService_stop_1ocaml(JNIEnv 
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataForegroundService_terminate_1ocaml(JNIEnv *env, jclass cls) {
+Java_com_example_squirrelscout_data_OCamlServiceHandler_terminate_1ocaml(JNIEnv *env, jclass cls) {
     /* If never initialized OCaml, nothing to do. */
     if (!ocaml_initialized) return;
     /* Only terminate OCaml with caml_shutdown once. */
@@ -293,7 +293,7 @@ Java_com_example_squirrelscout_data_ComDataForegroundService_terminate_1ocaml(JN
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_squirrelscout_data_ComDataForegroundService_atexit_1ocaml(JNIEnv *env,
+Java_com_example_squirrelscout_data_OCamlServiceHandler_atexit_1ocaml(JNIEnv *env,
                                                                            jclass cls) {
     (void)env;
     (void)cls;

@@ -40,7 +40,7 @@ else()
             "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/c/*.c"
             "${dksdk-ffi-java_SOURCE_DIR}/ffi-java-android-standalone/src/main/c/*.h")
     target_sources(data_foreground PRIVATE
-            register.c
+            register.c # [a1] tweak this comment to force a reconfigure
             ${impl_FILES}
             ${ffi_java_FILES}
             ${ffi_java_android_FILES}

@@ -79,7 +79,8 @@ tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
             includes: [
                     "CMakeLists.txt",
                     "dependencies/CMakeLists.txt",
-                    "data/src/main/cpp/CMakeLists.txt"
+                    "data/src/main/cpp/CMakeLists.txt",
+                    "data/src/main/cpp/register.c"
             ]
     )
 }

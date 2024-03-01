@@ -58,6 +58,7 @@ module type S = sig
       val match_number_get : t -> int
       val has_scouter_name : t -> bool
       val scouter_name_get : t -> string
+      val alliance_color_get : t -> RobotPosition_16615598200473616182.t
       val starting_position_get : t -> SPosition_15975123903786802361.t
       val wing_note1_get : t -> bool
       val wing_note2_get : t -> bool
@@ -156,6 +157,9 @@ module type S = sig
       val has_scouter_name : t -> bool
       val scouter_name_get : t -> string
       val scouter_name_set : t -> string -> unit
+      val alliance_color_get : t -> RobotPosition_16615598200473616182.t
+      val alliance_color_set : t -> RobotPosition_16615598200473616182.t -> unit
+      val alliance_color_set_unsafe : t -> RobotPosition_16615598200473616182.t -> unit
       val starting_position_get : t -> SPosition_15975123903786802361.t
       val starting_position_set : t -> SPosition_15975123903786802361.t -> unit
       val starting_position_set_unsafe : t -> SPosition_15975123903786802361.t -> unit

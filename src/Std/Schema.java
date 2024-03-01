@@ -76,8 +76,23 @@ public final class Schema {
       public final org.capnproto.Text.Builder initScouterName(int size) {
         return _initPointerField(org.capnproto.Text.factory, 1, size);
       }
-      public final com.example.squirrelscout.data.capnp.Schema.SPosition getStartingPosition() {
+      public final com.example.squirrelscout.data.capnp.Schema.RobotPosition getAllianceColor() {
         switch(_getShortField(2)) {
+          case 0 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.RED1;
+          case 1 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.RED2;
+          case 2 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.RED3;
+          case 3 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.BLUE1;
+          case 4 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.BLUE2;
+          case 5 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.BLUE3;
+          default: return com.example.squirrelscout.data.capnp.Schema.RobotPosition._NOT_IN_SCHEMA;
+        }
+      }
+      public final void setAllianceColor(com.example.squirrelscout.data.capnp.Schema.RobotPosition value) {
+        _setShortField(2, (short)value.ordinal());
+      }
+
+      public final com.example.squirrelscout.data.capnp.Schema.SPosition getStartingPosition() {
+        switch(_getShortField(3)) {
           case 0 : return com.example.squirrelscout.data.capnp.Schema.SPosition.AMP_SIDE;
           case 1 : return com.example.squirrelscout.data.capnp.Schema.SPosition.CENTER;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.SPosition.SOURCE_SIDE;
@@ -85,126 +100,126 @@ public final class Schema {
         }
       }
       public final void setStartingPosition(com.example.squirrelscout.data.capnp.Schema.SPosition value) {
-        _setShortField(2, (short)value.ordinal());
+        _setShortField(3, (short)value.ordinal());
       }
 
       public final boolean getWingNote1() {
-        return _getBooleanField(48);
+        return _getBooleanField(64);
       }
       public final void setWingNote1(boolean value) {
-        _setBooleanField(48, value);
+        _setBooleanField(64, value);
       }
 
       public final boolean getWingNote2() {
-        return _getBooleanField(49);
+        return _getBooleanField(65);
       }
       public final void setWingNote2(boolean value) {
-        _setBooleanField(49, value);
+        _setBooleanField(65, value);
       }
 
       public final boolean getWingNote3() {
-        return _getBooleanField(50);
+        return _getBooleanField(66);
       }
       public final void setWingNote3(boolean value) {
-        _setBooleanField(50, value);
+        _setBooleanField(66, value);
       }
 
       public final boolean getCenterNote1() {
-        return _getBooleanField(51);
+        return _getBooleanField(67);
       }
       public final void setCenterNote1(boolean value) {
-        _setBooleanField(51, value);
+        _setBooleanField(67, value);
       }
 
       public final boolean getCenterNote2() {
-        return _getBooleanField(52);
+        return _getBooleanField(68);
       }
       public final void setCenterNote2(boolean value) {
-        _setBooleanField(52, value);
+        _setBooleanField(68, value);
       }
 
       public final boolean getCenterNote3() {
-        return _getBooleanField(53);
+        return _getBooleanField(69);
       }
       public final void setCenterNote3(boolean value) {
-        _setBooleanField(53, value);
+        _setBooleanField(69, value);
       }
 
       public final boolean getCenterNote4() {
-        return _getBooleanField(54);
+        return _getBooleanField(70);
       }
       public final void setCenterNote4(boolean value) {
-        _setBooleanField(54, value);
+        _setBooleanField(70, value);
       }
 
       public final boolean getCenterNote5() {
-        return _getBooleanField(55);
+        return _getBooleanField(71);
       }
       public final void setCenterNote5(boolean value) {
-        _setBooleanField(55, value);
+        _setBooleanField(71, value);
       }
 
       public final short getAutoAmpScore() {
-        return _getShortField(4);
-      }
-      public final void setAutoAmpScore(short value) {
-        _setShortField(4, value);
-      }
-
-      public final short getAutoAmpMiss() {
         return _getShortField(5);
       }
-      public final void setAutoAmpMiss(short value) {
+      public final void setAutoAmpScore(short value) {
         _setShortField(5, value);
       }
 
-      public final short getAutoSpeakerScore() {
+      public final short getAutoAmpMiss() {
         return _getShortField(6);
       }
-      public final void setAutoSpeakerScore(short value) {
+      public final void setAutoAmpMiss(short value) {
         _setShortField(6, value);
       }
 
-      public final short getAutoSpeakerMiss() {
+      public final short getAutoSpeakerScore() {
         return _getShortField(7);
       }
-      public final void setAutoSpeakerMiss(short value) {
+      public final void setAutoSpeakerScore(short value) {
         _setShortField(7, value);
       }
 
-      public final boolean getAutoLeave() {
-        return _getBooleanField(56);
-      }
-      public final void setAutoLeave(boolean value) {
-        _setBooleanField(56, value);
-      }
-
-      public final short getTeleSpeakerScore() {
+      public final short getAutoSpeakerMiss() {
         return _getShortField(8);
       }
-      public final void setTeleSpeakerScore(short value) {
+      public final void setAutoSpeakerMiss(short value) {
         _setShortField(8, value);
       }
 
-      public final short getTeleSpeakerMiss() {
+      public final boolean getAutoLeave() {
+        return _getBooleanField(72);
+      }
+      public final void setAutoLeave(boolean value) {
+        _setBooleanField(72, value);
+      }
+
+      public final short getTeleSpeakerScore() {
         return _getShortField(9);
       }
-      public final void setTeleSpeakerMiss(short value) {
+      public final void setTeleSpeakerScore(short value) {
         _setShortField(9, value);
       }
 
-      public final short getTeleAmpScore() {
+      public final short getTeleSpeakerMiss() {
         return _getShortField(10);
       }
-      public final void setTeleAmpScore(short value) {
+      public final void setTeleSpeakerMiss(short value) {
         _setShortField(10, value);
       }
 
-      public final short getTeleAmpMiss() {
+      public final short getTeleAmpScore() {
         return _getShortField(11);
       }
-      public final void setTeleAmpMiss(short value) {
+      public final void setTeleAmpScore(short value) {
         _setShortField(11, value);
+      }
+
+      public final short getTeleAmpMiss() {
+        return _getShortField(12);
+      }
+      public final void setTeleAmpMiss(short value) {
+        _setShortField(12, value);
       }
 
       public final boolean hasDistance() {
@@ -223,7 +238,7 @@ public final class Schema {
         return _initPointerField(org.capnproto.Text.factory, 2, size);
       }
       public final com.example.squirrelscout.data.capnp.Schema.TBreakdown getTeleBreakdown() {
-        switch(_getShortField(12)) {
+        switch(_getShortField(13)) {
           case 0 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.NONE;
           case 1 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.TIPPED;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.MECHANICAL_FAILURE;
@@ -232,7 +247,7 @@ public final class Schema {
         }
       }
       public final void setTeleBreakdown(com.example.squirrelscout.data.capnp.Schema.TBreakdown value) {
-        _setShortField(12, (short)value.ordinal());
+        _setShortField(13, (short)value.ordinal());
       }
 
       public final boolean hasTelePickup() {
@@ -251,7 +266,7 @@ public final class Schema {
         return _initPointerField(org.capnproto.Text.factory, 3, size);
       }
       public final com.example.squirrelscout.data.capnp.Schema.EClimb getEndgameClimb() {
-        switch(_getShortField(13)) {
+        switch(_getShortField(14)) {
           case 0 : return com.example.squirrelscout.data.capnp.Schema.EClimb.SUCCESS;
           case 1 : return com.example.squirrelscout.data.capnp.Schema.EClimb.FAILED;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.EClimb.DID_NOT_ATTEMPT;
@@ -261,14 +276,14 @@ public final class Schema {
         }
       }
       public final void setEndgameClimb(com.example.squirrelscout.data.capnp.Schema.EClimb value) {
-        _setShortField(13, (short)value.ordinal());
+        _setShortField(14, (short)value.ordinal());
       }
 
       public final boolean getEndgameTrap() {
-        return _getBooleanField(57);
+        return _getBooleanField(73);
       }
       public final void setEndgameTrap(boolean value) {
-        _setBooleanField(57, value);
+        _setBooleanField(73, value);
       }
 
     }
@@ -300,8 +315,20 @@ public final class Schema {
         return _getPointerField(org.capnproto.Text.factory, 1, null, 0, 0);
       }
 
-      public final com.example.squirrelscout.data.capnp.Schema.SPosition getStartingPosition() {
+      public final com.example.squirrelscout.data.capnp.Schema.RobotPosition getAllianceColor() {
         switch(_getShortField(2)) {
+          case 0 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.RED1;
+          case 1 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.RED2;
+          case 2 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.RED3;
+          case 3 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.BLUE1;
+          case 4 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.BLUE2;
+          case 5 : return com.example.squirrelscout.data.capnp.Schema.RobotPosition.BLUE3;
+          default: return com.example.squirrelscout.data.capnp.Schema.RobotPosition._NOT_IN_SCHEMA;
+        }
+      }
+
+      public final com.example.squirrelscout.data.capnp.Schema.SPosition getStartingPosition() {
+        switch(_getShortField(3)) {
           case 0 : return com.example.squirrelscout.data.capnp.Schema.SPosition.AMP_SIDE;
           case 1 : return com.example.squirrelscout.data.capnp.Schema.SPosition.CENTER;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.SPosition.SOURCE_SIDE;
@@ -310,71 +337,71 @@ public final class Schema {
       }
 
       public final boolean getWingNote1() {
-        return _getBooleanField(48);
+        return _getBooleanField(64);
       }
 
       public final boolean getWingNote2() {
-        return _getBooleanField(49);
+        return _getBooleanField(65);
       }
 
       public final boolean getWingNote3() {
-        return _getBooleanField(50);
+        return _getBooleanField(66);
       }
 
       public final boolean getCenterNote1() {
-        return _getBooleanField(51);
+        return _getBooleanField(67);
       }
 
       public final boolean getCenterNote2() {
-        return _getBooleanField(52);
+        return _getBooleanField(68);
       }
 
       public final boolean getCenterNote3() {
-        return _getBooleanField(53);
+        return _getBooleanField(69);
       }
 
       public final boolean getCenterNote4() {
-        return _getBooleanField(54);
+        return _getBooleanField(70);
       }
 
       public final boolean getCenterNote5() {
-        return _getBooleanField(55);
+        return _getBooleanField(71);
       }
 
       public final short getAutoAmpScore() {
-        return _getShortField(4);
-      }
-
-      public final short getAutoAmpMiss() {
         return _getShortField(5);
       }
 
-      public final short getAutoSpeakerScore() {
+      public final short getAutoAmpMiss() {
         return _getShortField(6);
       }
 
-      public final short getAutoSpeakerMiss() {
+      public final short getAutoSpeakerScore() {
         return _getShortField(7);
       }
 
-      public final boolean getAutoLeave() {
-        return _getBooleanField(56);
-      }
-
-      public final short getTeleSpeakerScore() {
+      public final short getAutoSpeakerMiss() {
         return _getShortField(8);
       }
 
-      public final short getTeleSpeakerMiss() {
+      public final boolean getAutoLeave() {
+        return _getBooleanField(72);
+      }
+
+      public final short getTeleSpeakerScore() {
         return _getShortField(9);
       }
 
-      public final short getTeleAmpScore() {
+      public final short getTeleSpeakerMiss() {
         return _getShortField(10);
       }
 
-      public final short getTeleAmpMiss() {
+      public final short getTeleAmpScore() {
         return _getShortField(11);
+      }
+
+      public final short getTeleAmpMiss() {
+        return _getShortField(12);
       }
 
       public boolean hasDistance() {
@@ -385,7 +412,7 @@ public final class Schema {
       }
 
       public final com.example.squirrelscout.data.capnp.Schema.TBreakdown getTeleBreakdown() {
-        switch(_getShortField(12)) {
+        switch(_getShortField(13)) {
           case 0 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.NONE;
           case 1 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.TIPPED;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.MECHANICAL_FAILURE;
@@ -402,7 +429,7 @@ public final class Schema {
       }
 
       public final com.example.squirrelscout.data.capnp.Schema.EClimb getEndgameClimb() {
-        switch(_getShortField(13)) {
+        switch(_getShortField(14)) {
           case 0 : return com.example.squirrelscout.data.capnp.Schema.EClimb.SUCCESS;
           case 1 : return com.example.squirrelscout.data.capnp.Schema.EClimb.FAILED;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.EClimb.DID_NOT_ATTEMPT;
@@ -413,7 +440,7 @@ public final class Schema {
       }
 
       public final boolean getEndgameTrap() {
-        return _getBooleanField(57);
+        return _getBooleanField(73);
       }
 
     }
@@ -619,7 +646,7 @@ public static final org.capnproto.SegmentReader b_faef7bb13948ce39 =
    "\u0015\u0000\u0000\u0000\u00d2\u0000\u0000\u0000" +
    "\u0021\u0000\u0000\u0000\u0007\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u001d\u0000\u0000\u0000\u00ef\u0005\u0000\u0000" +
+   "\u001d\u0000\u0000\u0000\u0027\u0006\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0073\u0063\u0068\u0065\u006d\u0061\u002e\u0063" +
@@ -627,196 +654,203 @@ public static final org.capnproto.SegmentReader b_faef7bb13948ce39 =
    "\u004d\u0061\u0074\u0063\u0068\u0044\u0061\u0074" +
    "\u0061\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0001\u0000\u0001\u0000" +
-   "\u006c\u0000\u0000\u0000\u0003\u0000\u0004\u0000" +
+   "\u0070\u0000\u0000\u0000\u0003\u0000\u0004\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00e5\u0002\u0000\u0000\u005a\u0000\u0000\u0000" +
+   "\u0001\u0003\u0000\u0000\u005a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00e4\u0002\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u00f0\u0002\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0000\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u000c\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
    "\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00ed\u0002\u0000\u0000\u004a\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00ec\u0002\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u00f8\u0002\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0002\u0000\u0000\u0000\u0001\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0002\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00f5\u0002\u0000\u0000\u0062\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00f4\u0002\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u0000\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0003\u0000\u0000\u0000\u0001\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0003\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00fd\u0002\u0000\u0000\u0062\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00fc\u0002\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u0008\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0004\u0000\u0000\u0000\u0002\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0004\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0005\u0003\u0000\u0000\u008a\u0000\u0000\u0000" +
+   "\u0009\u0003\u0000\u0000\u004a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0008\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u0014\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0005\u0000\u0000\u0000\u0030\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0005\u0000\u0000\u0000" +
+   "\u0002\u0000\u0000\u0000\u0001\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0002\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0011\u0003\u0000\u0000\u0052\u0000\u0000\u0000" +
+   "\u0011\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0010\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u001c\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0006\u0000\u0000\u0000\u0031\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0006\u0000\u0000\u0000" +
+   "\u0003\u0000\u0000\u0000\u0001\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0003\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0019\u0003\u0000\u0000\u0052\u0000\u0000\u0000" +
+   "\u0019\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0018\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u0024\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0007\u0000\u0000\u0000\u0032\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0007\u0000\u0000\u0000" +
+   "\u0004\u0000\u0000\u0000\u0002\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0004\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0021\u0003\u0000\u0000\u0052\u0000\u0000\u0000" +
+   "\u0021\u0003\u0000\u0000\u0072\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0020\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u002c\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0008\u0000\u0000\u0000\u0033\u0000\u0000\u0000" +
+   "\u0005\u0000\u0000\u0000\u0003\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0005\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0029\u0003\u0000\u0000\u008a\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u002c\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u0038\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0006\u0000\u0000\u0000\u0040\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0006\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0035\u0003\u0000\u0000\u0052\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0034\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u0040\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0007\u0000\u0000\u0000\u0041\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0007\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u003d\u0003\u0000\u0000\u0052\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u003c\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u0048\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0008\u0000\u0000\u0000\u0042\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u0008\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0029\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
+   "\u0045\u0003\u0000\u0000\u0052\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0028\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u0034\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0009\u0000\u0000\u0000\u0034\u0000\u0000\u0000" +
+   "\u0044\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u0050\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0009\u0000\u0000\u0000\u0043\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u0009\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0031\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
+   "\u004d\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0030\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u003c\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\n\u0000\u0000\u0000\u0035\u0000\u0000\u0000" +
+   "\u004c\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u0058\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\n\u0000\u0000\u0000\u0044\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\n\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0039\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
+   "\u0055\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0038\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u0044\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u000b\u0000\u0000\u0000\u0036\u0000\u0000\u0000" +
+   "\u0054\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u0060\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u000b\u0000\u0000\u0000\u0045\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u000b\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0041\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
+   "\u005d\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0040\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u004c\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u000c\u0000\u0000\u0000\u0037\u0000\u0000\u0000" +
+   "\\\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u0068\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u000c\u0000\u0000\u0000\u0046\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u000c\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0049\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0048\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u0054\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\r\u0000\u0000\u0000\u0004\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\r\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0051\u0003\u0000\u0000\u006a\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0050\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\\\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u000e\u0000\u0000\u0000\u0005\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u000e\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0059\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0058\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u0064\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u000f\u0000\u0000\u0000\u0006\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u000f\u0000\u0000\u0000" +
-   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0061\u0003\u0000\u0000\u008a\u0000\u0000\u0000" +
+   "\u0065\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0064\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u0070\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0010\u0000\u0000\u0000\u0007\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0010\u0000\u0000\u0000" +
+   "\r\u0000\u0000\u0000\u0047\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\r\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u006d\u0003\u0000\u0000\u0082\u0000\u0000\u0000" +
+   "\u006d\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u006c\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u0078\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0011\u0000\u0000\u0000\u0038\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0011\u0000\u0000\u0000" +
+   "\u000e\u0000\u0000\u0000\u0005\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u000e\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0075\u0003\u0000\u0000\u0052\u0000\u0000\u0000" +
+   "\u0075\u0003\u0000\u0000\u006a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0074\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u0080\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0012\u0000\u0000\u0000\u0008\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0012\u0000\u0000\u0000" +
+   "\u000f\u0000\u0000\u0000\u0006\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u000f\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u007d\u0003\u0000\u0000\u008a\u0000\u0000\u0000" +
+   "\u007d\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0080\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u008c\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0013\u0000\u0000\u0000\u0009\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0013\u0000\u0000\u0000" +
+   "\u007c\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u0088\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0010\u0000\u0000\u0000\u0007\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0010\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0089\u0003\u0000\u0000\u0082\u0000\u0000\u0000" +
+   "\u0085\u0003\u0000\u0000\u008a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0088\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u0094\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0014\u0000\u0000\u0000\n\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0014\u0000\u0000\u0000" +
+   "\u0011\u0000\u0000\u0000\u0008\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0011\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0091\u0003\u0000\u0000\u006a\u0000\u0000\u0000" +
+   "\u0091\u0003\u0000\u0000\u0082\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0090\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u009c\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0015\u0000\u0000\u0000\u000b\u0000\u0000\u0000" +
-   "\u0000\u0000\u0001\u0000\u0015\u0000\u0000\u0000" +
+   "\u0012\u0000\u0000\u0000\u0048\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0012\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0099\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
+   "\u0099\u0003\u0000\u0000\u0052\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0098\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
    "\u00a4\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0016\u0000\u0000\u0000\u0002\u0000\u0000\u0000" +
+   "\u0013\u0000\u0000\u0000\u0009\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0013\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u00a1\u0003\u0000\u0000\u008a\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u00a4\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00b0\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0014\u0000\u0000\u0000\n\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0014\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u00ad\u0003\u0000\u0000\u0082\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u00ac\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00b8\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0015\u0000\u0000\u0000\u000b\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u0015\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u00b5\u0003\u0000\u0000\u006a\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u00b4\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00c0\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0016\u0000\u0000\u0000\u000c\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u0016\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00a1\u0003\u0000\u0000\u004a\u0000\u0000\u0000" +
+   "\u00bd\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00a0\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u00ac\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0017\u0000\u0000\u0000\u000c\u0000\u0000\u0000" +
+   "\u00bc\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00c8\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0017\u0000\u0000\u0000\u0002\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u0017\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00a9\u0003\u0000\u0000\u0072\u0000\u0000\u0000" +
+   "\u00c5\u0003\u0000\u0000\u004a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00a8\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u00b4\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0018\u0000\u0000\u0000\u0003\u0000\u0000\u0000" +
+   "\u00c4\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00d0\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0018\u0000\u0000\u0000\r\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u0018\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00b1\u0003\u0000\u0000\u005a\u0000\u0000\u0000" +
+   "\u00cd\u0003\u0000\u0000\u0072\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00b0\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u00bc\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u0019\u0000\u0000\u0000\r\u0000\u0000\u0000" +
+   "\u00cc\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00d8\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u0019\u0000\u0000\u0000\u0003\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u0019\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00b9\u0003\u0000\u0000\u006a\u0000\u0000\u0000" +
+   "\u00d5\u0003\u0000\u0000\u005a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00b8\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u00c4\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
-   "\u001a\u0000\u0000\u0000\u0039\u0000\u0000\u0000" +
+   "\u00d4\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00e0\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u001a\u0000\u0000\u0000\u000e\u0000\u0000\u0000" +
    "\u0000\u0000\u0001\u0000\u001a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00c1\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
+   "\u00dd\u0003\u0000\u0000\u006a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u00c0\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
-   "\u00cc\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u00dc\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00e8\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
+   "\u001b\u0000\u0000\u0000\u0049\u0000\u0000\u0000" +
+   "\u0000\u0000\u0001\u0000\u001b\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u00e5\u0003\u0000\u0000\u0062\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u00e4\u0003\u0000\u0000\u0003\u0000\u0001\u0000" +
+   "\u00f0\u0003\u0000\u0000\u0002\u0000\u0001\u0000" +
    "\u0074\u0065\u0061\u006d\u004e\u0075\u006d\u0062" +
    "\u0065\u0072\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0003\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
@@ -851,6 +885,15 @@ public static final org.capnproto.SegmentReader b_faef7bb13948ce39 =
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u000c\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0061\u006c\u006c\u0069\u0061\u006e\u0063\u0065" +
+   "\u0043\u006f\u006c\u006f\u0072\u0000\u0000\u0000" +
+   "\u000f\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0036\u007f\u00d9\u00b5\u0087\u0076\u0096\u00e6" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u000f\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0073\u0074\u0061\u0072\u0074\u0069\u006e\u0067" +

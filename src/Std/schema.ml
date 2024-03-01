@@ -58,6 +58,7 @@ module type S = sig
       val match_number_get : t -> int
       val has_scouter_name : t -> bool
       val scouter_name_get : t -> string
+      val alliance_color_get : t -> RobotPosition_16615598200473616182.t
       val starting_position_get : t -> SPosition_15975123903786802361.t
       val wing_note1_get : t -> bool
       val wing_note2_get : t -> bool
@@ -156,6 +157,9 @@ module type S = sig
       val has_scouter_name : t -> bool
       val scouter_name_get : t -> string
       val scouter_name_set : t -> string -> unit
+      val alliance_color_get : t -> RobotPosition_16615598200473616182.t
+      val alliance_color_set : t -> RobotPosition_16615598200473616182.t -> unit
+      val alliance_color_set_unsafe : t -> RobotPosition_16615598200473616182.t -> unit
       val starting_position_get : t -> SPosition_15975123903786802361.t
       val starting_position_set : t -> SPosition_15975123903786802361.t -> unit
       val starting_position_set_unsafe : t -> SPosition_15975123903786802361.t -> unit
@@ -439,59 +443,62 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         RA_.has_field x 1
       let scouter_name_get x =
         RA_.get_text ~default:"" x 1
-      let starting_position_get x =
+      let alliance_color_get x =
         let discr = RA_.get_uint16 ~default:0 x 4 in
+        RobotPosition_16615598200473616182.decode discr
+      let starting_position_get x =
+        let discr = RA_.get_uint16 ~default:0 x 6 in
         SPosition_15975123903786802361.decode discr
       let wing_note1_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:0
+        RA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:0
       let wing_note2_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:1
+        RA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:1
       let wing_note3_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:2
+        RA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:2
       let center_note1_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:3
+        RA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:3
       let center_note2_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:4
+        RA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:4
       let center_note3_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:5
+        RA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:5
       let center_note4_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:6
+        RA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:6
       let center_note5_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:7
+        RA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:7
       let auto_amp_score_get x =
-        RA_.get_int16 ~default:(0) x 8
-      let auto_amp_miss_get x =
         RA_.get_int16 ~default:(0) x 10
-      let auto_speaker_score_get x =
+      let auto_amp_miss_get x =
         RA_.get_int16 ~default:(0) x 12
-      let auto_speaker_miss_get x =
+      let auto_speaker_score_get x =
         RA_.get_int16 ~default:(0) x 14
-      let auto_leave_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:0
-      let tele_speaker_score_get x =
+      let auto_speaker_miss_get x =
         RA_.get_int16 ~default:(0) x 16
-      let tele_speaker_miss_get x =
+      let auto_leave_get x =
+        RA_.get_bit ~default:false x ~byte_ofs:9 ~bit_ofs:0
+      let tele_speaker_score_get x =
         RA_.get_int16 ~default:(0) x 18
-      let tele_amp_score_get x =
+      let tele_speaker_miss_get x =
         RA_.get_int16 ~default:(0) x 20
-      let tele_amp_miss_get x =
+      let tele_amp_score_get x =
         RA_.get_int16 ~default:(0) x 22
+      let tele_amp_miss_get x =
+        RA_.get_int16 ~default:(0) x 24
       let has_distance x =
         RA_.has_field x 2
       let distance_get x =
         RA_.get_text ~default:"" x 2
       let tele_breakdown_get x =
-        let discr = RA_.get_uint16 ~default:0 x 24 in
+        let discr = RA_.get_uint16 ~default:0 x 26 in
         TBreakdown_16560530708388719165.decode discr
       let has_tele_pickup x =
         RA_.has_field x 3
       let tele_pickup_get x =
         RA_.get_text ~default:"" x 3
       let endgame_climb_get x =
-        let discr = RA_.get_uint16 ~default:0 x 26 in
+        let discr = RA_.get_uint16 ~default:0 x 28 in
         EClimb_13533464256854897024.decode discr
       let endgame_trap_get x =
-        RA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
+        RA_.get_bit ~default:false x ~byte_ofs:9 ~bit_ofs:1
       let of_message x = RA_.get_root_struct (RA_.Message.readonly x)
       let of_builder x = Some (RA_.StructStorage.readonly x)
     end
@@ -582,81 +589,88 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         BA_.get_text ~default:"" x 1
       let scouter_name_set x v =
         BA_.set_text x 1 v
-      let starting_position_get x =
+      let alliance_color_get x =
         let discr = BA_.get_uint16 ~default:0 x 4 in
+        RobotPosition_16615598200473616182.decode discr
+      let alliance_color_set x e =
+        BA_.set_uint16 ~default:0 x 4 (RobotPosition_16615598200473616182.encode_safe e)
+      let alliance_color_set_unsafe x e =
+        BA_.set_uint16 ~default:0 x 4 (RobotPosition_16615598200473616182.encode_unsafe e)
+      let starting_position_get x =
+        let discr = BA_.get_uint16 ~default:0 x 6 in
         SPosition_15975123903786802361.decode discr
       let starting_position_set x e =
-        BA_.set_uint16 ~default:0 x 4 (SPosition_15975123903786802361.encode_safe e)
+        BA_.set_uint16 ~default:0 x 6 (SPosition_15975123903786802361.encode_safe e)
       let starting_position_set_unsafe x e =
-        BA_.set_uint16 ~default:0 x 4 (SPosition_15975123903786802361.encode_unsafe e)
+        BA_.set_uint16 ~default:0 x 6 (SPosition_15975123903786802361.encode_unsafe e)
       let wing_note1_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:0
+        BA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:0
       let wing_note1_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:0 v
+        BA_.set_bit ~default:false x ~byte_ofs:8 ~bit_ofs:0 v
       let wing_note2_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:1
+        BA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:1
       let wing_note2_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:1 v
+        BA_.set_bit ~default:false x ~byte_ofs:8 ~bit_ofs:1 v
       let wing_note3_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:2
+        BA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:2
       let wing_note3_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:2 v
+        BA_.set_bit ~default:false x ~byte_ofs:8 ~bit_ofs:2 v
       let center_note1_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:3
+        BA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:3
       let center_note1_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:3 v
+        BA_.set_bit ~default:false x ~byte_ofs:8 ~bit_ofs:3 v
       let center_note2_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:4
+        BA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:4
       let center_note2_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:4 v
+        BA_.set_bit ~default:false x ~byte_ofs:8 ~bit_ofs:4 v
       let center_note3_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:5
+        BA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:5
       let center_note3_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:5 v
+        BA_.set_bit ~default:false x ~byte_ofs:8 ~bit_ofs:5 v
       let center_note4_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:6
+        BA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:6
       let center_note4_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:6 v
+        BA_.set_bit ~default:false x ~byte_ofs:8 ~bit_ofs:6 v
       let center_note5_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:6 ~bit_ofs:7
+        BA_.get_bit ~default:false x ~byte_ofs:8 ~bit_ofs:7
       let center_note5_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:6 ~bit_ofs:7 v
+        BA_.set_bit ~default:false x ~byte_ofs:8 ~bit_ofs:7 v
       let auto_amp_score_get x =
-        BA_.get_int16 ~default:(0) x 8
-      let auto_amp_score_set_exn x v =
-        BA_.set_int16 ~default:(0) x 8 v
-      let auto_amp_miss_get x =
         BA_.get_int16 ~default:(0) x 10
-      let auto_amp_miss_set_exn x v =
+      let auto_amp_score_set_exn x v =
         BA_.set_int16 ~default:(0) x 10 v
-      let auto_speaker_score_get x =
+      let auto_amp_miss_get x =
         BA_.get_int16 ~default:(0) x 12
-      let auto_speaker_score_set_exn x v =
+      let auto_amp_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 12 v
-      let auto_speaker_miss_get x =
+      let auto_speaker_score_get x =
         BA_.get_int16 ~default:(0) x 14
-      let auto_speaker_miss_set_exn x v =
+      let auto_speaker_score_set_exn x v =
         BA_.set_int16 ~default:(0) x 14 v
-      let auto_leave_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:0
-      let auto_leave_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:0 v
-      let tele_speaker_score_get x =
+      let auto_speaker_miss_get x =
         BA_.get_int16 ~default:(0) x 16
-      let tele_speaker_score_set_exn x v =
+      let auto_speaker_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 16 v
-      let tele_speaker_miss_get x =
+      let auto_leave_get x =
+        BA_.get_bit ~default:false x ~byte_ofs:9 ~bit_ofs:0
+      let auto_leave_set x v =
+        BA_.set_bit ~default:false x ~byte_ofs:9 ~bit_ofs:0 v
+      let tele_speaker_score_get x =
         BA_.get_int16 ~default:(0) x 18
-      let tele_speaker_miss_set_exn x v =
+      let tele_speaker_score_set_exn x v =
         BA_.set_int16 ~default:(0) x 18 v
-      let tele_amp_score_get x =
+      let tele_speaker_miss_get x =
         BA_.get_int16 ~default:(0) x 20
-      let tele_amp_score_set_exn x v =
+      let tele_speaker_miss_set_exn x v =
         BA_.set_int16 ~default:(0) x 20 v
-      let tele_amp_miss_get x =
+      let tele_amp_score_get x =
         BA_.get_int16 ~default:(0) x 22
-      let tele_amp_miss_set_exn x v =
+      let tele_amp_score_set_exn x v =
         BA_.set_int16 ~default:(0) x 22 v
+      let tele_amp_miss_get x =
+        BA_.get_int16 ~default:(0) x 24
+      let tele_amp_miss_set_exn x v =
+        BA_.set_int16 ~default:(0) x 24 v
       let has_distance x =
         BA_.has_field x 2
       let distance_get x =
@@ -664,12 +678,12 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       let distance_set x v =
         BA_.set_text x 2 v
       let tele_breakdown_get x =
-        let discr = BA_.get_uint16 ~default:0 x 24 in
+        let discr = BA_.get_uint16 ~default:0 x 26 in
         TBreakdown_16560530708388719165.decode discr
       let tele_breakdown_set x e =
-        BA_.set_uint16 ~default:0 x 24 (TBreakdown_16560530708388719165.encode_safe e)
+        BA_.set_uint16 ~default:0 x 26 (TBreakdown_16560530708388719165.encode_safe e)
       let tele_breakdown_set_unsafe x e =
-        BA_.set_uint16 ~default:0 x 24 (TBreakdown_16560530708388719165.encode_unsafe e)
+        BA_.set_uint16 ~default:0 x 26 (TBreakdown_16560530708388719165.encode_unsafe e)
       let has_tele_pickup x =
         BA_.has_field x 3
       let tele_pickup_get x =
@@ -677,16 +691,16 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       let tele_pickup_set x v =
         BA_.set_text x 3 v
       let endgame_climb_get x =
-        let discr = BA_.get_uint16 ~default:0 x 26 in
+        let discr = BA_.get_uint16 ~default:0 x 28 in
         EClimb_13533464256854897024.decode discr
       let endgame_climb_set x e =
-        BA_.set_uint16 ~default:0 x 26 (EClimb_13533464256854897024.encode_safe e)
+        BA_.set_uint16 ~default:0 x 28 (EClimb_13533464256854897024.encode_safe e)
       let endgame_climb_set_unsafe x e =
-        BA_.set_uint16 ~default:0 x 26 (EClimb_13533464256854897024.encode_unsafe e)
+        BA_.set_uint16 ~default:0 x 28 (EClimb_13533464256854897024.encode_unsafe e)
       let endgame_trap_get x =
-        BA_.get_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1
+        BA_.get_bit ~default:false x ~byte_ofs:9 ~bit_ofs:1
       let endgame_trap_set x v =
-        BA_.set_bit ~default:false x ~byte_ofs:7 ~bit_ofs:1 v
+        BA_.set_bit ~default:false x ~byte_ofs:9 ~bit_ofs:1 v
       let of_message x = BA_.get_root_struct ~data_words:4 ~pointer_words:4 x
       let to_message x = x.BA_.NM.StructStorage.data.MessageWrapper.Slice.msg
       let to_reader x = Some (RA_.StructStorage.readonly x)

@@ -38,6 +38,7 @@ module Table : Table_type = struct
     | Team_name
     | Match_Number
     | Scouter_Name
+    (*| Alliance*)
     (* [Game specific] auto*)
     | Starting_Position
     | Wing_Note1
@@ -70,6 +71,7 @@ module Table : Table_type = struct
     | Team_name -> "team_name"
     | Match_Number -> "match_number"
     | Scouter_Name -> "scouter_name"
+    (*| Alliance -> "alliance"*)
     (*  *)
     | Starting_Position -> "starting_position"
     | Wing_Note1 -> "wing_note1"
@@ -102,6 +104,7 @@ module Table : Table_type = struct
     | Team_name -> "TEXT"
     | Match_Number -> "INT"
     | Scouter_Name -> "TEXT"
+    (*| Alliance -> "TEXT"*)
     (*  *)
     | Starting_Position -> "TEXT"
     | Wing_Note1 -> "TEXT"
@@ -135,6 +138,7 @@ module Table : Table_type = struct
       Team_name;
       Match_Number;
       Scouter_Name;
+      (*Alliance;*)
       (* Auto *)
       Starting_Position;
       Wing_Note1;
@@ -221,6 +225,16 @@ module Table : Table_type = struct
       | Undefined _ -> "UNDEFINED"
     in
 
+    let alliance_to_string : ProjectSchema.Reader.RobotPosition.t -> string = function
+      | Red1 -> "RED1"
+      | Red2 -> "RED2"
+      | Red3 -> "RED3"
+      | Blue1 -> "BLUE1"
+      | Blue2 -> "BLUE2"
+      | Blue3 -> "BLUE3"
+      | Undefined _ -> "UNDEFINED"
+    in
+
     let string_to_cmd_line_form s = "\"" ^ s ^ "\"" in
 
     let bool_to_string_as_num bool =
@@ -254,6 +268,7 @@ module Table : Table_type = struct
         (match_data |> team_name_get |> string_to_cmd_line_form)
         (match_data |> match_number_get |> string_of_int)
         (match_data |> scouter_name_get |> string_to_cmd_line_form)
+        (*(match_data |> alliance_color_get |> alliance_to_string |> string_to_cmd_line_form)*)
         (*  *)
         (match_data |> starting_position_get |> position_to_string
        |> string_to_cmd_line_form)

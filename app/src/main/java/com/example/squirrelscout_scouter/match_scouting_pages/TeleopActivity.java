@@ -145,7 +145,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
         //Climb dropdown
         dropdown2 = findViewById(R.id.dropdown2);
-        String[] items2 = new String[]{"Park", "Success", "Failed", "Did Not Attempt", "Harmony"};
+        String[] items2 = new String[]{"Did Not Attempt", "Parked", "Failed", "Success", "Harmony"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, R.layout.dropdown_text, items2);
         dropdown2.setAdapter(adapter2);
         dropdown2.setKeyListener(null);

@@ -75,6 +75,31 @@ class RawMatchDataUiStateSerde {
                 return Schema.EClimb._NOT_IN_SCHEMA;
         }
     }
+
+    public Schema.RobotPosition stringToAColor(String climb){
+        switch(climb){
+            case "Red 1":
+                return Schema.RobotPosition.RED1;
+
+            case "Red 2":
+                return Schema.RobotPosition.RED2;
+
+            case "Red 3":
+                return Schema.RobotPosition.RED3;
+
+            case "Blue 1":
+                return Schema.RobotPosition.BLUE1;
+
+            case "Blue 2":
+                return Schema.RobotPosition.BLUE2;
+
+            case "Blue 3":
+                return Schema.RobotPosition.BLUE3;
+
+            default:
+                return Schema.RobotPosition._NOT_IN_SCHEMA;
+        }
+    }
     public MessageBuilder toMessage(RawMatchDataUiState v) {
         MessageBuilder message = Com.newMessageBuilder();
         Schema.RawMatchData.Builder rawMatchData = message.initRoot(Schema.RawMatchData.factory);
@@ -88,6 +113,7 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setTeamNumber((short) v.robotScouting());
         rawMatchData.setTeamName("NO_NAME");
         rawMatchData.setMatchNumber( (short) v.matchScouting());
+        //rawMatchData.setAllianceColor(stringToAColor(v.positionScouting()));
 
         //2024 auto
         rawMatchData.setStartingPosition(stringToSPosition(v.startingPosition()));

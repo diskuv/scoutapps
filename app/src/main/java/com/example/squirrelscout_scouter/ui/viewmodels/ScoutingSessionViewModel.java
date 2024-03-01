@@ -182,7 +182,7 @@ public class ScoutingSessionViewModel extends ViewModel {
         ModifiableRawMatchDataUiState rawMatchData = session.modifiableRawMatchData();
 
         rawMatchData.setMatchScouting(scoutMatch);
-        rawMatchData.setPositionScouting(robotPosition);
+        //rawMatchData.setPositionScouting(robotPosition);
 
         updateAndSetSession(session);
     }

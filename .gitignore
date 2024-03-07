@@ -27,3 +27,9 @@ local.properties
 
 # Dune
 /_build/
+
+# keys
+*.keystore
+*-key.zip
+*.jks
+*.pem

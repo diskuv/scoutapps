@@ -1,6 +1,30 @@
-# SquirrelScout_Scouter
+# Sonic Scout
 
-## Command Line
+## Official Releases
+
+Each year the First Robotics competitions change.
+The "official" release of the scouting software will always be one year prior.
+To be one step ahead of the other robotics teams, your team should **modify** the scouting software.
+
+This project is for the Android App `Sonic Scout` which is the official release in the Google Play Store.
+
+## Licenses
+
+`Sonic Scout` is available under the Open Software License version 3.0,
+<https://opensource.org/license/osl-3-0-php/>. A guide to the Open Software License version 3.0 is available at
+<https://rosenlaw.com/OSL3.0-explained.htm>.
+
+As of 2023 the copyright is owned jointly by:
+
+- Archit Kumar
+- Keyush Attarde
+- Diskuv, Inc.
+
+Do *not* submit a customized scouting application to an App Store (Apple, Google, Microsoft, Samsung, Huawei, Tencent, Oppo, etc.). You do not have a license to submit to those App Stores, and you don't own the copyright.
+
+You *can* sideload your customized application on your team's tablets, phones and PCs. And you *can* (and *should*) submit a Pull Request for your changes so that next year's official scouting application includes your changes.
+
+## TODO - Command Line
 
 ### Initial Setup
 
@@ -107,6 +131,6 @@ cd dksdk-ffi-java
 ./dk dksdk.gradle.run ARGS :core:abi:publishToMavenLocal :core:gradle:publishToMavenLocal
 ```
 
-## Licenses
+## TODO - Licenses
 
 - The Cartman image is from https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/

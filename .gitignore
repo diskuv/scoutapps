@@ -33,3 +33,6 @@ local.properties
 *-key.zip
 *.jks
 *.pem
+
+# Bundles
+*.aab

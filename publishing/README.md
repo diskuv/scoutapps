@@ -153,3 +153,14 @@ The "keystore password" is the same as what you entered on [Generating a new upl
 
 Now in the Google Play Console it will have a button to **Upload your upload key certificate**.
 The `sonic-scout-upload-certificate.pem` is what you upload.
+
+### Creating a Signed Bundle
+
+Theoretically the `Build > Generate Signed Bundle` menu, and selecting the **release** variant should work.
+But Google Play Console sometimes complains that the bundle is not signed!
+
+**If that happens**, take that supposedly signed bundle (default location is `app/release/app-release.aab`) and sign it manually with:
+
+```powershell
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore sonic-scout-upload-key.keystore -signedjar sonic-scout.aab app/release/app-release.aab sonic-scout-upload-key-alias
+```

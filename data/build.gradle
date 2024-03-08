@@ -112,7 +112,8 @@ android {
             }
             ndk {
                 // DkSDK supports: android_x86_64, android_arm32v7a, android_arm64v8a
-                abiFilters /*'x86',*/ 'x86_64', /*'armeabi',*/ 'armeabi-v7a', 'arm64-v8a'
+                /* For Sonic Scout only support 64-bit ARM chips. */
+                abiFilters 'arm64-v8a'
             }
         }
     }

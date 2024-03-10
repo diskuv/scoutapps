@@ -1,5 +1,34 @@
 # Publishing
 
+## Android Play Store Listing
+
+### Screenshots
+
+> All the following emulators used Android 12.0 on x86_64 ("S"; API 31).
+
+`PhoneScreenshotPixelXL31` is a Google Play Store phone screenshots emulator:
+- `Pixel XL` is 1440x2560 560dpi which is high-res 9:16 ratio needed for screenshots
+
+`TabletScreenshot7WSVGA` is a Google Play Store tablet screenshots emulator:
+- `7" WSVGA (Tablet)` is 600x1024 mdpi which is 7" 16:9 (almost) ratio needed for 7" tablet screenshots.
+
+`TabletScreenshotNexus10` is a Google Play Store tablet screenshots emulator:
+- `Nexus 10` is 600x1024 mdpi which is 10.05" 16:9 (almost) ratio needed for 10" tablet screenshots.
+
+To run the emulators the following in the `app/build.gradle` and `data/build.gradle` need to be changed from
+
+```
+abiFilters 'arm64-v8a'
+```
+
+to
+
+```
+abiFilters 'x86_64'
+```
+
+**DO NOT PUSH THAT CHANGE**.
+
 ## Keys
 
 Signing keys are the master key for the Google Play Store.

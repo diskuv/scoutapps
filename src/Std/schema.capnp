@@ -60,7 +60,7 @@ enum EClimb{
   failed @1;
   didNotAttempt @2;
   harmony @3;
-  park @4;
+  parked @4;
 }
 
 enum RobotPosition {

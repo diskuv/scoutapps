@@ -25,7 +25,7 @@ module type S = sig
       | Failed
       | DidNotAttempt
       | Harmony
-      | Park
+      | Parked
       | Undefined of int
   end
   module TBreakdown_16560530708388719165 : sig
@@ -108,7 +108,7 @@ module type S = sig
         | Failed
         | DidNotAttempt
         | Harmony
-        | Park
+        | Parked
         | Undefined of int
     end
     module RobotPosition : sig
@@ -238,7 +238,7 @@ module type S = sig
         | Failed
         | DidNotAttempt
         | Harmony
-        | Park
+        | Parked
         | Undefined of int
     end
     module RobotPosition : sig
@@ -342,28 +342,28 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       | Failed
       | DidNotAttempt
       | Harmony
-      | Park
+      | Parked
       | Undefined of int
     let decode u16 = match u16 with
       | 0 -> Success
       | 1 -> Failed
       | 2 -> DidNotAttempt
       | 3 -> Harmony
-      | 4 -> Park
+      | 4 -> Parked
       | v -> Undefined v
     let encode_safe enum = match enum with
       | Success -> 0
       | Failed -> 1
       | DidNotAttempt -> 2
       | Harmony -> 3
-      | Park -> 4
+      | Parked -> 4
       | Undefined x -> invalid_msg "Cannot encode undefined enum value."
     let encode_unsafe enum = match enum with
       | Success -> 0
       | Failed -> 1
       | DidNotAttempt -> 2
       | Harmony -> 3
-      | Park -> 4
+      | Parked -> 4
       | Undefined x -> x
   end
   module TBreakdown_16560530708388719165 = struct
@@ -523,7 +523,7 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         | Failed
         | DidNotAttempt
         | Harmony
-        | Park
+        | Parked
         | Undefined of int
     end
     module RobotPosition = struct
@@ -730,7 +730,7 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         | Failed
         | DidNotAttempt
         | Harmony
-        | Park
+        | Parked
         | Undefined of int
     end
     module RobotPosition = struct

@@ -25,7 +25,7 @@ module type S = sig
       | Failed
       | DidNotAttempt
       | Harmony
-      | Park
+      | Parked
       | Undefined of int
   end
   module TBreakdown_16560530708388719165 : sig
@@ -108,7 +108,7 @@ module type S = sig
         | Failed
         | DidNotAttempt
         | Harmony
-        | Park
+        | Parked
         | Undefined of int
     end
     module RobotPosition : sig
@@ -238,7 +238,7 @@ module type S = sig
         | Failed
         | DidNotAttempt
         | Harmony
-        | Park
+        | Parked
         | Undefined of int
     end
     module RobotPosition : sig

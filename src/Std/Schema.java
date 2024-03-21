@@ -271,7 +271,7 @@ public final class Schema {
           case 1 : return com.example.squirrelscout.data.capnp.Schema.EClimb.FAILED;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.EClimb.DID_NOT_ATTEMPT;
           case 3 : return com.example.squirrelscout.data.capnp.Schema.EClimb.HARMONY;
-          case 4 : return com.example.squirrelscout.data.capnp.Schema.EClimb.PARK;
+          case 4 : return com.example.squirrelscout.data.capnp.Schema.EClimb.PARKED;
           default: return com.example.squirrelscout.data.capnp.Schema.EClimb._NOT_IN_SCHEMA;
         }
       }
@@ -434,7 +434,7 @@ public final class Schema {
           case 1 : return com.example.squirrelscout.data.capnp.Schema.EClimb.FAILED;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.EClimb.DID_NOT_ATTEMPT;
           case 3 : return com.example.squirrelscout.data.capnp.Schema.EClimb.HARMONY;
-          case 4 : return com.example.squirrelscout.data.capnp.Schema.EClimb.PARK;
+          case 4 : return com.example.squirrelscout.data.capnp.Schema.EClimb.PARKED;
           default: return com.example.squirrelscout.data.capnp.Schema.EClimb._NOT_IN_SCHEMA;
         }
       }
@@ -468,7 +468,7 @@ public final class Schema {
     FAILED,
     DID_NOT_ATTEMPT,
     HARMONY,
-    PARK,
+    PARKED,
     _NOT_IN_SCHEMA,
   }
 
@@ -1208,14 +1208,14 @@ public static final org.capnproto.SegmentReader b_bbd08609ca483180 =
    "\u0021\u0000\u0000\u0000\u0042\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0004\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0019\u0000\u0000\u0000\u002a\u0000\u0000\u0000" +
+   "\u0019\u0000\u0000\u0000\u003a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0073\u0075\u0063\u0063\u0065\u0073\u0073\u0000" +
    "\u0066\u0061\u0069\u006c\u0065\u0064\u0000\u0000" +
    "\u0064\u0069\u0064\u004e\u006f\u0074\u0041\u0074" +
    "\u0074\u0065\u006d\u0070\u0074\u0000\u0000\u0000" +
    "\u0068\u0061\u0072\u006d\u006f\u006e\u0079\u0000" +
-   "\u0070\u0061\u0072\u006b\u0000\u0000\u0000\u0000" + "");
+   "\u0070\u0061\u0072\u006b\u0065\u0064\u0000\u0000" + "");
 public static final org.capnproto.SegmentReader b_e6967687b5d97f36 =
    org.capnproto.GeneratedClassSupport.decodeRawBytes(
    "\u0000\u0000\u0000\u0000\u0005\u0000\u0006\u0000" +

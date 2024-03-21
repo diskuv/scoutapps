@@ -213,7 +213,7 @@ module Table : Table_type = struct
       | Tipped -> "TIPPED"
       | MechanicalFailure -> "MECHANICAL_FAILURE"
       | Incapacitated -> "INCAPACITATED"
-      | Undefined _ -> "UNDEFINED"
+      | Undefined _ -> "NONE"
     in
 
     let teleopClimb_to_string : ProjectSchema.Reader.EClimb.t -> string = function
@@ -221,7 +221,7 @@ module Table : Table_type = struct
       | Failed -> "FAILED"
       | DidNotAttempt -> "DID_NOT_ATTEMPT"
       | Harmony -> "HARMONY"
-      | Park -> "PARK"
+      | Parked -> "PARKED"
       | Undefined _ -> "UNDEFINED"
     in
 
@@ -249,7 +249,7 @@ module Table : Table_type = struct
     let record_already_exists =
       already_contains_record db ~team_number ~match_number ~scouter_name
     in
-    Format.eprintf "auto_speaker_score_get = %d@." (auto_speaker_score_get match_data);
+    Format.eprintf "auto_speaker_miss_get = %d@." (auto_speaker_miss_get match_data);
 
     if record_already_exists then Db_utils.Successful
     else

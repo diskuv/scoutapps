@@ -3,17 +3,30 @@ plugins {
 }
 
 android {
+    /* The [namespace] can and should change to match the [applicationId] below,
+     * according to https://developer.android.com/build/configure-app-module. */
     namespace 'com.example.squirrelscout_scouter'
+
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.squirrelscout_scouter"
+        /* The [applicationId] cannot change!
+           Once an app enters the Google Play Store the id is frozen.
+           The ".kaak." is the reserved portion for the original
+           authors Keyush A and Archit K. */
+        applicationId "com.diskuv.kaak.sonic_scout"
+
         minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            /* For Sonic Scout only support 64-bit ARM chips. */
+            abiFilters 'arm64-v8a'
+        }
     }
 
     buildTypes {

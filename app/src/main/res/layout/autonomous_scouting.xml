@@ -190,15 +190,15 @@
             android:layout_width="@dimen/_270sdp"
             android:layout_height="@dimen/_140sdp"
             android:scaleType="centerCrop"
-            android:src="@drawable/_024field"
+            android:src="@drawable/newfield"
             android:translationX="@dimen/_15sdp"
             android:translationY="@dimen/_155sdp"
-            android:layout_marginTop="@dimen/_100sdp" />
+            android:layout_marginTop="@dimen/_100sdp"/>
         <LinearLayout
             android:id="@+id/linearLayout10"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_173sdp"
+            android:layout_marginTop="@dimen/_215sdp"
             android:layout_marginStart="@dimen/_60sdp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -231,7 +231,7 @@
             android:id="@+id/linearLayout11"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_173sdp"
+            android:layout_marginTop="@dimen/_215sdp"
             android:layout_marginStart="@dimen/_225sdp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -318,7 +318,7 @@
             android:translationX="-233dp"
             android:inputType="none"
             android:rotation="-90"
-            android:text="AMP"
+            android:text="SPEAKER"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/accent"
@@ -328,7 +328,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
+            android:id="@+id/linearLayout4"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_40sdp"
@@ -408,7 +408,7 @@
 
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/linearLayout5"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_40sdp"
@@ -497,7 +497,7 @@
             android:translationX="-233dp"
             android:inputType="none"
             android:rotation="-90"
-            android:text="SPEAKER"
+            android:text="AMP"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/accent"
@@ -506,7 +506,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <LinearLayout
-            android:id="@+id/linearLayout4"
+            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_40sdp"
@@ -585,7 +585,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/linearLayout5"
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_29sdp"
             android:layout_marginStart="@dimen/_40sdp"

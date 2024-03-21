@@ -128,14 +128,14 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setAutoAmpScore((short) v.autoAmpScore());
         rawMatchData.setAutoAmpMiss((short) v.autoAmpMiss());
         rawMatchData.setAutoSpeakerScore((short) v.autoSpeakerScore());
-        rawMatchData.setAutoAmpMiss((short) v.autoSpeakerMiss());
+        rawMatchData.setAutoSpeakerMiss((short) v.autoSpeakerMiss());
         rawMatchData.setAutoLeave(v.autoLeave());
         //2024 Tele-op
         rawMatchData.setTeleSpeakerScore((short) v.teleSpeakerScore());
         rawMatchData.setTeleSpeakerMiss((short) v.teleSpeakerMiss());
         rawMatchData.setTeleAmpScore((short) v.teleAmpScore());
         rawMatchData.setTeleAmpMiss((short) v.teleAmpMiss());
-        rawMatchData.setDistance(v.teleRange());
+        rawMatchData.setDistance("");
         rawMatchData.setTeleBreakdown(stringToTBreakdown(v.teleBreakdown()));
         rawMatchData.setEndgameClimb(stringToEClimb(v.endgameClimb()));
         rawMatchData.setEndgameTrap(v.endgameTrap());

@@ -126,7 +126,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 
         //Breakdown dropdown
         dropdown = findViewById(R.id.dropdown);
-        String[] items = new String[]{"Tipped", "Mechanical Failure", "Incapacitated"};
+        String[] items = new String[]{"Tipped", "Mechanical Failure", "Incapacitated", "Note Stuck"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_text, items);
         dropdown.setAdapter(adapter);
         dropdown.setKeyListener(null);

@@ -435,7 +435,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     private String getDistance(){
         String dist = "";
         if(checkBox1.isChecked()){
-            dist = "Subwoofer";
+            dist = "Close";
         }
         if(checkBox2.isChecked()){
             if(!dist.equals("")){
@@ -447,10 +447,10 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         }
         if(checkBox3.isChecked()){
             if(!dist.equals("")){
-                dist += "-Center Line";
+                dist += "-Center";
             }
             else{
-                dist = "Center Line";
+                dist = "Center";
             }
         }
         return dist;
@@ -460,14 +460,14 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         String p = "";
         if(sourceButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
             if(groundButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
-                p = "Source & Ground ";
+                p = "S+G";
             }
             else{
-                p = "Source";
+                p = "S";
             }
         }
         else if(groundButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
-            p = "Ground";
+            p = "G";
         }
         return p;
     }

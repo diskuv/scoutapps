@@ -135,7 +135,7 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setTeleSpeakerMiss((short) v.teleSpeakerMiss());
         rawMatchData.setTeleAmpScore((short) v.teleAmpScore());
         rawMatchData.setTeleAmpMiss((short) v.teleAmpMiss());
-        rawMatchData.setDistance("");
+        rawMatchData.setDistance(v.teleRange());
         rawMatchData.setTeleBreakdown(stringToTBreakdown(v.teleBreakdown()));
         rawMatchData.setEndgameClimb(stringToEClimb(v.endgameClimb()));
         rawMatchData.setEndgameTrap(v.endgameTrap());

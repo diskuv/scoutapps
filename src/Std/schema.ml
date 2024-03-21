@@ -34,6 +34,7 @@ module type S = sig
       | Tipped
       | MechanicalFailure
       | Incapacitated
+      | NoteStuck
       | Undefined of int
   end
   module SPosition_15975123903786802361 : sig
@@ -100,6 +101,7 @@ module type S = sig
         | Tipped
         | MechanicalFailure
         | Incapacitated
+        | NoteStuck
         | Undefined of int
     end
     module EClimb : sig
@@ -230,6 +232,7 @@ module type S = sig
         | Tipped
         | MechanicalFailure
         | Incapacitated
+        | NoteStuck
         | Undefined of int
     end
     module EClimb : sig
@@ -372,24 +375,28 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
       | Tipped
       | MechanicalFailure
       | Incapacitated
+      | NoteStuck
       | Undefined of int
     let decode u16 = match u16 with
       | 0 -> None
       | 1 -> Tipped
       | 2 -> MechanicalFailure
       | 3 -> Incapacitated
+      | 4 -> NoteStuck
       | v -> Undefined v
     let encode_safe enum = match enum with
       | None -> 0
       | Tipped -> 1
       | MechanicalFailure -> 2
       | Incapacitated -> 3
+      | NoteStuck -> 4
       | Undefined x -> invalid_msg "Cannot encode undefined enum value."
     let encode_unsafe enum = match enum with
       | None -> 0
       | Tipped -> 1
       | MechanicalFailure -> 2
       | Incapacitated -> 3
+      | NoteStuck -> 4
       | Undefined x -> x
   end
   module SPosition_15975123903786802361 = struct
@@ -515,6 +522,7 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         | Tipped
         | MechanicalFailure
         | Incapacitated
+        | NoteStuck
         | Undefined of int
     end
     module EClimb = struct
@@ -722,6 +730,7 @@ module MakeRPC(MessageWrapper : Capnp.RPC.S) = struct
         | Tipped
         | MechanicalFailure
         | Incapacitated
+        | NoteStuck
         | Undefined of int
     end
     module EClimb = struct

@@ -243,6 +243,7 @@ public final class Schema {
           case 1 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.TIPPED;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.MECHANICAL_FAILURE;
           case 3 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.INCAPACITATED;
+          case 4 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.NOTE_STUCK;
           default: return com.example.squirrelscout.data.capnp.Schema.TBreakdown._NOT_IN_SCHEMA;
         }
       }
@@ -417,6 +418,7 @@ public final class Schema {
           case 1 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.TIPPED;
           case 2 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.MECHANICAL_FAILURE;
           case 3 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.INCAPACITATED;
+          case 4 : return com.example.squirrelscout.data.capnp.Schema.TBreakdown.NOTE_STUCK;
           default: return com.example.squirrelscout.data.capnp.Schema.TBreakdown._NOT_IN_SCHEMA;
         }
       }
@@ -460,6 +462,7 @@ public final class Schema {
     TIPPED,
     MECHANICAL_FAILURE,
     INCAPACITATED,
+    NOTE_STUCK,
     _NOT_IN_SCHEMA,
   }
 
@@ -1149,25 +1152,28 @@ public static final org.capnproto.SegmentReader b_e5d2d2f015752a3d =
    "\u0015\u0000\u0000\u0000\u00c2\u0000\u0000\u0000" +
    "\u001d\u0000\u0000\u0000\u0007\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0019\u0000\u0000\u0000\u0067\u0000\u0000\u0000" +
+   "\u0019\u0000\u0000\u0000\u007f\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0073\u0063\u0068\u0065\u006d\u0061\u002e\u0063" +
    "\u0061\u0070\u006e\u0070\u003a\u0054\u0042\u0072" +
    "\u0065\u0061\u006b\u0064\u006f\u0077\u006e\u0000" +
    "\u0000\u0000\u0000\u0000\u0001\u0000\u0001\u0000" +
-   "\u0010\u0000\u0000\u0000\u0001\u0000\u0002\u0000" +
+   "\u0014\u0000\u0000\u0000\u0001\u0000\u0002\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0029\u0000\u0000\u0000\u002a\u0000\u0000\u0000" +
+   "\u0035\u0000\u0000\u0000\u002a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0021\u0000\u0000\u0000\u003a\u0000\u0000\u0000" +
+   "\u002d\u0000\u0000\u0000\u003a\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0019\u0000\u0000\u0000\u0092\u0000\u0000\u0000" +
+   "\u0025\u0000\u0000\u0000\u0092\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0003\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
-   "\u0019\u0000\u0000\u0000\u0072\u0000\u0000\u0000" +
+   "\u0025\u0000\u0000\u0000\u0072\u0000\u0000\u0000" +
+   "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0004\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
+   "\u0021\u0000\u0000\u0000\u0052\u0000\u0000\u0000" +
    "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u006e\u006f\u006e\u0065\u0000\u0000\u0000\u0000" +
    "\u0074\u0069\u0070\u0070\u0065\u0064\u0000\u0000" +
@@ -1175,7 +1181,9 @@ public static final org.capnproto.SegmentReader b_e5d2d2f015752a3d =
    "\u0061\u006c\u0046\u0061\u0069\u006c\u0075\u0072" +
    "\u0065\u0000\u0000\u0000\u0000\u0000\u0000\u0000" +
    "\u0069\u006e\u0063\u0061\u0070\u0061\u0063\u0069" +
-   "\u0074\u0061\u0074\u0065\u0064\u0000\u0000\u0000" + "");
+   "\u0074\u0061\u0074\u0065\u0064\u0000\u0000\u0000" +
+   "\u006e\u006f\u0074\u0065\u0053\u0074\u0075\u0063" +
+   "\u006b\u0000\u0000\u0000\u0000\u0000\u0000\u0000" + "");
 public static final org.capnproto.SegmentReader b_bbd08609ca483180 =
    org.capnproto.GeneratedClassSupport.decodeRawBytes(
    "\u0000\u0000\u0000\u0000\u0005\u0000\u0006\u0000" +

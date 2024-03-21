@@ -213,6 +213,7 @@ module Table : Table_type = struct
       | Tipped -> "TIPPED"
       | MechanicalFailure -> "MECHANICAL_FAILURE"
       | Incapacitated -> "INCAPACITATED"
+      | NoteStuck -> "NOTE_STUCK"
       | Undefined _ -> "NONE"
     in
 

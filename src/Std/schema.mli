@@ -34,6 +34,7 @@ module type S = sig
       | Tipped
       | MechanicalFailure
       | Incapacitated
+      | NoteStuck
       | Undefined of int
   end
   module SPosition_15975123903786802361 : sig
@@ -100,6 +101,7 @@ module type S = sig
         | Tipped
         | MechanicalFailure
         | Incapacitated
+        | NoteStuck
         | Undefined of int
     end
     module EClimb : sig
@@ -230,6 +232,7 @@ module type S = sig
         | Tipped
         | MechanicalFailure
         | Incapacitated
+        | NoteStuck
         | Undefined of int
     end
     module EClimb : sig

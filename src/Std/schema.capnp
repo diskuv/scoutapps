@@ -53,6 +53,7 @@ enum TBreakdown{
   tipped @1;
   mechanicalFailure @2;
   incapacitated @3;
+  noteStuck @4;
 }
 
 enum EClimb{

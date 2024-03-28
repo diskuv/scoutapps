@@ -37,9 +37,8 @@ struct RawMatchData {
   teleAmpMiss @22 : Int16;
   distance @23 : Text;
   teleBreakdown @24: TBreakdown;
-  telePickup @25: Text;
-  endgameClimb @26 : EClimb;
-  endgameTrap @27 : Bool;  
+  endgameClimb @25 : EClimb;
+  endgameTrap @26 : Bool;  
 }
 
 enum SPosition{

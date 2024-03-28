@@ -81,8 +81,6 @@ module type S = sig
       val has_distance : t -> bool
       val distance_get : t -> string
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
-      val has_tele_pickup : t -> bool
-      val tele_pickup_get : t -> string
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_trap_get : t -> bool
       val of_message : 'cap message_t -> t
@@ -205,9 +203,6 @@ module type S = sig
       val tele_breakdown_get : t -> TBreakdown_16560530708388719165.t
       val tele_breakdown_set : t -> TBreakdown_16560530708388719165.t -> unit
       val tele_breakdown_set_unsafe : t -> TBreakdown_16560530708388719165.t -> unit
-      val has_tele_pickup : t -> bool
-      val tele_pickup_get : t -> string
-      val tele_pickup_set : t -> string -> unit
       val endgame_climb_get : t -> EClimb_13533464256854897024.t
       val endgame_climb_set : t -> EClimb_13533464256854897024.t -> unit
       val endgame_climb_set_unsafe : t -> EClimb_13533464256854897024.t -> unit

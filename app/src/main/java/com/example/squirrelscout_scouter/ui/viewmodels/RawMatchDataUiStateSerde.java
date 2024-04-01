@@ -69,7 +69,7 @@ class RawMatchDataUiStateSerde {
                 return Schema.EClimb.HARMONY;
 
             case "Park":
-                return Schema.EClimb.PARK;
+                return Schema.EClimb.PARKED;
 
             default:
                 return Schema.EClimb._NOT_IN_SCHEMA;
@@ -139,7 +139,6 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setTeleBreakdown(stringToTBreakdown(v.teleBreakdown()));
         rawMatchData.setEndgameClimb(stringToEClimb(v.endgameClimb()));
         rawMatchData.setEndgameTrap(v.endgameTrap());
-        rawMatchData.setTelePickup(v.pickUpAbility());
 
         return message;
     }

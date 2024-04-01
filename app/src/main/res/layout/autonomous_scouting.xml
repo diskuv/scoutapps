@@ -322,7 +322,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/accent"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -501,7 +501,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/accent"
-            android:textSize="@dimen/_17ssp"
+            android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

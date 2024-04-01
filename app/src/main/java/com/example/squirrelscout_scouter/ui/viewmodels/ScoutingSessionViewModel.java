@@ -124,7 +124,6 @@ public class ScoutingSessionViewModel extends ViewModel {
             if (!clone.teleAmpMissIsSet()) clone.setTeleAmpMiss(-1);
             if (!clone.teleRangeIsSet()) clone.setTeleRange("UI needs Tele Range");
             if (!clone.teleBreakdownIsSet()) clone.setTeleBreakdown("UI needs breakdown");
-            if (!clone.pickUpAbilityIsSet()) clone.setPickUpAbility("UI needs Pickup");
             if (!clone.endgameClimbIsSet()) clone.setEndgameClimb("UI needs endgame climb");
             if (!clone.endgameTrapIsSet()) clone.setEndgameTrap(false);
         }
@@ -213,7 +212,7 @@ public class ScoutingSessionViewModel extends ViewModel {
         updateAndSetSession(session);
     }
 
-    public void captureTeleData(int speakerScore, int speakerMiss, int ampScore, int ampMiss, String distance, String breakdown, String climb, boolean trap, String pickup){
+    public void captureTeleData(int speakerScore, int speakerMiss, int ampScore, int ampMiss, String distance, String breakdown, String climb, boolean trap){
         ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
         assert  session != null;
 
@@ -228,7 +227,6 @@ public class ScoutingSessionViewModel extends ViewModel {
         rawMatchData.setTeleBreakdown(breakdown);
         rawMatchData.setEndgameClimb(climb);
         rawMatchData.setEndgameTrap(trap);
-        rawMatchData.setPickUpAbility(pickup);
 
         updateAndSetSession(session);
     }

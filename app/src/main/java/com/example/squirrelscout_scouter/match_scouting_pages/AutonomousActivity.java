@@ -2,6 +2,7 @@ package com.example.squirrelscout_scouter.match_scouting_pages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
@@ -36,6 +37,12 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
     boolean wing1 = false;
     boolean wing2 = false;
     boolean wing3 = false;
+    boolean center1 = false;
+    boolean center2 = false;
+    boolean center3 = false;
+    boolean center4 = false;
+    boolean center5 = false;
+    int firstAutoPickup = -1;
 
     //Leave mobility
     Button yesLeave, noLeave;
@@ -96,16 +103,27 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
         //checkboxes
         checkBox1 = (CheckBox) findViewById(R.id.checkBox);
+        checkBox1.setOnClickListener(this);
         checkBox2 = (CheckBox) findViewById(R.id.checkBox2);
+        checkBox2.setOnClickListener(this);
         checkBox3 = (CheckBox) findViewById(R.id.checkBox3);
+        checkBox3.setOnClickListener(this);
         checkBox4 = (CheckBox) findViewById(R.id.checkBox4);
+        checkBox4.setOnClickListener(this);
         checkBox5 = (CheckBox) findViewById(R.id.checkBox5);
+        checkBox5.setOnClickListener(this);
         checkBox6 = (CheckBox) findViewById(R.id.checkBox6);
+        checkBox6.setOnClickListener(this);
         checkBox7 = (CheckBox) findViewById(R.id.checkBox7);
+        checkBox7.setOnClickListener(this);
         checkBox8 = (CheckBox) findViewById(R.id.checkBox8);
+        checkBox8.setOnClickListener(this);
         checkBox9 = (CheckBox) findViewById(R.id.checkBox9);
+        checkBox9.setOnClickListener(this);
         checkBox10 = (CheckBox) findViewById(R.id.checkBox10);
+        checkBox10.setOnClickListener(this);
         checkBox11 = (CheckBox) findViewById(R.id.checkBox11);
+        checkBox11.setOnClickListener(this);
 
         //leave auto points
         yesLeave = (Button) findViewById(R.id.LEAVE_YES);
@@ -174,7 +192,18 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             animateButton((Button) view);
             nextPageLogic();
         }
-
+        else if(view instanceof CheckBox){
+            CheckBox checkBox = (CheckBox) view;
+            if (checkBox.isChecked() && firstAutoPickup == -1) {
+                // Store the ID of the first selected checkbox
+                firstAutoPickup = clickedId;
+                Log.d("checkbox", "picked" + firstAutoPickup);
+            }
+            else if(firstAutoPickup == clickedId){
+                firstAutoPickup = -1;
+                Log.d("checkbox", "picked" + firstAutoPickup);
+            }
+        }
     }
 
     //Robot position logic
@@ -364,14 +393,29 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
     public void saveScoutInfo(){
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureAutonomous()
 
-        if(checkBox1.isChecked() || checkBox4.isChecked()){
+        if(checkBox1.getId() == firstAutoPickup || checkBox4.getId() == firstAutoPickup){
             wing1 = true;
         }
-        if(checkBox2.isChecked() || checkBox5.isChecked()){
+        else if(checkBox2.getId() == firstAutoPickup || checkBox5.getId() == firstAutoPickup){
             wing2 = true;
         }
-        if(checkBox3.isChecked() || checkBox6.isChecked()){
+        else if(checkBox3.getId() == firstAutoPickup || checkBox6.getId() == firstAutoPickup){
             wing3 = true;
+        }
+        else if(checkBox7.getId() == firstAutoPickup){
+            center1 = true;
+        }
+        else if(checkBox8.getId() == firstAutoPickup){
+            center2 = true;
+        }
+        else if(checkBox9.getId() == firstAutoPickup){
+            center3 = true;
+        }
+        else if(checkBox10.getId() == firstAutoPickup){
+            center4 = true;
+        }
+        else if(checkBox11.getId() == firstAutoPickup){
+            center5 = true;
         }
 
         model.captureAutoData(
@@ -379,11 +423,11 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
                 wing1,
                 wing2,
                 wing3,
-                checkBox7.isChecked(),
-                checkBox8.isChecked(),
-                checkBox9.isChecked(),
-                checkBox10.isChecked(),
-                checkBox11.isChecked(),
+                center1,
+                center2,
+                center3,
+                center4,
+                center5,
                 Integer.parseInt(ampScore.getText().toString()),
                 Integer.parseInt(ampMiss.getText().toString()),
                 Integer.parseInt(speakerScore.getText().toString()),

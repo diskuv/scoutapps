@@ -49,8 +49,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     Button ampScoreIncrement, ampScoreDecrement, ampMissIncrement, ampMissDecrement;
     //Breakdown
     AutoCompleteTextView dropdown, dropdown2;
-    //Pickup Location
-    Button groundButton, sourceButton;
     //Endgame
     Button trapYes, trapNo;
     boolean trapBool;
@@ -108,10 +106,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         ampMissLabel.setOnClickListener(this);
         ampScoreLabel = (TextView) findViewById(R.id.AmpScoredLabel);
         ampScoreLabel.setOnClickListener(this);
-        groundButton = (Button) findViewById(R.id.Ground_Pickup);
-        groundButton.setOnClickListener(this);
-        sourceButton = (Button) findViewById(R.id.Source_Pickup);
-        sourceButton.setOnClickListener(this);
         trapYes = (Button) findViewById(R.id.TRAP_YES);
         trapYes.setOnClickListener(this);
         trapNo = (Button) findViewById(R.id.TRAP_NO);
@@ -236,12 +230,6 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
         }
         else if(clickedId == R.id.Amp_Missed_Decrement){
             counterDecrementLogic(ampMissCounter);
-        }
-        else if(clickedId == R.id.Source_Pickup){
-            pickUpLocationLogic(sourceButton);
-        }
-        else if(clickedId == R.id.Ground_Pickup){
-            pickUpLocationLogic(groundButton);
         }
         else if(clickedId == R.id.TRAP_YES){
             trapYesLogic();
@@ -435,41 +423,25 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
     private String getDistance(){
         String dist = "";
         if(checkBox1.isChecked()){
-            dist = "Close";
+            dist = "S";
         }
         if(checkBox2.isChecked()){
             if(!dist.equals("")){
-                dist += "-Wing";
+                dist += "-W";
             }
             else{
-                dist = "Wing";
+                dist = "W";
             }
         }
         if(checkBox3.isChecked()){
             if(!dist.equals("")){
-                dist += "-Center";
+                dist += "-C";
             }
             else{
-                dist = "Center";
+                dist = "C";
             }
         }
         return dist;
-    }
-
-    private String getPickup(){
-        String p = "";
-        if(sourceButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
-            if(groundButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
-                p = "S+G";
-            }
-            else{
-                p = "S";
-            }
-        }
-        else if(groundButton.getBackgroundTintList() == ContextCompat.getColorStateList(this, R.color.green)){
-            p = "G";
-        }
-        return p;
     }
 
     /*
@@ -540,8 +512,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
                 getDistance(),
                 dropdown.getText().toString(),
                 dropdown2.getText().toString(),
-                trapBool,
-                getPickup()
+                trapBool
         );
     }
 

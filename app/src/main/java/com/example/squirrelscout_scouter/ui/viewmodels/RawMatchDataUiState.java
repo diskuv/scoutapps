@@ -47,4 +47,5 @@ public interface RawMatchDataUiState {
     String teleBreakdown();
     String endgameClimb();
     boolean endgameTrap();
+    String pickUpAbility();
 }

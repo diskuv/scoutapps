@@ -212,7 +212,7 @@ public class ScoutingSessionViewModel extends ViewModel {
         updateAndSetSession(session);
     }
 
-    public void captureTeleData(int speakerScore, int speakerMiss, int ampScore, int ampMiss, String distance, String breakdown, String climb, boolean trap){
+    public void captureTeleData(int speakerScore, int speakerMiss, int ampScore, int ampMiss, String distance, String breakdown, String climb, boolean trap, String pickup){
         ImmutableRawMatchDataSessionUiState session = rawMatchDataSessionUiState.getValue();
         assert  session != null;
 
@@ -227,6 +227,7 @@ public class ScoutingSessionViewModel extends ViewModel {
         rawMatchData.setTeleBreakdown(breakdown);
         rawMatchData.setEndgameClimb(climb);
         rawMatchData.setEndgameTrap(trap);
+        rawMatchData.setPickUpAbility(pickup);
 
         updateAndSetSession(session);
     }

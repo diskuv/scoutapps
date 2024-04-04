@@ -512,7 +512,8 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
                 getDistance(),
                 dropdown.getText().toString(),
                 dropdown2.getText().toString(),
-                trapBool
+                trapBool,
+                ""
         );
     }
 

@@ -139,6 +139,7 @@ class RawMatchDataUiStateSerde {
         rawMatchData.setTeleBreakdown(stringToTBreakdown(v.teleBreakdown()));
         rawMatchData.setEndgameClimb(stringToEClimb(v.endgameClimb()));
         rawMatchData.setEndgameTrap(v.endgameTrap());
+        rawMatchData.setTelePickup(v.pickUpAbility());
 
         return message;
     }

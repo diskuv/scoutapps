@@ -1,3 +1,5 @@
+#EDITABLE FILE FOR CHANGING APP OVER THE SEASONS
+
 @0xff041fa19d4b5a6f;
 
 # This section is used by capnproto-java only
@@ -5,8 +7,9 @@ using Java = import "/capnp/java.capnp";
 $Java.package("com.example.squirrelscout.data.capnp");
 $Java.outerClassname("Schema");
 
-#2024 testing
+#2024 
 struct RawMatchData {
+  # Example: fieldName @numberInOrder : dataType
   # generic data 
   teamNumber @0 :Int16;
   teamName @1 :Text;
@@ -41,6 +44,7 @@ struct RawMatchData {
   endgameTrap @26 : Bool;  
 }
 
+#Enum fields for "dropdown" methods which are categorical but not numerical
 enum SPosition{
   ampSide @0;
   center @1;

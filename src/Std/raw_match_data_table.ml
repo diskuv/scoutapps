@@ -1,3 +1,5 @@
+(*EDITABLE FILE FOR CHANGING APP OVER THE SEASONS*)
+
 module type Fetchable_Data = sig
   val already_contains_record :
     Sqlite3.db ->
@@ -28,17 +30,19 @@ module type Table_type = sig
   include Fetchable_Data
 end
 
+(*Code which can be edited for each specific season*)
 module Table : Table_type = struct
   let x = ""
   let table_name = "raw_match_data"
 
+  (*Code which can be modified based on what data points are wanted for
+    that specific robotics season*)
   type colums =
     (* [not game specific] generic info *)
     | Team_number
     | Team_name
     | Match_Number
     | Scouter_Name
-    (*| Alliance*)
     (* [Game specific] auto*)
     | Starting_Position
     | Wing_Note1
@@ -54,7 +58,7 @@ module Table : Table_type = struct
     | Auto_Speaker_Score
     | Auto_Speaker_Miss
     | Auto_Leave
-    (* [Game specific] tele  *)
+    (* [Game specific] tele data points *)
     | Tele_Speaker_Score
     | Tele_Speaker_Miss
     | Tele_Amp_Score
@@ -64,13 +68,14 @@ module Table : Table_type = struct
     | Endgame_Climb
     | Endgame_Trap
 
-  (* FIXME  *)
+  (* This is how the column will be seen in the SQL database or the
+    .csv file upon exportation*)
+  (*The # of column_name should match the # of columns defined in above function*)
   let colum_name = function
     | Team_number -> "team_number"
     | Team_name -> "team_name"
     | Match_Number -> "match_number"
     | Scouter_Name -> "scouter_name"
-    (*| Alliance -> "alliance"*)
     (*  *)
     | Starting_Position -> "starting_position"
     | Wing_Note1 -> "wing_note1"
@@ -96,13 +101,13 @@ module Table : Table_type = struct
     | Endgame_Climb -> "endgame_climb"
     | Endgame_Trap -> "endgame_trap"
 
-  (* FIXME *)
+  (* This defines what kind of data type each column will store. There are only two options: TEXT or INT*)
+  (* # of colum_datatype should be matching # of columns defined in above functions*)
   let colum_datatype = function
     | Team_number -> "INT"
     | Team_name -> "TEXT"
     | Match_Number -> "INT"
     | Scouter_Name -> "TEXT"
-    (*| Alliance -> "TEXT"*)
     (*  *)
     | Starting_Position -> "TEXT"
     | Wing_Note1 -> "TEXT"
@@ -128,7 +133,7 @@ module Table : Table_type = struct
     | Endgame_Climb -> "TEXT"
     | Endgame_Trap -> "TEXT"
 
-  (* FIXME *)
+  (*This defines how the order of the columns seen in databse will be written and captured from QR code*)
   let colums_in_order =
     [
       Team_number;
@@ -162,6 +167,7 @@ module Table : Table_type = struct
       Endgame_Trap;
     ]
 
+  (*Set's primary keys for identification of data. Do not change under normal circumstanes.*)
   let primary_keys = [ Team_number; Match_Number; Scouter_Name ]
 
   let create_table db =
@@ -197,6 +203,7 @@ module Table : Table_type = struct
       | Result.Error _ -> failwith "could not decode capnp data"
     in
 
+    (*All these following functions give function on how the Enum data created in schema.capnp will be read and written*)
     let position_to_string : ProjectSchema.Reader.SPosition.t -> string = function
       | AmpSide -> "AMPSIDE"
       | Center -> "CENTER"
@@ -246,6 +253,7 @@ module Table : Table_type = struct
     let record_already_exists =
       already_contains_record db ~team_number ~match_number ~scouter_name
     in
+    (*Code if you wanted to check something quick from the outputs when scanning QR codes*)
     Format.eprintf "auto_speaker_miss_get = %d@." (auto_speaker_miss_get match_data);
 
     if record_already_exists then Db_utils.Successful
@@ -259,13 +267,13 @@ module Table : Table_type = struct
          do is make a special QR code and they could hack your phone. *)
       let values =
         Printf.sprintf
+        (*Number of %s should match number of columns*)
         "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n\
         \         %s, %s, %s, %s, %s, %s, %s, %s, %s"
         (match_data |> team_number_get |> string_of_int)
         (match_data |> team_name_get |> string_to_cmd_line_form)
         (match_data |> match_number_get |> string_of_int)
         (match_data |> scouter_name_get |> string_to_cmd_line_form)
-        (*(match_data |> alliance_color_get |> alliance_to_string |> string_to_cmd_line_form)*)
         (*  *)
         (match_data |> starting_position_get |> position_to_string
        |> string_to_cmd_line_form)

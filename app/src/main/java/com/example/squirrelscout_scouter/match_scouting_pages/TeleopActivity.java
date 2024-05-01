@@ -503,6 +503,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
 */
     public void saveScoutInfo(){
         // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureTeleop()
+        ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
 
         model.captureTeleData(
                 sharedImageSingleton.getSuccess(),
@@ -513,7 +514,7 @@ public class TeleopActivity extends ComponentActivity implements View.OnClickLis
                 dropdown.getText().toString(),
                 dropdown2.getText().toString(),
                 trapBool,
-                ""
+                scoutSingleton.getFirstPickup()
         );
     }
 

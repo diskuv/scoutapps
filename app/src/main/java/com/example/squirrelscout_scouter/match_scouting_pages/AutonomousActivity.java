@@ -1,3 +1,4 @@
+/*Java Page for all the logic behind the Auto Page*/
 package com.example.squirrelscout_scouter.match_scouting_pages;
 
 import android.content.Intent;
@@ -21,6 +22,8 @@ import com.example.squirrelscout_scouter.R;
 import com.example.squirrelscout_scouter.ui.viewmodels.ModifiableRawMatchDataUiState;
 import com.example.squirrelscout_scouter.ui.viewmodels.ScoutingSessionViewModel;
 import com.example.squirrelscout_scouter.util.ScoutSingleton;
+
+import java.io.StreamCorruptedException;
 
 public class AutonomousActivity extends ComponentActivity implements View.OnClickListener {
 
@@ -52,22 +55,25 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
     Button nextButton;
     TextView info, title;
     View titleCard, firstCard, secondCard, mainCard;
+    //Needed object in order to send data for QR code to generate
     private ScoutingSessionViewModel model;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+            //Set the xml file relative to this page
             setContentView(R.layout.autonomous_scouting);
 
-            //...
+            //Set's match number if this is a continuing session
         ScoutSingleton scoutSingleton = ScoutSingleton.getInstance();
         TextView label = (TextView) findViewById(R.id.textView3);
         label.setText("Match #" + scoutSingleton.getMatchNum() + "\n" + scoutSingleton.getRobotNum());
 
-        // view model
+        // view model required
         ViewModelStoreOwner scoutingSessionViewModelStoreOwner = ((MainApplication) getApplication()).getScoutingSessionViewModelStoreOwner();
         model = new ViewModelProvider(scoutingSessionViewModelStoreOwner).get(ScoutingSessionViewModel.class);
 
-        //speaker & amp scoring
+        //speaker & amp scoring, Initializing all the variables listed above by connecting them to an
+        //an xml object in the relative xml file
         speakerScoreIncrement = (Button) findViewById(R.id.Speaker_Scored_increment);
         speakerScoreIncrement.setOnClickListener(this);
         speakerScoreDecrement = (Button) findViewById(R.id.Speaker_Scored_decrement);
@@ -142,7 +148,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
         secondCard = (View) findViewById(R.id.view4);
         title = (TextView) findViewById(R.id.textView2);
 
-        //start animation
+        //start animation (Was not used in 2024 season but was used in 2023 off season)
         //animationStart();
     }
 
@@ -273,6 +279,7 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
 
     //next page logic
     private void nextPageCheck(){
+        //Check if the Leave Button and the starting position have been answer before moving
         if(yesLeave.getTextColors() != ContextCompat.getColorStateList(this, R.color.green) && !(robotPosition.isEmpty())){
             nextButton.setTextColor(ContextCompat.getColor(this, R.color.black));
             nextButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.accent));
@@ -325,109 +332,62 @@ public class AutonomousActivity extends ComponentActivity implements View.OnClic
             button.animate().scaleXBy(-0.025f).scaleYBy(-0.025f).setDuration(250);
         }).start();
     }
-/*
-    private void animationStart(){
-        //animations
-        titleCard.setTranslationY(-500);
-        titleCard.setAlpha(0f);
-        firstCard.setTranslationY(250);
-        firstCard.setAlpha(0f);
-        secondCard.setTranslationY(250);
-        secondCard.setAlpha(0f);
-        title.setAlpha(0f);
-        title.setTranslationX(-100);
-        info.setAlpha(0f);
-        info.setTranslationX(-100);
-        cone1.setTranslationX(50);
-        cone1.setAlpha(0);
-        cone2.setTranslationX(50);
-        cone2.setAlpha(0);
-        cone3.setTranslationX(50);
-        cone3.setAlpha(0);
-        cube1.setTranslationX(-50);
-        cube1.setAlpha(0);
-        cube2.setTranslationX(-50);
-        cube2.setAlpha(0);
-        cube3.setTranslationX(-50);
-        cube3.setAlpha(0);
-        mobilityLayout.setAlpha(0f);
-        mobilityLayout.setTranslationY(50);
-        climbLayout.setAlpha(0f);
-        climbLayout.setTranslationY(50);
-        menuLayout.setAlpha(0f);
-        menuLayout.setTranslationY(50);
-        nextButton.setAlpha(0f);
-        nextButton.setTranslationY(50);
-//        title.setAlpha(0f);
-//        selectPositionTitle.setTranslationY(50f);
-//        selectPositionTitle.setAlpha(0f);
-//        teamTitle.setTranslationX(200f);
-//        teamTitle.setAlpha(0f);
-//        robotImage.setTranslationX(200f);
-//        robotImage.setAlpha(0f);
-        firstCard.animate().alpha(1f).translationYBy(-250).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() -> {
-            secondCard.animate().alpha(1f).translationYBy(-250).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
-                titleCard.animate().alpha(1f).translationYBy(500).setDuration(100).setInterpolator(new AccelerateDecelerateInterpolator()).withEndAction(() ->{
-                    title.animate().alpha(1f).translationXBy(100).setDuration(300);
-                    info.animate().alpha(1f).translationXBy(100).setDuration(300);
-                    cone1.animate().alpha(1f).translationXBy(-50).setDuration(750);
-                    cone2.animate().alpha(1f).translationXBy(-50).setDuration(750);
-                    cone3.animate().alpha(1f).translationXBy(-50).setDuration(750);
-                    cube1.animate().alpha(1f).translationXBy(50).setDuration(750);
-                    cube2.animate().alpha(1f).translationXBy(50).setDuration(750);
-                    cube3.animate().alpha(1f).translationXBy(50).setDuration(750);
-                    mobilityLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
-                    climbLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
-                    menuLayout.animate().alpha(1f).translationYBy(-50).setDuration(750);
-                    nextButton.animate().alpha(1f).translationYBy(-50).setDuration(750);
-//                        selectPositionTitle.animate().alpha(1f).translationYBy(-50).setDuration(750);
-//                        teamTitle.animate().alpha(1f).translationXBy(-200f).setDuration(500);
-//                        robotImage.animate().alpha(1f).translationXBy(-200f).setDuration(500);
-                }).start();
-            }).start();
-        }).start();
-
-    }
-
- */
+    //Method to actually save all the information from this page and send to QR object
+    //Only get's called when the user is trying to go to the next button
     public void saveScoutInfo(){
-        // TODO: Keyush/Archit: For Saturday. Do the UI -> Model as a model.captureAutonomous()
+        //Singleton object created just so data can be passed across pages easily
+        ScoutSingleton singleton = ScoutSingleton.getInstance();
 
         if(checkBox1.getId() == firstAutoPickup || checkBox4.getId() == firstAutoPickup){
-            wing1 = true;
+            singleton.setFirstPickup("W1");
         }
         else if(checkBox2.getId() == firstAutoPickup || checkBox5.getId() == firstAutoPickup){
-            wing2 = true;
+            singleton.setFirstPickup("W2");
         }
         else if(checkBox3.getId() == firstAutoPickup || checkBox6.getId() == firstAutoPickup){
-            wing3 = true;
+            singleton.setFirstPickup("W3");
         }
         else if(checkBox7.getId() == firstAutoPickup){
-            center1 = true;
+            singleton.setFirstPickup("C1");
         }
         else if(checkBox8.getId() == firstAutoPickup){
-            center2 = true;
+            singleton.setFirstPickup("C2");
         }
         else if(checkBox9.getId() == firstAutoPickup){
-            center3 = true;
+            singleton.setFirstPickup("C3");
         }
         else if(checkBox10.getId() == firstAutoPickup){
-            center4 = true;
+            singleton.setFirstPickup("C4");
         }
         else if(checkBox11.getId() == firstAutoPickup){
-            center5 = true;
+            singleton.setFirstPickup("C5");
+        }
+        else{
+            singleton.setFirstPickup("");
         }
 
+        if(checkBox1.isChecked() || checkBox4.isChecked()){
+            wing1 = true;
+        }
+        if(checkBox2.isChecked() || checkBox5.isChecked()){
+            wing2 = true;
+        }
+        if(checkBox3.isChecked() || checkBox6.isChecked()){
+            wing3 = true;
+        }
+
+        //ScoutingSessionViewModel object which calls the .captureAutoData and then passes in the information
+        //gathered form this page
         model.captureAutoData(
                 robotPosition,
                 wing1,
                 wing2,
                 wing3,
-                center1,
-                center2,
-                center3,
-                center4,
-                center5,
+                checkBox7.isChecked(),
+                checkBox8.isChecked(),
+                checkBox9.isChecked(),
+                checkBox10.isChecked(),
+                checkBox11.isChecked(),
                 Integer.parseInt(ampScore.getText().toString()),
                 Integer.parseInt(ampMiss.getText().toString()),
                 Integer.parseInt(speakerScore.getText().toString()),

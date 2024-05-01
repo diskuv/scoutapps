@@ -7,6 +7,7 @@ public class ScoutSingleton {
     private static Short valTN;
 
     private static long sn;
+    private static String firstPickup;
 
     public static synchronized ScoutSingleton getInstance(){
         if(instance == null){
@@ -41,6 +42,14 @@ public class ScoutSingleton {
 
     public static void setSn(long sn) {
         ScoutSingleton.sn = sn;
+    }
+
+    public static String getFirstPickup() {
+        return firstPickup;
+    }
+
+    public static void setFirstPickup(String firstPickup) {
+        ScoutSingleton.firstPickup = firstPickup;
     }
 
     public int getMatchNum(){

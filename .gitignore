@@ -12,3 +12,6 @@
 
 # vscode
 /.vscode/settings-local.json
+
+# scratch space
+/scratch/

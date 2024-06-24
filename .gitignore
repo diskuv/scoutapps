@@ -1,0 +1,14 @@
+# DkCoder build artifacts
+/_build/
+/#s/
+/dune-project
+
+# Opam and conventional OCaml development
+/_opam/
+/src/*/dune
+
+# vim
+*.swp
+
+# vscode
+/.vscode/settings-local.json

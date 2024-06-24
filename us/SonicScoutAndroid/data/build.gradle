@@ -1,0 +1,179 @@
+import com.diskuv.dksdk.core.gradle.plugins.CMakeNdkEnvironmentPlugin
+import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureTask
+import com.diskuv.dksdk.core.gradle.tasks.CMakeConfigureWithJniTask
+import com.diskuv.dksdk.core.gradle.tasks.DisplayAllSourcesTask
+
+buildscript {
+    dependencies {
+        classpath 'com.diskuv.dksdk.core:gradle:1.0.0-SNAPSHOT'
+    }
+    configurations.all {
+        // Don't wait forever if using -SNAPSHOT in the above dependencies.
+        resolutionStrategy.cacheChangingModulesFor 1, 'minutes'
+    }
+}
+
+plugins {
+    id 'com.android.library'
+}
+apply plugin: CMakeNdkEnvironmentPlugin
+
+configurations {
+    cmakeEmulatorpath {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+dependencies {
+    api 'com.diskuv.dksdk.ffi:ffi-java-android:1.0.0-SNAPSHOT'
+    api 'com.caverock:androidsvg-aar:1.4'
+
+    implementation 'androidx.startup:startup-runtime:1.1.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.5.0'
+
+    testImplementation 'junit:junit:4.13.2'
+
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    cmakeEmulatorpath project(configuration: 'cmakeEmulatorFiles', path: ':dkconfig')
+}
+
+// Allow local development
+def localDevProjects = [
+        // DkSDK standards
+        'dksdk-access',
+        'dksdk-cmake'
+]
+def localDevCmakeArgs = localDevProjects.
+        findAll { rootProject.file("../${it}").exists() }.
+        collect { it ->
+            def path = rootProject.file("../${it}").getAbsolutePath()
+            "-DFETCHCONTENT_SOURCE_DIR_${it.toUpperCase()}=${path}"
+        }
+
+tasks.register('cmakeConfigureTemplate', CMakeConfigureWithJniTask) {
+    def jniCompiler = javaToolchains.compilerFor {
+        // Avoid: androidx/activity/lint/ActivityIssueRegistry has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 55.0
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+    def traceFile = layout.buildDirectory.file("cmake-trace.log").get()
+
+    template true
+    androidGradlePlugin true
+    emulator configurations.cmakeEmulatorpath.elements
+    jdkHome = jniCompiler.map { it.metadata.installationPath }
+    defaultFetchContentDksdkAccess = rootProject.file("fetch/dksdk-access")
+    defaultFetchContentDksdkCmake = rootProject.file("fetch/dksdk-cmake")
+    arguments.addAll localDevCmakeArgs
+    if (getLogger().isInfoEnabled()) {
+        arguments.add "--trace-expand"
+        arguments.add "--trace-redirect=${traceFile}"
+    }
+
+    sources fileTree(
+            dir: rootDir,
+            includes: [
+                    "CMakeLists.txt",
+                    "dependencies/CMakeLists.txt",
+                    "data/src/main/cpp/CMakeLists.txt",
+                    "data/src/main/cpp/register.c"
+            ]
+    )
+}
+
+android {
+    namespace 'com.example.squirrelscout.data'
+
+    // Note that updating a library or application's compileSdkVersion (which
+    // allows newer APIs to be used) can be done separately from updating
+    // targetSdkVersion (which opts the app in to new runtime behavior) and
+    // minSdkVersion (which determines which devices the app can be installed on).
+
+    compileSdk 33
+
+    ndkVersion = cmakeNdkEnvironment.ndkVersion.get()
+
+    defaultConfig {
+        /* Need 21+ so don't to avoid issues on https://developer.android.com/build/multidex */
+        minSdk 21
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                arguments.addAll cmakeConfigureTemplate.fullArguments.get()
+                targets "data_foreground"
+            }
+            ndk {
+                // DkSDK supports: android_x86_64, android_arm32v7a, android_arm64v8a
+                /* For Sonic Scout only support 64-bit ARM chips. */
+                abiFilters 'arm64-v8a'
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path project.rootProject.file("CMakeLists.txt")
+            version cmakeNdkEnvironment.cmakeVersion.get()
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+abstract class GeneratedJavaCMakeConfigureTask extends CMakeConfigureTask {
+    @OutputDirectory
+    abstract DirectoryProperty getGeneratedJavaDir()
+}
+
+androidComponents {
+    onVariants(selector().all(), { variant ->
+        def java = variant.sources.java
+        if (java) {
+            def taskName = "cmakeConfigure${variant.name.capitalize()}Capnp"
+            def generatedJavaDir0 = layout.buildDirectory.dir("generated/java/${taskName}") // can't change this for some reason
+            def cmakeConfigureForCapnp = tasks.register(taskName, GeneratedJavaCMakeConfigureTask) {
+                emulator configurations.cmakeEmulatorpath.elements
+
+                arguments.add "--no-warn-unused-cli"
+                arguments.add "-DGENERATE_CAPNP_ONLY=1"
+                arguments.add "-DGENERATE_CAPNP_DIR=${generatedJavaDir0.get()}"
+                arguments.addAll localDevCmakeArgs
+
+                sources fileTree(
+                        dir: rootDir,
+                        includes: [
+                                "CMakeLists.txt",
+                                "dependencies/CMakeLists.txt",
+                                "data/src/main/cpp/CMakeLists.txt",
+                                "CMakePresets.json"
+                        ]
+                )
+
+                binaryDirectory  = layout.buildDirectory.dir("cmakes/${variant.name}Capnp")
+                generatedJavaDir = generatedJavaDir0
+            }
+
+            java.addGeneratedSourceDirectory(cmakeConfigureForCapnp, { it.generatedJavaDir })
+
+            tasks.register("${variant.name}DisplayAllSources", DisplayAllSourcesTask) {
+                sourceFolders.set(java.all)
+            }
+        }
+    })
+}

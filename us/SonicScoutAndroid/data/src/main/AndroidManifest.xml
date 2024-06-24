@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- These XML elements will be merged into app/src/main/AndroidManifest.xml
+         according to the rules of
+         https://developer.android.com/build/manage-manifests#merge-manifests -->
+    <application>
+        <service
+            android:name="com.example.squirrelscout.data.ComDataForegroundService"
+            android:exported="false" />
+    </application>
+
+</manifest>

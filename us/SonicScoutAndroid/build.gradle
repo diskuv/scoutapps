@@ -1,0 +1,8 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    // 7.4 is the last version to support Gradle 7.
+    // DkSDK supports Palantir Gradle Baseline and its Gradle 7 requirement.
+    // Confer: https://developer.android.com/build/releases/gradle-plugin#updating-gradle
+    id 'com.android.application' version '7.4.2' apply false
+    id 'com.android.library' version '7.4.2' apply false
+}

@@ -1,0 +1,584 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22
+  },
+  "configurePresets": [
+    {
+      "name": "ci-gradle-ninja-configure",
+      "displayName": "Gradle with Ninja",
+      "description": "Use after Gradle creates the CMake cache with the Ninja build tool. Example: ./dk dksdk.ninja.link ; ./dk dksdk.gradle.run ARGS cmakeConfigure -P cmakeGenerator=Ninja '-PcmakeMakeProgram=\".ci/ninja/bin/ninja\"'",
+      "binaryDir": "build_PRESET",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "${sourceDir}/.ci/ninja/bin/ninja"
+      }
+    },
+    {
+      "name": "ci-agnostic-configure",
+      "description": "ABI-agnostic CI configuration for build and test presets",
+      "binaryDir": "build_PRESET",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "DKSDK_GOLDEN_SOURCE_CODE": "ON",
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-ACCESS": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-access"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-cmake"
+        }
+      }
+    },
+    {
+      "name": "dbg-agnostic-configure",
+      "hidden": true,
+      "inherits": [
+        "ci-agnostic-configure"
+      ],
+      "binaryDir": "build_dev",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "wsl2-linux_x86_64-configure",
+      "hidden": true,
+      "inherits": [
+        "dbg-agnostic-configure"
+      ],
+      "binaryDir": "/opt/diskuv/usr/share/${sourceDirName}"
+    },
+    {
+      "name": "ci-host-windows_x86",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "${sourceDir}/.ci/ninja/bin/ninja",
+        "DKSDK_HOST_IMPRECISE_C99_FLOAT": "ON",
+        "DKSDK_HOST_IMPRECISE_C99_FLOAT_REASON": "Required for Release config of MSVC 14.26.28801"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ci-target-windows_x86",
+      "hidden": true,
+      "generator": "Ninja",
+      "architecture": {
+        "value": "x86",
+        "strategy": "external"
+      }
+    },
+    {
+      "name": "ci-host-windows_x86_64",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "${sourceDir}/.ci/ninja/bin/ninja",
+        "DKSDK_HOST_IMPRECISE_C99_FLOAT": "ON",
+        "DKSDK_HOST_IMPRECISE_C99_FLOAT_REASON": "Required for Release config of MSVC 14.26.28801"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ci-target-windows_x86_64",
+      "hidden": true,
+      "generator": "Ninja",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      }
+    },
+    {
+      "name": "ci-host-linux_x86",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "/usr/bin/ninja",
+        "DKML_HOST_ABI": "linux_x86"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Linux"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ci-target-linux_x86",
+      "hidden": true
+    },
+    {
+      "name": "ci-host-linux_x86_64",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "/usr/bin/ninja"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Linux"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ci-target-linux_x86_64",
+      "hidden": true
+    },
+    {
+      "name": "ci-host-darwin_arm64",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "${sourceDir}/.ci/ninja/bin/ninja",
+        "CMAKE_APPLE_SILICON_PROCESSOR": "arm64"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "macOS"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ci-target-darwin_arm64",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_OSX_ARCHITECTURES": "arm64",
+        "CMAKE_EXE_LINKER_FLAGS": "-arch arm64",
+        "CMAKE_MODULE_LINKER_FLAGS": "-arch arm64",
+        "CMAKE_SHARED_LINKER_FLAGS": "-arch arm64",
+        "CMAKE_C_COMPILER": "/usr/bin/clang",
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+        "CMAKE_OSX_DEPLOYMENT_TARGET": "11.0"
+      },
+      "environment": {
+        "CMAKE_x_LINKER_FLAGS_REASON": "DkSDK OCaml uses a single target architecture",
+        "CMAKE_x_COMPILER_REASON": "Direct use of /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc (14.0.0) will fail to link with -lm, -lSystem, etc."
+      }
+    },
+    {
+      "name": "ci-target-ios_arm64",
+      "hidden": true,
+      "generator": "Xcode",
+      "cacheVariables": {
+        "CMAKE_OSX_ARCHITECTURES": "arm64",
+        "SKIP_CMAKE_EXE_LINKER_FLAGS": "-arch arm64",
+        "SKIP_CMAKE_MODULE_LINKER_FLAGS": "-arch arm64",
+        "SKIP_CMAKE_SHARED_LINKER_FLAGS": "-arch arm64",
+        "SKIP_CMAKE_C_COMPILER": "/usr/bin/clang",
+        "SKIP_CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+        "CMAKE_SYSTEM_NAME": "iOS",
+        "CMAKE_OSX_DEPLOYMENT_TARGET": "11.0"
+      },
+      "environment": {
+        "CMAKE_x_LINKER_FLAGS_REASON": "DkSDK OCaml uses a single target architecture",
+        "CMAKE_x_COMPILER_REASON": "Direct use of /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc (14.0.0) will fail to link with -lm, -lSystem, etc."
+      }
+    },
+    {
+      "name": "ci-host-darwin_x86_64",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "${sourceDir}/.ci/ninja/bin/ninja",
+        "CMAKE_APPLE_SILICON_PROCESSOR": "x86_64"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "macOS"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ci-target-darwin_x86_64",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_OSX_ARCHITECTURES": "x86_64",
+        "CMAKE_EXE_LINKER_FLAGS": "-arch x86_64",
+        "CMAKE_MODULE_LINKER_FLAGS": "-arch x86_64",
+        "CMAKE_SHARED_LINKER_FLAGS": "-arch x86_64",
+        "CMAKE_C_COMPILER": "/usr/bin/clang",
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+        "CMAKE_OSX_DEPLOYMENT_TARGET": "11.0"
+      },
+      "environment": {
+        "CMAKE_x_LINKER_FLAGS_REASON": "DkSDK OCaml uses a single target architecture",
+        "CMAKE_x_COMPILER_REASON": "Direct use of /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc (14.0.0) will fail to link with -lm, -lSystem, etc."
+      }
+    },
+    {
+      "name": "ci-target-android_arm32v7a",
+      "hidden": true,
+      "cacheVariables": {
+        "ANDROID_ABI": "armeabi-v7a",
+        "ANDROID_PLATFORM": "android-21",
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620"
+      },
+      "environment": {
+        "ANDROID_x_REASON": "https://developer.android.com/studio/projects/configure-cmake#call-cmake-cli"
+      },
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
+    },
+    {
+      "name": "ci-target-android_arm64v8a",
+      "hidden": true,
+      "cacheVariables": {
+        "ANDROID_ABI": "arm64-v8a",
+        "ANDROID_PLATFORM": "android-21",
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620"
+      },
+      "environment": {
+        "ANDROID_x_REASON": "https://developer.android.com/studio/projects/configure-cmake#call-cmake-cli"
+      },
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
+    },
+    {
+      "name": "ci-target-android_x86",
+      "hidden": true,
+      "cacheVariables": {
+        "ANDROID_ABI": "x86",
+        "ANDROID_PLATFORM": "android-21",
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620"
+      },
+      "environment": {
+        "ANDROID_x_REASON": "https://developer.android.com/studio/projects/configure-cmake#call-cmake-cli"
+      },
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
+    },
+    {
+      "name": "ci-target-android_x86_64",
+      "hidden": true,
+      "cacheVariables": {
+        "ANDROID_ABI": "x86_64",
+        "ANDROID_PLATFORM": "android-21",
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620"
+      },
+      "environment": {
+        "ANDROID_x_REASON": "https://developer.android.com/studio/projects/configure-cmake#call-cmake-cli"
+      },
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/local/share/android-sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake"
+    },
+    {
+      "name": "ci-windows_x86",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-windows_x86",
+        "ci-target-windows_x86"
+      ],
+      "displayName": "windows_x86",
+      "description": "Native compiler for windows_x86"
+    },
+    {
+      "name": "dbg-windows_x86",
+      "inherits": [
+        "dbg-agnostic-configure",
+        "ci-host-windows_x86",
+        "ci-target-windows_x86"
+      ],
+      "displayName": "windows_x86 (debug)",
+      "description": "Native debug compiler for windows_x86"
+    },
+    {
+      "name": "ci-windows_x86_64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-windows_x86_64",
+        "ci-target-windows_x86_64"
+      ],
+      "displayName": "windows_x86_64",
+      "description": "Native compiler for windows_x86_64"
+    },
+    {
+      "name": "dbg-windows_x86_64",
+      "inherits": [
+        "dbg-agnostic-configure",
+        "ci-host-windows_x86_64",
+        "ci-target-windows_x86_64"
+      ],
+      "displayName": "windows_x86_64 (debug)",
+      "description": "Native debug compiler for windows_x86_64"
+    },
+    {
+      "name": "ci-linux_x86",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-linux_x86",
+        "ci-target-linux_x86"
+      ],
+      "displayName": "linux_x86",
+      "description": "Native compiler for linux_x86",
+      "generator": "Ninja"
+    },
+    {
+      "name": "dbg-linux_x86",
+      "inherits": [
+        "dbg-agnostic-configure",
+        "ci-host-linux_x86",
+        "ci-target-linux_x86"
+      ],
+      "displayName": "linux_x86 (debug)",
+      "description": "Native debug compiler for linux_x86",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-linux_x86_X_android_x86",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-linux_x86",
+        "ci-target-android_x86"
+      ],
+      "displayName": "linux_x86 -> android_x86",
+      "description": "Cross-compiler of host linux_x86 to target android_x86",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-linux_x86_X_android_arm32v7a",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-linux_x86",
+        "ci-target-android_arm32v7a"
+      ],
+      "displayName": "linux_x86 -> android_arm32v7a",
+      "description": "Cross-compiler of host linux_x86 to target android_arm32v7a",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-linux_x86_64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-linux_x86_64",
+        "ci-target-linux_x86_64"
+      ],
+      "displayName": "linux_x86_64",
+      "description": "Native compiler for linux_x86_64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "dbg-linux_x86_64",
+      "inherits": [
+        "dbg-agnostic-configure",
+        "ci-host-linux_x86_64",
+        "ci-target-linux_x86_64"
+      ],
+      "displayName": "linux_x86_64 (debug)",
+      "description": "Native debug compiler for linux_x86_64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "wsl2-android_x86_64",
+      "inherits": [
+        "wsl2-linux_x86_64-configure",
+        "ci-host-linux_x86_64",
+        "ci-target-android_x86_64"
+      ],
+      "cacheVariables": {
+        "ANDROID_NDK": "$env{DKSDK_PROJECT_BASE}.ci/wsl2/share/android-sdk"
+      },
+      "toolchainFile": "$env{DKSDK_PROJECT_BASE}.ci/wsl2/share/android-sdk/build/cmake/android.toolchain.cmake",
+      "displayName": "linux_x86_64 (WSL2) -> android_x86_64",
+      "description": "Cross-compiler of WSL2 host linux_x86_64 to target android_x86_64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-linux_x86_64_X_android_x86_64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-linux_x86_64",
+        "ci-target-android_x86_64"
+      ],
+      "displayName": "linux_x86_64 -> android_x86_64",
+      "description": "Cross-compiler of host linux_x86_64 to target android_x86_64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-linux_x86_64_X_android_arm64v8a",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-linux_x86_64",
+        "ci-target-android_arm64v8a"
+      ],
+      "displayName": "linux_x86_64 -> android_arm64v8a",
+      "description": "Cross-compiler of host linux_x86_64 to target android_arm64v8a",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-darwin_x86_64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-darwin_x86_64",
+        "ci-target-darwin_x86_64"
+      ],
+      "displayName": "darwin_x86_64",
+      "description": "Native compiler for darwin_x86_64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "dbg-darwin_x86_64",
+      "inherits": [
+        "dbg-agnostic-configure",
+        "ci-host-darwin_x86_64",
+        "ci-target-darwin_x86_64"
+      ],
+      "displayName": "darwin_x86_64 (debug)",
+      "description": "Native debug compiler for darwin_x86_64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-darwin_arm64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-darwin_arm64",
+        "ci-target-darwin_arm64"
+      ],
+      "displayName": "darwin_arm64",
+      "description": "Native compiler for darwin_arm64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "dbg-darwin_arm64",
+      "inherits": [
+        "dbg-agnostic-configure",
+        "ci-host-darwin_arm64",
+        "ci-target-darwin_arm64"
+      ],
+      "displayName": "darwin_arm64 (debug)",
+      "description": "Native debug compiler for darwin_arm64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-darwin_arm64_X_ios_arm64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-darwin_arm64",
+        "ci-target-ios_arm64"
+      ],
+      "displayName": "darwin_arm64 -> ios_arm64",
+      "description": "Cross-compiler of host darwin_arm64 to target ios_arm64"
+    },
+    {
+      "name": "ci-darwin_x86_64_X_darwin_arm64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-darwin_x86_64",
+        "ci-target-darwin_arm64"
+      ],
+      "displayName": "darwin_x86_64 -> darwin_arm64",
+      "description": "Cross-compiler of host darwin_x86_64 to target darwin_arm64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-darwin_arm64_X_darwin_x86_64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-darwin_arm64",
+        "ci-target-darwin_x86_64"
+      ],
+      "displayName": "darwin_arm64 -> darwin_x86_64",
+      "description": "Cross-compiler of host darwin_arm64 to target darwin_x86_64",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-darwin_arm64_X_android_arm64v8a",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-darwin_arm64",
+        "ci-target-android_arm64v8a"
+      ],
+      "displayName": "darwin_arm64 -> android_arm64v8a",
+      "description": "Cross-compiler of host darwin_arm64 to target android_arm64v8a",
+      "generator": "Ninja"
+    },
+    {
+      "name": "ci-darwin_arm64_X_android_x86_64",
+      "inherits": [
+        "ci-agnostic-configure",
+        "ci-host-darwin_arm64",
+        "ci-target-android_x86_64"
+      ],
+      "displayName": "darwin_arm64 -> android_x86_64",
+      "description": "Cross-compiler of host darwin_arm64 to target android_x86_64",
+      "generator": "Ninja"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "ci-base-build",
+      "hidden": true,
+      "configurePreset": "ci-agnostic-configure",
+      "configuration": "Release"
+    },
+    {
+      "name": "dbg-base-build",
+      "hidden": true,
+      "configurePreset": "dbg-agnostic-configure",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ci-main",
+      "inherits": "ci-base-build",
+      "targets": [
+        "dksdk_ffi_java"
+      ]
+    },
+    {
+      "name": "dbg-main",
+      "inherits": "dbg-base-build",
+      "targets": [
+        "dksdk_ffi_java"
+      ]
+    },
+    {
+      "name": "wsl2-linux_x86_64-main",
+      "configurePreset": "wsl2-linux_x86_64-configure",
+      "configuration": "Debug",
+      "targets": [
+        "dksdk_ffi_java"
+      ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "ci-test",
+      "configurePreset": "ci-agnostic-configure",
+      "filter": {
+        "exclude": {
+          "label": "Console"
+        }
+      }
+    },
+    {
+      "name": "dbg-test",
+      "configurePreset": "dbg-agnostic-configure",
+      "filter": {
+        "exclude": {
+          "label": "Console"
+        }
+      }
+    },
+    {
+      "name": "wsl2-linux_x86_64-test",
+      "configurePreset": "wsl2-linux_x86_64-configure",
+      "filter": {
+        "exclude": {
+          "label": "Console"
+        }
+      }
+    }
+  ]
+}

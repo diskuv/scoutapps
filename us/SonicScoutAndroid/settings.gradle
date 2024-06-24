@@ -1,0 +1,34 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        repositories {
+            mavenLocal {
+                content {
+                    // Allow machine-local Maven repository for DkSDK Core group of artifacts
+                    includeGroup "com.diskuv.dksdk.core"
+                }
+            }
+        }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        mavenLocal {
+            content {
+                // Allow machine-local Maven repository for DkSDK FFI group of artifacts
+                includeGroup "com.diskuv.dksdk.ffi"
+                // Allow machine-local Maven repository for DkML JNR group of artifacts
+                includeGroup "com.diskuv.dkml.jnr"
+            }
+        }
+    }
+}
+rootProject.name = "SquirrelScout_Scouter"
+include ':app'
+include ':data'
+include ':dkconfig'

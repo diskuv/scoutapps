@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_400sdp"
+        android:background="@color/background">
+
+        <!-- Cards to make the design look nice -->
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_39sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            android:backgroundTint="@color/secondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:id="@+id/view2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_560sdp"
+            android:layout_marginTop="@dimen/_70sdp"
+            android:background="@drawable/rounded_rectangle"
+            android:backgroundTint="@color/secondary"
+            app:layout_anchor="@+id/linearLayout2"
+            app:layout_anchorGravity="bottom|center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <View
+            android:id="@+id/view3"
+            android:layout_width="@dimen/_279sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_310sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:background="@drawable/round_rectangle_2"
+            android:backgroundTint="@color/offwhite"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <View
+            android:id="@+id/view7"
+            android:layout_width="@dimen/_280sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginTop="@dimen/_150sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            android:backgroundTint="@color/offwhite"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <View
+            android:id="@+id/view4"
+            android:layout_width="@dimen/_279sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_425sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:background="@drawable/round_rectangle_2"
+            android:backgroundTint="@color/offwhite"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <View
+            android:id="@+id/view5"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="bottom"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_19sdp"
+            android:textAlignment="center"
+            android:text="Match #00 &#10; 2930"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:gravity="center"
+            android:inputType="none"
+            android:text="  Auto Period"
+            android:textAllCaps="true"
+            android:textColor="@color/Text"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Robot Starting Layout -->
+        <TextView
+            android:id="@+id/Robot_Position_Label"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:gravity="center"
+            android:inputType="none"
+            android:text="Starting Position"
+            android:textAllCaps="false"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/linearLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_110sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/Start_Left"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="Amp Side"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Start_Center"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="Center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Start_Right"
+                android:layout_width="@dimen/_85sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:text="Source Side"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <!-- Field Map -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/_270sdp"
+            android:layout_height="@dimen/_140sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/newfield"
+            android:translationX="@dimen/_15sdp"
+            android:translationY="@dimen/_155sdp"
+            android:layout_marginTop="@dimen/_100sdp"/>
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_217sdp"
+            android:layout_marginStart="@dimen/_60sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:translationY="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:translationY="28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_217sdp"
+            android:layout_marginStart="@dimen/_225sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+            <CheckBox
+                android:id="@+id/checkBox5"
+                android:translationY="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+            <CheckBox
+                android:id="@+id/checkBox6"
+                android:translationY="28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout12"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            android:layout_marginTop="@dimen/_166sdp"
+            android:layout_marginStart="@dimen/_143sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/checkBox7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+            <CheckBox
+                android:id="@+id/checkBox8"
+                android:translationY="21dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+            <CheckBox
+                android:id="@+id/checkBox9"
+                android:translationY="43dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+            <CheckBox
+                android:id="@+id/checkBox10"
+                android:translationY="65dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+            <CheckBox
+                android:id="@+id/checkBox11"
+                android:translationY="85dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+
+        </LinearLayout>
+
+        <!-- Amp Scoring Layout -->
+        <TextView
+            android:id="@+id/AmpTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_345sdp"
+            android:translationX="-233dp"
+            android:inputType="none"
+            android:rotation="-90"
+            android:text="SPEAKER"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_325sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/SpeakerScoredLabel"
+                android:layout_width="@dimen/_115sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="SCORED"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/SpeakerScoredCounter"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="0"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Speaker_Scored_increment"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="+"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Speaker_Scored_decrement"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="-"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_365sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/SpeakerMissedLabel"
+                android:layout_width="@dimen/_115sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="MISSED"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/SpeakerMissedCounter"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="0"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:id="@+id/Speaker_Missed_Increment"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="+"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:id="@+id/Speaker_Missed_Decrement"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="-"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </LinearLayout>
+
+        <!-- Speaker Scoring Layout -->
+        <TextView
+            android:id="@+id/SpeakerTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_462sdp"
+            android:translationX="-233dp"
+            android:inputType="none"
+            android:rotation="-90"
+            android:text="AMP"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_440sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/AmpScoredLabel"
+                android:layout_width="@dimen/_115sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="SCORED"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/AmpScoredCounter"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="0"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Amp_Score_Increment"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="+"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Amp_Score_Decrement"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="-"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_480sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/AmpMissedLabel"
+                android:layout_width="@dimen/_115sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="MISSED"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/AmpMissedCounter"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="0"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Amp_Missed_Increment"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="+"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Amp_Missed_Decrement"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="-"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <!-- Leave Layout -->
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_540sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/MobilityLabel"
+                android:layout_width="@dimen/_106sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="LEAVE :"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/LEAVE_YES"
+                android:layout_width="@dimen/_58sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="Yes"
+                android:textColor="@color/green"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/LEAVE_NO"
+                android:layout_width="@dimen/_58sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="No"
+                android:textColor="@color/error"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <!-- Next Page Button -->
+        <Button
+            android:id="@+id/NEXT"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_590sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:backgroundTint="@color/darkGrey"
+            android:background="@drawable/rounded_rectangle_subtle"
+            app:backgroundTint="@null"
+            android:text="ENTER ALL DATA"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

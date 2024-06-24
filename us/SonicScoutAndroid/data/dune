@@ -1,0 +1,3 @@
+; Manually added so that .cxx directory, which is not part of :standard,
+; is included during `dune build`.
+(dirs .cxx build)

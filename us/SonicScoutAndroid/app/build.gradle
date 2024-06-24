@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    /* The [namespace] can and should change to match the [applicationId] below,
+     * according to https://developer.android.com/build/configure-app-module. */
+    namespace 'com.example.squirrelscout_scouter'
+
+    compileSdk 33
+
+    defaultConfig {
+        /* The [applicationId] cannot change!
+           Once an app enters the Google Play Store the id is frozen.
+           The ".kaak." is the reserved portion for the original
+           authors Keyush A and Archit K. */
+        applicationId "com.diskuv.kaak.sonic_scout"
+
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            /* For Sonic Scout only support 64-bit ARM chips. */
+            abiFilters 'arm64-v8a'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    modules {
+        module("org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
+            replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk7 is now part of kotlin-stdlib")
+        }
+        module("org.jetbrains.kotlin:kotlin-stdlib-jdk8") {
+            replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk8 is now part of kotlin-stdlib")
+        }
+    }
+
+    implementation project(':data')
+    implementation "androidx.startup:startup-runtime:1.1.1"
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.navigation:navigation-fragment:2.6.0'
+    implementation 'androidx.navigation:navigation-ui:2.6.0'
+
+    // https://immutables.github.io/getstarted.html
+    annotationProcessor "org.immutables:value:2.10.0" // for annotation processor
+    compileOnly "org.immutables:value-annotations:2.10.0" // for annotation API
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //responsive ui
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'  //use 0.384 for conversion from dp -> sdp
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+}

@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <!-- Cards to make the design look nice -->
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_39sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            android:backgroundTint="@color/secondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="wrap_content"
+            android:layout_height="1100dp"
+            android:layout_marginTop="@dimen/_73sdp"
+            android:background="@drawable/rounded_rectangle"
+            android:backgroundTint="@color/secondary"
+            app:layout_anchor="@+id/linearLayout2"
+            app:layout_anchorGravity="bottom|center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="@dimen/_269sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_109sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            android:backgroundTint="@color/offwhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="@dimen/_270sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_320sdp"
+            android:background="@drawable/round_rectangle_2"
+            android:backgroundTint="@color/offwhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view10"
+            android:layout_width="@dimen/_270sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_265sdp"
+            android:background="@drawable/round_rectangle_2"
+            android:backgroundTint="@color/offwhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_19sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:text="Match #00 &#10; 2930"
+            android:textAlignment="center"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:gravity="center"
+            android:inputType="none"
+            android:text="  Teleop"
+            android:textAllCaps="true"
+            android:textColor="@color/Text"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Speaker Scoring heatmap -->
+        <TextView
+            android:id="@+id/SpeakerTitle"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:gravity="center"
+            android:inputType="none"
+            android:text="Speaker Scoring"
+            android:textAllCaps="false"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/_260sdp"
+            android:layout_height="@dimen/_140sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/newfield"
+            android:translationX="@dimen/_19sdp"
+            android:translationY="@dimen/_115sdp"
+            android:layout_marginTop="@dimen/_100sdp"/>
+
+        <!-- range Layout -->
+        <LinearLayout
+            android:id="@+id/linearLayout21"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_275sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/RangeLabel"
+                android:layout_width="@dimen/_72sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:inputType="none"
+                android:text="Range :"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/SpeakerRange"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:inputType="none"
+                android:text="Close"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="@dimen/_21sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-15dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+
+            <TextView
+                android:id="@+id/WingRange"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                android:inputType="none"
+                android:text="Wing"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="@dimen/_21sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-13dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+
+            <TextView
+                android:id="@+id/CenterRange"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:inputType="none"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:text="Center"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="@dimen/_21sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-13dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:drawableRight="@drawable/checkbox"/>
+        </LinearLayout>
+
+        <!-- Amp Scoring  -->
+        <TextView
+            android:id="@+id/AmpTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_355sdp"
+            android:translationX="-233dp"
+            android:inputType="none"
+            android:rotation="-90"
+            android:text="AMP"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_335sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/AmpScoredLabel"
+                android:layout_width="@dimen/_115sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="SCORED"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/AmpScoredCounter"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="0"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Amp_Score_Increment"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="+"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/Amp_Score_Decrement"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="-"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_375sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/AmpMissedLabel"
+                android:layout_width="@dimen/_115sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="MISSED"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/AmpMissedCounter"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/white"
+                android:gravity="center"
+                android:inputType="none"
+                android:text="0"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:id="@+id/Amp_Missed_Increment"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="+"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:id="@+id/Amp_Missed_Decrement"
+                android:layout_width="@dimen/_29sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/background"
+                android:text="-"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </LinearLayout>
+
+        <!-- Robot Breakdown Layout -->
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_430sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/BreakdownTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_gravity="top|center"
+                android:text="Breakdown :"
+                android:textColor="@color/Text"
+                android:textSize="@dimen/_19ssp"
+                android:textStyle="bold" />
+
+            <AutoCompleteTextView
+                android:id="@+id/dropdown"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/dropdown_background"
+                android:hint="Type of Breakdown..."
+                android:inputType="none"
+                android:textAlignment="center"
+                android:textColor="@color/background"
+                android:textSize="@dimen/_12ssp" />
+
+        </LinearLayout>
+
+        <!-- Climb Layout -->
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_470sdp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/ClimbTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_gravity="top|center"
+                android:text="CLIMB :"
+                android:textAlignment="center"
+                android:textColor="@color/Text"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
+            <AutoCompleteTextView
+                android:id="@+id/dropdown2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_29sdp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/dropdown_background"
+                android:hint="Endgame..."
+                android:inputType="none"
+                android:textAlignment="center"
+                android:textColor="@color/background"
+                android:textSize="@dimen/_12ssp" />
+
+        </LinearLayout>
+
+        <!-- Trap Layout -->
+        <LinearLayout
+            android:id="@+id/linearLayout9"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="1050dp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/TrapLabel"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:inputType="none"
+                android:text="Trap :"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/TRAP_YES"
+                android:layout_width="@dimen/_58sdp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="Yes"
+                android:textColor="@color/green"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/TRAP_NO"
+                android:layout_width="@dimen/_58sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:background="@drawable/rounded_rectangle_subtle"
+                android:backgroundTint="@color/white"
+                android:text="No"
+                android:textColor="@color/error"
+                android:textSize="@dimen/_15ssp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <!-- Next Page Button -->
+        <Button
+            android:id="@+id/NEXT"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_29sdp"
+            android:layout_marginStart="@dimen/_29sdp"
+            android:layout_marginTop="1150dp"
+            android:layout_marginEnd="@dimen/_29sdp"
+            android:background="@drawable/rounded_rectangle_subtle"
+            android:backgroundTint="@color/darkGrey"
+            android:text="ENTER ALL DATA"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16ssp"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_576sdp"
+            android:gravity="center"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--menu items
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/_600sdp"
+            android:background="@drawable/menu_round"
+            android:elevation="@dimen/_3sdp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageButton
+                android:id="@+id/menu_item_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:src="@drawable/backpageicon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/menu_item_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:src="@drawable/notes_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+        -->
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

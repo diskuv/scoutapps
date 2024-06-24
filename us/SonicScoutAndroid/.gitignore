@@ -1,0 +1,38 @@
+# When you open this file, Android Studio will prompt that
+# "Some of the ignored directories are not
+# excluded from indexing and search". Basically, we
+# can use this .gitignore to suggest directory exclusions
+# to avoid slowdowns of Android Studio.
+
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/vcs.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx/
+local.properties
+
+# ./dk
+/.ci/
+
+# Dune
+/_build/
+
+# keys
+*.keystore
+*-key.zip
+*.jks
+*.pem
+
+# Bundles
+*.aab

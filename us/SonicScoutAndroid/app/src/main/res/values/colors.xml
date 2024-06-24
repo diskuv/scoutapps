@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="black2">#FF001000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Actual Theme trial -->
+    <color name="Text">#f0f9fe</color>
+    <color name="background">#021c2c</color>
+    <color name="accent">#f36716</color>
+    <color name="lightGrey">#C2C4C3</color>
+    <color name="offwhite">#D1CAC3</color>
+    <color name="darkGrey">#676767</color>
+    <color name="orange">#FF5722 </color>
+    <color name="thirdButton">#DED6CE</color>
+    <color name="secondary">#03263a</color>
+    <color name="error">#F2110C</color>
+    <color name="green">#1FA659</color>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="CidrRootsConfiguration">
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/_build" />
+      <file path="$PROJECT_DIR$/_dn" />
+      <file path="$PROJECT_DIR$/build" />
+      <file path="$PROJECT_DIR$/build_dev" />
+      <file path="$PROJECT_DIR$/fetch/dksdk-opam-repository" />
+      <file path="$PROJECT_DIR$/fetch/dksdk-opam-repository-js" />
+      <file path="$PROJECT_DIR$/fetch/opam-overlays" />
+      <file path="$PROJECT_DIR$/fetch/opam-repository" />
+    </excludeRoots>
+  </component>
+</project>

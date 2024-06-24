@@ -1,0 +1,10 @@
+{
+  "cSpell.enabled" : true,
+  "cmake.configureOnOpen" : false,
+  "ocaml.sandbox" : 
+  {
+    "kind" : "custom",
+    "template" : "${firstWorkspaceFolder}/dk dksdk.cmd.exec QUIET CMD $prog $args"
+  },
+  "sonarlint.pathToCompileCommands" : "${workspaceFolder}/build_dev/compile_commands.json"
+}

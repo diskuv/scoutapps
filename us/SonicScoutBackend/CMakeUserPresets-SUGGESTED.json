@@ -1,0 +1,199 @@
+{
+  "version": 5,
+  "configurePresets": [
+    {
+      "name": "dev-configure",
+      "hidden": true,
+      "binaryDir": "build_dev",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DKSDK_DEV_TOOLS": "ON",
+        "DKSDK_OPAM_REPOSITORY": "git+file://${sourceDir}/fetch/dksdk-opam-repository/.git",
+        "DKSDK_OPAM_REPOSITORY_JS": "git+file://${sourceDir}/fetch/dksdk-opam-repository-js/.git",
+        "FETCHCONTENT_SOURCE_DIR_DKML-COMPILER": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dkml-compiler"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKML-RUNTIME-COMMON": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dkml-runtime-common"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKML-RUNTIME-DISTRIBUTION": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dkml-runtime-distribution"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-ACCESS": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-access"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-cmake"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-opam-repository"
+        },
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-OPAM-REPOSITORY-JS": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/dksdk-opam-repository-js"
+        },
+        "FETCHCONTENT_SOURCE_DIR_OPAM-OVERLAYS": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/opam-overlays"
+        },
+        "FETCHCONTENT_SOURCE_DIR_OPAM-REPOSITORY": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/fetch/opam-repository"
+        }
+      },
+      "environment": {
+        "PATH": "${sourceDir}/.ci/ninja/bin${pathListSep}$penv{PATH}"
+      }
+    },
+    {
+      "name": "dev-source-dirs",
+      "hidden": true,
+      "cacheVariables": {
+        "FETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE": {
+          "type": "FILEPATH",
+          "value": "${sourceParentDir}/dksdk-cmake"
+        }
+      }
+    },
+    {
+      "name": "dev-AppleSilicon",
+      "inherits": [
+        "dev-configure",
+        "ci-host-darwin_arm64",
+        "ci-target-darwin_arm64"
+      ],
+      "binaryDir": "build_dev",
+      "displayName": "Dev Apple Silicon",
+      "generator": "Ninja",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "macOS"
+          ]
+        }
+      }
+    },
+    {
+      "name": "dev-AppleSilicon-with-local",
+      "inherits": [
+        "dev-source-dirs",
+        "dev-AppleSilicon"
+      ],
+      "displayName": "Dev Apple Silicon + local sources",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "macOS"
+          ]
+        }
+      }
+    },
+    {
+      "name": "dev-Linux-x86_64",
+      "inherits": [
+        "dev-configure",
+        "ci-host-linux_x86_64",
+        "ci-target-linux_x86_64"
+      ],
+      "binaryDir": "build_dev",
+      "displayName": "Dev Linux x86_64",
+      "generator": "Ninja",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Linux"
+          ]
+        }
+      }
+    },
+    {
+      "name": "dev-Linux-x86_64-with-local",
+      "inherits": [
+        "dev-source-dirs",
+        "dev-Linux-x86_64"
+      ],
+      "displayName": "Dev Linux x86_64 + local sources",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Linux"
+          ]
+        }
+      }
+    },
+    {
+      "name": "dev-Windows64",
+      "inherits": [
+        "dev-configure",
+        "ci-host-windows_x86_64",
+        "ci-target-windows_x86_64"
+      ],
+      "binaryDir": "build_dev",
+      "displayName": "Dev Windows 64-bit",
+      "generator": "Ninja",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    },
+    {
+      "name": "dev-Windows64-with-localsources",
+      "inherits": [
+        "dev-source-dirs",
+        "dev-Windows64"
+      ],
+      "displayName": "Dev Windows 64-bit + local sources",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    },
+    {
+      "name": "dev-Windows64-with-localocaml",
+      "inherits": [
+        "dev-Windows64"
+      ],
+      "displayName": "Dev Windows 64-bit + local OCaml",
+      "cacheVariables": {
+        "CMAKE_OCamlDune_COMPILER_EXTERNAL_REQUIRED": "OFF"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    },
+    {
+      "name": "dev-Windows64-with-localsources-localocaml",
+      "inherits": [
+        "dev-Windows64-with-localsources"
+      ],
+      "cacheVariables": {
+        "CMAKE_OCamlDune_COMPILER_EXTERNAL_REQUIRED": "OFF"
+      },
+      "displayName": "Dev Windows 64-bit + local OCaml + local sources",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    }
+  ]
+}

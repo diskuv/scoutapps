@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cppdbg",
+            "request": "launch",
+            "name": "Unix Launch ManagerAppReader",
+            "program": "${workspaceFolder}/build_dev/src/ManagerApp/ManagerAppReader",
+            "args": [
+                "-fast", "-format", "qrcode", "tests/Units/ManagerApp/qrcode-7/01-01.png"
+            ],
+            "cwd": "${workspaceFolder}",
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb"
+            }
+        },
+        {
+            "name": "Windows Launch ManagerAppQtCamReader",
+            "type": "cppvsdbg",            
+            "request": "launch",
+            "program": "${workspaceFolder}/build_dev/src/ManagerApp/ManagerAppQtCamReader.exe",
+            "args": [
+                "--",
+                "${workspaceFolder}/build_dev/test.db"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}/build_dev/src/ManagerApp",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "${workspaceFolder}/5.15.2/msvc2019_64/bin"
+                }
+            ],
+            "console": "integratedTerminal"
+        }
+
+    ]
+}

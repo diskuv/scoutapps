@@ -11,7 +11,9 @@ let run ~next () =
       OSEnvMap.(
         add "DKSDK_FFI_JAVA_REPO_1_0"
           "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
-          env)
+          env
+        |> add "DKSDK_CMAKE_REPO_1_0"
+             "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next")
     else env
   in
   let dk args =

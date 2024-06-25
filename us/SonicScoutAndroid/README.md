@@ -54,7 +54,8 @@ THIRD, run the following commands in Unix or Windows PowerShell:
 ```sh
 ./dk dksdk.cmake.link QUIET
 ./dk dksdk.ninja.link
-./dk dksdk.java.jdk.download NO_SYSTEM_PATH
+./dk dksdk.java.jdk.download NO_SYSTEM_PATH JDK 8
+./dk dksdk.java.jdk.download NO_SYSTEM_PATH JDK 17
 ./dk dksdk.gradle.download ALL NO_SYSTEM_PATH
 ./dk dksdk.android.ndk.download NO_SYSTEM_PATH
 ./dk dksdk.android.gradle.configure OVERWRITE

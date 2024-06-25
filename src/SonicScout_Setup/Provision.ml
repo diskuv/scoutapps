@@ -1,8 +1,8 @@
-let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home =
+let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home next =
   try
     InitialSteps.run ~dksdk_data_home ();
     DkML.run ();
-    Android.run ()
+    Android.run ~next ()
   with Utils.StopProvisioning -> ()
 
 module Cli = struct
@@ -60,6 +60,12 @@ module Cli = struct
     in
     Term.term_result' ~usage:true t
 
+  let next_t =
+    let doc =
+      "Use the 'next' branches of DkSDK which contains beta software."
+    in
+    Arg.(value & flag & info ~doc [ "next" ])
+
   let cmd =
     let doc = "Provision (setup) your machine to edit the Sonic Scout apps." in
     let man = [ `S Manpage.s_description; `Blocks help_secs ] in
@@ -67,7 +73,7 @@ module Cli = struct
       (Cmd.info ~doc ~man "provision")
       Term.(
         const provision $ Tr1Logs_Term.TerminalCliOptions.term
-        $ dksdk_data_home_t)
+        $ dksdk_data_home_t $ next_t)
 end
 
 let () =

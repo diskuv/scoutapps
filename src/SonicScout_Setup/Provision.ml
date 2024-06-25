@@ -2,7 +2,8 @@ let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home next =
   try
     InitialSteps.run ~dksdk_data_home ();
     DkML.run ();
-    Android.run ~next ()
+    AndroidGradle.run ~next ();
+    AndroidStudio.run ()
   with Utils.StopProvisioning -> ()
 
 module Cli = struct

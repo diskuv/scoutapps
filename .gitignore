@@ -15,3 +15,7 @@
 
 # scratch space
 /scratch/
+
+# Provisioning
+/.ci/local/share/android-studio/
+/.ci/local/share/Android Studio.app/

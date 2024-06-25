@@ -2,7 +2,7 @@ open Utils
 
 let run ~next () =
   let open Bos in
-  start_step "Building SonicScoutAndroid";
+  start_step "Building SonicScoutAndroid with Gradle";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
   let env = OS.Env.current () |> rmsg in
@@ -30,6 +30,8 @@ let run ~next () =
     | `windows_x86 -> "windows_x86"
     | `linux_x86_64 -> "linux_x86_64"
     | `linux_x86 -> "linux_x86"
+    | _ ->
+        failwith "Currently your host machine is not supported by Sonic Scout"
   in
   OS.Dir.with_current projectdir
     (fun () ->

@@ -18,3 +18,10 @@ Then when any updates are needed inside this Scout Apps project:
 git subtree pull --prefix us/SonicScoutBackend https://github.com/SquirrelScout/ocaml-backend.git main
 git subtree pull --prefix us/SonicScoutAndroid https://github.com/SquirrelScout/SquirrelScout_Scouter.git main
 ```
+
+And when moving changes from the `us/` directories back to their authoritative projects, do:
+
+```sh
+git subtree push --prefix us/SonicScoutBackend https://github.com/SquirrelScout/ocaml-backend.git main
+git subtree push --prefix us/SonicScoutAndroid https://github.com/SquirrelScout/SquirrelScout_Scouter.git main
+```

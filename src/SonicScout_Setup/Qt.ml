@@ -15,7 +15,7 @@ let miniconda_dir ~projectdir = Fpath.(tools_dir ~projectdir / "miniconda")
 let activate_sh ~projectdir =
   Fpath.(miniconda_dir ~projectdir / "bin" / "activate")
 
-(** This does a local install of Miniconda3.  *)
+(** This does a local install of Miniconda3. *)
 let install_unix_miniconda3 ~projectdir ~platform ~sha256 =
   (* https://docs.conda.io/projects/conda/en/latest/user-guide/install/macos.html.
      But we do not run 'conda init --all' which is just unwanted shellscript
@@ -26,18 +26,17 @@ let install_unix_miniconda3 ~projectdir ~platform ~sha256 =
   let activate_sh = activate_sh ~projectdir in
   if not (OS.File.exists activate_sh |> rmsg) then (
     let (_created : bool) = OS.Dir.create tools_dir |> rmsg in
-    let latest_sh = Fpath.(tools_dir / "Miniconda3-latest.sh") in
-    OS.Cmd.run
-      Cmd.(
-        v "wget"
-        % Fmt.str "https://repo.anaconda.com/miniconda/Miniconda3-latest-%s.sh"
-            platform
-        % "-O" % p latest_sh)
-    |> rmsg;
-    let actual_sha256 =
-      Digestif.SHA256.digest_string (OS.File.read latest_sh |> rmsg)
-      |> Digestif.SHA256.to_hex
+    let latest_sh = Fpath.(tools_dir / "Miniconda3.sh") in
+    let uri =
+      Fmt.str
+        "https://repo.anaconda.com/miniconda/Miniconda3-py312_24.4.0-0-%s.sh"
+        platform
     in
+    Lwt_main.run
+    @@ download (Uri.of_string uri) (Some (Fpath.to_string latest_sh)) "GET";
+
+    (* OS.Cmd.run Cmd.(v "wget" % uri % "-O" % p latest_sh) |> rmsg; *)
+    let actual_sha256 = cksum_file ~m:(module Digestif.SHA256) latest_sh in
     if sha256 <> actual_sha256 then
       failwith "The SHA256 checksums for Miniconda3 did not match.";
     OS.Cmd.run Cmd.(v "/bin/bash" % p latest_sh % "-b" % "-p" % p miniconda_dir)

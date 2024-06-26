@@ -140,7 +140,7 @@ let run () =
   if not (OS.Dir.exists Fpath.(projectdir / qt5_ver) |> rmsg) then begin
     Logs.info (fun l ->
         l "Installing Qt modules. This may take %s minutes ..."
-          (if Sys.win32 then "more than twenty" else "a few"));
+          (if Sys.win32 then "several" else "a few"));
     run_conda ~projectdir
       [
         "run";

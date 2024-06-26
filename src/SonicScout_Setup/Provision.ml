@@ -4,7 +4,7 @@ let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home next =
     Qt.run ();
     Sqlite3.run ();
     DkML.run ();
-    AndroidGradle.run ~next ();
+    ScoutAndroid.run ~next ();
     AndroidStudio.run ()
   with Utils.StopProvisioning -> ()
 

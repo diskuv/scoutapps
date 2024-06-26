@@ -2,7 +2,7 @@ open Utils
 
 let run ~next () =
   let open Bos in
-  start_step "Building SonicScoutAndroid with Gradle";
+  start_step "Building SonicScoutAndroid";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
   let dk_env =

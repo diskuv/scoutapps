@@ -53,5 +53,21 @@ let run () =
     (fun () -> dk [ "dksdk.android.studio.download"; "NO_SYSTEM_PATH" ])
     ()
   |> rmsg;
+
+  (* Unclear how cmake.exe is deleted ... could be that Android Studio thinks
+     it is a build artifact and deletes it during a clean. But then it is
+     never regenerated (because cmake-ndk.json exists). This is a hack
+     until the DkSDK Gradle "dkconfig" plugin bug is fixed. *)
+  (if Sys.win32 then
+     let emulators = Fpath.(projectdir / "dkconfig" / "build" / "emulators") in
+     let cmake_json = Fpath.(emulators / "cmake-ndk.json") in
+     let cmake_exe =
+       Fpath.(emulators / "dksdk-wsl2" / "cmake.dir" / "bin" / "cmake.exe")
+     in
+     if
+       OS.File.exists cmake_json |> rmsg
+       && not (OS.File.exists cmake_exe |> rmsg)
+     then OS.File.delete cmake_json |> rmsg);
+
   say_warning ();
   RunAndroidStudio.run ~debug_env:() ~projectdir []

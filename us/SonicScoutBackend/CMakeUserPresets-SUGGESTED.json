@@ -8,6 +8,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DKSDK_OPAM_ROOT_DISABLE_USER": "ON",
         "DKSDK_DEV_TOOLS": "ON",
         "DKSDK_OPAM_REPOSITORY": "git+file://${sourceDir}/fetch/dksdk-opam-repository/.git",
         "DKSDK_OPAM_REPOSITORY_JS": "git+file://${sourceDir}/fetch/dksdk-opam-repository-js/.git",

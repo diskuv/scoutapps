@@ -6,6 +6,8 @@ let say_warning () =
       {|
 Android Studio will be downloaded and launched.
 
+SETUP WIZARD INSTRUCTIONS
+
 1. The download step has a big 1GB download. DON'T BE SURPRISED IF IT TAKES
    10 MINUTES OR MORE.
 2. If a "Trust and Open Project 'SonicScoutAndroid'" popup appears then
@@ -21,6 +23,9 @@ Android Studio will be downloaded and launched.
 
    If it complains about "Missing SDK" - "No Android SDK found", use "Next"
    to download it with all the default options selected.
+
+BUILDING INSIDE ANDROID STUDIO
+
 5. If you get a "Multiple Gradle daemons might be spawned because the Gradle
    JDK and JAVA_HOME locations are different." notification then you should
    click the "Select the Gradle JDK location". Choose the
@@ -28,8 +33,10 @@ Android Studio will be downloaded and launched.
    if on a macOS).
 6. If Windows Firewall asks, you should GRANT ACCESS to "adb.exe". If you
    don't it is likely connecting to your Android devices will be difficult.
-
-ONCE YOU HAVE FINISHED THE SETUP WIZARD, EXIT ANDROID STUDIO.
+7. You will get very slow `Scanning index files`, `Loading symbols` and `Indexing` actions.
+   To avoid these, right-click on any `\\wsl.localhost` based `build/DkSDKFiles` folders and
+   **Mark Directory as Excluded**. That is shown on the picture:
+   https://gitlab.com/diskuv/sonicscout/scoutapps/-/blob/main/us/SonicScoutAndroid/static/exclude-DkSDKFiles.png
 
 Can you perform these steps? (y/N) |};
     StdIo.flush StdIo.stdout;

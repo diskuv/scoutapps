@@ -49,5 +49,9 @@ let run () =
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
 
+  OS.Dir.with_current projectdir
+    (fun () -> dk [ "dksdk.android.studio.download"; "NO_SYSTEM_PATH" ])
+    ()
+  |> rmsg;
   say_warning ();
-  dk [ "dksdk.android.studio.run"; "ARGS"; Fpath.to_string projectdir ]
+  RunAndroidStudio.run ~debug_env:() ~projectdir []

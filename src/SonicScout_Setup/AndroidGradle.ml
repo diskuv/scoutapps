@@ -5,8 +5,8 @@ let run ~next () =
   start_step "Building SonicScoutAndroid with Gradle";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
-  let env = OS.Env.current () |> rmsg in
   let dk_env =
+    let env = OS.Env.current () |> rmsg in
     if next then
       OSEnvMap.(
         add "DKSDK_FFI_JAVA_REPO_1_0"
@@ -46,28 +46,17 @@ let run ~next () =
       dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ];
       git [ "-C"; "fetch/dksdk-ffi-java"; "clean"; "-d"; "-x"; "-f" ];
       (* Display the Java toolchains. https://docs.gradle.org/current/userguide/toolchains.html *)
-      dk
+      RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
+        [ "-p"; "fetch/dksdk-ffi-java/core"; "-q"; "javaToolchains" ];
+      RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
         [
-          "dksdk.gradle.run";
-          "ARGS";
-          "-p";
-          "fetch/dksdk-ffi-java/core";
-          "-q";
-          "javaToolchains";
-        ];
-      dk
-        [
-          "dksdk.gradle.run";
-          "ARGS";
           "-p";
           "fetch/dksdk-ffi-java/core";
           ":abi:publishToMavenLocal";
           ":gradle:publishToMavenLocal";
         ];
-      dk
+      RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
         [
-          "dksdk.gradle.run";
-          "ARGS";
           "-p";
           "fetch/dksdk-ffi-java";
           ":ffi-java:publishToMavenLocal";
@@ -78,10 +67,8 @@ let run ~next () =
           "-P";
           Fmt.str "dkmlHostAbi=%s" dkmlHostAbi;
         ];
-      dk
+      RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
         [
-          "dksdk.gradle.run";
-          "ARGS";
           "-p";
           "fetch/dksdk-ffi-java";
           ":ffi-java-android:publishToMavenLocal";

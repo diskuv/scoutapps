@@ -11,7 +11,8 @@ Enter GitLab token (it starts with 'glpat-'): |};
     StdIo.flush StdIo.stdout;
     try
       match StdIo.input_line StdIo.stdin with
-      | answer when String.starts_with ~prefix:"glpat-" answer -> Some answer
+      | answer when String.starts_with ~prefix:"glpat-" (String.trim answer) ->
+          Some (String.trim answer)
       | "" -> None
       | _ -> ask ()
     with End_of_file -> None

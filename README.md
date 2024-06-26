@@ -32,7 +32,7 @@ It is inevitable that one robotics team may submit modifications that are in con
 
 ### Quick Start
 
-> Prerequisite: A Windows 10 or Windows 11 PC.
+> Prerequisite: A Windows 10 or Windows 11 PC with WSL installed. *Don't know if you have WSL? Follow <https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command> which is safe even if WSL is already installed.*
 
 If you haven't checked out this project onto your computer, you can do it now:
 

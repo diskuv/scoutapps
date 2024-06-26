@@ -1,6 +1,7 @@
 let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home next =
   try
     InitialSteps.run ~dksdk_data_home ();
+    Qt.run ();
     DkML.run ();
     AndroidGradle.run ~next ();
     AndroidStudio.run ()

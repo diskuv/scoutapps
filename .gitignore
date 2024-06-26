@@ -19,3 +19,6 @@
 # Provisioning
 /.ci/local/share/android-studio/
 /.ci/local/share/Android Studio.app/
+
+# Qt
+/aqtinstall.log

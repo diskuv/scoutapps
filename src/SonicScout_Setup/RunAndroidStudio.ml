@@ -16,22 +16,18 @@ open Bos
 
 let find_studio_binary ~projectdir =
   let binary_opt =
-    let studio_app =
-      Fpath.(projectdir / ".ci" / "local" / "share" / "Android Studio.app")
+    let studio_app_bin =
+      Fpath.(
+        projectdir / ".ci" / "local" / "share" / "Android Studio.app"
+        / "Contents" / "MacOS" / "studio")
     in
-    Logs.debug (fun l -> l "Checking for macOS at %a" Fpath.pp studio_app);
-    if OS.Dir.exists studio_app |> RunGradle.rmsg then
-      let bin = Fpath.(studio_app / "Contents" / "MacOS" / "studio") in
-      if OS.File.exists bin |> RunGradle.rmsg then Some bin
-      else (
-        Logs.err (fun l ->
-            l "Expected Android Studio binary at %a" Fpath.pp bin);
-        None)
+    Logs.debug (fun l -> l "Checking for macOS at %a" Fpath.pp studio_app_bin);
+    if OS.File.exists studio_app_bin |> RunGradle.rmsg then Some studio_app_bin
     else
       let home =
         Fpath.(projectdir / ".ci" / "local" / "share" / "android-studio")
       in
-      Logs.debug (fun l -> l "Checking for Linux/Windows at %a" Fpath.pp home);
+      Logs.debug (fun l -> l "Checking for Linux/Windows in %a" Fpath.pp home);
       if Sys.win32 then
         if OS.File.exists Fpath.(home / "bin" / "studio.bat") |> RunGradle.rmsg
         then Some Fpath.(home / "bin" / "studio.bat")

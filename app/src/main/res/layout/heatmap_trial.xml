@@ -41,7 +41,7 @@
         android:layout_height="@dimen/_95sdp"
         android:scaleType="centerCrop"
         android:layout_marginStart="@dimen/_5sdp"
-        android:src="@drawable/newfield"
+        android:src="@drawable/new_field"
         android:layout_marginTop="@dimen/_85sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

@@ -138,7 +138,7 @@
             android:layout_width="@dimen/_260sdp"
             android:layout_height="@dimen/_140sdp"
             android:scaleType="centerCrop"
-            android:src="@drawable/newfield"
+            android:src="@drawable/new_field"
             android:translationX="@dimen/_19sdp"
             android:translationY="@dimen/_115sdp"
             android:layout_marginTop="@dimen/_100sdp"/>

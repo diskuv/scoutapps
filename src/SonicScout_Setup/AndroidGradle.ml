@@ -46,7 +46,7 @@ let run ~next () =
             l "NOTE: Extracting Gradle can take several minutes");
       dk [ "dksdk.gradle.download"; "ALL"; "NO_SYSTEM_PATH" ];
       dk [ "dksdk.android.ndk.download"; "NO_SYSTEM_PATH" ];
-      dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ];
+      (* dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ]; *)
       git [ "-C"; "fetch/dksdk-ffi-java"; "clean"; "-d"; "-x"; "-f" ];
       (* Display the Java toolchains. https://docs.gradle.org/current/userguide/toolchains.html *)
       RunGradle.run ~env:dk_env ~debug_env:() ~projectdir

@@ -63,6 +63,9 @@ let run ?env ?debug_env ~projectdir args =
   (* Find Android Studio *)
   let studio = find_studio_binary ~projectdir in
 
+  (* Generate a valid local.properties *)
+  RunGradle.generate_local_properties ~projectdir ();
+
   (* Run *)
   (match debug_env with
   | Some () ->

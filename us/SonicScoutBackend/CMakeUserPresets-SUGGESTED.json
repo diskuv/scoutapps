@@ -81,6 +81,24 @@
       }
     },
     {
+      "name": "dev-AppleIntel",
+      "inherits": [
+        "dev-configure",
+        "ci-host-darwin_x86_64",
+        "ci-target-darwin_x86_64"
+      ],
+      "binaryDir": "build_dev",
+      "displayName": "Dev Apple Intel",
+      "generator": "Ninja",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "macOS"
+          ]
+        }
+      }
+    },
+    {
       "name": "dev-AppleSilicon-with-local",
       "inherits": [
         "dev-source-dirs",

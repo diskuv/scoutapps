@@ -5,17 +5,7 @@ let run ~next () =
   start_step "Building SonicScoutAndroid";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
-  let dk_env =
-    let env = OS.Env.current () |> rmsg in
-    if next then
-      OSEnvMap.(
-        add "DKSDK_FFI_JAVA_REPO_1_0"
-          "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
-          env
-        |> add "DKSDK_CMAKE_REPO_1_0"
-             "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next")
-    else env
-  in
+  let dk_env = dk_env ~next in
   let dk = dk ~env:dk_env in
   let git args =
     Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);

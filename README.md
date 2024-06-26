@@ -33,8 +33,6 @@ It is inevitable that one robotics team may submit modifications that are in con
 ### Quick Start
 
 > Prerequisite: A Windows 10 or Windows 11 PC.
->
-> Prerequisite: Git needs to be installed. Type `winget install Git.Git` if you don't have it.
 
 If you haven't checked out this project onto your computer, you can do it now:
 
@@ -43,19 +41,11 @@ git clone https://gitlab.com/diskuv/sonicscout/scoutapps.git
 cd scoutapps
 ```
 
-Then in either **PowerShell on Windows** or a **Unix shell** run:
+Then in either **PowerShell on Windows** or a **macOS terminal** run:
 
 ```sh
-./dk dksdk.coder.compile VERSION main EXPRESSION cde/Quickstart.ml POLL 0.5 OUTPUT cdi/Quickstart.cdi
+./dk src/SonicScout_Setup/Provision.ml --color=always --next
 ```
-
-The initial download and setup should proceed without prompting and take a few minutes.
-
-After that it will automatically compile the file [cde/Quickstart.ml](cde/Quickstart.ml) whenever
-that `.ml` file changes. The compilation is captured in [cdi/Quickstart.cdi](cdi/Quickstart.cdi) which is a
-machine format not meant to be understood by us humans.
-
-> Under construction! Yes ... there will be more documentation published.
 
 ## Licenses
 

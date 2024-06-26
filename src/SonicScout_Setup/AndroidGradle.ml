@@ -41,6 +41,9 @@ let run ~next () =
       dk [ "dksdk.ninja.link"; "QUIET" ];
       dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "8" ];
       dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "17" ];
+      if Sys.win32 then
+        Logs.info (fun l ->
+            l "NOTE: Extracting Gradle can take several minutes");
       dk [ "dksdk.gradle.download"; "ALL"; "NO_SYSTEM_PATH" ];
       dk [ "dksdk.android.ndk.download"; "NO_SYSTEM_PATH" ];
       dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ];

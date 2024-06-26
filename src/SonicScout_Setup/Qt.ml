@@ -144,7 +144,7 @@ let run () =
     run_conda ~projectdir
       [
         "run";
-        "--live-stream";
+        (* Do not use "--live-stream"; since stalls on Win32 and may corrupt terminal *)
         "-n";
         "aqt";
         "aqt";

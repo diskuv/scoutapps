@@ -64,6 +64,25 @@ let run_conda ~projectdir args =
             (Filename.quote_command "conda" args))
     |> rmsg
 
+let run_conda_string ~projectdir args =
+  let open Bos in
+  let env = OS.Env.current () |> rmsg in
+  if Sys.win32 then
+    OS.Cmd.run_out
+      ~env:OSEnvMap.(add "PIP_CONFIG_FILE" "nul" env)
+      Cmd.(v "conda" %% of_list args)
+    |> OS.Cmd.out_string ~trim:true
+    |> rmsg |> fst
+  else
+    OS.Cmd.run_out
+      ~env:OSEnvMap.(add "PIP_CONFIG_FILE" "/dev/null" env)
+      Cmd.(
+        v "/bin/bash" % "-c"
+        % Fmt.str "source '%a' && %s" Fpath.pp (activate_sh ~projectdir)
+            (Filename.quote_command "conda" args))
+    |> OS.Cmd.out_string ~trim:true
+    |> rmsg |> fst
+
 let run () =
   start_step "Installing Qt";
   let open Bos in
@@ -84,11 +103,17 @@ let run () =
         ~sha256:
           "b6597785e6b071f1ca69cf7be6d0161015b96340b9a9e132215d5713408c3a7c"
   | _ -> failwith "Currently your host machine is not supported by Sonic Scout");
-  (* create Python environment with packages *)
-  if
-    not
-      (OS.Dir.exists Fpath.(miniconda_dir ~projectdir / "envs" / "aqt") |> rmsg)
-  then
+  (* Check if Conda already has an [aqt] environment *)
+  let env_list_j_content =
+    run_conda_string ~projectdir [ "env"; "list"; "--json" ]
+  in
+  let env_list_j = Ezjsonm.from_string env_list_j_content in
+  let envs = Ezjsonm.find env_list_j [ "envs" ] |> Ezjsonm.get_strings in
+  let has_aqt =
+    List.exists (fun s -> "aqt" = (Fpath.v s |> Fpath.basename)) envs
+  in
+  (* Create Python environment with packages *)
+  if not has_aqt then
     run_conda ~projectdir
       [
         "env";
@@ -114,7 +139,9 @@ let run () =
   in
   let qt5_ver = "5.15.2" in
   if not (OS.Dir.exists Fpath.(projectdir / qt5_ver) |> rmsg) then begin
-    Logs.info (fun l -> l "Installing Qt modules.");
+    Logs.info (fun l ->
+        l "Installing Qt modules. This may take %s minutes ..."
+          (if Sys.win32 then "more than twenty" else "a few"));
     run_conda ~projectdir
       [
         "run";

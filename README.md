@@ -47,6 +47,12 @@ Then in either **PowerShell on Windows** or a **macOS terminal** run:
 ./dk src/SonicScout_Setup/Provision.ml --color=always --next
 ```
 
+After the end of the robotics season, you can save space by doing:
+
+```sh
+./dk src/SonicScout_Setup/Clean.ml --color=always
+```
+
 ## Licenses
 
 `Sonic Scout` is available under the [DkSDK SOFTWARE DEVELOPMENT KIT LICENSE AGREEMENT](./LICENSE-DKSDK).

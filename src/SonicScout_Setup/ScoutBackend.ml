@@ -1,7 +1,12 @@
 open Utils
+open Bos
+
+let clean () =
+  let cwd = OS.Dir.current () |> rmsg in
+  let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
+  OS.Dir.delete ~recurse:true Fpath.(projectdir / "build_dev") |> rmsg
 
 let run ~next () =
-  let open Bos in
   start_step "Building SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
@@ -18,7 +23,6 @@ let run ~next () =
   in
   OS.Dir.with_current projectdir
     (fun () ->
-      let cmake = Fpath.(projectdir / ".ci" / "cmake" / "bin" / "cmake") in
       dk [ "dksdk.project.get" ];
       dk [ "dksdk.cmake.link"; "QUIET" ];
       (* You can ignore the error if you got 'failed to create symbolic link' for dksdk.ninja.link *)
@@ -29,52 +33,8 @@ let run ~next () =
           (OS.File.read (Fpath.v "CMakeUserPresets-SUGGESTED.json") |> rmsg)
         |> rmsg;
 
-      OS.Cmd.run Cmd.(v (p cmake) % "--preset" % preset) |> rmsg;
+      RunCMake.run ~projectdir [ "--preset"; preset ];
 
-      if preset <> "" then assert false
-      (*
-         dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "8" ];
-         dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "17" ];
-         if Sys.win32 then
-           Logs.info (fun l ->
-               l "NOTE: Extracting Gradle can take several minutes");
-         dk [ "dksdk.gradle.download"; "ALL"; "NO_SYSTEM_PATH" ];
-         dk [ "dksdk.android.ndk.download"; "NO_SYSTEM_PATH" ];
-         (* dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ]; *)
-         git [ "-C"; "fetch/dksdk-ffi-java"; "clean"; "-d"; "-x"; "-f" ];
-         (* Display the Java toolchains. https://docs.gradle.org/current/userguide/toolchains.html *)
-         RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
-           [ "-p"; "fetch/dksdk-ffi-java/core"; "-q"; "javaToolchains" ];
-         RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
-           [
-             "-p";
-             "fetch/dksdk-ffi-java/core";
-             ":abi:publishToMavenLocal";
-             ":gradle:publishToMavenLocal";
-           ];
-         RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
-           [
-             "-p";
-             "fetch/dksdk-ffi-java";
-             ":ffi-java:publishToMavenLocal";
-             "-P";
-             Fmt.str "cmakeCommand=%a" Fpath.pp cmake;
-             "-P";
-             "disableAndroidNdk=1";
-             "-P";
-             Fmt.str "dkmlHostAbi=%s" dkmlHostAbi;
-           ];
-         RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
-           [
-             "-p";
-             "fetch/dksdk-ffi-java";
-             ":ffi-java-android:publishToMavenLocal";
-             "-P";
-             Fmt.str "cmakeCommand=%a" Fpath.pp cmake;
-             "-P";
-             "disableAndroidNdk=1";
-             "-P";
-             Fmt.str "dkmlHostAbi=%s" dkmlHostAbi;
-           ] *))
+      if preset <> "" then assert false)
     ()
   |> rmsg

@@ -14,6 +14,7 @@
 
 open Bos
 
+(* Ported from Utils since this script is standalone. *)
 let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
 (** Don't leak DkCoder OCaml environment to Android Gradle Plugin which will infect DkSDK CMake

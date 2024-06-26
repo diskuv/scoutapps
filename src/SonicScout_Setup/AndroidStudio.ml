@@ -49,10 +49,5 @@ let run () =
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
 
-  let dk args =
-    Logs.info (fun l -> l "dk %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
-    OS.Cmd.run Cmd.(v "./dk" %% of_list args) |> rmsg
-  in
-
   say_warning ();
   dk [ "dksdk.android.studio.run"; "ARGS"; Fpath.to_string projectdir ]

@@ -16,10 +16,7 @@ let run ~next () =
              "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next")
     else env
   in
-  let dk args =
-    Logs.info (fun l -> l "dk %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
-    OS.Cmd.run ~env:dk_env Cmd.(v "./dk" %% of_list args) |> rmsg
-  in
+  let dk = dk ~env:dk_env in
   let git args =
     Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
     OS.Cmd.run Cmd.(v "git" %% of_list args) |> rmsg

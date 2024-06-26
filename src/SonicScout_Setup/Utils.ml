@@ -20,3 +20,9 @@ let start_step s =
                (pp_arrow ~c:'<') 10))
         !step);
   step := !step + 1
+
+let dk ?env args =
+  let open Bos in
+  Logs.info (fun l -> l "./dk %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
+  let script = if Sys.win32 then Cmd.v ".\\dk.cmd" else Cmd.v "./dk" in
+  OS.Cmd.run ?env Cmd.(script %% of_list args) |> rmsg

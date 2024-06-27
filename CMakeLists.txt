@@ -16,6 +16,9 @@ get_property(dksdk-cmake_MODULES GLOBAL PROPERTY DKSDK_CMAKE_MODULES)
 get_property(dksdk-cmake_LANG_ASM GLOBAL PROPERTY DKSDK_CMAKE_LANG_ASM)
 list(APPEND CMAKE_MODULE_PATH ${dksdk-cmake_MODULES})
 
+# [Fri, Jan 19, 2024  9:57:01 AM] Failed waiting for concurrent [dune build] using a timeout of 120 seconds. Increasing it!
+set(DKSDK_DUNE_LOCK_TIMEOUT_SECS 240 CACHE STRING "" FORCE)
+
 #   Define the project
 #       * The VERSION is the version of your application
 #       * The "OCamlDune" language is used to build OCaml source code into
@@ -51,9 +54,6 @@ DkSDKProject_AddProject(
         BUG_REPORTS_URL "https://gitlab.com/diskuv/samples/SquirrelScout/-/issues"
         DUNE_VERSION 3.8
 )
-
-# [Fri, Jan 19, 2024  9:57:01 AM] Failed waiting for concurrent [dune build] using a timeout of 120 seconds. Increasing it!
-set(DKSDK_DUNE_LOCK_TIMEOUT_SECS 240 CACHE STRING "" FORCE)
 
 # Externally provided content
 add_subdirectory(dependencies)

@@ -61,8 +61,6 @@ let run ~next () =
           "DkSDK_DevTools";
           "DkSDKTest_UnitTests_ALL";
           "ManagerApp_ALL";
-        ];
-
-      if preset <> "" then assert false)
+        ])
     ()
   |> rmsg

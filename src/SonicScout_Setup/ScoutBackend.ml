@@ -41,7 +41,10 @@ let run ~next () =
   let preset =
     match Tr1HostMachine.abi with
     | `darwin_x86_64 -> "dev-AppleIntel"
-    | `darwin_arm64 -> "dev-AppleSilicon"
+    | `darwin_arm64 ->
+        (* We would like [dev-AppleSilicon]. But only Qt6.2.0+ are universal binaries!
+           So until the manager app (SonicScoutBackend) has an upgrade to Qt6, we are stuck with Rosetta emulation. *)
+        "dev-AppleIntel"
     | `windows_x86_64 -> "dev-Windows64"
     | `linux_x86_64 -> "dev-Linux-x86_64"
     | _ ->

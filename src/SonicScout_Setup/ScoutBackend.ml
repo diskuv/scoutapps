@@ -1,10 +1,13 @@
 open Utils
 open Bos
 
+let builddir_name = "build_dev"
+
 let clean () =
+  start_step "Cleaning SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
-  OS.Dir.delete ~recurse:true Fpath.(projectdir / "build_dev") |> rmsg
+  OS.Dir.delete ~recurse:true Fpath.(projectdir / builddir_name) |> rmsg
 
 let run ~next () =
   start_step "Building SonicScoutBackend";
@@ -34,6 +37,16 @@ let run ~next () =
         |> rmsg;
 
       RunCMake.run ~projectdir [ "--preset"; preset ];
+      RunCMake.run ~projectdir
+        [
+          "--build";
+          builddir_name;
+          "--target";
+          "main-cli";
+          "DkSDK_DevTools";
+          "DkSDKTest_UnitTests_ALL";
+          "ManagerApp_ALL";
+        ];
 
       if preset <> "" then assert false)
     ()

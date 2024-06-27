@@ -31,11 +31,14 @@ let dk_env ~next =
   let env = Bos.OS.Env.current () |> rmsg in
   if next then
     Bos.OSEnvMap.(
-      add "DKSDK_FFI_JAVA_REPO_1_0"
-        "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
-        env
-      |> add "DKSDK_CMAKE_REPO_1_0"
-           "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next")
+      add "DKSDK_CMAKE_REPO_1_0"
+        "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next" env
+      |> add "DKSDK_FFI_C_REPO_1_0"
+           "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-c.git#next"
+      |> add "DKSDK_FFI_JAVA_REPO_1_0"
+           "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
+      |> add "DKSDK_FFI_OCAML_REPO_1_0"
+           "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-ocaml.git#next")
   else env
 
 (* Clone of https://gitlab.com/diskuv/samples/dkcoder/DkHelloScript/-/blob/80efb164ea4d38f6156f30f69de19295cd635e29/src/DkHelloScript_Std/B55Http/B43Curl/B43Tiny.ml *)

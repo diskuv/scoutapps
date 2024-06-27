@@ -50,7 +50,7 @@ Then in either **PowerShell on Windows** or a **macOS terminal** run:
 After the end of the robotics season, you can save space by doing:
 
 ```sh
-./dk src/SonicScout_Setup/Clean.ml --color=always
+./dk src/SonicScout_Setup/Clean.ml --color=always --all
 ```
 
 ## Licenses

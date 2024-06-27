@@ -3,11 +3,26 @@ open Bos
 
 let builddir_name = "build_dev"
 
-let clean () =
-  start_step "Cleaning SonicScoutBackend";
+let clean areas =
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
-  OS.Dir.delete ~recurse:true Fpath.(projectdir / builddir_name) |> rmsg
+  if List.mem `DkSdkSourceCode areas then begin
+    start_step "Cleaning SonicScoutBackend DkSDK source code";
+    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-access")
+    |> rmsg;
+    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-cmake")
+    |> rmsg;
+    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-ffi-c")
+    |> rmsg;
+    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-ffi-java")
+    |> rmsg;
+    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-ffi-ocaml")
+    |> rmsg
+  end;
+  if List.mem `Builds areas then begin
+    start_step "Cleaning SonicScoutBackend build artifacts";
+    OS.Dir.delete ~recurse:true Fpath.(projectdir / builddir_name) |> rmsg
+  end
 
 let run ~next () =
   start_step "Building SonicScoutBackend";

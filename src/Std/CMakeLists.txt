@@ -133,6 +133,8 @@ if(NOT DKSDK_GOLDEN_SOURCE_CODE)
             ${CMAKE_COMMAND} -E env
             PATH=$<TARGET_FILE_DIR:capnproto_java_host-capnpc-java-exe>
             LD_LIBRARY_PATH=$<TARGET_FILE_DIR:capnproto_java_host-capnpc-java-exe>/../lib
+            #   macOS: https://stackoverflow.com/a/3172515
+            DYLD_FALLBACK_LIBRARY_PATH=$<TARGET_FILE_DIR:capnproto_java_host-capnpc-java-exe>/../lib
             #   Run capnp.exe
             $<TARGET_FILE:capnproto_host-capnp-exe>
             compile

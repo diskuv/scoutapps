@@ -11,6 +11,10 @@ DkSDKTest_AddUnitTest(NAME Std
 # Test Objs
 DkSDKTest_AddUnitTest(NAME Objs
   MAIN generic-ffi-main.c
+
+  # dksdk_ffi_c_logger_initConsoleLogger() is in generic-ffi-main.c
+  C_RUNTIME DkSDK::FFI::C-Static
+
   ML_RUNTIME SquirrelScout::Objs)
 
 add_subdirectory(ManagerApp)

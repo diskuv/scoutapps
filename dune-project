@@ -42,7 +42,7 @@
     (capnp (>= 3.5.0))
     (menhir (>= 20230608))
     (ocaml-lsp-server (>= 1.16.1))
-    (ocamlformat (= 0.25.1))))
+    (ocamlformat (= 0.26.1))))
 
 (package
   (name SquirrelScout_Std)
@@ -52,7 +52,7 @@
   (description "SquirrelScout_Std is a library that has functions to do upper-casing and thread timeouts.
 You can clone the project using the './dk dksdk.project.new' command; see the DkSDK.md document for more information.")
   (depends
-    (ocaml (>= 4.14.0))
+    (ocaml (>= 4.14.2))
     (fmt (>= 0.9.0))
     (logs (>= 0.7.0))
     lwt
@@ -70,7 +70,7 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   (allow_empty)
   (description "SquirrelScout_Objs expose a register function to register the COM class and instance objects.")
   (depends
-    (ocaml (>= 4.14.0))
+    (ocaml (>= 4.14.2))
     DkSDKFFIOCaml_Std))
 
 (package
@@ -80,7 +80,7 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   (allow_empty)
   (description "SquirrelScout_ObjsLib registers the COM class and instance objects.")
   (depends
-    (ocaml (>= 4.14.0))))
+    (ocaml (>= 4.14.2))))
 
 (package
   (name SquirrelScout_MainCLI)
@@ -90,7 +90,7 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   (description "SquirrelScout_MainCLI is a TCP/IP echo server that repeats whatever you send it.
 You can clone the project using the './dk dksdk.project.new' command; see the DkSDK.md document for more information.")
   (depends
-    (ocaml (>= 4.14.0))
+    (ocaml (>= 4.14.2))
     (cmdliner (>= 1.1.0))
     (logs (>= 0.7.0))
     (fmt (>= 0.9.0))))
@@ -102,7 +102,7 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   (allow_empty)
   (description "SquirrelScout_ManagerApp is ... fill me in ....")
   (depends
-    (ocaml (>= 4.14.0))))
+    (ocaml (>= 4.14.2))))
 
 (package
   (name SquirrelScout_Units)
@@ -110,6 +110,6 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
   ; code can be omitted when cross-compiling, but .opam file will still exist in the source tree
   (allow_empty)
   (depends
-    (ocaml (>= 4.14.0))
+    (ocaml (>= 4.14.2))
     (tezt (and :with-test (= 3.1.0)))
     lwt))

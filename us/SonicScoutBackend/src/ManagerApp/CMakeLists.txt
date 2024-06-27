@@ -19,9 +19,13 @@ if(NOT Threads_FOUND)
 endif()
 find_package(Threads REQUIRED)
 
-# Qt library
+# Qt library. The Qt directories are populated by scoutapps/src/SonicScout_Setup/Qt.ml
 if(MSVC AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/5.15.2/msvc2019_64/lib/cmake/Qt5 AND NOT Qt5_DIR)
     set(Qt5_DIR ${PROJECT_SOURCE_DIR}/5.15.2/msvc2019_64/lib/cmake/Qt5 CACHE FILEPATH "Qt5 installation directory")
+elseif(APPLE AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/5.15.2/clang_64/lib/cmake/Qt5 AND NOT Qt5_DIR)
+    set(Qt5_DIR ${PROJECT_SOURCE_DIR}/5.15.2/clang_64/lib/cmake/Qt5 CACHE FILEPATH "Qt5 installation directory")
+elseif(LINUX AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/5.15.2/gcc_64/lib/cmake/Qt5 AND NOT Qt5_DIR)
+    set(Qt5_DIR ${PROJECT_SOURCE_DIR}/5.15.2/gcc_64/lib/cmake/Qt5 CACHE FILEPATH "Qt5 installation directory")
 endif()
 
 # ------

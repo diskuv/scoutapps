@@ -8,6 +8,10 @@ let clean areas =
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
   if List.mem `DkSdkSourceCode areas then begin
     start_step "Cleaning SonicScoutBackend DkSDK source code";
+    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dkml-runtime-common")
+    |> rmsg;
+    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dkml-runtime-distribution")
+    |> rmsg;
     OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-access")
     |> rmsg;
     OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-cmake")

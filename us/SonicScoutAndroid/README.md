@@ -1,4 +1,4 @@
-# Sonic Scout
+# Sonic Scout Android
 
 ## Official Releases
 
@@ -10,11 +10,24 @@ This project is for the Android App `Sonic Scout` which is the official release 
 
 ## Licenses
 
-`Sonic Scout` is available under the Open Software License version 3.0,
-<https://opensource.org/license/osl-3-0-php/>. A guide to the Open Software License version 3.0 is available at
+The source code of `Sonic Scout Android` is in the `app/`, `data/`, `dependencies`, `dkconfig`,
+and `publishing` folders are available under the open source [OSL 3.0 license](./LICENSE-OSL3).
+
+A guide to the Open Software License version 3.0 (OSL 3.0) is available at
 <https://rosenlaw.com/OSL3.0-explained.htm>.
 
-As of 2023 the copyright is owned jointly by:
+The `dk`, `dk.cmd` and `__dk.cmake` build tools are [OSL 3.0 licensed](./LICENSE-OSL3)
+with prompts for additional licenses for the [LGPL 2.1 with an OCaml static linking exception](./LICENSE-LGPL21-ocaml) and the [DkSDK SOFTWARE DEVELOPMENT KIT LICENSE AGREEMENT](./LICENSE-DKSDK).
+
+A DkSDK license token is necessary when you want to rebuild the applications with
+customizations for your own robotics team. The token is free to any First Robotics team
+who has an adult sponsor (ex. a mentor) who also agrees to submit their team's code changes at the end of each robotics season (a "pull request") using an open-source
+[Contributor License Agreement](https://yahoo.github.io/oss-guide/docs/resources/what-is-cla.html).
+Contact jonah AT diskuv.com to get a token.
+
+You do *not* need a token to run the Android app from the Google Play Store.
+
+The copyright is owned jointly by:
 
 - Archit Kumar
 - Keyush Attarde
@@ -22,7 +35,7 @@ As of 2023 the copyright is owned jointly by:
 
 Do *not* submit a customized scouting application to an App Store (Apple, Google, Microsoft, Samsung, Huawei, Tencent, Oppo, etc.). You do not have a license to submit to those App Stores, and you don't own the copyright.
 
-You *can* sideload your customized application on your team's tablets, phones and PCs. And you *can* (and *should*) submit a Pull Request for your changes so that next year's official scouting application includes your changes.
+You *can* sideload your customized application on your team's tablets, phones and PCs.
 
 ## TODO - Command Line
 

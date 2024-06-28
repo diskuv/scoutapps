@@ -58,6 +58,9 @@ After the end of the robotics season, you can save space by doing:
 The source code of `Sonic Scout` is in the `src/` and `us/` folders are available
 under the open source [OSL 3.0 license](./LICENSE-OSL3).
 
+A guide to the Open Software License version 3.0 (OSL 3.0) is available at
+<https://rosenlaw.com/OSL3.0-explained.htm>.
+
 The `dk`, `dk.cmd` and `__dk.cmake` build tools are [OSL 3.0 licensed](./LICENSE-OSL3)
 with prompts for additional licenses for the [LGPL 2.1 with an OCaml static linking exception](./LICENSE-LGPL21-ocaml) and the [DkSDK SOFTWARE DEVELOPMENT KIT LICENSE AGREEMENT](./LICENSE-DKSDK).
 

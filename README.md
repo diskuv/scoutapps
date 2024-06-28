@@ -55,9 +55,22 @@ After the end of the robotics season, you can save space by doing:
 
 ## Licenses
 
-`Sonic Scout` is available under the [DkSDK SOFTWARE DEVELOPMENT KIT LICENSE AGREEMENT](./LICENSE-DKSDK).
-The license is free to any First Robotics team who has an adult sponsor (ex. a mentor).
-Contact jonah AT diskuv.com to get the license.
+The source code of `Sonic Scout` is in the `src/` and `us/` folders are available
+under the open source [OSL 3.0 license](./LICENSE-OSL3).
+
+The `dk`, `dk.cmd` and `__dk.cmake` build tools are [OSL 3.0 licensed](./LICENSE-OSL3)
+with prompts for additional licenses for the [LGPL 2.1 with an OCaml static linking exception](./LICENSE-LGPL21-ocaml) and the [DkSDK SOFTWARE DEVELOPMENT KIT LICENSE AGREEMENT](./LICENSE-DKSDK).
+
+The backend app uses Qt5 which has a [LGPL 3.0 license](https://doc.qt.io/qt-5/licensing.html).
+
+A DkSDK license token is necessary when you want to rebuild the applications with
+customizations for your own robotics team. The token is free to any First Robotics team
+who has an adult sponsor (ex. a mentor) who also agrees to submit their team's code changes at the end of each robotics season (a "pull request") using an open-source
+[Contributor License Agreement](https://yahoo.github.io/oss-guide/docs/resources/what-is-cla.html).
+Contact jonah AT diskuv.com to get a token.
+
+You do *not* need a token to run the Android app from the Google Play Store, nor do you
+need the license token to run the QR scanner backend app.
 
 The copyright is owned jointly by:
 
@@ -67,4 +80,4 @@ The copyright is owned jointly by:
 
 Do *not* submit a customized scouting application to an App Store (Apple, Google, Microsoft, Samsung, Huawei, Tencent, Oppo, etc.). You do not have a license to submit to those App Stores, and you don't own the copyright.
 
-You *can* sideload your customized application on your team's tablets, phones and PCs. And you *can* (and *should*) submit a Pull Request for your changes so that next year's official scouting application includes your changes.
+You *can* sideload your customized application on your team's tablets, phones and PCs.

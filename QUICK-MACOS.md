@@ -7,3 +7,9 @@ install_name_tool -add_rpath @executable_path/../../../../../../5.15.2/clang_64/
 
 build_dev/src/ManagerApp/SonicScoutQRScanner.app/Contents/MacOS/SonicScoutQRScanner
 ```
+
+Run the sonic-scout-cli:
+
+```sh
+build_dev/src/MainCLI/sonic-scout-cli status
+```

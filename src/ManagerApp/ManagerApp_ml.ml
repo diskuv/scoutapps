@@ -42,11 +42,6 @@ let process_qr db qr_format qr_bytes =
          %!"
         __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args
 
-let default_db_path () =
-  let xdg = Xdg.create ~env:Sys.getenv_opt () in
-  let config_dir = Xdg.data_dir xdg in
-  Fpath.(v config_dir / "sonic-scout" / "sqlite3.db")
-
 let main () =
   (* Set up logging *)
   print_endline "Starting ManagerApp_ml.ml ...";
@@ -55,10 +50,9 @@ let main () =
 
   (* Parse command line options *)
   let db_path =
-    if Array.length Sys.argv < 2 then default_db_path ()
+    if Array.length Sys.argv < 2 then SquirrelScout_Std.default_db_path ()
     else Fpath.v Sys.argv.(1)
   in
-  Logs.info (fun l -> l "Using database path = %a" Fpath.pp db_path);
 
   (* Make sure the database folder is created *)
   let (_created : bool) =

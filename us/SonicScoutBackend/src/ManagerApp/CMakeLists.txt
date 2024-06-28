@@ -163,11 +163,16 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     if(APPLE)
         find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${qmake_BIN}" REQUIRED)
         file(GENERATE OUTPUT "${deployScanner}" CONTENT "
+            set(deployqt_ARGS)
             if(\"\$ENV{SCOUT_NOTARIZE}\" EQUAL 1)
-                set(deployqt_ARGS -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
+                list(APPEND deployqt_ARGS -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
                 message(NOTICE \"Using notarization.\")
             else()
-                set(deployqt_ARGS -codesign=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
+                list(APPEND deployqt_ARGS -codesign=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
+            endif()
+            if(\"\$ENV{SCOUT_VERBOSE}\" EQUAL 2)
+                list(APPEND deployqt_ARGS -verbose=2)
+                message(NOTICE \"Using verbose logging.\")
             endif()
 
             execute_process(
@@ -179,10 +184,10 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
                 COMMAND
                     \"${MACDEPLOYQT_EXECUTABLE}\"
                         SonicScoutQRScanner.app
-                        -verbose=1
                         \"-qmldir=${CMAKE_CURRENT_LIST_DIR}\"
                         -dmg
-                        ${deployqt_ARGS}
+                        \${deployqt_ARGS}
+                COMMAND_ECHO STDOUT
                 COMMAND_ERROR_IS_FATAL ANY
             )
         ")
@@ -190,15 +195,21 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     elseif(WIN32)
         find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${qmake_BIN}" REQUIRED)
         file(GENERATE OUTPUT "${deployScanner}" CONTENT "
+            set(deployqt_ARGS)
+            if(\"\$ENV{SCOUT_VERBOSE}\" EQUAL 2)
+                list(APPEND deployqt_ARGS --verbose 2)
+                message(NOTICE \"Using verbose logging.\")
+            endif()
             execute_process(
                 WORKING_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}\"
                 COMMAND
                     \"${WINDEPLOYQT_EXECUTABLE}\"
                         # Source: $<TARGET_FILE:ManagerAppQtCamReader>
                         bin/SonicScoutQRScanner.exe
-                        # -verbose=2
-                        \"-qmldir=${CMAKE_CURRENT_LIST_DIR}\"
-                        ${deployqt_ARGS}
+                        --release
+                        --qmldir \"${CMAKE_CURRENT_LIST_DIR}\"
+                        \${deployqt_ARGS}
+                COMMAND_ECHO STDOUT
                 COMMAND_ERROR_IS_FATAL ANY
             )
         ")

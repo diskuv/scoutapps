@@ -165,13 +165,17 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
         file(GENERATE OUTPUT "${deployScanner}" CONTENT "
             set(deployqt_ARGS)
             if(\"\$ENV{SCOUT_NOTARIZE}\" EQUAL 1)
-                list(APPEND deployqt_ARGS -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
+                list(APPEND deployqt_ARGS
+                    -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673
+                    -dmg)
                 message(NOTICE \"Using notarization.\")
             else()
-                list(APPEND deployqt_ARGS -codesign=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
+                list(APPEND deployqt_ARGS
+                    -codesign=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
             endif()
             if(\"\$ENV{SCOUT_VERBOSE}\" EQUAL 2)
-                list(APPEND deployqt_ARGS -verbose=2)
+                list(APPEND deployqt_ARGS
+                    -verbose=2)
                 message(NOTICE \"Using verbose logging.\")
             endif()
 
@@ -184,12 +188,25 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
                 COMMAND
                     \"${MACDEPLOYQT_EXECUTABLE}\"
                         SonicScoutQRScanner.app
-                        \"-qmldir=${CMAKE_CURRENT_LIST_DIR}\"
-                        -dmg
+                        \"-qmldir=${CMAKE_CURRENT_LIST_DIR}\"                        
                         \${deployqt_ARGS}
                 COMMAND_ECHO STDOUT
                 COMMAND_ERROR_IS_FATAL ANY
             )
+
+            if(\"\$ENV{SCOUT_NOTARIZE}\" EQUAL 1)
+                execute_process(
+                    WORKING_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}\"
+                    COMMAND
+                        /bin/sh
+                        \"${CMAKE_CURRENT_LIST_DIR}/notarize-macos.sh\"
+                            \"${PROJECT_SOURCE_DIR}\"
+                            \"\${CMAKE_INSTALL_PREFIX}/SonicScoutQRScanner.dmg\"
+                            \"${CMAKE_OSX_ARCHITECTURES}\"
+                    COMMAND_ECHO STDOUT
+                    COMMAND_ERROR_IS_FATAL ANY
+                )
+            endif()
         ")
         install(SCRIPT "${deployScanner}")
     elseif(WIN32)

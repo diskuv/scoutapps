@@ -76,12 +76,18 @@ target_link_libraries (ManagerAppReader ZXing::ZXing stb::stb)
 
 # SCOUT:MOVED to tests/Units/ManagerApp: add_test(NAME ManagerAppReaderTest COMMAND ManagerAppReader -fast -format qrcode test.png) # see above
 
-install(TARGETS ManagerAppReader DESTINATION ${CMAKE_INSTALL_BINDIR})
+# SCOUT:REMOVED: install(TARGETS ManagerAppReader DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 find_package(Qt5 COMPONENTS Gui Multimedia Quick QUIET)
 if (NOT (Qt5_FOUND OR Qt6_FOUND))
     message("INFO: Qt (Gui/Multimedia/Quick) not found, skipping Qt examples")
 endif()
+
+# SCOUT:ADDED
+get_target_property(qmake_LOC Qt5::qmake IMPORTED_LOCATION)
+get_filename_component(qmake_BIN "${qmake_LOC}" DIRECTORY)
+find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${qmake_BIN}")
+find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${qmake_BIN}")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -92,8 +98,46 @@ if (TARGET Qt::Gui)
 endif()
 
 if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
-    add_executable(ManagerAppQtCamReader ZXingQtCamReader.cpp ZXingQtCamReader.qrc ZXingQtReader.h)
+# We'll need this for the MACOSX_BUNDLE and is recommended with
+# >The install RPATH details should also be used at build time so that embedded frameworks are handled correctly.
+# by Professional CMake.
+
+    add_executable(ManagerAppQtCamReader MACOSX_BUNDLE WIN32 ZXingQtCamReader.cpp ZXingQtCamReader.qrc ZXingQtReader.h)
     target_link_libraries(ManagerAppQtCamReader ZXing::ZXing Qt::Gui Qt::Multimedia Qt::Quick)
+    set_target_properties(ManagerAppQtCamReader PROPERTIES
+        # Doesn't work. Not sure why. So manually use 'install_name_tool' in install(SCRIPT)
+        #     INSTALL_RPATH @executable_path/../Frameworks
+        OUTPUT_NAME SonicScoutQRScanner)
+    install(TARGETS ManagerAppQtCamReader
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
+        BUNDLE DESTINATION .)
+    # Confer: dksdk-coder/packaging and dksdk-coder/docs/DISTRIBUTION.md for codesigning
+    # * [codesign --options runtime] which is [-hardened-runtime]
+    # * [codesign --timestamp] which is [-timestamp]
+    # * signid=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673 which is [-codesign=]
+    # * [notarytool] which is [-sign-for-notarization=] and it subsumes [-codesign=], [-timestamp] and [-hardened-runtime]
+    if(APPLE)
+        set(deployScanner ${CMAKE_CURRENT_BINARY_DIR}/SonicScoutQRScanner-$<CONFIG>.cmake)
+        file(GENERATE OUTPUT "${deployScanner}" CONTENT "
+            execute_process(
+                WORKING_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}\"
+                COMMAND
+                    install_name_tool
+                        -add_rpath @executable_path/../Frameworks
+                        SonicScoutQRScanner.app/Contents/MacOS/SonicScoutQRScanner
+                COMMAND
+                    \"${MACDEPLOYQT_EXECUTABLE}\"
+                        SonicScoutQRScanner.app
+                        -verbose=1
+                        \"-qmldir=${CMAKE_CURRENT_LIST_DIR}\"
+                        -dmg
+                        -codesign=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673
+                        #-sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673
+                COMMAND_ERROR_IS_FATAL ANY
+            )
+        ")
+        install(SCRIPT "${deployScanner}")
+    endif()
 endif()
 
 # ~~~ ADDITIONS

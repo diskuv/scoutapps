@@ -198,7 +198,7 @@ end
 let main () =
   let doc = "testing group commands" in
   (* let man = Cmdliner.Manpage.s_common_options in   *)
-  let info = Cmdliner.Cmd.info "squirrelscout" in
+  let info = Cmdliner.Cmd.info "sonic-scout-cli" in
 
   let cmds =
     [

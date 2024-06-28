@@ -4,3 +4,69 @@
 # This is present to adhere to conventions. Eventually you will erase this
 # and put in your own configuration when you need package your project
 # for distribution to your customers.
+
+file(READ "${PROJECT_SOURCE_DIR}/LICENSE-OSL3" license_osl3)
+file(READ "${PROJECT_SOURCE_DIR}/LICENSE-DKSDK" license_dksdk)
+file(READ "${PROJECT_SOURCE_DIR}/LICENSE-LGPL21-ocaml" license_lgpl21_ocaml)
+file(CONFIGURE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/License.txt" CONTENT [[
+The copyright is owned jointly by:
+
+- Archit Kumar
+- Keyush Attarde
+- Diskuv, Inc.
+
+The `dk`, `dk.cmd` and `__dk.cmake` build tools are "Open Software License version 3.0"
+licensed with prompts for additional licenses for the
+"LGPL 2.1 with an OCaml static linking exception" license
+and the "DkSDK SOFTWARE DEVELOPMENT KIT LICENSE AGREEMENT".
+
+The QR scanning app uses Qt5 which has a LGPL 3.0 license
+described at https://doc.qt.io/qt-5/licensing.html.
+
+The remaining source code of `Sonic Scout` within the https://github.com/diskuv/scoutapps
+project is available under "Open Software License version 3.0" (OSL 3.0).
+
+================================================
+DkSDK SOFTWARE DEVELOPMENT KIT LICENSE AGREEMENT
+================================================
+
+@license_dksdk@
+
+=================================
+Open Software License version 3.0
+=================================
+
+@license_osl3@
+
+===============================================
+LGPL 2.1 with an OCaml static linking exception
+===============================================
+
+@license_lgpl21_ocaml@
+
+]] @ONLY NEWLINE_STYLE UNIX)
+
+set(CPACK_PACKAGE_NAME "SonicScoutBackend")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY [[Sonic Scout Backend is an application that captures scouting results through QR code scanning of images produced by a Sonic Scout frontend application (typically Sonic Scout Android).]])
+set(CPACK_PACKAGE_VENDOR "Diskuv, Inc.")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "${CPACK_PACKAGE_NAME}")
+set(CPACK_VERBATIM_VARIABLES TRUE)
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_CURRENT_LIST_DIR}/Description.txt)
+set(CPACK_RESOURCE_FILE_WELCOME ${CMAKE_CURRENT_LIST_DIR}/Welcome.txt)
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_BINARY_DIR}/License.txt)
+set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/Readme.txt)
+
+if(WIN32)
+      set(CPACK_GENERATOR ZIP WIX)
+  elseif(APPLE)
+      set(CPACK_GENERATOR TGZ productbuild)
+  elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+      set(CPACK_GENERATOR TGZ RPM)
+  else()
+      set(CPACK_GENERATOR TGZ)
+endif()
+
+include(CPack)

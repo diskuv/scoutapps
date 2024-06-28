@@ -1,0 +1,3 @@
+Sonic Scout is scouting software for First Robotics competitions.
+
+Sonic Scout Backend is an application that captures scouting results through QR code scanning of images produced by a Sonic Scout frontend application (typically Sonic Scout Android).

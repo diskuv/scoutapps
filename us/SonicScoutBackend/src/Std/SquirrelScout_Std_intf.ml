@@ -20,15 +20,18 @@ module type Database_actions_type = sig
 
   (* for java *)
   val insert_scouted_data : string -> Db_utils.return_code
-  
   val process_qr_code : bytes -> Db_utils.return_code
 end
 
 (* This is the module type that SquirrelScout_Std.ml implements *)
 module type Intf = sig
   module type Database_actions_type = Database_actions_type
+
   module Schema = Schema
   module Types = Types
+
+  val default_db_path : unit -> Fpath.t
+  (** [default_db_path] is the default location of the sqlite3 database. *)
 
   val create_object : db_path:string -> unit -> (module Database_actions_type)
   val test_function : string -> unit -> unit

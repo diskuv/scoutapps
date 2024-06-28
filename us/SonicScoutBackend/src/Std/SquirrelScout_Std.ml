@@ -4,6 +4,11 @@ include SquirrelScout_Std_intf
 
 module Schema = Schema
 
+let default_db_path () =
+  let xdg = Xdg.create ~env:Sys.getenv_opt () in
+  let config_dir = Xdg.data_dir xdg in
+  Fpath.(v config_dir / "sonic-scout" / "sqlite3.db")
+
 let create_all_tables db =
   match Raw_match_data_table.Table.create_table db with
   | Db_utils.Failed ->
@@ -163,6 +168,7 @@ module Database_actions (Db : Db_holder) = struct
 end
 
 let create_object ~db_path () = 
+  Logs.info (fun l -> l "Using database path = %s" db_path);
   let db = Sqlite3.db_open db_path in 
 
   let module Fetchable_data = Database_actions (struct

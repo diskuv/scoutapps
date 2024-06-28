@@ -9,7 +9,11 @@ let setup_log_t =
 
 let db_path_t =
   let doc = "file path for sqlite3 database" in
-  Cmdliner.Arg.(value & opt string "testing.db" & info ~doc [ "d"; "db" ])
+  let default_db_path = SquirrelScout_Std.default_db_path () in
+  Cmdliner.Arg.(
+    value
+    & opt string (Fpath.to_string default_db_path)
+    & info ~doc [ "d"; "db" ])
 
 (* -------- *)
 
@@ -43,39 +47,40 @@ let team_num_t =
 
 let match_json_file_t =
   let doc = "JSON file with match data" in
-  Cmdliner.Arg.(required & opt (some file) None & info ~doc [ "m"; "match-json" ])
+  Cmdliner.Arg.(
+    required & opt (some file) None & info ~doc [ "m"; "match-json" ])
 
 (* ------------- *)
 
 module Commands = struct
-
   let print_dash = "-----------------------"
   let dummy_flag_t = Cmdliner.Arg.(value & flag & info [ "dummy" ])
 
   let insert_matches_cmd =
     let action () db_path match_json_file =
-      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
-
-      let match_json = In_channel.with_open_text match_json_file In_channel.input_all in
-      let _ = Db.insert_match_json ~json_contents:match_json () in 
+      let module Db = (val SquirrelScout_Std.create_object ~db_path ()) in
+      let match_json =
+        In_channel.with_open_text match_json_file In_channel.input_all
+      in
+      let _ = Db.insert_match_json ~json_contents:match_json () in
       ()
     in
     let info = Cmdliner.Cmd.info "insert-scheduled-matches" in
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ match_json_file_t)
+    Cmdliner.Cmd.v info
+      Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ match_json_file_t)
 
   let insert_raw_match_test_data_cmd =
     let action () db_path =
-      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
-      Db.insert_raw_match_test_data ();
+      let module Db = (val SquirrelScout_Std.create_object ~db_path ()) in
+      Db.insert_raw_match_test_data ()
     in
     let info = Cmdliner.Cmd.info "insert-raw-match-test-data" in
     Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t)
 
   let status_cmd =
-    let action () db_path  _flag =
-      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
+    let action () db_path _flag =
+      let module Db = (val SquirrelScout_Std.create_object ~db_path ()) in
       (* print_endline ("Flag status: " ^ string_of_bool flag); *)
-
       let latest_match = Db.get_latest_match () in
 
       let latest_match_string =
@@ -93,9 +98,7 @@ module Commands = struct
         ("Lastest match data in database is from match: " ^ latest_match_string);
       print_endline print_dash;
 
-      let missing_data =
-        Db.get_missing_records_from_db ()
-      in
+      let missing_data = Db.get_missing_records_from_db () in
 
       let print_match_and_missing_poses num poses =
         print_endline "";
@@ -118,14 +121,13 @@ module Commands = struct
 
     let info = Cmdliner.Cmd.info "status" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ dummy_flag_t)
+    Cmdliner.Cmd.v info
+      Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ dummy_flag_t)
 
   let matches_for_team_cmd =
     let action () db_path team =
-      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
-      let matches =
-        Db.get_matches_for_team team
-      in
+      let module Db = (val SquirrelScout_Std.create_object ~db_path ()) in
+      let matches = Db.get_matches_for_team team in
 
       let rec matches_as_string lst str =
         match lst with
@@ -147,11 +149,12 @@ module Commands = struct
 
     let info = Cmdliner.Cmd.info "matches-for-team" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ team_num_t)
+    Cmdliner.Cmd.v info
+      Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ team_num_t)
 
   let match_schedule_cmd =
     let action () db_path dummy =
-      let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
+      let module Db = (val SquirrelScout_Std.create_object ~db_path ()) in
       let _ = dummy in
 
       let match_data = Db.get_whole_schedule () in
@@ -175,7 +178,8 @@ module Commands = struct
 
     let info = Cmdliner.Cmd.info "match-schedule" in
 
-    Cmdliner.Cmd.v info Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ dummy_flag_t)
+    Cmdliner.Cmd.v info
+      Cmdliner.Term.(const action $ setup_log_t $ db_path_t $ dummy_flag_t)
 end
 
 (* let latest_match_cmd =
@@ -196,8 +200,6 @@ end
    | ec -> exit ec *)
 
 let main () =
-  let doc = "testing group commands" in
-  (* let man = Cmdliner.Manpage.s_common_options in   *)
   let info = Cmdliner.Cmd.info "sonic-scout-cli" in
 
   let cmds =

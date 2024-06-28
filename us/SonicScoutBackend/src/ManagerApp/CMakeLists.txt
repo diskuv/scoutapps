@@ -86,8 +86,6 @@ endif()
 # SCOUT:ADDED
 get_target_property(qmake_LOC Qt5::qmake IMPORTED_LOCATION)
 get_filename_component(qmake_BIN "${qmake_LOC}" DIRECTORY)
-find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${qmake_BIN}")
-find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${qmake_BIN}")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -161,8 +159,9 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     # * [codesign --timestamp] which is [-timestamp]
     # * signid=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673 which is [-codesign=]
     # * [notarytool] which is [-sign-for-notarization=] and it subsumes [-codesign=], [-timestamp] and [-hardened-runtime]
+    set(deployScanner ${CMAKE_CURRENT_BINARY_DIR}/SonicScoutQRScanner-$<CONFIG>.cmake)
     if(APPLE)
-        set(deployScanner ${CMAKE_CURRENT_BINARY_DIR}/SonicScoutQRScanner-$<CONFIG>.cmake)
+        find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${qmake_BIN}" REQUIRED)
         file(GENERATE OUTPUT "${deployScanner}" CONTENT "
             if(\"\$ENV{SCOUT_NOTARIZE}\" EQUAL 1)
                 set(deployqt_ARGS -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
@@ -183,6 +182,22 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
                         -verbose=1
                         \"-qmldir=${CMAKE_CURRENT_LIST_DIR}\"
                         -dmg
+                        ${deployqt_ARGS}
+                COMMAND_ERROR_IS_FATAL ANY
+            )
+        ")
+        install(SCRIPT "${deployScanner}")
+    elseif(WIN32)
+        find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${qmake_BIN}" REQUIRED)
+        file(GENERATE OUTPUT "${deployScanner}" CONTENT "
+            execute_process(
+                WORKING_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}\"
+                COMMAND
+                    \"${WINDEPLOYQT_EXECUTABLE}\"
+                        # Source: $<TARGET_FILE:ManagerAppQtCamReader>
+                        bin/SonicScoutQRScanner.exe
+                        # -verbose=2
+                        \"-qmldir=${CMAKE_CURRENT_LIST_DIR}\"
                         ${deployqt_ARGS}
                 COMMAND_ERROR_IS_FATAL ANY
             )

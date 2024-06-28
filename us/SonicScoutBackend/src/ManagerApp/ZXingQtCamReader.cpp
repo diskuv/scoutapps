@@ -24,7 +24,7 @@ int SQUIRREL_SCOUT_MANAGER_portable_main(int argc0, SQUIRREL_SCOUT_MANAGER_porta
 	ZXingQt::registerQmlAndMetaTypes();
 
 	QGuiApplication app(argc, argv);
-	app.setApplicationName("ZXingQtCamReader");
+	app.setApplicationName("Sonic Scout QR Scanner");
 	QQmlApplicationEngine engine;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 	engine.load(QUrl(QStringLiteral("qrc:/ZXingQt5CamReader.qml")));

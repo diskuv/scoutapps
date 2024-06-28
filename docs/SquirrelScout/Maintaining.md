@@ -1,5 +1,17 @@
 # Maintaining
 
+## Packaging for release
+
+Do the following on both macOS and Windows:
+
+```sh
+./dk src/SonicScout_Setup/Package.ml --color=always --notarize
+```
+
+## Incorporating other people's contributions
+
+Important: Make sure the contributors have agreed to a CLA.
+
 The source code should be updated yearly for the First Robotics community.
 
 We use a technique called "git subtree" to manage the source code in the `us/` folder.

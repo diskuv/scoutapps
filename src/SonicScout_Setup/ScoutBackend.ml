@@ -32,6 +32,27 @@ let clean areas =
     OS.Dir.delete ~recurse:true Fpath.(projectdir / builddir_name) |> rmsg
   end
 
+let package ~notarize () =
+  start_step "Packaging SonicScoutBackend";
+  let cwd = OS.Dir.current () |> rmsg in
+  let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
+  let builddir = Fpath.(projectdir / builddir_name) in
+  match Tr1HostMachine.abi with
+  | `darwin_x86_64 | `darwin_arm64 ->
+      let env =
+        if notarize then
+          Some (OS.Env.current () |> rmsg |> OSEnvMap.(add "SCOUT_NOTARIZE" "1"))
+        else None
+      in
+      RunCPack.run ?env ~projectdir ~builddir [ "-G"; "TGZ" ];
+      let dmg =
+        Fpath.(
+          builddir / "_CPack_Packages" / "Darwin" / "TGZ"
+          / "SonicScoutBackend-1.0.0-Darwin" / "SonicScoutQRScanner.dmg")
+      in
+      Logs.app (fun l -> l "The macOS dmg for publishing is at %a" Fpath.pp dmg)
+  | _ -> failwith "Currently your host machine is not supported by Sonic Scout"
+
 let run ~next () =
   start_step "Building SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in

@@ -123,6 +123,13 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     if(APPLE)
         set(deployScanner ${CMAKE_CURRENT_BINARY_DIR}/SonicScoutQRScanner-$<CONFIG>.cmake)
         file(GENERATE OUTPUT "${deployScanner}" CONTENT "
+            if(\$ENV{SCOUT_NOTARIZE} EQUAL 1)
+                set(deployqt_ARGS -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
+                message(NOTICE \"Using notarization.\")
+            else()
+                set(deployqt_ARGS -codesign=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
+            endif()
+
             execute_process(
                 WORKING_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}\"
                 COMMAND
@@ -135,8 +142,7 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
                         -verbose=1
                         \"-qmldir=${CMAKE_CURRENT_LIST_DIR}\"
                         -dmg
-                        -codesign=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673
-                        #-sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673
+                        ${deployqt_ARGS}
                 COMMAND_ERROR_IS_FATAL ANY
             )
         ")

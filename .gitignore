@@ -22,3 +22,6 @@
 
 # Qt
 /aqtinstall.log
+
+# codesigning. Only /sign-audit/ should be in git
+/sign/

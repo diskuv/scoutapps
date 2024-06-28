@@ -27,6 +27,7 @@
  (public_name SquirrelScout_Std)
  (libraries
   fmt
+  logs.fmt
   logs.lwt
   lwt
   capnp
@@ -35,5 +36,8 @@
   base64
   sqlite3
   qrc
+  xdg
+  fpath
+  bos
   lwt.unix)
  (modules SquirrelScout_Std SquirrelScout_Std_intf qr_manager aws_manager main db_utils schema match_schedule_table raw_match_data_table robot_pictures_table team_names_table))

@@ -45,6 +45,7 @@ target_sources(SquirrelScout_Std INTERFACE
 target_link_libraries(SquirrelScout_Std PRIVATE
         Findlib::fmt
 
+        Findlib::logs.fmt
         Findlib::logs.lwt
         Findlib::lwt
        
@@ -55,9 +56,9 @@ target_link_libraries(SquirrelScout_Std PRIVATE
        
         Findlib::sqlite3
         Findlib::qrc
-
-        #not working
-        #Findlib::core
+        Findlib::xdg
+        Findlib::fpath
+        Findlib::bos
 
         Findlib::lwt.unix)
 

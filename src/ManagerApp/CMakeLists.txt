@@ -105,8 +105,12 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     add_executable(ManagerAppQtCamReader MACOSX_BUNDLE WIN32 ZXingQtCamReader.cpp ZXingQtCamReader.qrc ZXingQtReader.h)
     target_link_libraries(ManagerAppQtCamReader ZXing::ZXing Qt::Gui Qt::Multimedia Qt::Quick)
     set_target_properties(ManagerAppQtCamReader PROPERTIES
-        # Doesn't work. Not sure why. So manually use 'install_name_tool' in install(SCRIPT)
+        # Doesn't work:
         #     INSTALL_RPATH @executable_path/../Frameworks
+        # Not sure why, but
+        # https://stackoverflow.com/questions/13656033/how-do-you-add-an-rpath-to-an-executable-in-cmake-on-build-not-install-on-osx#comment108016975_13662896
+        # indicates that CMake doesn't set it for executables.
+        # 1. So manually use 'install_name_tool' in install(SCRIPT).
         OUTPUT_NAME SonicScoutQRScanner)
     install(TARGETS ManagerAppQtCamReader
         DESTINATION ${CMAKE_INSTALL_BINDIR}

@@ -1,4 +1,4 @@
-let () = print_endline "I am in ManagerApp_ml.ml"
+open Bos
 
 (** [hex_encode] modified from https://github.com/mimoo/hexstring. Apache 2.0 license. *)
 let hex_encode (bytearray : bytes) : string =
@@ -33,22 +33,45 @@ let process_qr db qr_format qr_bytes =
 
   match rc with
   | Successful -> Printf.printf "PROCESSED QR CODE SUCCESSFULLY"
-  | Failed -> Printf.printf "FAILED QR CODE PROCESSING"
-;
- let args = Array.to_list Sys.argv |> String.concat " " in
-   Format.eprintf
-     "[%s:%d] I am processing (YAY!) the QR format '%s' with bytes: %s\n\
-      Command Line Arguments:%s\n\
-      %!"
-     __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args 
+  | Failed ->
+      Printf.printf "FAILED QR CODE PROCESSING";
+      let args = Array.to_list Sys.argv |> String.concat " " in
+      Format.eprintf
+        "[%s:%d] I am processing (YAY!) the QR format '%s' with bytes: %s\n\
+         Command Line Arguments:%s\n\
+         %!"
+        __FILE__ __LINE__ qr_format (hex_encode qr_bytes) args
+
+let default_db_path () =
+  let xdg = Xdg.create ~env:Sys.getenv_opt () in
+  let config_dir = Xdg.data_dir xdg in
+  Fpath.(v config_dir / "sonic-scout" / "sqlite3.db")
 
 let main () =
-  if Array.length Sys.argv < 2 then
-    Fmt.failwith "usage: %s SQLITE3_DATABASE" Sys.argv.(0);
-  let db_path = Sys.argv.(1) in
-  let module Db = ( val SquirrelScout_Std.create_object ~db_path ()) in
+  (* Set up logging *)
+  print_endline "Starting ManagerApp_ml.ml ...";
+  Logs.set_reporter (Logs_fmt.reporter ());
+  Logs.set_level (Some Logs.Info);
 
-  Callback.register "squirrel_scout_manager_process_qr" (process_qr (module Db : SquirrelScout_Std.Database_actions_type))
+  (* Parse command line options *)
+  let db_path =
+    if Array.length Sys.argv < 2 then default_db_path ()
+    else Fpath.v Sys.argv.(1)
+  in
+  Logs.info (fun l -> l "Using database path = %a" Fpath.pp db_path);
 
+  (* Make sure the database folder is created *)
+  let (_created : bool) =
+    OS.Dir.create (Fpath.parent db_path) |> Result.get_ok
+  in
+
+  (* Create the database module *)
+  let db_obj =
+    SquirrelScout_Std.create_object ~db_path:(Fpath.to_string db_path) ()
+  in
+  let module Db = (val db_obj) in
+  (* Process QR codes *)
+  Callback.register "squirrel_scout_manager_process_qr"
+    (process_qr (module Db : SquirrelScout_Std.Database_actions_type))
 
 let () = main ()

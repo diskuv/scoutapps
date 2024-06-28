@@ -87,6 +87,26 @@ DkSDKProject_DeclareAvailable(base64
     FINDLIBS base64
 )
 
+DkSDKProject_DeclareAvailable(xdg
+    CONSTRAINT ">= 3.12.2"
+    FINDLIBS xdg
+)
+
+DkSDKProject_DeclareAvailable(xdg
+    CONSTRAINT ">= 3.12.2"
+    FINDLIBS xdg
+)
+
+DkSDKProject_DeclareAvailable(fpath
+    CONSTRAINT ">= 0.7.3"
+    FINDLIBS fpath
+)
+
+DkSDKProject_DeclareAvailable(bos
+    CONSTRAINT ">= 0.2.1"
+    FINDLIBS bos
+)
+
 # --- Which Dependencies Will Be Available To Targets ---
 
 # Using DkSDKProject_DeclareAvailable() alone does not pull it into CMake.
@@ -105,6 +125,9 @@ DkSDKProject_MakeAvailable(
         core
         base64
         sqlite3
+        xdg
+        fpath
+        bos
 
         # "Development tools".
         # Implementation: Built by Dune.

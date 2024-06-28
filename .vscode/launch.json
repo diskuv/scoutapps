@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(Windows) Launch ManagerAppQtCamReader",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/us/SonicScoutBackend/build_dev/src/ManagerApp/ManagerAppQtCamReader.exe",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}/us/SonicScoutBackend/build_dev/_CPack_Packages/win64/ZIP/SonicScoutBackend-1.0.0-win64/bin",
+            "environment": [],
+            "console": "externalTerminal"
+        }
+        
+
+    ]
+}

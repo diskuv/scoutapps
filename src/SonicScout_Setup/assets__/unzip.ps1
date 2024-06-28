@@ -5,4 +5,7 @@ param(
     $DestDir
 )
 
+# https://github.com/PowerShell/Microsoft.PowerShell.Archive/issues/32
+$progressPreference = 'SilentlyContinue';
+
 Expand-Archive -Force -LiteralPath $ZipFile -DestinationPath $DestDir

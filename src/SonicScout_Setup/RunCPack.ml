@@ -5,12 +5,16 @@ open Bos
 (* Ported from Utils since this script is standalone. *)
 let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
-let run ?debug_env ?env ~projectdir ~builddir args =
+let run ?debug_env ?env ?cpack ~projectdir ~builddir args =
   let env =
     match env with Some env -> env | None -> OS.Env.current () |> rmsg
   in
 
-  let cpack = Fpath.(projectdir / ".ci" / "cmake" / "bin" / "cpack") in
+  let cpack =
+    match cpack with
+    | Some v -> v
+    | None -> Fpath.(projectdir / ".ci" / "cmake" / "bin" / "cpack")
+  in
 
   let cmd = Cmd.(v (p cpack) %% of_list args) in
 

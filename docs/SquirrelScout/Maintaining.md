@@ -2,10 +2,12 @@
 
 ## Packaging for release
 
-Do the following on both macOS and Windows:
+Do the following on macOS:
 
 ```sh
 ./dk src/SonicScout_Setup/Package.ml --color=always --notarize
+
+open us/SonicScoutBackend/build_dev/_CPack_Packages/Darwin/TGZ/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg
 ```
 
 ## Incorporating other people's contributions

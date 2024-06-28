@@ -1,6 +1,6 @@
 open Utils
 
-let say_warning () =
+let ask_launch () =
   let rec ask () =
     StdIo.print_string
       {|
@@ -38,12 +38,12 @@ BUILDING INSIDE ANDROID STUDIO
    **Mark Directory as Excluded**. That is shown on the picture:
    https://gitlab.com/diskuv/sonicscout/scoutapps/-/blob/main/us/SonicScoutAndroid/static/exclude-DkSDKFiles.png
 
-Can you perform these steps? (y/N) |};
+Do you want to launch Android Studio now? (y/N) |};
     StdIo.flush StdIo.stdout;
     try
       match StdIo.input_line StdIo.stdin with
-      | "y" | "Y" -> ()
-      | "n" | "N" -> raise StopProvisioning
+      | "y" | "Y" -> true
+      | "n" | "N" -> false
       | "" -> raise StopProvisioning
       | _ -> ask ()
     with End_of_file ->
@@ -63,5 +63,4 @@ let run () =
     ()
   |> rmsg;
 
-  say_warning ();
-  RunAndroidStudio.run ~debug_env:() ~projectdir []
+  if ask_launch () then RunAndroidStudio.run ~debug_env:() ~projectdir []

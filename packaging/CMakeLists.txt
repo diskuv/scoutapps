@@ -59,6 +59,10 @@ set(CPACK_RESOURCE_FILE_WELCOME ${CMAKE_CURRENT_LIST_DIR}/Welcome.txt)
 set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_BINARY_DIR}/License.txt)
 set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/Readme.txt)
 
+# Do not ever change this. If you know enough to ignore that, ignore that.
+# https://cmake.org/cmake/help/latest/cpack_gen/wix.html#variable:CPACK_WIX_UPGRADE_GUID
+set(CPACK_WIX_UPGRADE_GUID "5395BA39-54C7-4338-8489-679A45DBFE7A")
+
 if(WIN32)
       set(CPACK_GENERATOR ZIP WIX)
   elseif(APPLE)

@@ -40,15 +40,19 @@ let package ~notarize () =
   let tools_dir = Qt.tools_dir ~projectdir in
   match Tr1HostMachine.abi with
   | `darwin_x86_64 | `darwin_arm64 ->
+      let env = OS.Env.current () |> rmsg in
       let env =
-        if notarize then
-          Some (OS.Env.current () |> rmsg |> OSEnvMap.(add "SCOUT_NOTARIZE" "1"))
-        else None
+        if notarize then env |> OSEnvMap.(add "SCOUT_NOTARIZE" "1") else env
+      in
+      let env =
+        match Logs.level () with
+        | Some Logs.Debug -> env |> OSEnvMap.(add "SCOUT_VERBOSE" "2")
+        | _ -> env
       in
       (* TODO: Use https://cmake.org/cmake/help/latest/cpack_gen/external.html.
          We only use [TGZ] so the intermediate .dmg is produced. Any generator
          can do that. Or just do a plain [cmake --install]. *)
-      RunCPack.run ?env ~projectdir ~builddir [ "-G"; "TGZ" ];
+      RunCPack.run ~env ~projectdir ~builddir [ "-G"; "TGZ" ];
       let dmg =
         Fpath.(
           builddir / "_CPack_Packages" / "Darwin" / "TGZ"

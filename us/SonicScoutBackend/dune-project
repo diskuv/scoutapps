@@ -61,7 +61,10 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
     (yojson (>= 2.1.0))
     (base64 (>= 3.5.1))
     sqlite3
-    (qrc (>= 0.1.0))))
+    (qrc (>= 0.1.0))
+    (xdg (>= 3.12.2))
+    (fpath (>= 0.7.3))
+    (bos (>= 0.2.1))))
 
 (package
   (name SquirrelScout_Objs)

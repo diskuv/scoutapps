@@ -1,24 +1,6 @@
-# Squirrel Scout - OCaml Backend
+# Sonic Scout Backend
 
-> DO NOT RELEASE UNTIL ALL `RELEASE_BLOCKER` COMMENTS HAVE BEEN REMOVED.
-
-[DkSDK CMake]: https://diskuv.com/cmake/help/latest/
-
-> A simple Hello World example that demonstrates how to use
-> [DkSDK CMake]
-
-## Introduction
-
-Start with [DkSDK CMake] to understand what the SDK can do for you.
-
-Once you have become a [DkSDK CMake] subscriber, skip down to
-the [Quick Start](#quick-start) to build and run this project.
-
-Finally, you can access the auto-generated intermediate
-and advanced documentation for this project at [DkSDK.md](./DkSDK.md).
-
-*This README is where you would customize the documentation for your
-own project and team.*
+> DO NOT WIDELY RELEASE UNTIL ALL `RELEASE_BLOCKER` COMMENTS HAVE BEEN REMOVED.
 
 ## Quick Start
 
@@ -37,7 +19,7 @@ You will want to start with the following targets in your IDE:
 
 or do it from the **Linux**, **WSL2 Debian** or **WSL2 Ubuntu** command line:
 
-```sh   
+```sh
 ./dk dksdk.cmake.link QUIET
 cp CMakeUserPresets-SUGGESTED.json CMakeUserPresets.json
 .ci/cmake/bin/cmake --preset dev-Linux-x86_64
@@ -130,3 +112,27 @@ rm -rf build fetch _dn
 
 That will produce `build/src/ObjsLib/libSquirrelScout_ObjsLib.a` which
 can be copied to the Android project.
+
+## Licensing
+
+The source code of `Sonic Scout Backend` is in the `src/`, `tests/` and `dependencies/` folders are available
+under the open source [OSL 3.0 license](./LICENSE-OSL3).
+
+The `dk`, `dk.cmd` and `__dk.cmake` build tools are [OSL 3.0 licensed](./LICENSE-OSL3)
+with prompts for additional licenses for the [LGPL 2.1 with an OCaml static linking exception](./LICENSE-LGPL21-ocaml) and the [DkSDK SOFTWARE DEVELOPMENT KIT LICENSE AGREEMENT](./LICENSE-DKSDK).
+
+The QR scanning app uses Qt5 which has a [LGPL 3.0 license](https://doc.qt.io/qt-5/licensing.html).
+
+A DkSDK license token is necessary when you want to rebuild the applications with
+customizations for your own robotics team. The token is free to any First Robotics team
+who has an adult sponsor (ex. a mentor) who also agrees to submit their team's code changes at the end of each robotics season (a "pull request") using an open-source
+[Contributor License Agreement](https://yahoo.github.io/oss-guide/docs/resources/what-is-cla.html).
+Contact jonah AT diskuv.com to get a token.
+
+You do *not* need a token to run the QR scanner backend app.
+
+The copyright is owned jointly by:
+
+- Archit Kumar
+- Keyush Attarde
+- Diskuv, Inc.

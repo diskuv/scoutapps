@@ -16,6 +16,8 @@ target_link_libraries(main-cli PRIVATE
         # DkSDK::OCaml::ForStaticBinary is because we are doing
         # an add_executable().
         DkSDK::OCaml::ForStaticBinary)
+install(TARGETS main-cli DESTINATION ${CMAKE_INSTALL_BINDIR})
+set_target_properties(main-cli PROPERTIES OUTPUT_NAME sonic-scout-cli)
 
 DkSDKProject_AddPackage(
         AUTO_OPAM_PACKAGE

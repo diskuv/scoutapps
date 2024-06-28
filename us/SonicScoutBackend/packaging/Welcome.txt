@@ -1,0 +1,12 @@
+Welcome to Sonic Scout!
+
+Squirrel Scout is a First Robotics team from Glacier Peak High School, Washington State, USA.
+Two high school juniors (Archit Kumar and Keyush Attarde) wrote the initial versions of the Sonic Scout software with some help from Diskuv.
+Keeping with the First Robotics value system, the software has been released for use by other robotics teams.
+
+Each year the First Robotics competitions change.
+The "official" release of the scouting software will always be one year prior.
+In simpler terms ... the software you may be running may be OUT OF DATE.
+To be one step ahead of the other robotics teams, your team should modify the scouting software.
+
+Visit https://github.com/diskuv/scoutapps for help modifying the software.

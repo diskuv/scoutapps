@@ -166,8 +166,7 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
             set(deployqt_ARGS)
             if(\"\$ENV{SCOUT_NOTARIZE}\" EQUAL 1)
                 list(APPEND deployqt_ARGS
-                    -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673
-                    -dmg)
+                    -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
                 message(NOTICE \"Using notarization.\")
             else()
                 list(APPEND deployqt_ARGS
@@ -201,7 +200,8 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
                         /bin/sh
                         \"${CMAKE_CURRENT_LIST_DIR}/notarize-macos.sh\"
                             \"${PROJECT_SOURCE_DIR}\"
-                            \"\${CMAKE_INSTALL_PREFIX}/SonicScoutQRScanner.dmg\"
+                            \"\${CMAKE_INSTALL_PREFIX}/SonicScoutQRScanner.app\"
+                            3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673
                             \"${CMAKE_OSX_ARCHITECTURES}\"
                     COMMAND_ECHO STDOUT
                     COMMAND_ERROR_IS_FATAL ANY

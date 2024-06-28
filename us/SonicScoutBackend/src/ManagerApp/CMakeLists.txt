@@ -112,6 +112,47 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
         # indicates that CMake doesn't set it for executables.
         # 1. So manually use 'install_name_tool' in install(SCRIPT).
         OUTPUT_NAME SonicScoutQRScanner)
+    set(BundleName "SonicScoutQR") # Up to 15 characters
+    set(Copyright "(c)2023 Archit Kumar, Keyush Attarde and Diskuv, Inc.")
+    set(BundleId "com.diskuv.sonicscout.QRScanner")
+    # CI systems typically provide some form of job ID as an
+    # environment variable. This example works for gitlab, but
+    # other CI systems are likely to be similar. When not run
+    # under CI, this will leave BUILD_VERSION set to 0.
+    set(BUILD_VERSION $ENV{CI_JOB_ID})
+    if(BUILD_VERSION STREQUAL "")
+        # This is a local build, not through CI system
+        set(BUILD_VERSION 0)
+    endif()    
+    if(XCODE)
+        set_target_properties(ManagerAppQtCamReader PROPERTIES
+            # These XCode attributes will be part of the final Info.plist.
+            # XCode will add its own attributes as well.
+            # Per Professional CMake:
+            # > An advantage of using these build settings is that Xcode uses some of them to populate other parts of its UI.
+            # > Specifying the same settings directly in the Info.plist file will sometimes result in those other parts of the Xcode UI not being updated in the same way.
+            # > CFBundleDisplayName and LSApplicationCategoryType are two examples of this.            
+            XCODE_ATTRIBUTE_PRODUCT_NAME              "${BundleName}"
+            XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "${BundleId}"
+            XCODE_ATTRIBUTE_MARKETING_VERSION         "${PROJECT_VERSION}"
+            XCODE_ATTRIBUTE_CURRENT_PROJECT_VERSION   "${BUILD_VERSION}"
+            XCODE_ATTRIBUTE_GENERATE_INFOPLIST_FILE   YES
+            # This file is the initial Info.plist.
+            XCODE_ATTRIBUTE_INFOPLIST_FILE            "${CMAKE_CURRENT_LIST_DIR}/Info.xcode.plist"
+            XCODE_ATTRIBUTE_INFOPLIST_KEY_CFBundleDisplayName       "Sonic Scout QR Scanner"
+            XCODE_ATTRIBUTE_INFOPLIST_KEY_LSApplicationCategoryType "public.app-category.educational-games"
+            XCODE_ATTRIBUTE_INFOPLIST_KEY_NSPrincipalClass          "NSApplication"
+            XCODE_ATTRIBUTE_INFOPLIST_KEY_NSHumanReadableCopyright  "${Copyright}")
+    else()
+        set_target_properties(ManagerAppQtCamReader PROPERTIES
+            MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_LIST_DIR}/Info.not-xcode.in.plist"
+            MACOSX_BUNDLE_BUNDLE_NAME "${BundleName}"
+            MACOSX_BUNDLE_BUNDLE_VERSION "${BUILD_VERSION}"
+            MACOSX_BUNDLE_COPYRIGHT "${Copyright}"
+            MACOSX_BUNDLE_GUI_IDENTIFIER "${BundleId}"
+            MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION}"
+            MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")
+    endif()
     install(TARGETS ManagerAppQtCamReader
         DESTINATION ${CMAKE_INSTALL_BINDIR}
         BUNDLE DESTINATION .)
@@ -123,7 +164,7 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     if(APPLE)
         set(deployScanner ${CMAKE_CURRENT_BINARY_DIR}/SonicScoutQRScanner-$<CONFIG>.cmake)
         file(GENERATE OUTPUT "${deployScanner}" CONTENT "
-            if(\$ENV{SCOUT_NOTARIZE} EQUAL 1)
+            if(\"\$ENV{SCOUT_NOTARIZE}\" EQUAL 1)
                 set(deployqt_ARGS -sign-for-notarization=3F06C7CD5BC2C3C8FCAD07F2F38D55C43B2B0673)
                 message(NOTICE \"Using notarization.\")
             else()

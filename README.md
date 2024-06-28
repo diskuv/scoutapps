@@ -24,8 +24,6 @@ Each year the First Robotics competitions change. The "official" release of the 
 
 ## Customizing
 
-To customize the scouting software you will need a license to use the "DkSDK" software development kit. The license is free for First Robotics teams. **TBD: How?**
-
 The expectation is that any First Robotics team that uses and modifies the scouting software will continue to uphold First Robotics values by contributing their modifications back to these projects. Keep your modifications to yourself for the first year, and then submit a Pull Request with your changes the second year.
 
 It is inevitable that one robotics team may submit modifications that are in conflict with modifications from another robotics team. Unfortunately there can only be one official release, and only one app submitted to the Google and Apple App Stores. To keep a healthy ["copyleft" open-source license](#licenses) for use by all robotics teams, Diskuv will moderate and decide which modification becomes part of the official release *and* your team will be asked to sign a [Contributor License Agreement](https://www.apache.org/licenses/contributor-agreements.html).
@@ -44,7 +42,7 @@ cd scoutapps
 Then in either **PowerShell on Windows** or a **macOS terminal** run:
 
 ```sh
-./dk src/SonicScout_Setup/Provision.ml --color=always --next
+./dk src/SonicScout_Setup/Develop.ml --color=always --next
 ```
 
 After the end of the robotics season, you can save space by doing:

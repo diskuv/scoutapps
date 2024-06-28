@@ -71,10 +71,13 @@ module Cli = struct
     Arg.(value & flag & info ~doc [ "next" ])
 
   let cmd =
-    let doc = "Provision (setup) your machine to edit the Sonic Scout apps." in
+    let doc =
+      "Develop the Sonic Scout apps. Your machine will be setup with \
+       prerequisites, and code will be compiled, if it hasn't been already."
+    in
     let man = [ `S Manpage.s_description; `Blocks help_secs ] in
     Cmd.v
-      (Cmd.info ~doc ~man "provision")
+      (Cmd.info ~doc ~man "Develop")
       Term.(
         const provision $ Tr1Logs_Term.TerminalCliOptions.term
         $ dksdk_data_home_t $ next_t)

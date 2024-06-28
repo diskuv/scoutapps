@@ -48,7 +48,7 @@ module Cli = struct
     let doc = "Removes intermediate files for the Sonic Scout apps." in
     let man = [ `S Manpage.s_description; `Blocks help_secs ] in
     Cmd.v
-      (Cmd.info ~doc ~man "clean")
+      (Cmd.info ~doc ~man "Clean")
       Term.(const clean $ Tr1Logs_Term.TerminalCliOptions.term $ areas_t)
 end
 

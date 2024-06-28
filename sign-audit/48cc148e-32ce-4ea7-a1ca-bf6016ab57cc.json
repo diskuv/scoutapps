@@ -1,0 +1,1242 @@
+{
+  "logFormatVersion": 1,
+  "jobId": "48cc148e-32ce-4ea7-a1ca-bf6016ab57cc",
+  "status": "Accepted",
+  "statusSummary": "Ready for distribution",
+  "statusCode": 0,
+  "archiveFilename": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip",
+  "uploadDate": "2024-06-28T19:22:24.069Z",
+  "sha256": "c388f710c29d3a0a4a096104525b10199ab4702d56b747e7ab8f0a8a8dd64362",
+  "ticketContents": [
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3a4887e28a26a9e9b97b8867ff2b57b02e1428b8"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtVirtualKeyboard.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "6b30132f64ebc9c6609eb6b471c7180e8446ee86",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2universalstyleplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b5ed3ffa21a8815d7bb15ed8b8422f63039099e3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libparticlesplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "6038349b2076300531dabdb22c3a6d395cbebe96",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DAnimation.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "af064d98c3fdcfc4fb9cba41971e67b5c1fd3caa",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquicktimelineplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "80442086449fc9db719b651ca380bf21e66b6497",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuickControls2.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d2deb1cf0a5ebefa09930aef9bc4e319c7afb053",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtXmlPatterns.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "2290e929c151e1ee65c8170df1c2f00e26cd57e5",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2imaginestyleplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "a2b591e39417714ac3b18d6868c46dbb5a142233",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/audio/libqtaudio_coreaudio.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "c4cbb2effaf840441e1579f788aa7588c10184f1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickvirtualkeyboardsettingsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3ed45b9325afdcde0185062051a9ba0630e6f507",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquicktemplates2plugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "8d89a7171bed7f889a66381ce5cfa8f0203810b3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtGui.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "fe140ffd8acbe1e9f8420fea8fa58e4a5dd4940d",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtMultimediaQuick.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "2d43a13233a7900bf7cf59420ae377f0e6b18182",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sceneparsers/libgltfsceneimport.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f1a3112e56a7737bd94ab35eda1c1a1f140b9088",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DQuick.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ac687f639f7697f7e1f87a0173bd8759587a0579",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmllocalstorageplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "af2fa0774858495ead7ed95df58eda3f61e57f10",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_pinyin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "209d0d2919ce66744828a2e35efd4558ead0a40f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sceneparsers/libgltfsceneexport.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "6ff9b7aa002edf24ece91303ebf08166dd307e5e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/bearer/libqgenericbearer.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0d21a004d86baeacdcb76651b28398a4a4047440",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqgif.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "eb044d9cb15783d2835090abfd1bd6e45ea14e40",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/iconengines/libqsvgicon.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "4006d0e3bbd85fa42e7e38f43061df366467c49c",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtMultimediaWidgets.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3c0592b4f6c83150e4137a03e85aac130e374a1e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtqmlremoteobjects.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "7c287ec1f8d9f49ff8116b64e95fc629e782e371",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtMultimedia.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "00e4b9ea4cf54a5e729310d9326ed4b4cd26810f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/mediaservice/libqavfcamera.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "84823aa16201c4daf3c300dc5daeca25ae962b41",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DLogic.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "cfd7585e3221b6ead54da80d43f87a6dbdcb6daa",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_thai.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ef51f163795e9040b7ab240f36bfa14a61bce934",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQmlModels.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "9be1394deb4ed8de499d66e426544d28d33eb4e4",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQml.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d0f76e70dcdb8eee41dc7b41c264ce59886c084f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqwebp.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "28b42b25778bb18776c6828ea2d62b2cf4d5f9c0",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickscene2dplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "c980b97f7bdc1d8baf2f596a727a3f88500b5e1b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuickParticles.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "cf9e5cc1beeb34a41e44801f90922f2eff85bdc0",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libdialogsprivateplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e85e5468b004113a0558a424ad57ed598bd3466a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtGamepad.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "62d4620ea33e541201c3a2e3197c996e39a623b4",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtSvg.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3338bbaa1cea433b73e3a6f05f160318de41bdcd",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuick.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "80f38b43e61c6d1d08f38b75cfc0bc24bc44ca0a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2fusionstyleplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "620713de32a7e8786230981732f660205f49e5dc",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqmacjp2.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ffb07e7ae9a13e30ea1902c32a0a3692ab120f57",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2materialstyleplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "431719e8fd47e3a45507b64640226860e2594f7f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/geometryloaders/libgltfgeometryloader.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e6bfe7ca912ca3ba10201960f37b323853c1982e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/mediaservice/libqavfmediaplayer.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "8fcd640decfaa98109cf27102c80c652dacaf243",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/geometryloaders/libdefaultgeometryloader.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "48c3053b1d718587aabed342443e7ab7f288151a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libdeclarative_multimedia.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "5302b6c14d8d93453e7b32380eca0b2fe6ed830f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquick2plugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "add6c7394aa85054317625d3cec3ded86fb23513",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickextrasplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f43f48dbce7c6b53335bb0f47573b1c2b31fc50e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickvirtualkeyboardstylesplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "21c991c671fe0d6f328f138ec2fcc7dc7e5e9249",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_openwnn.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3767aec6cef78b65b978e041e840d3fa3f7ffd6c",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqjpeg.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "c2d1cf96e8e213aee46e45144b4d71306af1f9ce",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtConcurrent.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "c896eb81f96e453e7e866c36de321ba7fdf69ef3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuickShapes.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d634d1ed6508d7008caa98c6751b78c0a2c2cccd",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2plugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "4630052d3162742e46d2fac6e139c506da4ff541",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sqldrivers/libqsqlodbc.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "bb1286af7a3da1961b32a096374bac0cd6f399e1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtOpenGL.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "14a52a676adeb381a98f67d762851be4ffccb244",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtNetwork.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "1d4ab116cc1a066a59cfafb51d41796572c69153",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "2e98188d5d81b5c9161439ccaced1a6c1e57cc65",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtgraphicaleffectsprivate.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f53407945054c9f6913f29b9a14ca7d9a1d40698",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickextrasflatplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "af55142ad8d2c48b46a5d855e866531309e624a4",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqico.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "1814358a4781462f32b98759b45115210e7a5fc1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "00bf72f7379dd6d236e39495de4e704f498fc1a9",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sqldrivers/libqsqlite.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "00a0e6974bd0ab7c3ea17b278c5d90983ab8a7bf",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtDBus.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "83b74918f089309a974f4aebb22703a276167c8b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DExtras.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "44d5dfd9fe214d4902b9035e32ee9df9edaf42f5",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlshapesplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f14b90ab3f1f3375ee1cd3b35a209a5d570068b3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libwidgetsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "798ddd961ff37065fab8d0e644329d14bc47d1b1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libmodelsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b601cbc2513ea8a00a7ef2eca225b4d030207edf",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlxmllistmodelplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d5006732abb72cbb1448e86467a798f34895588a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtPrintSupport.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ec28428f0b11e6b1a9f559fadeb55b4cee040b2c",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtSql.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "194b7ed12cbaf536ac35a5ca7b91310c256c6672",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sqldrivers/libqsqlpsql.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f5048e275f44e3280142a855aebff8b3f9e57479",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/mediaservice/libqtmedia_audioengine.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "9d3a6080e1dd4df01c508c64bb682dad78717a67",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQmlWorkerScript.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e110d4f6c05b6e2cf0a7609ae685353cca3ca2ef",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtgraphicaleffectsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b9e35753e7239d383afd6e123469b554bcd18184",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickvirtualkeyboardplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e8d001468aaafad0ccbbfeed7c5a27a661e13d46",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtCore.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e9da7bff52ff2de1a260d8a9e4841a5a4a53e03a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DInput.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "eca637d8247c3a2e81f58d082a5192eee3ff1ec1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqicns.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3ba2cdf5cd3911ff2713fdace81bc691380bc639",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DRender.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d6fd10e4076df7ed973d81842705644fd16ef2fd",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqwbmp.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "413a80ea9170f70698997249b338bff09bcd0c07",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_hangul.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0e544066d2d157fd0a428f3879b96a8506899cc3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DCore.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0f9eaf7c226ab6f77b345f6990de62e13c04b7e6",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libworkerscriptplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0ead01894fc507e1b793e14de6aec0d4f4896bbe",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuickTemplates2.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "7d6d3fed8e7389a3d25d690e9fe7748c9ce9d3a8",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/platforminputcontexts/libqtvirtualkeyboardplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3a6e66c624f29c44b44d2264b8a5835741923587",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlfolderlistmodelplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "250d196de9a1b29e5fefe67ec73fa26e5b9d42a6",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtRemoteObjects.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "890642f02f332ceeec46d73ace450d055b8aa757",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlsettingsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "026b287816f534053555b3149854801a2b45f0d8",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/platforms/libqcocoa.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "fdfdafe90072a8c3c8630449238186750e3b8855",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrolsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b47d4ce8290671187672a2568f85ff8d22f48a67",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libdialogplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b50fd318a54e841fca2e695d91d47b0de871c52b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqsvg.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "33d47863ccabce804ce69a629f4ce79caf735935",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqtga.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "840204ecbb7a813cd85cd69aac4ea7fdca6bcd8b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtqmlstatemachine.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "92b4968580a436b6deeb44d5708064f28dfd02d3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DQuickScene2D.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "a431a9c55d6b6e9c784fbb8a9509562d2524bd9b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libwindowplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d755667f674c3fcc91f2d9d1367cf5545426891e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_tcime.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ed21d1ebb9e3263c0283beba9f5e1cb813f4a2c1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtWidgets.framework/Versions/Current",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "26b64c407b72a056cd4724a808f519a732830d77",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/printsupport/libcocoaprintersupport.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "7af3878422bbc8a58f0181ddf6b82fce3dbef251",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/styles/libqmacstyle.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e50431e88dd9586571ebbb52f8fc716c9e51c457",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqquicklayoutsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3c1398024492b48605c2c5f0e95c4b776d912972",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqtiff.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b4ff4e30d32d8525b9383daaf8302a8b94b2c2c6",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqmacheif.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "739aa8039e31a91a30f4b45e01d42f532e621578",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickscene3dplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "1ebfec17179fee74e13077c6b9a0a5b2fcb4532c",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DAnimation.framework/Versions/5/Qt3DAnimation",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "af064d98c3fdcfc4fb9cba41971e67b5c1fd3caa",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DCore.framework/Versions/5/Qt3DCore",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0f9eaf7c226ab6f77b345f6990de62e13c04b7e6",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DExtras.framework/Versions/5/Qt3DExtras",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "44d5dfd9fe214d4902b9035e32ee9df9edaf42f5",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DInput.framework/Versions/5/Qt3DInput",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "eca637d8247c3a2e81f58d082a5192eee3ff1ec1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DLogic.framework/Versions/5/Qt3DLogic",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "cfd7585e3221b6ead54da80d43f87a6dbdcb6daa",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DQuick.framework/Versions/5/Qt3DQuick",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ac687f639f7697f7e1f87a0173bd8759587a0579",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DQuickScene2D.framework/Versions/5/Qt3DQuickScene2D",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "a431a9c55d6b6e9c784fbb8a9509562d2524bd9b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/Qt3DRender.framework/Versions/5/Qt3DRender",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d6fd10e4076df7ed973d81842705644fd16ef2fd",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtConcurrent.framework/Versions/5/QtConcurrent",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "c896eb81f96e453e7e866c36de321ba7fdf69ef3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtCore.framework/Versions/5/QtCore",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e9da7bff52ff2de1a260d8a9e4841a5a4a53e03a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtDBus.framework/Versions/5/QtDBus",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "83b74918f089309a974f4aebb22703a276167c8b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtGamepad.framework/Versions/5/QtGamepad",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "62d4620ea33e541201c3a2e3197c996e39a623b4",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtGui.framework/Versions/5/QtGui",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "fe140ffd8acbe1e9f8420fea8fa58e4a5dd4940d",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtMultimedia.framework/Versions/5/QtMultimedia",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "00e4b9ea4cf54a5e729310d9326ed4b4cd26810f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtMultimediaQuick.framework/Versions/5/QtMultimediaQuick",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "2d43a13233a7900bf7cf59420ae377f0e6b18182",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtMultimediaWidgets.framework/Versions/5/QtMultimediaWidgets",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3c0592b4f6c83150e4137a03e85aac130e374a1e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtNetwork.framework/Versions/5/QtNetwork",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "1d4ab116cc1a066a59cfafb51d41796572c69153",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "14a52a676adeb381a98f67d762851be4ffccb244",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtPrintSupport.framework/Versions/5/QtPrintSupport",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ec28428f0b11e6b1a9f559fadeb55b4cee040b2c",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQml.framework/Versions/5/QtQml",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d0f76e70dcdb8eee41dc7b41c264ce59886c084f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQmlModels.framework/Versions/5/QtQmlModels",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "9be1394deb4ed8de499d66e426544d28d33eb4e4",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQmlWorkerScript.framework/Versions/5/QtQmlWorkerScript",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e110d4f6c05b6e2cf0a7609ae685353cca3ca2ef",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuick.framework/Versions/5/QtQuick",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "80f38b43e61c6d1d08f38b75cfc0bc24bc44ca0a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuickControls2.framework/Versions/5/QtQuickControls2",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d2deb1cf0a5ebefa09930aef9bc4e319c7afb053",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuickParticles.framework/Versions/5/QtQuickParticles",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "cf9e5cc1beeb34a41e44801f90922f2eff85bdc0",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuickShapes.framework/Versions/5/QtQuickShapes",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d634d1ed6508d7008caa98c6751b78c0a2c2cccd",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtQuickTemplates2.framework/Versions/5/QtQuickTemplates2",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "7d6d3fed8e7389a3d25d690e9fe7748c9ce9d3a8",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtRemoteObjects.framework/Versions/5/QtRemoteObjects",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "890642f02f332ceeec46d73ace450d055b8aa757",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtSql.framework/Versions/5/QtSql",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "194b7ed12cbaf536ac35a5ca7b91310c256c6672",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtSvg.framework/Versions/5/QtSvg",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3338bbaa1cea433b73e3a6f05f160318de41bdcd",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtVirtualKeyboard.framework/Versions/5/QtVirtualKeyboard",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "6b30132f64ebc9c6609eb6b471c7180e8446ee86",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "26b64c407b72a056cd4724a808f519a732830d77",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/Frameworks/QtXmlPatterns.framework/Versions/5/QtXmlPatterns",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "2290e929c151e1ee65c8170df1c2f00e26cd57e5",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/MacOS/SonicScoutQRScanner",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "00bf72f7379dd6d236e39495de4e704f498fc1a9",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/audio/libqtaudio_coreaudio.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "c4cbb2effaf840441e1579f788aa7588c10184f1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/bearer/libqgenericbearer.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0d21a004d86baeacdcb76651b28398a4a4047440",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/geometryloaders/libdefaultgeometryloader.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "48c3053b1d718587aabed342443e7ab7f288151a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/geometryloaders/libgltfgeometryloader.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e6bfe7ca912ca3ba10201960f37b323853c1982e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/iconengines/libqsvgicon.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "4006d0e3bbd85fa42e7e38f43061df366467c49c",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqgif.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "eb044d9cb15783d2835090abfd1bd6e45ea14e40",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqicns.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3ba2cdf5cd3911ff2713fdace81bc691380bc639",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqico.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "1814358a4781462f32b98759b45115210e7a5fc1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqjpeg.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "c2d1cf96e8e213aee46e45144b4d71306af1f9ce",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqmacheif.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "739aa8039e31a91a30f4b45e01d42f532e621578",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqmacjp2.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ffb07e7ae9a13e30ea1902c32a0a3692ab120f57",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqsvg.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "33d47863ccabce804ce69a629f4ce79caf735935",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqtga.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "840204ecbb7a813cd85cd69aac4ea7fdca6bcd8b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqtiff.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b4ff4e30d32d8525b9383daaf8302a8b94b2c2c6",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqwbmp.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "413a80ea9170f70698997249b338bff09bcd0c07",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/imageformats/libqwebp.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "28b42b25778bb18776c6828ea2d62b2cf4d5f9c0",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/mediaservice/libqavfcamera.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "84823aa16201c4daf3c300dc5daeca25ae962b41",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/mediaservice/libqavfmediaplayer.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "8fcd640decfaa98109cf27102c80c652dacaf243",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/mediaservice/libqtmedia_audioengine.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "9d3a6080e1dd4df01c508c64bb682dad78717a67",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/platforminputcontexts/libqtvirtualkeyboardplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3a6e66c624f29c44b44d2264b8a5835741923587",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/platforms/libqcocoa.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "fdfdafe90072a8c3c8630449238186750e3b8855",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/printsupport/libcocoaprintersupport.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "7af3878422bbc8a58f0181ddf6b82fce3dbef251",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libdeclarative_multimedia.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "5302b6c14d8d93453e7b32380eca0b2fe6ed830f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libdialogplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b50fd318a54e841fca2e695d91d47b0de871c52b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libdialogsprivateplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e85e5468b004113a0558a424ad57ed598bd3466a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libmodelsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b601cbc2513ea8a00a7ef2eca225b4d030207edf",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libparticlesplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "6038349b2076300531dabdb22c3a6d395cbebe96",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlfolderlistmodelplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "250d196de9a1b29e5fefe67ec73fa26e5b9d42a6",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmllocalstorageplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "af2fa0774858495ead7ed95df58eda3f61e57f10",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "2e98188d5d81b5c9161439ccaced1a6c1e57cc65",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlsettingsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "026b287816f534053555b3149854801a2b45f0d8",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlshapesplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f14b90ab3f1f3375ee1cd3b35a209a5d570068b3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqmlxmllistmodelplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d5006732abb72cbb1448e86467a798f34895588a",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqquicklayoutsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3c1398024492b48605c2c5f0e95c4b776d912972",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtgraphicaleffectsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b9e35753e7239d383afd6e123469b554bcd18184",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtgraphicaleffectsprivate.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f53407945054c9f6913f29b9a14ca7d9a1d40698",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtqmlremoteobjects.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "7c287ec1f8d9f49ff8116b64e95fc629e782e371",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtqmlstatemachine.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "92b4968580a436b6deeb44d5708064f28dfd02d3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquick2plugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "add6c7394aa85054317625d3cec3ded86fb23513",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2fusionstyleplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "620713de32a7e8786230981732f660205f49e5dc",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2imaginestyleplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "a2b591e39417714ac3b18d6868c46dbb5a142233",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2materialstyleplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "431719e8fd47e3a45507b64640226860e2594f7f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2plugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "4630052d3162742e46d2fac6e139c506da4ff541",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrols2universalstyleplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b5ed3ffa21a8815d7bb15ed8b8422f63039099e3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickcontrolsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "b47d4ce8290671187672a2568f85ff8d22f48a67",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickextrasflatplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "af55142ad8d2c48b46a5d855e866531309e624a4",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickextrasplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f43f48dbce7c6b53335bb0f47573b1c2b31fc50e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickscene2dplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "c980b97f7bdc1d8baf2f596a727a3f88500b5e1b",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickscene3dplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "1ebfec17179fee74e13077c6b9a0a5b2fcb4532c",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquicktemplates2plugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "8d89a7171bed7f889a66381ce5cfa8f0203810b3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquicktimelineplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "80442086449fc9db719b651ca380bf21e66b6497",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickvirtualkeyboardplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e8d001468aaafad0ccbbfeed7c5a27a661e13d46",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickvirtualkeyboardsettingsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3ed45b9325afdcde0185062051a9ba0630e6f507",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libqtquickvirtualkeyboardstylesplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "21c991c671fe0d6f328f138ec2fcc7dc7e5e9249",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libwidgetsplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "798ddd961ff37065fab8d0e644329d14bc47d1b1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libwindowplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "d755667f674c3fcc91f2d9d1367cf5545426891e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/quick/libworkerscriptplugin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0ead01894fc507e1b793e14de6aec0d4f4896bbe",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sceneparsers/libgltfsceneexport.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "6ff9b7aa002edf24ece91303ebf08166dd307e5e",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sceneparsers/libgltfsceneimport.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f1a3112e56a7737bd94ab35eda1c1a1f140b9088",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sqldrivers/libqsqlite.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "00a0e6974bd0ab7c3ea17b278c5d90983ab8a7bf",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sqldrivers/libqsqlodbc.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "bb1286af7a3da1961b32a096374bac0cd6f399e1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/sqldrivers/libqsqlpsql.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "f5048e275f44e3280142a855aebff8b3f9e57479",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/styles/libqmacstyle.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "e50431e88dd9586571ebbb52f8fc716c9e51c457",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_hangul.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "0e544066d2d157fd0a428f3879b96a8506899cc3",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_openwnn.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "3767aec6cef78b65b978e041e840d3fa3f7ffd6c",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_pinyin.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "209d0d2919ce66744828a2e35efd4558ead0a40f",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_tcime.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ed21d1ebb9e3263c0283beba9f5e1cb813f4a2c1",
+      "arch": "x86_64"
+    },
+    {
+      "path": "SonicScoutQRScanner.signed_pre_notary.x86_64.zip/SonicScoutBackend-1.0.0-Darwin/SonicScoutQRScanner.dmg/SonicScoutQRScanner.app/Contents/PlugIns/virtualkeyboard/libqtvirtualkeyboard_thai.dylib",
+      "digestAlgorithm": "SHA-256",
+      "cdhash": "ef51f163795e9040b7ab240f36bfa14a61bce934",
+      "arch": "x86_64"
+    }
+  ],
+  "issues": null
+}

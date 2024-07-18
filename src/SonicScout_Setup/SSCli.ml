@@ -54,6 +54,15 @@ let dksdk_data_home_t =
   in
   Term.term_result' ~usage:true t
 
+let bool_to_flag t = Term.(const (fun b -> if b then Some () else None) $ t)
+
 let next_t =
   let doc = "Use the 'next' branches of DkSDK which contains beta software." in
-  Arg.(value & flag & info ~doc [ "next" ])
+  bool_to_flag Arg.(value & flag & info ~doc [ "next" ])
+
+let global_dkml_t =
+  let doc =
+    "Install and use the `Diskuv.OCaml` winget package on Windows. This is \
+     experimental."
+  in
+  bool_to_flag Arg.(value & flag & info ~doc [ "global-dkml" ])

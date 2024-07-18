@@ -141,24 +141,28 @@ let package ~notarize () =
             Fpath.(builddir / "SonicScoutBackend-1.0.0-win64.msi"))
   | _ -> failwith "Currently your host machine is not supported by Sonic Scout"
 
-let run ~next () =
+let run ?next ?global_dkml () =
   start_step "Building SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
-  let dk_env = dk_env ~next in
+  let dk_env = dk_env ?next () in
   let dk = dk ~env:dk_env in
   let preset =
-    match Tr1HostMachine.abi with
-    | `darwin_x86_64 -> "dev-AppleIntel"
-    | `darwin_arm64 ->
+    match (Tr1HostMachine.abi, global_dkml) with
+    | `darwin_x86_64, _ -> "dev-AppleIntel"
+    | `darwin_arm64, _ ->
         (* We would like [dev-AppleSilicon]. But only Qt6.2.0+ are universal binaries!
            So until the manager app (SonicScoutBackend) has an upgrade to Qt6, we are stuck with Rosetta emulation. *)
         "dev-AppleIntel"
-    | `windows_x86_64 ->
+    | `windows_x86_64, Some () ->
+        (* We get the Qt scanning application abort in caml_startup() if we mix and match DkML
+           with Visual Studio of RunCMake. Instead use local OCaml (no DkML). *)
+        "dev-Windows64"
+    | `windows_x86_64, None ->
         (* We get the Qt scanning application abort in caml_startup() if we mix and match DkML
            with Visual Studio of RunCMake. So use local OCaml (no DkML). *)
         "dev-Windows64-with-localocaml"
-    | `linux_x86_64 -> "dev-Linux-x86_64"
+    | `linux_x86_64, _ -> "dev-Linux-x86_64"
     | _ ->
         failwith "Currently your host machine is not supported by Sonic Scout"
   in

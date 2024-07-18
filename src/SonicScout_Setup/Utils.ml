@@ -27,19 +27,20 @@ let dk ?env args =
   let script = if Sys.win32 then Cmd.v ".\\dk.cmd" else Cmd.v "./dk" in
   OS.Cmd.run ?env Cmd.(script %% of_list args) |> rmsg
 
-let dk_env ~next =
+let dk_env ?next () =
   let env = Bos.OS.Env.current () |> rmsg in
-  if next then
-    Bos.OSEnvMap.(
-      add "DKSDK_CMAKE_REPO_1_0"
-        "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next" env
-      |> add "DKSDK_FFI_C_REPO_1_0"
-           "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-c.git#next"
-      |> add "DKSDK_FFI_JAVA_REPO_1_0"
-           "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
-      |> add "DKSDK_FFI_OCAML_REPO_1_0"
-           "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-ocaml.git#next")
-  else env
+  match next with
+  | Some () ->
+      Bos.OSEnvMap.(
+        add "DKSDK_CMAKE_REPO_1_0"
+          "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next" env
+        |> add "DKSDK_FFI_C_REPO_1_0"
+             "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-c.git#next"
+        |> add "DKSDK_FFI_JAVA_REPO_1_0"
+             "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
+        |> add "DKSDK_FFI_OCAML_REPO_1_0"
+             "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-ocaml.git#next")
+  | None -> env
 
 (* Clone of https://gitlab.com/diskuv/samples/dkcoder/DkHelloScript/-/blob/80efb164ea4d38f6156f30f69de19295cd635e29/src/DkHelloScript_Std/B55Http/B43Curl/B43Tiny.ml *)
 let download uri ofile meth' =

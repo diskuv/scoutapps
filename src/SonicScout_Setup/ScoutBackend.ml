@@ -1,7 +1,8 @@
 open Utils
 open Bos
 
-let builddir_name = "build_dev"
+let build_reldir = Fpath.v "build_dev"
+let user_presets_relfile = Fpath.v "CMakeUserPresets.json"
 
 let clean areas =
   let cwd = OS.Dir.current () |> rmsg in
@@ -24,7 +25,8 @@ let clean areas =
   end;
   if List.mem `Builds areas then begin
     start_step "Cleaning SonicScoutBackend build artifacts";
-    DkFs_C99.Dir.rm ~recurse:() ~force:() Fpath.[ projectdir / builddir_name ]
+    DkFs_C99.Dir.rm ~recurse:() ~force:()
+      Fpath.[ projectdir // build_reldir; projectdir // user_presets_relfile ]
     |> rmsg
   end
 
@@ -32,7 +34,7 @@ let package ?global_dkml ~notarize () =
   start_step "Packaging SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
-  let builddir = Fpath.(projectdir / builddir_name) in
+  let builddir = Fpath.(projectdir // build_reldir) in
   let tools_dir = Qt.tools_dir ~projectdir in
   match Tr1HostMachine.abi with
   | `darwin_x86_64 | `darwin_arm64 ->
@@ -182,7 +184,7 @@ let run ?next ?global_dkml () =
       RunCMake.run ?global_dkml ~projectdir
         [
           "--build";
-          builddir_name;
+          Fpath.to_string build_reldir;
           "--target";
           "main-cli";
           "DkSDK_DevTools";

@@ -17,7 +17,7 @@ open Bos
 (* Ported from Utils since this script is standalone. *)
 let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
-let run ?debug_env ?env ~projectdir args =
+let run ?debug_env ?env ?global_dkml ~projectdir args =
   let env =
     match env with Some env -> env | None -> OS.Env.current () |> rmsg
   in
@@ -41,11 +41,14 @@ let run ?debug_env ?env ~projectdir args =
            https://learn.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2022
            https://devblogs.microsoft.com/visualstudio/say-hello-to-the-new-visual-studio-terminal/ *)
       let vsstudio_dir =
-        OS.File.read
-          Fpath.(
-            v (Sys.getenv "LOCALAPPDATA")
-            / "Programs" / "DkML" / "vsstudio.dir.txt")
-        |> rmsg |> String.trim |> Fpath.v
+        match global_dkml with
+        | Some () ->
+            OS.File.read
+              Fpath.(
+                v (Sys.getenv "LOCALAPPDATA")
+                / "Programs" / "DkML" / "vsstudio.dir.txt")
+            |> rmsg |> String.trim |> Fpath.v
+        | None -> Fpath.v "C:/VS"
       in
       let quoted_cmdargs =
         Fpath.to_string cmake :: args |> List.map Filename.quote

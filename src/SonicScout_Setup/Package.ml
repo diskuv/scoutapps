@@ -5,8 +5,8 @@ let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home next
     Qt.run ();
     Sqlite3.run ();
     DkML.run ();
-    ScoutBackend.run ~next ();
-    ScoutBackend.package ~notarize ();
+    ScoutBackend.run ?global_dkml ~next ();
+    ScoutBackend.package ?global_dkml ~notarize ();
     ScoutAndroid.run ~next ()
   with Utils.StopProvisioning -> ()
 

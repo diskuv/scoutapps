@@ -28,7 +28,7 @@ let clean areas =
     |> rmsg
   end
 
-let package ~notarize () =
+let package ?global_dkml ~notarize () =
   start_step "Packaging SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
@@ -102,7 +102,7 @@ let package ~notarize () =
       if not (OS.File.exists cpack_new |> rmsg) then (
         let cmake_zip = Fpath.(tools_dir / "cmake.zip") in
         (* https://github.com/Kitware/CMake/releases/download/v3.30.0-rc4/cmake-3.30.0-rc4-windows-x86_64.zip *)
-        RunCMake.run ~projectdir
+        RunCMake.run ?global_dkml ~projectdir
           [
             "-D";
             "URI=https://github.com/Kitware/CMake/releases/download/v3.30.0-rc4/cmake-3.30.0-rc4-windows-x86_64.zip";
@@ -178,8 +178,8 @@ let run ?next ?global_dkml () =
           (OS.File.read (Fpath.v "CMakeUserPresets-SUGGESTED.json") |> rmsg)
         |> rmsg;
 
-      RunCMake.run ~projectdir [ "--preset"; preset ];
-      RunCMake.run ~projectdir
+      RunCMake.run ?global_dkml ~projectdir [ "--preset"; preset ];
+      RunCMake.run ?global_dkml ~projectdir
         [
           "--build";
           builddir_name;

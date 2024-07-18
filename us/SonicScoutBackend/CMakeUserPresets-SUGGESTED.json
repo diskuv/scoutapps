@@ -187,7 +187,8 @@
       ],
       "displayName": "Dev Windows 64-bit + local OCaml",
       "cacheVariables": {
-        "CMAKE_OCamlDune_COMPILER_EXTERNAL_REQUIRED": "OFF"
+        "CMAKE_OCamlDune_COMPILER_EXTERNAL_REQUIRED": "OFF",
+        "DKML_AVOID_GLOBAL_INSTALLATION": "ON"
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {

@@ -7,7 +7,8 @@ let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home next
     DkML.run ?global_dkml ();
     ScoutBackend.run ?next ?global_dkml ();
     ScoutAndroid.run ?next ();
-    AndroidStudio.run ()
+    AndroidStudio.run ();
+    Utils.done_steps "Developing"
   with Utils.StopProvisioning -> ()
 
 module Cli = struct

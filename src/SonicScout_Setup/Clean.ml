@@ -1,5 +1,8 @@
 let clean (_ : Tr1Logs_Term.TerminalCliOptions.t) areas =
-  try ScoutBackend.clean areas with Utils.StopProvisioning -> ()
+  try
+    ScoutBackend.clean areas;
+    Utils.done_steps "Cleaning"
+  with Utils.StopProvisioning -> ()
 
 module Cli = struct
   open Cmdliner

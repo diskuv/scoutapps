@@ -8,28 +8,24 @@ let clean areas =
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
   if List.mem `DkSdkSourceCode areas then begin
     start_step "Cleaning SonicScoutBackend DkSDK source code";
-    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dkml-compiler")
-    |> rmsg;
-    OS.Dir.delete ~recurse:true
-      Fpath.(projectdir / "fetch" / "dkml-runtime-common")
-    |> rmsg;
-    OS.Dir.delete ~recurse:true
-      Fpath.(projectdir / "fetch" / "dkml-runtime-distribution")
-    |> rmsg;
-    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-access")
-    |> rmsg;
-    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-cmake")
-    |> rmsg;
-    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-ffi-c")
-    |> rmsg;
-    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-ffi-java")
-    |> rmsg;
-    OS.Dir.delete ~recurse:true Fpath.(projectdir / "fetch" / "dksdk-ffi-ocaml")
+    DkFs_C99.Dir.rm ~recurse:() ~force:()
+      Fpath.
+        [
+          projectdir / "fetch" / "dkml-compiler";
+          projectdir / "fetch" / "dkml-runtime-common";
+          projectdir / "fetch" / "dkml-runtime-distribution";
+          projectdir / "fetch" / "dksdk-access";
+          projectdir / "fetch" / "dksdk-cmake";
+          projectdir / "fetch" / "dksdk-ffi-c";
+          projectdir / "fetch" / "dksdk-ffi-java";
+          projectdir / "fetch" / "dksdk-ffi-ocaml";
+        ]
     |> rmsg
   end;
   if List.mem `Builds areas then begin
     start_step "Cleaning SonicScoutBackend build artifacts";
-    OS.Dir.delete ~recurse:true Fpath.(projectdir / builddir_name) |> rmsg
+    DkFs_C99.Dir.rm ~recurse:() ~force:() Fpath.[ projectdir / builddir_name ]
+    |> rmsg
   end
 
 let package ~notarize () =
@@ -158,7 +154,10 @@ let run ~next () =
         (* We would like [dev-AppleSilicon]. But only Qt6.2.0+ are universal binaries!
            So until the manager app (SonicScoutBackend) has an upgrade to Qt6, we are stuck with Rosetta emulation. *)
         "dev-AppleIntel"
-    | `windows_x86_64 -> "dev-Windows64"
+    | `windows_x86_64 ->
+        (* We get the Qt scanning application abort in caml_startup() if we mix and match DkML
+           with Visual Studio of RunCMake. So use local OCaml (no DkML). *)
+        "dev-Windows64-with-localocaml"
     | `linux_x86_64 -> "dev-Linux-x86_64"
     | _ ->
         failwith "Currently your host machine is not supported by Sonic Scout"

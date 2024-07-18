@@ -42,13 +42,13 @@ cd scoutapps
 Then in either **PowerShell on Windows** or a **macOS terminal** run:
 
 ```sh
-./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml --color=always --next
+./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml --next
 ```
 
 After the end of the robotics season, you can save space by doing:
 
 ```sh
-./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Clean.ml --color=always --all
+./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Clean.ml --all
 ```
 
 ## Licenses

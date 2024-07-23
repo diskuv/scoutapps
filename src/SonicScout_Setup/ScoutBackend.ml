@@ -144,11 +144,11 @@ let cmake_properties : [ `MSYS2 of Fpath.t ] list -> string list =
   List.filter_map (function `MSYS2 fpath ->
       Some (Fmt.str "-DDKSDK_MSYS2_DIR=%a" Fpath.pp fpath))
 
-let run ?next ?global_dkml ~properties () =
+let run ?opts ?global_dkml ~properties () =
   start_step "Building SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
-  let dk_env = dk_env ?next () in
+  let dk_env = dk_env ?opts () in
   let dk = dk ~env:dk_env in
   let preset =
     match (Tr1HostMachine.abi, global_dkml) with

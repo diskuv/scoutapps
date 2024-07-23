@@ -1,7 +1,12 @@
-exception StopProvisioning
+(** {1 Options} *)
+
+type opts = { next : bool }
+
+let default_opts : opts = { next = false }
+
+(** {1 Progress} *)
 
 let step = ref 1
-let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
 let start_step, done_steps =
   let blue = Fmt.styled (`Fg (`Hi `Blue)) in
@@ -32,16 +37,24 @@ let start_step, done_steps =
   in
   (start, done_)
 
+(** {1 Error Handling}  *)
+
+exception StopProvisioning
+
+let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
+
+(** {1 Running ./dk} *)
+
 let dk ?env args =
   let open Bos in
   Logs.info (fun l -> l "./dk %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
   let script = if Sys.win32 then Cmd.v ".\\dk.cmd" else Cmd.v "./dk" in
   OS.Cmd.run ?env Cmd.(script %% of_list args) |> rmsg
 
-let dk_env ?next () =
+let dk_env ?(opts = default_opts) () =
   let env = Bos.OS.Env.current () |> rmsg in
-  match next with
-  | Some () ->
+  match opts.next with
+  | true ->
       Bos.OSEnvMap.(
         add "DKSDK_CMAKE_REPO_1_0"
           "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next" env
@@ -51,4 +64,4 @@ let dk_env ?next () =
              "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
         |> add "DKSDK_FFI_OCAML_REPO_1_0"
              "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-ocaml.git#next")
-  | None -> env
+  | false -> env

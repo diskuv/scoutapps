@@ -58,7 +58,9 @@ let bool_to_flag t = Term.(const (fun b -> if b then Some () else None) $ t)
 
 let next_t =
   let doc = "Use the 'next' branches of DkSDK which contains beta software." in
-  bool_to_flag Arg.(value & flag & info ~doc [ "next" ])
+  Arg.(value & flag & info ~doc [ "next" ])
+
+let opts_t = Term.(const (fun next : Utils.opts -> { next }) $ next_t)
 
 let global_dkml_t =
   let doc =

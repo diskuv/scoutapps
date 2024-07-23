@@ -1,12 +1,12 @@
-let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home next
+let setup (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home opts
     global_dkml =
   try
     InitialSteps.run ~dksdk_data_home ();
     Qt.run ();
     Sqlite3.run ();
     let properties = DkML.run ?global_dkml () in
-    ScoutBackend.run ?next ?global_dkml ~properties ();
-    ScoutAndroid.run ?next ();
+    ScoutBackend.run ~opts ?global_dkml ~properties ();
+    ScoutAndroid.run ~opts ();
     AndroidStudio.run ();
     Utils.done_steps "Developing"
   with Utils.StopProvisioning -> ()
@@ -24,8 +24,8 @@ module Cli = struct
     Cmd.v
       (Cmd.info ~doc ~man "Develop")
       Term.(
-        const provision $ Tr1Logs_Term.TerminalCliOptions.term
-        $ dksdk_data_home_t $ next_t $ global_dkml_t)
+        const setup $ Tr1Logs_Term.TerminalCliOptions.term $ dksdk_data_home_t
+        $ opts_t $ global_dkml_t)
 end
 
 let () =

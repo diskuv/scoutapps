@@ -1,11 +1,11 @@
 open Utils
 
-let run ?next () =
+let run ?opts () =
   let open Bos in
   start_step "Building SonicScoutAndroid";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
-  let dk_env = dk_env ?next () in
+  let dk_env = dk_env ?opts () in
   let dk = dk ~env:dk_env in
   let git args =
     Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);

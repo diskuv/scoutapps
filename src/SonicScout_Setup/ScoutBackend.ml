@@ -23,6 +23,12 @@ let clean areas =
         ]
     |> rmsg
   end;
+  if List.mem `DkSdkCMake areas then begin
+    start_step "Cleaning SonicScoutBackend dksdk-cmake source code";
+    DkFs_C99.Path.rm ~recurse:() ~force:()
+      Fpath.[ projectdir / "fetch" / "dksdk-cmake" ]
+    |> rmsg
+  end;
   if List.mem `Builds areas then begin
     start_step "Cleaning SonicScoutBackend build artifacts";
     DkFs_C99.Path.rm ~recurse:() ~force:()

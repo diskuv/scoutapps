@@ -35,8 +35,18 @@ module Cli = struct
         [
           ( [ `DkSdkSourceCode ],
             info ~docs:s_areas
-              ~doc:"Clean the DkSDK source code in fetch/ folders."
+              ~doc:
+                "Clean the DkSDK source code in fetch/ folders, which will \
+                 resynchronize all the source code from their upstreams on the \
+                 next SonicScout_Setup.Develop command."
               [ "dksdk-source-code" ] );
+          ( [ `DkSdkCMake ],
+            info ~docs:s_areas
+              ~doc:
+                "Remove the `dksdk-cmake` source code in fetch/ folders, which \
+                 will resynchronize dksdk-cmake from its upstream on the next \
+                 SonicScout_Setup.Develop command."
+              [ "dksdk-cmake" ] );
           ( [ `Builds ],
             info ~docs:s_areas ~doc:"Clean the build artifacts." [ "builds" ] );
           ( [ `Builds; `DkSdkSourceCode ],

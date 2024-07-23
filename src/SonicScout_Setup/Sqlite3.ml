@@ -20,10 +20,8 @@ let install_sqlite3 ~projectdir ~os ~cpu ~sha3_256 =
         cpu
     in
     Lwt_main.run
-    @@ download (Uri.of_string uri) (Some (Fpath.to_string zip)) "GET";
-    let actual_sha3_256 = cksum_file ~m:(module Digestif.SHA3_256) zip in
-    if sha3_256 <> actual_sha3_256 then
-      failwith "The SHA3-256 checksums for sqlite3 did not match.";
+    @@ DkCurl_Std.Download.download ~max_time_ms:300_000
+         ~checksum:(`SHA3_256 sha3_256) ~destination:zip (Uri.of_string uri);
     if Sys.win32 then
       OS.Cmd.run
         Cmd.(

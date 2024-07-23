@@ -30,7 +30,7 @@ let clean areas =
     |> rmsg
   end
 
-let package ?global_dkml ~notarize () =
+let package ~notarize () =
   start_step "Packaging SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
@@ -104,23 +104,14 @@ let package ?global_dkml ~notarize () =
       if not (OS.File.exists cpack_new |> rmsg) then (
         let cmake_zip = Fpath.(tools_dir / "cmake.zip") in
         (* https://github.com/Kitware/CMake/releases/download/v3.30.0-rc4/cmake-3.30.0-rc4-windows-x86_64.zip *)
-        RunCMake.run ?global_dkml ~projectdir
-          [
-            "-D";
-            "URI=https://github.com/Kitware/CMake/releases/download/v3.30.0-rc4/cmake-3.30.0-rc4-windows-x86_64.zip";
-            "-D";
-            Fmt.str "FILENAME=%a" Fpath.pp cmake_zip;
-            "-P";
-            Filename.concat (Tr1Assets.LocalDir.v ()) "download.cmake";
-          ];
-        let actual_sha256 = cksum_file ~m:(module Digestif.SHA256) cmake_zip in
-        if
-          "9086fa9c83e5a3da2599220d4e426d1dfeefac417f2abf19862a91620c38faee"
-          <> actual_sha256
-        then
-          failwith
-            ("The SHA256 checksums for cmake 3.30.0-rc4 did not match. Actual: "
-           ^ actual_sha256);
+        Lwt_main.run
+        @@ DkCurl_Std.Download.download ~max_time_ms:300_000
+             ~checksum:
+               (`SHA_256
+                 "9086fa9c83e5a3da2599220d4e426d1dfeefac417f2abf19862a91620c38faee")
+             ~destination:cmake_zip
+             (Uri.of_string
+                "https://github.com/Kitware/CMake/releases/download/v3.30.0-rc4/cmake-3.30.0-rc4-windows-x86_64.zip");
         OS.Cmd.run
           Cmd.(
             v (if Sys.win32 then "powershell.exe" else "pwsh")

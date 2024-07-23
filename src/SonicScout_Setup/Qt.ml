@@ -33,12 +33,8 @@ let install_unix_miniconda3 ~projectdir ~platform ~sha256 =
         platform
     in
     Lwt_main.run
-    @@ download (Uri.of_string uri) (Some (Fpath.to_string latest_sh)) "GET";
-
-    (* OS.Cmd.run Cmd.(v "wget" % uri % "-O" % p latest_sh) |> rmsg; *)
-    let actual_sha256 = cksum_file ~m:(module Digestif.SHA256) latest_sh in
-    if sha256 <> actual_sha256 then
-      failwith "The SHA256 checksums for Miniconda3 did not match.";
+    @@ DkCurl_Std.Download.download ~max_time_ms:300_000 ~destination:latest_sh
+         ~checksum:(`SHA_256 sha256) (Uri.of_string uri);
     OS.Cmd.run Cmd.(v "/bin/bash" % p latest_sh % "-b" % "-p" % p miniconda_dir)
     |> rmsg)
 

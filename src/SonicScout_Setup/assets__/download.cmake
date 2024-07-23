@@ -1,8 +1,0 @@
-if(NOT URI)
-    message(FATAL_ERROR "Missing -D URI=...")
-endif()
-if(NOT FILENAME)
-    message(FATAL_ERROR "Missing -D FILENAME=...")
-endif()
-message(NOTICE "Downloading ${URI} to ${FILENAME}")
-file(DOWNLOAD "${URI}" "${FILENAME}")

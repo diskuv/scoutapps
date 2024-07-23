@@ -4,8 +4,8 @@ let provision (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home next
     InitialSteps.run ~dksdk_data_home ();
     Qt.run ();
     Sqlite3.run ();
-    DkML.run ?global_dkml ();
-    ScoutBackend.run ?next ?global_dkml ();
+    let properties = DkML.run ?global_dkml () in
+    ScoutBackend.run ?next ?global_dkml ~properties ();
     ScoutAndroid.run ?next ();
     AndroidStudio.run ();
     Utils.done_steps "Developing"

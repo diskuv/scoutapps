@@ -20,13 +20,22 @@ let run_win32 ?global_dkml () =
       ];
   if not (OS.Cmd.exists Cmd.(v "git") |> rmsg) then Winget.install [ "Git.Git" ];
   match global_dkml with
-  | None -> ()
+  | None ->
+      let cwd = OS.Dir.current () |> rmsg in
+      let target_msys2_dir = Fpath.(cwd / ".tools" / "msys2") in
+      let dash_exe = Fpath.(target_msys2_dir / "usr" / "bin" / "dash.exe") in
+      if not (OS.File.exists dash_exe |> rmsg) then begin
+        let cache_dir = Fpath.(cwd / ".tools" / "msys2-cache") in
+        MSYS2.install ~target_msys2_dir ~cache_dir ()
+      end;
+      [ `MSYS2 target_msys2_dir ]
   | Some () -> (
       if None = (find_dkml_win32 () |> rmsg) then
         Winget.install [ "Diskuv.OCaml" ];
       match find_dkml_win32 () |> rmsg with
       | Some dkml_exe ->
-          OS.Cmd.run Cmd.(v (p dkml_exe) % "init" % "--system") |> rmsg
+          OS.Cmd.run Cmd.(v (p dkml_exe) % "init" % "--system") |> rmsg;
+          []
       | None -> failwith "dkml not found after installation")
 
 (** [run ?global_dkml ()].
@@ -37,4 +46,4 @@ let run ?global_dkml () =
     (match global_dkml with
     | Some () -> "Installing DkML"
     | None -> "Installing DkML prerequisites");
-  if Sys.win32 then run_win32 ?global_dkml ()
+  if Sys.win32 then run_win32 ?global_dkml () else []

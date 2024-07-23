@@ -9,7 +9,7 @@ let clean areas =
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
   if List.mem `DkSdkSourceCode areas then begin
     start_step "Cleaning SonicScoutBackend DkSDK source code";
-    DkFs_C99.Dir.rm ~recurse:() ~force:()
+    DkFs_C99.Path.rm ~recurse:() ~force:()
       Fpath.
         [
           projectdir / "fetch" / "dkml-compiler";
@@ -25,7 +25,7 @@ let clean areas =
   end;
   if List.mem `Builds areas then begin
     start_step "Cleaning SonicScoutBackend build artifacts";
-    DkFs_C99.Dir.rm ~recurse:() ~force:()
+    DkFs_C99.Path.rm ~recurse:() ~force:()
       Fpath.[ projectdir // build_reldir; projectdir // user_presets_relfile ]
     |> rmsg
   end
@@ -143,7 +143,11 @@ let package ?global_dkml ~notarize () =
             Fpath.(builddir / "SonicScoutBackend-1.0.0-win64.msi"))
   | _ -> failwith "Currently your host machine is not supported by Sonic Scout"
 
-let run ?next ?global_dkml () =
+let cmake_properties : [ `MSYS2 of Fpath.t ] list -> string list =
+  List.filter_map (function `MSYS2 fpath ->
+      Some (Fmt.str "-DDKSDK_MSYS2_DIR=%a" Fpath.pp fpath))
+
+let run ?next ?global_dkml ~properties () =
   start_step "Building SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
@@ -180,7 +184,8 @@ let run ?next ?global_dkml () =
           (OS.File.read (Fpath.v "CMakeUserPresets-SUGGESTED.json") |> rmsg)
         |> rmsg;
 
-      RunCMake.run ?global_dkml ~projectdir [ "--preset"; preset ];
+      RunCMake.run ?global_dkml ~projectdir
+        ([ "--preset"; preset ] @ cmake_properties properties);
       RunCMake.run ?global_dkml ~projectdir
         [
           "--build";

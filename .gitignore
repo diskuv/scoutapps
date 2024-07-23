@@ -20,6 +20,9 @@
 /.ci/local/share/android-studio/
 /.ci/local/share/Android Studio.app/
 
+# SonicScout_Setup.Develop
+/.tools/
+
 # Qt
 /aqtinstall.log
 

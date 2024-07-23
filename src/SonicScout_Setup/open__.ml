@@ -16,3 +16,5 @@ module Uri = Tr1Uri_Std.Uri
 module Format = Tr1Stdlib_V414CRuntime.Format
 module Bytes = Tr1Stdlib_V414Base.Bytes
 module In_channel = Tr1Stdlib_V414CRuntime.In_channel
+module Result = Tr1Stdlib_V414Base.Result
+module Fun = Tr1Stdlib_V414Base.Fun

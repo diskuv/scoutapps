@@ -2,12 +2,14 @@
 
 open Cmdliner
 
+let s_advanced = "ADVANCED OPTIONS"
+
 let help_secs =
   [
     `S Manpage.s_commands;
     `S Manpage.s_common_options;
     `P "These options are common to all commands.";
-    `S "ADVANCED OPTIONS";
+    `S s_advanced;
     `S Manpage.s_bugs;
     `P
       "Support the project with a GitHub star at \
@@ -58,9 +60,19 @@ let bool_to_flag t = Term.(const (fun b -> if b then Some () else None) $ t)
 
 let next_t =
   let doc = "Use the 'next' branches of DkSDK which contains beta software." in
-  Arg.(value & flag & info ~doc [ "next" ])
+  Arg.(value & flag & info ~docs:s_advanced ~doc [ "next" ])
 
-let opts_t = Term.(const (fun next : Utils.opts -> { next }) $ next_t)
+let fetch_siblings_t =
+  let doc =
+    "Use the sibling directories of `scoutapps` to locate `dksdk-cmake` and \
+     other fetch/ directories."
+  in
+  Arg.(value & flag & info ~docs:s_advanced ~doc [ "fetch-siblings" ])
+
+let opts_t =
+  Term.(
+    const (fun next fetch_siblings : Utils.opts -> { next; fetch_siblings })
+    $ next_t $ fetch_siblings_t)
 
 let global_dkml_t =
   let doc =

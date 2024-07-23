@@ -140,15 +140,29 @@ let package ~notarize () =
             Fpath.(builddir / "SonicScoutBackend-1.0.0-win64.msi"))
   | _ -> failwith "Currently your host machine is not supported by Sonic Scout"
 
-let cmake_properties : [ `MSYS2 of Fpath.t ] list -> string list =
-  List.filter_map (function `MSYS2 fpath ->
-      Some (Fmt.str "-DDKSDK_MSYS2_DIR=%a" Fpath.pp fpath))
+let cmake_properties ~cwd ~(opts : Utils.opts) props : string list =
+  let cprops =
+    List.filter_map
+      (function
+        | `MSYS2 fpath -> Some (Fmt.str "-DDKSDK_MSYS2_DIR=%a" Fpath.pp fpath))
+      props
+  in
+  let cprops =
+    match opts with
+    | { fetch_siblings = true; _ } ->
+        (* Override what is forced in CMakePresets.json *)
+        Fmt.str "-DFETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE=%s"
+          (Utils.sibling_dir_mixed ~cwd ~project:"dksdk-cmake")
+        :: cprops
+    | { fetch_siblings = false; _ } -> cprops
+  in
+  cprops
 
-let run ?opts ?global_dkml ~properties () =
+let run ?(opts = Utils.default_opts) ?global_dkml ~properties () =
   start_step "Building SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
-  let dk_env = dk_env ?opts () in
+  let dk_env = dk_env ~opts () in
   let dk = dk ~env:dk_env in
   let preset =
     match (Tr1HostMachine.abi, global_dkml) with
@@ -182,7 +196,7 @@ let run ?opts ?global_dkml ~properties () =
         |> rmsg;
 
       RunCMake.run ?global_dkml ~projectdir
-        ([ "--preset"; preset ] @ cmake_properties properties);
+        ([ "--preset"; preset ] @ cmake_properties ~cwd ~opts properties);
       RunCMake.run ?global_dkml ~projectdir
         [
           "--build";

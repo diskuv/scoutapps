@@ -1,8 +1,8 @@
 (** {1 Options} *)
 
-type opts = { next : bool }
+type opts = { next : bool; fetch_siblings : bool }
 
-let default_opts : opts = { next = false }
+let default_opts : opts = { next = false; fetch_siblings = false }
 
 (** {1 Progress} *)
 
@@ -51,10 +51,35 @@ let dk ?env args =
   let script = if Sys.win32 then Cmd.v ".\\dk.cmd" else Cmd.v "./dk" in
   OS.Cmd.run ?env Cmd.(script %% of_list args) |> rmsg
 
+(** [sibling_dir_mixed] is the directory of the project [project]
+    that is directly next (a "sibling") to the current directory [cwd].
+    
+    The return value is a mixed path directory, where all backslashes are
+    replaced with forward slashes. On Unix the path does not change. But on
+    Windows an example would be ["C:/x/y/z"]. *)
+let sibling_dir_mixed ~cwd ~project =
+  let parentdir_mixed =
+    Fpath.parent cwd |> Fpath.to_string
+    |> Stringext.replace_all ~pattern:"\\" ~with_:"/"
+  in
+  if String.ends_with ~suffix:"/" parentdir_mixed then
+    Printf.sprintf "%s%s" parentdir_mixed project
+  else Printf.sprintf "%s/%s" parentdir_mixed project
+
 let dk_env ?(opts = default_opts) () =
   let env = Bos.OS.Env.current () |> rmsg in
-  match opts.next with
-  | true ->
+  let cwd = Bos.OS.Dir.current () |> rmsg in
+  let sib project =
+    Printf.sprintf "file://%s/.git" (sibling_dir_mixed ~cwd ~project)
+  in
+  match (opts.next, opts.fetch_siblings) with
+  | _, true ->
+      Bos.OSEnvMap.(
+        add "DKSDK_CMAKE_REPO_1_0" (sib "dksdk-cmake") env
+        |> add "DKSDK_FFI_C_REPO_1_0" (sib "dksdk-ffi-c")
+        |> add "DKSDK_FFI_JAVA_REPO_1_0" (sib "dksdk-ffi-java")
+        |> add "DKSDK_FFI_OCAML_REPO_1_0" (sib "dksdk-ffi-ocaml"))
+  | true, false ->
       Bos.OSEnvMap.(
         add "DKSDK_CMAKE_REPO_1_0"
           "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next" env
@@ -64,4 +89,4 @@ let dk_env ?(opts = default_opts) () =
              "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
         |> add "DKSDK_FFI_OCAML_REPO_1_0"
              "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-ocaml.git#next")
-  | false -> env
+  | false, false -> env

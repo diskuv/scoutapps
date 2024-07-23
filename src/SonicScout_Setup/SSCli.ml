@@ -64,8 +64,11 @@ let next_t =
 
 let fetch_siblings_t =
   let doc =
-    "Use the sibling directories of `scoutapps` to locate `dksdk-cmake` and \
-     other fetch/ directories."
+    "Use the sibling directories of `scoutapps` as the locations of the \
+     `dkml-runtime-common`, `dkml-runtime-distribution`, `dkml-compiler`, \
+     `dksdk-access`, `dksdk-cmake`, `dksdk-ffi-c`, `dksdk-ffi-java` and \
+     `dksdk-ffi-ocaml` projects. By default those projects are fetched into \
+     the `fetch/` subdirectory."
   in
   Arg.(value & flag & info ~docs:s_advanced ~doc [ "fetch-siblings" ])
 

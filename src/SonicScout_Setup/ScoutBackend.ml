@@ -151,8 +151,15 @@ let cmake_properties ~cwd ~(opts : Utils.opts) props : string list =
     match opts with
     | { fetch_siblings = true; _ } ->
         (* Override what is forced in CMakePresets.json *)
-        Fmt.str "-DFETCHCONTENT_SOURCE_DIR_DKSDK-CMAKE=%s"
-          (Utils.sibling_dir_mixed ~cwd ~project:"dksdk-cmake")
+        let sib project =
+          let project_upcase = String.uppercase_ascii project in
+          Fmt.str "-DFETCHCONTENT_SOURCE_DIR_%s=%s" project_upcase
+            (Utils.sibling_dir_mixed ~cwd ~project)
+        in
+        sib "dkml-runtime-common"
+        :: sib "dkml-runtime-distribution"
+        :: sib "dkml-compiler" :: sib "dksdk-access" :: sib "dksdk-cmake"
+        :: sib "dksdk-ffi-c" :: sib "dksdk-ffi-java" :: sib "dksdk-ffi-ocaml"
         :: cprops
     | { fetch_siblings = false; _ } -> cprops
   in

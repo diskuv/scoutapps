@@ -53,7 +53,7 @@ let dk ?env args =
 
 (** [sibling_dir_mixed] is the directory of the project [project]
     that is directly next (a "sibling") to the current directory [cwd].
-    
+
     The return value is a mixed path directory, where all backslashes are
     replaced with forward slashes. On Unix the path does not change. But on
     Windows an example would be ["C:/x/y/z"]. *)
@@ -70,15 +70,18 @@ let dk_env ?(opts = default_opts) () =
   let env = Bos.OS.Env.current () |> rmsg in
   let cwd = Bos.OS.Dir.current () |> rmsg in
   let sib project =
-    Printf.sprintf "file://%s/.git" (sibling_dir_mixed ~cwd ~project)
+    let project_upcase_underscore =
+      String.uppercase_ascii project
+      |> Stringext.replace_all ~pattern:"-" ~with_:"_"
+    in
+    Bos.OSEnvMap.add
+      (Printf.sprintf "%s_REPO_1_0" project_upcase_underscore)
+      (Printf.sprintf "file://%s/.git" (sibling_dir_mixed ~cwd ~project))
   in
   match (opts.next, opts.fetch_siblings) with
   | _, true ->
-      Bos.OSEnvMap.(
-        add "DKSDK_CMAKE_REPO_1_0" (sib "dksdk-cmake") env
-        |> add "DKSDK_FFI_C_REPO_1_0" (sib "dksdk-ffi-c")
-        |> add "DKSDK_FFI_JAVA_REPO_1_0" (sib "dksdk-ffi-java")
-        |> add "DKSDK_FFI_OCAML_REPO_1_0" (sib "dksdk-ffi-ocaml"))
+      (sib "dksdk-cmake") env
+      |> sib "dksdk-ffi-c" |> sib "dksdk-ffi-java" |> sib "dksdk-ffi-ocaml"
   | true, false ->
       Bos.OSEnvMap.(
         add "DKSDK_CMAKE_REPO_1_0"

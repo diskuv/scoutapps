@@ -66,9 +66,13 @@ let fetch_siblings_t =
   let doc =
     "Use the sibling directories of `scoutapps` as the locations of the \
      `dkml-runtime-common`, `dkml-runtime-distribution`, `dkml-compiler`, \
-     `dksdk-access`, `dksdk-cmake`, `dksdk-ffi-c`, `dksdk-ffi-java` and \
-     `dksdk-ffi-ocaml` projects. By default those projects are fetched into \
-     the `fetch/` subdirectory."
+     `dksdk-access` and `dksdk-cmake` projects. The sibling directories for \
+     `dksdk-ffi-c`, `dksdk-ffi-java` and `dksdk-ffi-ocaml` projects will be \
+     git cloned into the `fetch/` subdirectory of SonicScoutBackend to support \
+     DkSDKFetchContent_DeclareSecondParty()'s location requirements. By \
+     default all projects are fetched into the `fetch/` subdirectory from \
+     SonicScoutBackend's `dkproject.jsonc` configuration (typically an https \
+     git clone)."
   in
   Arg.(value & flag & info ~docs:s_advanced ~doc [ "fetch-siblings" ])
 

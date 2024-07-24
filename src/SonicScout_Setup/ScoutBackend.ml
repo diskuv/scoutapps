@@ -159,7 +159,6 @@ let cmake_properties ~cwd ~(opts : Utils.opts) props : string list =
         sib "dkml-runtime-common"
         :: sib "dkml-runtime-distribution"
         :: sib "dkml-compiler" :: sib "dksdk-access" :: sib "dksdk-cmake"
-        :: sib "dksdk-ffi-c" :: sib "dksdk-ffi-java" :: sib "dksdk-ffi-ocaml"
         :: cprops
     | { fetch_siblings = false; _ } -> cprops
   in

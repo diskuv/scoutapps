@@ -33,7 +33,7 @@ let install_unix_miniconda3 ~projectdir ~platform ~sha256 =
         platform
     in
     Lwt_main.run
-    @@ DkCurl_Std.Download.download ~max_time_ms:300_000 ~destination:latest_sh
+    @@ DkNet_Std.Http.download_uri ~max_time_ms:300_000 ~destination:latest_sh
          ~checksum:(`SHA_256 sha256) (Uri.of_string uri);
     OS.Cmd.run Cmd.(v "/bin/bash" % p latest_sh % "-b" % "-p" % p miniconda_dir)
     |> rmsg)

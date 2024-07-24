@@ -20,7 +20,7 @@ let install_sqlite3 ~projectdir ~os ~cpu ~sha3_256 =
         cpu
     in
     Lwt_main.run
-    @@ DkCurl_Std.Download.download ~max_time_ms:300_000
+    @@ DkNet_Std.Http.download_uri ~max_time_ms:300_000
          ~checksum:(`SHA3_256 sha3_256) ~destination:zip (Uri.of_string uri);
     if Sys.win32 then
       OS.Cmd.run

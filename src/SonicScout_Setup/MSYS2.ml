@@ -182,7 +182,7 @@ module Installer = struct
           in
           let () =
             Lwt_main.run
-            @@ DkCurl_Std.Download.download ~max_time_ms:300_000
+            @@ DkNet_Std.Http.download_uri ~max_time_ms:300_000
                  ~checksum:(`SHA_256 msys2_sha256) ~destination
                  (Uri.of_string url)
           in

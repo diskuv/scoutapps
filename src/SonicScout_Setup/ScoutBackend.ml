@@ -111,7 +111,7 @@ let package ~notarize () =
         let cmake_zip = Fpath.(tools_dir / "cmake.zip") in
         (* https://github.com/Kitware/CMake/releases/download/v3.30.0-rc4/cmake-3.30.0-rc4-windows-x86_64.zip *)
         Lwt_main.run
-        @@ DkCurl_Std.Download.download ~max_time_ms:300_000
+        @@ DkNet_Std.Http.download_uri ~max_time_ms:300_000
              ~checksum:
                (`SHA_256
                  "9086fa9c83e5a3da2599220d4e426d1dfeefac417f2abf19862a91620c38faee")

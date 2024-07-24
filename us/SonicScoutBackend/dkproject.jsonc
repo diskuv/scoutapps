@@ -3,25 +3,60 @@
     "dependencies": {
       // This dependency is required, and in this version of DkSDK it must be 1.0
       "dksdk": "1.0",
-      // Abstract dependencies (ie. templates) to minimize boilerplate. They are merged
-      // when you inherit from them.
+      // Abstract dependencies (ie. templates) to minimize boilerplate. When you inherit from
+      // abstract dependencies they are merged and any arrays (like `urls` below) are concatenated.
       "_local": {
         "abstract": true,
-        // The URLs are searched in order. The first URL that exists and can be
-        // successfully authenticated is used. So any dependency that uses `_local`
-        // will *first* check if the dependency is already checked out beside this project
-        // or in the fetch/ subfolder of this project.
+        // What is this? The URLs are searched in order. The first accessible URL will be used.
+        //
+        // Why search URLs? ...
+        // Problem 1: You may want to edit the source code for a dependency. By searching in places
+        // under your control, DkSDK can see where you edited the source code and use that.
+        //
+        // Problem 2: DkSDK can build the project on a second machine (WSL2, Docker container, virtual
+        // machine, etc.) while the original source code is on a first machine. Often it is slow
+        // to access the original source code during a build, so the build should prefer to use a
+        // local copy of the original source code.
+        //
+        // Net effect: Any dependency that uses `_local` will *first* check if there is a project
+        // matching the dependency name already checked out beside this project. If not the fetch/
+        // subfolder of this project is also checked. The original source code machine (if any)
+        // is also checked.
         "urls": [
+          "file://${projectParentDir}/${dependencyName}",
+          "file://${projectDir}/fetch/${dependencyName}",
           "file://${sourceParentDir}/${dependencyName}",
           "file://${sourceDir}/fetch/${dependencyName}"
         ]
       },
-      // DkSDK Access is needed to get any other dependencies
-      "dksdk-access": { "inherits": "_local", "urls": [ "https://gitlab.com/diskuv/dksdk-access.git#main" ] },
+      "_mirror": {
+        "abstract": true,
+        // Problem 1: Many packaging systems like CMake will copy dependencies into a build directory.
+        // However, if the dependencies are simultaneously being edited by you, those
+        // dependencies can have multi-gigabyte package and build directories that are copied.
+        // Examples include a `node_modules` Javascript subdirectory, a `_build` OCaml Dune
+        // subdirectory, a `_opam` OCaml Opam subdirectory, and a `build` CMake subdirectory.
+        //
+        // Solution: Use [_mirror]. It uses the `file://destination?mirror=source` URL which will
+        // copy *source code* (and nothing but source code) from <source> on the first machine to
+        // <destination> on the second machine. Or if there is no <source> it will use what is at
+        // <destination>.
+        // So [_mirror] will clone the source code of a dependency *beside* this project and place it
+        // in the fetch/ subfolder of this project on the build machine. That means you can edit the
+        // dependency's source code regardless of the build machine.
+        "urls": [
+          // The first URL is for when SonicScoutBackend is a `git subtree` of sonicapps/.
+          "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../../${dependencyName}",
+          "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/${dependencyName}",
+          "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceDir}/fetch/${dependencyName}"
+        ]
+      },
+        // DkSDK Access is needed to get any other dependencies
+      "dksdk-access": { "inherits": "_mirror", "urls": [ "https://gitlab.com/diskuv/dksdk-access.git#main" ] },
       // The next set of dependencies (dksdk-*) are available to DkSDK subscribers
-      "dksdk-cmake": { "inherits": "_local", "urls": [ "${dksdk-cmake_REPOSITORY}" ] },
-      "dksdk-ffi-c": { "inherits": "_local", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },
-      "dksdk-ffi-ocaml": { "inherits": "_local", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
+      "dksdk-cmake": { "inherits": "_mirror", "urls": [ "${dksdk-cmake_REPOSITORY}" ] },
+      "dksdk-ffi-c": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },
+      "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
       "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
       "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
       // The remaining dependencies are third-party open source projects (TODO: not all of them are needed)

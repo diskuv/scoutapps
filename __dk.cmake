@@ -81,6 +81,7 @@ endif()
 #   The last LTS version is what ./dk uses by default, so keep this chronologically sorted
 #   by oldest to newest.
 set(__DkRun_LTS_VERSIONS V0_1 V0_2 V0_3 V0_4)
+list(GET __DkRun_LTS_VERSIONS -1 __dkrun_v_id) # ie. the latest Vx_y
 
 # ocamlc.exe, ocamlrun.exe, ocamldep.exe, dune.exe, dkcoder.exe all are compiled with
 # Visual Studio on Windows. That means they need the redistributable installed.
@@ -218,8 +219,6 @@ function(__dkcoder_check_end_of_life)
     set(project_dir "${CMAKE_SOURCE_DIR}")
     cmake_path(NATIVE_PATH project_dir project_dir_NATIVE)
 
-    list(GET __DkRun_LTS_VERSIONS -1 __dkrun_v_id) # ie. the latest Vx_y
-
     if(${ARG_EOG} STRLESS now_YYYY_MM_DD)
         message(FATAL_ERROR "
 Problem: The `./dk` wrapper version is ${__dkrun_v_id} but the final
@@ -298,7 +297,7 @@ endfunction()
 # - DKCODER_RUN_VERSION - Env or V0_2. Whatever was used to launch in `./dk DkRun_V0_2.Run` (etc.)
 # - DKCODER_HELPERS - location of bin directory or DkCoder.bundle/Contents/Helpers on macOS
 # - DKCODER_ETC - location of etc/dkcoder directory
-# - DKCODER_LIB - location of lib/ directory containing lib/ocaml/ and other libraries compatible with dkcoder
+# - DKCODER_SITELIB - location of lib/ directory containing lib/ocaml/ and other libraries compatible with dkcoder
 # - DKCODER_SHARE - location of share directory
 # - DKCODER_OCAMLC - location of ocamlc compatible with dkcoder
 # - DKCODER_OCAMLRUN - location of ocamlrun compatible with dkcoder
@@ -364,7 +363,9 @@ function(__dkcoder_install)
     set(dkml_host_abi "${ARG_ABI}")
 
     # Location where ocamlfind.conf should be
-    set(ocamlfind_conf "${DKCODER_HOME}/findlib.conf")
+    if(DKCODER_VERSION VERSION_LESS_EQUAL 0.4.0.1)
+        set(ocamlfind_conf "${DKCODER_HOME}/findlib.conf")
+    endif()
 
     set(hints "${DKCODER_HOME}/DkCoder.bundle/Contents/Helpers" "${DKCODER_HOME}/bin")
     set(find_program_ARGS NO_DEFAULT_PATH)
@@ -400,60 +401,51 @@ function(__dkcoder_install)
             set(download_REMOVE ON)
             file(DOWNLOAD "${url}" "${download_DEST}" ${expected_hash_ARGS})
         endif()
+
+        # Clean
+        message(${ARG_LOGLEVEL} "Cleaning install location")
+        file(REMOVE_RECURSE "${DKCODER_HOME}")
+        file(MAKE_DIRECTORY "${DKCODER_HOME}")
+
+        # Extract
         message(${ARG_LOGLEVEL} "Extracting DkCoder")
-        file(ARCHIVE_EXTRACT INPUT "${download_DEST}"
-            DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/_e")
+        file(ARCHIVE_EXTRACT INPUT "${download_DEST}" DESTINATION "${DKCODER_HOME}")
 
         # Install prereq: Visual C++ Redistributable
         if(CMAKE_HOST_WIN32)
             __dkcoder_install_vc_redist(LOGLEVEL ${ARG_LOGLEVEL})
         endif()
 
-        # Install
-        #   Do file(RENAME) but work across mount volumes (ex. inside containers)
-        message(${ARG_LOGLEVEL} "Cleaning final install location")
-        file(REMOVE_RECURSE "${DKCODER_HOME}")
-        file(MAKE_DIRECTORY "${DKCODER_HOME}")
-        message(${ARG_LOGLEVEL} "Copying DkCoder to final install location")
-        file(GLOB entries
-            LIST_DIRECTORIES true
-            RELATIVE ${CMAKE_CURRENT_BINARY_DIR}/_e
-            ${CMAKE_CURRENT_BINARY_DIR}/_e/*)
-        foreach(entry IN LISTS entries)
-            file(COPY ${CMAKE_CURRENT_BINARY_DIR}/_e/${entry}
-                DESTINATION ${DKCODER_HOME}
-                USE_SOURCE_PERMISSIONS)
-        endforeach()
-
         # Post-install: Configure findlib.conf to point to macOS bundle or Unix/Win32 extraction
-        if(CMAKE_HOST_WIN32)
-            # Windows needs entries like: destdir="C:\\TARBALL\\lib"
-            cmake_path(NATIVE_PATH DKCODER_HOME DKCODER_HOME_NATIVE)
-            string(REPLACE "\\" "\\\\" DKCODER_HOME_NATIVE_ESCAPED "${DKCODER_HOME_NATIVE}")
+        if(DKCODER_VERSION VERSION_LESS_EQUAL 0.4.0.1)
+            if(CMAKE_HOST_WIN32)
+                # Windows needs entries like: destdir="C:\\TARBALL\\lib"
+                cmake_path(NATIVE_PATH DKCODER_HOME DKCODER_HOME_NATIVE)
+                string(REPLACE "\\" "\\\\" DKCODER_HOME_NATIVE_ESCAPED "${DKCODER_HOME_NATIVE}")
 
-            file(CONFIGURE OUTPUT "${ocamlfind_conf}"
-                CONTENT [[destdir="@DKCODER_HOME_NATIVE_ESCAPED@\\lib"
+                file(CONFIGURE OUTPUT "${ocamlfind_conf}"
+                    CONTENT [[destdir="@DKCODER_HOME_NATIVE_ESCAPED@\\lib"
 path="@DKCODER_HOME_NATIVE_ESCAPED@\\lib"
 stdlib="@DKCODER_HOME_NATIVE_ESCAPED@\\lib\\ocaml"]] @ONLY NEWLINE_STYLE UNIX)
-        elseif(CMAKE_HOST_APPLE)
-            file(CONFIGURE OUTPUT "${ocamlfind_conf}"
-                CONTENT [[destdir="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib"
+            elseif(CMAKE_HOST_APPLE)
+                file(CONFIGURE OUTPUT "${ocamlfind_conf}"
+                    CONTENT [[destdir="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib"
 path="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib"
 stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWLINE_STYLE UNIX)
-        else()
-            file(CONFIGURE OUTPUT "${ocamlfind_conf}"
-                CONTENT [[destdir="@DKCODER_HOME@/lib"
+            else()
+                file(CONFIGURE OUTPUT "${ocamlfind_conf}"
+                    CONTENT [[destdir="@DKCODER_HOME@/lib"
 path="@DKCODER_HOME@/lib"
 stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWLINE_STYLE UNIX)
+            endif()
+
+            # Cleanup
+            message(${ARG_LOGLEVEL} "Cleaning DkCoder intermediate files")
+            file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/stdexport${out_exp})
+
+            find_program(DKCODER NAMES dkcoder REQUIRED HINTS ${hints} ${find_program_ARGS})
+            message(${ARG_LOGLEVEL} "DkCoder installed.")
         endif()
-
-        # Cleanup
-        message(${ARG_LOGLEVEL} "Cleaning DkCoder intermediate files")
-        file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/stdexport${out_exp})
-        file(REMOVE_RECURSE "${CMAKE_CURRENT_BINARY_DIR}/_e")
-
-        find_program(DKCODER NAMES dkcoder REQUIRED HINTS ${hints} ${find_program_ARGS})
-        message(${ARG_LOGLEVEL} "DkCoder installed.")
     endif()
 
     cmake_path(GET DKCODER PARENT_PATH dkcoder_helpers)
@@ -477,7 +469,9 @@ stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWL
     set(problem_solution "Problem: The DkCoder installation is corrupted. Solution: Remove the directory ${DKCODER_HOME} and try again.")
 
     # Export ocamlfind.conf
-    set(DKCODER_OCAMLFIND_CONF "${ocamlfind_conf}" PARENT_SCOPE)
+    if(DKCODER_VERSION VERSION_LESS_EQUAL 0.4.0.1)
+        set(DKCODER_OCAMLFIND_CONF "${ocamlfind_conf}" PARENT_SCOPE)
+    endif()
 
     # Export bin/ or macOS bundle Helpers/
     if(NOT IS_DIRECTORY "${dkcoder_helpers}")
@@ -493,11 +487,11 @@ stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWL
     set(DKCODER_ETC "${dkcoder_etc}" PARENT_SCOPE)
 
     # Export lib
-    cmake_path(APPEND dkcoder_resourcesdir lib OUTPUT_VARIABLE dkcoder_lib)
-    if(NOT IS_DIRECTORY "${dkcoder_lib}")
+    cmake_path(APPEND dkcoder_resourcesdir lib OUTPUT_VARIABLE dkcoder_sitelib)
+    if(NOT IS_DIRECTORY "${dkcoder_sitelib}")
         message(FATAL_ERROR "${problem_solution}")
     endif()
-    set(DKCODER_LIB "${dkcoder_lib}" PARENT_SCOPE)
+    set(DKCODER_SITELIB "${dkcoder_sitelib}" PARENT_SCOPE)
 
     # Export share
     cmake_path(APPEND dkcoder_resourcesdir share OUTPUT_VARIABLE dkcoder_share)
@@ -563,9 +557,11 @@ function(__dkcoder_delegate)
     #   compiling a bytecode executable, we have to do union of environments for
     #   both ocamlc + ocamlrun.
     __dkcoder_prep_environment()
-    __dkcoder_add_environment_set("OCAMLLIB=${DKCODER_LIB}/ocaml")
-    #   Assumptions.ocamlfind_configuration_available_to_ocaml_compiler_in_coder_run
-    __dkcoder_add_environment_set("OCAMLFIND_CONF=${DKCODER_OCAMLFIND_CONF}")
+    __dkcoder_add_environment_set("OCAMLLIB=${DKCODER_SITELIB}/ocaml")
+    if(DKCODER_VERSION VERSION_LESS_EQUAL 0.4.0.1)
+        #   Assumptions.ocamlfind_configuration_available_to_ocaml_compiler_in_coder_run
+        __dkcoder_add_environment_set("OCAMLFIND_CONF=${DKCODER_OCAMLFIND_CONF}")
+    endif()
     __dkcoder_add_environment_set("CDI_OUTPUT=${output_abspath}") # This environment variable is communication to `@gen-cdi` rule
     #   Assumptions.stublibs_are_available_to_ocaml_compiler_and_runtime_in_coder_run
     #       nit: Unclear why CAML_LD_LIBRARY_PATH is needed by Dune 3.12.1 when invoking [ocamlc] on Windows to get
@@ -574,10 +570,10 @@ function(__dkcoder_delegate)
         __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_HELPERS}/stublibs")
         __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_HELPERS}/stublibs")
     else()
-        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_LIB}/stublibs")
-        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_LIB}/ocaml/stublibs")
-        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_LIB}/stublibs")
-        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_LIB}/ocaml/stublibs")
+        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_SITELIB}/stublibs")
+        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_SITELIB}/ocaml/stublibs")
+        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_SITELIB}/stublibs")
+        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_SITELIB}/ocaml/stublibs")
     endif()
     #   Assumptions.coder_run_has_environment_for_compiling_bytecode
     #
@@ -594,11 +590,18 @@ function(__dkcoder_delegate)
     #   detection of ABI (ex. ./dk downloads x86_64 for macOS but ABI is detected as arm64).
     cmake_path(NATIVE_PATH DKCODER_HELPERS NORMALIZE DKCODER_HELPERS_NATIVE)
     cmake_path(NATIVE_PATH DKCODER_SHARE NORMALIZE DKCODER_SHARE_NATIVE)
+    cmake_path(NATIVE_PATH DKCODER_SITELIB NORMALIZE DKCODER_SITELIB_NATIVE)
     __dkcoder_add_environment_set("DKCODER_HELPERS=${DKCODER_HELPERS_NATIVE}")
     __dkcoder_add_environment_set("DKCODER_SHARE=${DKCODER_SHARE_NATIVE}")
+    if(DKCODER_VERSION VERSION_GREATER 0.4.0.1 OR DKCODER_VERSION STREQUAL Env)
+        __dkcoder_add_environment_set("DKCODER_SITELIB=${DKCODER_SITELIB_NATIVE}")
+    endif()
     __dkcoder_add_environment_set("DKCODER_RUN_VERSION=${DKCODER_RUN_VERSION}")
     __dkcoder_add_environment_set("DKCODER_RUN_ENV_URL_BASE=${__DkRun_Env_URL_BASE}")
     __dkcoder_add_environment_set("DKCODER_PWD=${DKCODER_PWD}")
+
+    # Console
+    __dkcoder_add_environment_set("DKCODER_TTY=${DKCODER_TTY}")
 
     # Calculate command line arguments
     set(dkcoder_ARGS)
@@ -619,7 +622,6 @@ function(__dkcoder_delegate)
         if(ARG_FULLY_QUALIFIED_MODULE STREQUAL Run)
             set(entryExec "${DKCODER_RUN}")
         else()
-            list(GET __DkRun_LTS_VERSIONS -1 __dkrun_v_id) # ie. the latest Vx_y
             message(FATAL_ERROR "Problem: DkCoder only supports the Run entrypoint. Solution: Was there a typo? Try DkRun_${__dkrun_v_id}.Run instead.")
         endif()
     else()
@@ -663,6 +665,7 @@ SET DK_NONCE=
 SET DK_NINJA_EXE=
 SET DK_CMDLINE=
 SET DK_CMAKE_EXE=
+SET DK_TTY=
 
 REM Clear variables that influence __dk.cmake. They are not part of DkCoder API.
 SET DKRUN_ENV_URL_BASE=
@@ -691,7 +694,8 @@ endfunction()
 function(__parse_if_ocaml_command)
     set(noValues)
     set(singleValues COMMAND SUCCESS_VARIABLE
-        PACKAGE_NAMESPACE_VARIABLE PACKAGE_QUALIFIER_VARIABLE LIBRARY_VARIABLE FULLY_QUALIFIED_MODULE_VARIABLE)
+        PACKAGE_NAMESPACE_VARIABLE PACKAGE_QUALIFIER_VARIABLE LIBRARY_VARIABLE
+        FULLY_QUALIFIED_MODULE_VARIABLE PRE_ARGUMENTS_VARIABLE)
     set(multiValues)
     cmake_parse_arguments(PARSE_ARGV 0 ARG "${noValues}" "${singleValues}" "${multiValues}")
 
@@ -701,6 +705,7 @@ function(__parse_if_ocaml_command)
     string(LENGTH "${ARG_COMMAND}" command_LEN)
 
     if(command MATCHES "^([A-Z][a-z][a-z0-9]*)([A-Z][A-Za-z0-9]*)_([A-Z][A-Za-z0-9_]*)(([.][A-Z]([A-Za-z0-9_]*))+)$")
+        # 1. Fully qualfied mode
         set(${ARG_PACKAGE_NAMESPACE_VARIABLE} "${CMAKE_MATCH_1}" PARENT_SCOPE)
         set(${ARG_PACKAGE_QUALIFIER_VARIABLE} "${CMAKE_MATCH_2}" PARENT_SCOPE)
         set(${ARG_LIBRARY_VARIABLE} "${CMAKE_MATCH_3}" PARENT_SCOPE)
@@ -709,7 +714,30 @@ function(__parse_if_ocaml_command)
         string(REGEX REPLACE "^[.]" "" fqn "${fqn}")
         set(${ARG_FULLY_QUALIFIED_MODULE_VARIABLE} "${fqn}" PARENT_SCOPE)
         set(${ARG_SUCCESS_VARIABLE} ON PARENT_SCOPE)
+        set(${ARG_PRE_ARGUMENTS_VARIABLE} "" PARENT_SCOPE)
         return()
+    elseif(EXISTS "${command}" AND command MATCHES "[.]ml$")
+        # 2. Command-as-path mode
+        # If the command is a .ml file located _under_ the ./dk directory (for safety), then it can be run.
+        # Symlinks are not allowed to escape beyond the ./dk folder ... we are in a convenience mode that
+        # has a canonical alternative, so we can and should make this mode more restrictive.
+        file(REAL_PATH "${CMAKE_SOURCE_DIR}" baseReal)
+        file(REAL_PATH "${command}" commandReal)
+        cmake_path(IS_PREFIX baseReal "${commandReal}" isPrefix)
+        if(isPrefix)
+            set(${ARG_PACKAGE_NAMESPACE_VARIABLE} "Dk" PARENT_SCOPE)
+            set(${ARG_PACKAGE_QUALIFIER_VARIABLE} "Run" PARENT_SCOPE)
+            set(${ARG_LIBRARY_VARIABLE} "${__dkrun_v_id}" PARENT_SCOPE)
+            set(${ARG_FULLY_QUALIFIED_MODULE_VARIABLE} "Run" PARENT_SCOPE)
+            set(${ARG_SUCCESS_VARIABLE} ON PARENT_SCOPE)
+            set(${ARG_PRE_ARGUMENTS_VARIABLE} "--" "${command}" PARENT_SCOPE)
+            return()
+        else()
+            # Usability improvement when move to OCaml-based logic ... calculate what the fully-qualified module identifier
+            # would be, and then say what that fully-qualfiied module id resolves to on the filesystem. It will likely
+            # be different, so give options on how to add paths.
+            message(FATAL_ERROR "You can only use paths to OCaml scripts that are within the directory tree ${baseReal}. Consider using the fully-qualified module identifier of the script rather than its path.")
+        endif()
     endif()
 
     set(${ARG_SUCCESS_VARIABLE} OFF PARENT_SCOPE)
@@ -777,7 +805,8 @@ Environment variables:
         PACKAGE_NAMESPACE_VARIABLE package_namespace
         PACKAGE_QUALIFIER_VARIABLE package_qualifier
         LIBRARY_VARIABLE library
-        FULLY_QUALIFIED_MODULE_VARIABLE module)
+        FULLY_QUALIFIED_MODULE_VARIABLE module
+        PRE_ARGUMENTS_VARIABLE pre_arguments)
     if(is_ocaml)
         # Get COMPILE_VERSION. Simultaneously recreate the argument list.
         # Argument list:
@@ -785,9 +814,11 @@ Environment variables:
         #       ==> [DkHelloScript_Std.Example001 1 2 3]
         #   ./dk DkHelloScript_Std.Example001 1 2 3
         #       ==> [DkHelloScript_Std.Example001 1 2 3]
+        #   ./dk somewhere/DkHelloScript_Std/Example001 1 2 3
+        #       ==> [somewhere/DkHelloScript_Std/Example001 1 2 3]
         #
         #   Is the explicit version specified? That is, DkRun_V0_1.Run (etc.)?
-        set(argument_list ${FWD_UNPARSED_ARGUMENTS})
+        set(argument_list ${pre_arguments} ${FWD_UNPARSED_ARGUMENTS})
         if(package_namespace STREQUAL "Dk" AND package_qualifier STREQUAL "Run")
             set(__dkrun_v_id "${library}") # ex. V0_1
         else()

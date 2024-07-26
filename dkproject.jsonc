@@ -47,6 +47,8 @@
       // in the fetch/ subfolder of this project on the build machine. That means you can edit the
       // dependency's source code regardless of the build machine.
       "urls": [
+        // The first URL is for when SonicScoutAndroid is a `git subtree` of sonicapps/.
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../../${dependencyName}",
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/${dependencyName}",
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceDir}/fetch/${dependencyName}"
       ]

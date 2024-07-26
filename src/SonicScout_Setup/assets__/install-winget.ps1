@@ -1,7 +1,7 @@
 # https://learn.microsoft.com/en-us/windows/package-manager/winget/#install-winget-on-windows-sandbox
 
 # https://github.com/microsoft/terminal/issues/280#issuecomment-1728298632
-# This happens in Windows Sandbox
+# This happens in Windows Sandbox which starts in Consolas font.
 # (also see install-winget.cmd)
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 

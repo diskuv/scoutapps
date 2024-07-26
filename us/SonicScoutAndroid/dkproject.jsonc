@@ -66,6 +66,8 @@
     "ocaml-backend": {
       "inherits": "_mirror",
       "urls": [
+        // The first URL is for when SonicScoutAndroid is a `git subtree` of sonicapps/.
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../us/SonicScoutBackend",
         "git@github.com:SquirrelScout/ocaml-backend.git",
         "https://github.com/SquirrelScout/ocaml-backend.git"
       ]

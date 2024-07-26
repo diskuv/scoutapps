@@ -17,7 +17,8 @@ open Bos
 (* Ported from Utils since this script is standalone. *)
 let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
-let run ?debug_env ?env ?global_dkml ~projectdir args =
+let run ?debug_env ?env ?global_dkml ~projectdir ~name args =
+  let tools_dir = Fpath.(projectdir / ".tools") in
   let env =
     match env with Some env -> env | None -> OS.Env.current () |> rmsg
   in
@@ -53,17 +54,28 @@ let run ?debug_env ?env ?global_dkml ~projectdir args =
       let quoted_cmdargs =
         Fpath.to_string cmake :: args |> List.map Filename.quote
       in
-      Cmd.(
-        v "powershell" % "-NoProfile" % "-ExecutionPolicy" % "Bypass"
-        % "-Command"
-        % Fmt.str
-            "& { $ErrorActionPreference='Stop'; Import-Module \
-             '%a\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll'; \
-             Enter-VsDevShell -VsInstallPath '%a' -DevCmdArguments \
-             '-arch=amd64'; & %s; exit $LASTEXITCODE }"
-            Fpath.pp vsstudio_dir Fpath.pp vsstudio_dir
-            (String.concat " " quoted_cmdargs))
-    else Cmd.(v (p cmake) %% of_list args)
+      let with_vsdev = Fpath.(tools_dir / Printf.sprintf "vsdev-%s.ps1" name) in
+      let _ =
+        Bos.OS.File.write with_vsdev
+          (Fmt.str
+             {|
+# https://github.com/microsoft/terminal/issues/280#issuecomment-1728298632
+# This happens in Windows Sandbox which starts in Consolas font.
+# (also see run-ps1.cmd)
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+$ErrorActionPreference='Stop';
+Import-Module '%a\Common7\Tools\Microsoft.VisualStudio.DevShell.dll';
+Enter-VsDevShell -VsInstallPath '%a' -DevCmdArguments '-arch=amd64';
+& %s;
+exit $LASTEXITCODE|}
+             Fpath.pp vsstudio_dir Fpath.pp vsstudio_dir
+             (String.concat " " quoted_cmdargs))
+        |> rmsg
+      in
+      let run_ps1 = Filename.concat (Tr1Assets.LocalDir.v ()) "run-ps1.cmd" in
+      Bos.Cmd.(v run_ps1 % p with_vsdev)
+    else Bos.Cmd.(v (p cmake) %% of_list args)
   in
 
   (* Run *)

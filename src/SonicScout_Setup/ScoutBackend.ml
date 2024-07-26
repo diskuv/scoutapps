@@ -18,7 +18,6 @@ let clean areas =
           projectdir / "fetch" / "dksdk-access";
           projectdir / "fetch" / "dksdk-cmake";
           projectdir / "fetch" / "dksdk-ffi-c";
-          projectdir / "fetch" / "dksdk-ffi-java";
           projectdir / "fetch" / "dksdk-ffi-ocaml";
         ]
     |> rmsg

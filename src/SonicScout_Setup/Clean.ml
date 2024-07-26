@@ -1,6 +1,7 @@
 let clean (_ : Tr1Logs_Term.TerminalCliOptions.t) areas =
   try
     ScoutBackend.clean areas;
+    ScoutAndroid.clean areas;
     Utils.done_steps "Cleaning"
   with Utils.StopProvisioning -> ()
 

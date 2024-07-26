@@ -1,15 +1,60 @@
-open Utils
+let build_reldir = Fpath.v "build_dev"
+let user_presets_relfile = Fpath.v "CMakeUserPresets.json"
+
+let clean areas =
+  let open Utils in
+  let open Bos in
+  let cwd = OS.Dir.current () |> rmsg in
+  let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
+  if List.mem `DkSdkSourceCode areas then begin
+    start_step "Cleaning SonicScoutAndroid DkSDK source code";
+    DkFs_C99.Path.rm ~recurse:() ~force:()
+      Fpath.
+        [
+          projectdir / "fetch" / "dkml-compiler";
+          projectdir / "fetch" / "dkml-runtime-common";
+          projectdir / "fetch" / "dkml-runtime-distribution";
+          projectdir / "fetch" / "dksdk-access";
+          projectdir / "fetch" / "dksdk-cmake";
+          projectdir / "fetch" / "dksdk-ffi-c";
+          projectdir / "fetch" / "dksdk-ffi-java";
+          projectdir / "fetch" / "dksdk-ffi-ocaml";
+          projectdir / "fetch" / "dksdk-opam-repository-core";
+          projectdir / "fetch" / "dksdk-opam-repository-js";
+          projectdir / "fetch" / "ocaml-backend";
+        ]
+    |> rmsg
+  end;
+  if List.mem `DkSdkCMake areas then begin
+    start_step "Cleaning SonicScoutAndroid dksdk-cmake source code";
+    DkFs_C99.Path.rm ~recurse:() ~force:()
+      Fpath.[ projectdir / "fetch" / "dksdk-cmake" ]
+    |> rmsg
+  end;
+  if List.mem `Builds areas then begin
+    start_step "Cleaning SonicScoutAndroid build artifacts";
+    DkFs_C99.Path.rm ~recurse:() ~force:()
+      Fpath.
+        [
+          projectdir / "dkconfig" / "build";
+          projectdir / "data" / ".cxx";
+          projectdir / "data" / "build";
+          projectdir / "app" / "build";
+          projectdir // user_presets_relfile;
+        ]
+    |> rmsg
+  end
 
 let run ?opts ~slots () =
   let open Bos in
-  start_step "Building SonicScoutAndroid";
-  let cwd = OS.Dir.current () |> rmsg in
+  Utils.start_step "Building SonicScoutAndroid";
+  let cwd = OS.Dir.current () |> Utils.rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
-  let dk_env = dk_env ?opts () in
-  let dk = dk ~env:dk_env ~slots in
+  let dk_env = Utils.dk_env ?opts () in
+  let dk = Utils.dk ~env:dk_env ~slots in
   let git args =
     Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
-    OS.Cmd.run Cmd.(v "git" %% of_list args) |> rmsg
+    OS.Cmd.run Cmd.(v "git" %% of_list args) |> Utils.rmsg
   in
   let dkmlHostAbi =
     match Tr1HostMachine.abi with
@@ -73,5 +118,5 @@ let run ?opts ~slots () =
           Fmt.str "dkmlHostAbi=%s" dkmlHostAbi;
         ])
     ()
-  |> rmsg;
+  |> Utils.rmsg;
   slots

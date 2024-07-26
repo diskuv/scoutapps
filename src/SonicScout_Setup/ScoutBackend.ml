@@ -203,9 +203,9 @@ let run ?(opts = Utils.default_opts) ?global_dkml ~slots () =
           (OS.File.read (Fpath.v "CMakeUserPresets-SUGGESTED.json") |> rmsg)
         |> rmsg;
 
-      RunCMake.run ?global_dkml ~projectdir ~name:"backend-preset"
+      RunCMake.run ?global_dkml ~projectdir ~name:"backend-preset" ~slots
         ([ "--preset"; preset ] @ cmake_properties ~cwd ~opts slots);
-      RunCMake.run ?global_dkml ~projectdir ~name:"backend-build"
+      RunCMake.run ?global_dkml ~projectdir ~name:"backend-build" ~slots
         [
           "--build";
           Fpath.to_string build_reldir;

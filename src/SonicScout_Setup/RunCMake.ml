@@ -17,7 +17,7 @@ open Bos
 (* Ported from Utils since this script is standalone. *)
 let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
-let run ?debug_env ?env ?global_dkml ~projectdir ~name args =
+let run ?debug_env ?env ?global_dkml ~projectdir ~name ~slots args =
   let tools_dir = Fpath.(projectdir / ".tools") in
   let env =
     match env with Some env -> env | None -> OS.Env.current () |> rmsg
@@ -86,6 +86,7 @@ exit $LASTEXITCODE|}
           Logs.debug (fun l -> l "Environment for CMake: %s=%s" k v))
         env ()
   | None -> ());
+  let env = Utils.slot_env ~env ~slots () in
   Logs.info (fun l -> l "%a" Cmd.pp cmd);
   OS.Dir.with_current projectdir (fun () -> OS.Cmd.run ~env cmd |> rmsg) ()
   |> rmsg

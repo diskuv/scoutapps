@@ -43,11 +43,16 @@ exception StopProvisioning
 
 let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
-(** {1 Running ./dk} *)
+(** {1 Running with slots} *)
 
-let dk ?env ~slots args =
+(** [slot_env ?env ~slots ()] prepends the [paths] in [slots]
+    to the PATH of the returned environment, with [env] being the
+    initial environment.
+    
+    If there is no initial environment then the current environment
+    is used instead. *)
+let slot_env ?env ~slots () =
   let open Bos in
-  Logs.info (fun l -> l "./dk %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
   (* Prepend [paths] to PATH *)
   let sepchar_PATH = if Sys.win32 then ';' else ':' in
   let env =
@@ -59,12 +64,16 @@ let dk ?env ~slots args =
     | Some path -> String.split_on_char sepchar_PATH path
   in
   let slots_PATH = Slots.paths slots |> List.map Fpath.to_string in
-  let env =
-    let sepstring_PATH = String.make 1 sepchar_PATH in
-    OSEnvMap.add "PATH"
-      (String.concat sepstring_PATH (slots_PATH @ env_PATH))
-      env
-  in
+  let sepstring_PATH = String.make 1 sepchar_PATH in
+  OSEnvMap.add "PATH" (String.concat sepstring_PATH (slots_PATH @ env_PATH)) env
+
+(** {1 Running ./dk} *)
+
+let dk ?env ~slots args =
+  let open Bos in
+  Logs.info (fun l -> l "./dk %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
+  (* Add [slots] to PATH *)
+  let env = slot_env ?env ~slots () in
   (* Run ./dk *)
   let script = if Sys.win32 then Cmd.v ".\\dk.cmd" else Cmd.v "./dk" in
   OS.Cmd.run ~env Cmd.(script %% of_list args) |> rmsg

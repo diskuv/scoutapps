@@ -52,14 +52,14 @@ Do you want to launch Android Studio now? (y/N) |};
   in
   ask ()
 
-let run () =
+let run ~slots () =
   let open Bos in
   start_step "Running Android Studio";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
 
   OS.Dir.with_current projectdir
-    (fun () -> dk [ "dksdk.android.studio.download"; "NO_SYSTEM_PATH" ])
+    (fun () -> dk ~slots [ "dksdk.android.studio.download"; "NO_SYSTEM_PATH" ])
     ()
   |> rmsg;
 

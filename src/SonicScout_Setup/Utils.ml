@@ -45,11 +45,29 @@ let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
 (** {1 Running ./dk} *)
 
-let dk ?env args =
+let dk ?env ~slots args =
   let open Bos in
   Logs.info (fun l -> l "./dk %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
+  (* Prepend [paths] to PATH *)
+  let sepchar_PATH = if Sys.win32 then ';' else ':' in
+  let env =
+    match env with Some env -> env | None -> Bos.OS.Env.current () |> rmsg
+  in
+  let env_PATH =
+    match OSEnvMap.find "PATH" env with
+    | None -> []
+    | Some path -> String.split_on_char sepchar_PATH path
+  in
+  let slots_PATH = Slots.paths slots |> List.map Fpath.to_string in
+  let env =
+    let sepstring_PATH = String.make 1 sepchar_PATH in
+    OSEnvMap.add "PATH"
+      (String.concat sepstring_PATH (slots_PATH @ env_PATH))
+      env
+  in
+  (* Run ./dk *)
   let script = if Sys.win32 then Cmd.v ".\\dk.cmd" else Cmd.v "./dk" in
-  OS.Cmd.run ?env Cmd.(script %% of_list args) |> rmsg
+  OS.Cmd.run ~env Cmd.(script %% of_list args) |> rmsg
 
 (** [sibling_dir_mixed] is the directory of the project [project]
     that is directly next (a "sibling") to the current directory [cwd].

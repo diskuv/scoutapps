@@ -1,12 +1,12 @@
 open Utils
 
-let run ?opts () =
+let run ?opts ~slots () =
   let open Bos in
   start_step "Building SonicScoutAndroid";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
   let dk_env = dk_env ?opts () in
-  let dk = dk ~env:dk_env in
+  let dk = dk ~env:dk_env ~slots in
   let git args =
     Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
     OS.Cmd.run Cmd.(v "git" %% of_list args) |> rmsg
@@ -73,4 +73,5 @@ let run ?opts () =
           Fmt.str "dkmlHostAbi=%s" dkmlHostAbi;
         ])
     ()
-  |> rmsg
+  |> rmsg;
+  slots

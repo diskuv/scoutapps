@@ -4,10 +4,12 @@ let setup (_ : Tr1Logs_Term.TerminalCliOptions.t) dksdk_data_home opts
     InitialSteps.run ~dksdk_data_home ();
     Qt.run ();
     Sqlite3.run ();
-    let properties = DkML.run ?global_dkml () in
-    ScoutBackend.run ~opts ?global_dkml ~properties ();
-    ScoutAndroid.run ~opts ();
-    AndroidStudio.run ();
+    let slots = Slots.create () in
+    let slots = DkML.run ?global_dkml ~slots () in
+    let slots = ScoutBackend.run ?global_dkml ~opts ~slots () in
+    let slots = ScoutAndroid.run ~opts ~slots () in
+    let slots = AndroidStudio.run ~slots () in
+    ignore slots;
     Utils.done_steps "Developing"
   with Utils.StopProvisioning -> ()
 

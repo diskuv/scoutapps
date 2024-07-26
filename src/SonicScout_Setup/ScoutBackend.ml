@@ -1,10 +1,10 @@
-open Utils
 open Bos
 
 let build_reldir = Fpath.v "build_dev"
 let user_presets_relfile = Fpath.v "CMakeUserPresets.json"
 
 let clean areas =
+  let open Utils in
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
   if List.mem `DkSdkSourceCode areas then begin
@@ -37,6 +37,7 @@ let clean areas =
   end
 
 let package ~notarize () =
+  let open Utils in
   start_step "Packaging SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
@@ -140,13 +141,13 @@ let package ~notarize () =
             Fpath.(builddir / "SonicScoutBackend-1.0.0-win64.msi"))
   | _ -> failwith "Currently your host machine is not supported by Sonic Scout"
 
-let cmake_properties ~cwd ~(opts : Utils.opts) props : string list =
+let cmake_properties ~cwd ~(opts : Utils.opts) slots : string list =
   let cprops =
-    List.filter_map
-      (function
-        | `MSYS2 fpath -> Some (Fmt.str "-DDKSDK_MSYS2_DIR=%a" Fpath.pp fpath))
-      props
+    match Slots.msys2 slots with
+    | Some fpath -> [ Fmt.str "-DDKSDK_MSYS2_DIR=%a" Fpath.pp fpath ]
+    | None -> []
   in
+  let open Utils in
   let cprops =
     match opts with
     | { fetch_siblings = true; _ } ->
@@ -164,7 +165,8 @@ let cmake_properties ~cwd ~(opts : Utils.opts) props : string list =
   in
   cprops
 
-let run ?(opts = Utils.default_opts) ?global_dkml ~properties () =
+let run ?(opts = Utils.default_opts) ?global_dkml ~slots () =
+  let open Utils in
   start_step "Building SonicScoutBackend";
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
@@ -191,10 +193,10 @@ let run ?(opts = Utils.default_opts) ?global_dkml ~properties () =
   in
   OS.Dir.with_current projectdir
     (fun () ->
-      dk [ "dksdk.project.get" ];
-      dk [ "dksdk.cmake.link"; "QUIET" ];
+      dk ~slots [ "dksdk.project.get" ];
+      dk ~slots [ "dksdk.cmake.link"; "QUIET" ];
       (* You can ignore the error if you got 'failed to create symbolic link' for dksdk.ninja.link *)
-      dk [ "dksdk.ninja.link"; "QUIET" ];
+      dk ~slots [ "dksdk.ninja.link"; "QUIET" ];
       let user_presets = Fpath.v "CMakeUserPresets.json" in
       if not (OS.File.exists user_presets |> rmsg) then
         OS.File.write user_presets
@@ -202,7 +204,7 @@ let run ?(opts = Utils.default_opts) ?global_dkml ~properties () =
         |> rmsg;
 
       RunCMake.run ?global_dkml ~projectdir
-        ([ "--preset"; preset ] @ cmake_properties ~cwd ~opts properties);
+        ([ "--preset"; preset ] @ cmake_properties ~cwd ~opts slots);
       RunCMake.run ?global_dkml ~projectdir
         [
           "--build";
@@ -214,4 +216,5 @@ let run ?(opts = Utils.default_opts) ?global_dkml ~properties () =
           "ManagerApp_ALL";
         ])
     ()
-  |> rmsg
+  |> rmsg;
+  slots

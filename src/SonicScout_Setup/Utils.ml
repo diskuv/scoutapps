@@ -110,13 +110,11 @@ let dk_env ?(opts = default_opts) () =
       (sib "dksdk-cmake") env
       |> sib "dksdk-ffi-c" |> sib "dksdk-ffi-java" |> sib "dksdk-ffi-ocaml"
   | true, false ->
+      (* Setting just the branch means dksdk-access can read repository.ini
+         and add the authentication token. *)
       Bos.OSEnvMap.(
-        add "DKSDK_CMAKE_REPO_1_0"
-          "https://gitlab.com/diskuv/distributions/1.0/dksdk-cmake.git#next" env
-        |> add "DKSDK_FFI_C_REPO_1_0"
-             "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-c.git#next"
-        |> add "DKSDK_FFI_JAVA_REPO_1_0"
-             "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-java.git#next"
-        |> add "DKSDK_FFI_OCAML_REPO_1_0"
-             "https://gitlab.com/diskuv/distributions/1.0/dksdk-ffi-ocaml.git#next")
+        add "DKSDK_CMAKE_BRANCH_1_0" "next" env
+        |> add "DKSDK_FFI_C_BRANCH_1_0" "next"
+        |> add "DKSDK_FFI_JAVA_BRANCH_1_0" "next"
+        |> add "DKSDK_FFI_OCAML_BRANCH_1_0" "next")
   | false, false -> env

@@ -54,7 +54,12 @@ let run ?opts ~slots () =
   let dk = Utils.dk ~env:dk_env ~slots in
   let git args =
     Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
-    OS.Cmd.run Cmd.(v "git" %% of_list args) |> Utils.rmsg
+    let git_exe =
+      match Slots.git slots with
+      | Some exe -> Cmd.(v (p exe))
+      | None -> Cmd.v "git"
+    in
+    OS.Cmd.run Cmd.(git_exe %% of_list args) |> Utils.rmsg
   in
   let dkmlHostAbi =
     match Tr1HostMachine.abi with

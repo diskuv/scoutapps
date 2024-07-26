@@ -25,12 +25,12 @@ let run_win32 ?global_dkml ~slots () =
     if OS.Cmd.exists Cmd.(v "git") |> Utils.rmsg then slots
     else begin
       Winget.install [ "Git.Git" ];
-      let program_files =
+      let git_exe =
         match Sys.getenv_opt "ProgramFiles" with
-        | Some pf -> Fpath.(v pf / "Git" / "cmd")
-        | None -> Fpath.v {|C:\Program Files\Git\cmd|}
+        | Some pf -> Fpath.(v pf / "Git" / "cmd" / "git.exe")
+        | None -> Fpath.v {|C:\Program Files\Git\cmd\git.exe|}
       in
-      Slots.add_path slots program_files
+      Slots.add_git slots git_exe
     end
   in
   match global_dkml with

@@ -6,8 +6,13 @@ open Utils
     a global install of DkML). *)
 let install_win32_miniconda3 () =
   let open Bos in
-  if not (OS.Cmd.exists Cmd.(v "conda") |> rmsg) then
-    Winget.install [ "-e"; "--id"; "Anaconda.Miniconda3" ]
+  if OS.Cmd.exists Cmd.(v "conda") |> rmsg then None
+  else begin
+    Winget.install [ "-e"; "--id"; "Anaconda.Miniconda3" ];
+    Some
+      Fpath.(
+        v (Sys.getenv "USERPROFILE") / "miniconda3" / "Scripts" / "conda.exe")
+  end
 
 let tools_dir ~projectdir = Fpath.(projectdir / ".tools")
 let miniconda_dir ~projectdir = Fpath.(tools_dir ~projectdir / "miniconda")
@@ -36,10 +41,16 @@ let install_unix_miniconda3 ~projectdir ~platform ~sha256 =
     @@ DkNet_Std.Http.download_uri ~max_time_ms:300_000 ~destination:latest_sh
          ~checksum:(`SHA_256 sha256) (Uri.of_string uri);
     OS.Cmd.run Cmd.(v "/bin/bash" % p latest_sh % "-b" % "-p" % p miniconda_dir)
-    |> rmsg)
+    |> rmsg);
+  None
 
-let run_conda ~projectdir args =
+let run_conda ~conda_exe ~projectdir args =
   let open Bos in
+  let conda_exe, conda_str =
+    match conda_exe with
+    | Some exe -> (Cmd.(v (p exe)), Fpath.to_string exe)
+    | None -> (Cmd.v "conda", "conda")
+  in
   let env = OS.Env.current () |> rmsg in
   (* We disable any global/user pip config file. Sometimes private
      repository credentials are needed in a users' pip configuration,
@@ -48,7 +59,7 @@ let run_conda ~projectdir args =
   if Sys.win32 then
     OS.Cmd.run
       ~env:OSEnvMap.(add "PIP_CONFIG_FILE" "nul" env)
-      Cmd.(v "conda" %% of_list args)
+      Cmd.(conda_exe %% of_list args)
     |> rmsg
   else
     OS.Cmd.run
@@ -56,16 +67,21 @@ let run_conda ~projectdir args =
       Cmd.(
         v "/bin/bash" % "-c"
         % Fmt.str "source '%a' && %s" Fpath.pp (activate_sh ~projectdir)
-            (Filename.quote_command "conda" args))
+            (Filename.quote_command conda_str args))
     |> rmsg
 
-let run_conda_string ~projectdir args =
+let run_conda_string ~conda_exe ~projectdir args =
   let open Bos in
+  let conda_exe, conda_str =
+    match conda_exe with
+    | Some exe -> (Cmd.(v (p exe)), Fpath.to_string exe)
+    | None -> (Cmd.v "conda", "conda")
+  in
   let env = OS.Env.current () |> rmsg in
   if Sys.win32 then
     OS.Cmd.run_out
       ~env:OSEnvMap.(add "PIP_CONFIG_FILE" "nul" env)
-      Cmd.(v "conda" %% of_list args)
+      Cmd.(conda_exe %% of_list args)
     |> OS.Cmd.out_string ~trim:true
     |> rmsg |> fst
   else
@@ -74,7 +90,7 @@ let run_conda_string ~projectdir args =
       Cmd.(
         v "/bin/bash" % "-c"
         % Fmt.str "source '%a' && %s" Fpath.pp (activate_sh ~projectdir)
-            (Filename.quote_command "conda" args))
+            (Filename.quote_command conda_str args))
     |> OS.Cmd.out_string ~trim:true
     |> rmsg |> fst
 
@@ -83,24 +99,27 @@ let run () =
   let open Bos in
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
-  (match Tr1HostMachine.abi with
-  | `darwin_x86_64 ->
-      install_unix_miniconda3 ~projectdir ~platform:"MacOSX-x86_64"
-        ~sha256:
-          "1413369470adb7cf52f8b961e81b3ceeb92f5931a451bef9cb0c42be0ce17ef3"
-  | `darwin_arm64 ->
-      install_unix_miniconda3 ~projectdir ~platform:"MacOSX-arm64"
-        ~sha256:
-          "f4925c0150d232d95de798a64c696f4b2df2745bb997b793506bdfd27bf91e11"
-  | `windows_x86_64 | `windows_x86 -> install_win32_miniconda3 ()
-  | `linux_x86_64 ->
-      install_unix_miniconda3 ~projectdir ~platform:"Linux-x86_64"
-        ~sha256:
-          "b6597785e6b071f1ca69cf7be6d0161015b96340b9a9e132215d5713408c3a7c"
-  | _ -> failwith "Currently your host machine is not supported by Sonic Scout");
+  let conda_exe =
+    match Tr1HostMachine.abi with
+    | `darwin_x86_64 ->
+        install_unix_miniconda3 ~projectdir ~platform:"MacOSX-x86_64"
+          ~sha256:
+            "1413369470adb7cf52f8b961e81b3ceeb92f5931a451bef9cb0c42be0ce17ef3"
+    | `darwin_arm64 ->
+        install_unix_miniconda3 ~projectdir ~platform:"MacOSX-arm64"
+          ~sha256:
+            "f4925c0150d232d95de798a64c696f4b2df2745bb997b793506bdfd27bf91e11"
+    | `windows_x86_64 | `windows_x86 -> install_win32_miniconda3 ()
+    | `linux_x86_64 ->
+        install_unix_miniconda3 ~projectdir ~platform:"Linux-x86_64"
+          ~sha256:
+            "b6597785e6b071f1ca69cf7be6d0161015b96340b9a9e132215d5713408c3a7c"
+    | _ ->
+        failwith "Currently your host machine is not supported by Sonic Scout"
+  in
   (* Check if Conda already has an [aqt] environment *)
   let env_list_j_content =
-    run_conda_string ~projectdir [ "env"; "list"; "--json" ]
+    run_conda_string ~conda_exe ~projectdir [ "env"; "list"; "--json" ]
   in
   let env_list_j = Ezjsonm.from_string env_list_j_content in
   let envs = Ezjsonm.find env_list_j [ "envs" ] |> Ezjsonm.get_strings in
@@ -109,7 +128,7 @@ let run () =
   in
   (* Create Python environment with packages *)
   if not has_aqt then
-    run_conda ~projectdir
+    run_conda ~conda_exe ~projectdir
       [
         "env";
         "create";
@@ -137,7 +156,7 @@ let run () =
     Logs.info (fun l ->
         l "Installing Qt modules. This may take %s minutes ..."
           (if Sys.win32 then "several" else "a few"));
-    run_conda ~projectdir
+    run_conda ~conda_exe ~projectdir
       [
         "run";
         (* Do not use "--live-stream"; since stalls on Win32 and may corrupt terminal *)

@@ -89,9 +89,11 @@ let run ?opts ~slots () =
       (* dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ]; *)
       git [ "-C"; "fetch/dksdk-ffi-java"; "clean"; "-d"; "-x"; "-f" ];
       (* Display the Java toolchains. https://docs.gradle.org/current/userguide/toolchains.html *)
-      RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
+      RunGradle.run ~env:dk_env ~debug_env:() ~no_local_properties:()
+        ~projectdir
         [ "-p"; "fetch/dksdk-ffi-java/core"; "-q"; "javaToolchains" ];
-      RunGradle.run ~env:dk_env ~debug_env:() ~projectdir
+      RunGradle.run ~env:dk_env ~debug_env:() ~no_local_properties:()
+        ~projectdir
         [
           "-p";
           "fetch/dksdk-ffi-java/core";

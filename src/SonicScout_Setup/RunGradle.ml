@@ -203,7 +203,11 @@ let rec generate_local_properties ~projectdir () =
     |> rmsg
   end
 
-and run ?stopcycle ?env ?debug_env ~projectdir args =
+(** [run ?no_local_properties].
+    Always use the flag [~no_local_properties:()] for each [run] until the
+    [":dkconfig:dksdkCmakeNdkEmulator"] target can run (which needs
+    ["dksdk-ffi-java/core"] built first). *)
+and run ?stopcycle ?env ?debug_env ?no_local_properties ~projectdir args =
   let env =
     match env with Some env -> env | None -> OS.Env.current () |> rmsg
   in
@@ -217,10 +221,10 @@ and run ?stopcycle ?env ?debug_env ~projectdir args =
   (* Find Gradle *)
   let gradle = find_gradle_binary ~projectdir in
 
-  (* Ensure a valid local.properties *)
-  (match stopcycle with
-  | None -> generate_local_properties ~projectdir ()
-  | Some () -> ());
+  (* Create a valid local.properties *)
+  (match (stopcycle, no_local_properties) with
+  | None, None -> generate_local_properties ~projectdir ()
+  | None, Some () | Some (), _ -> ());
 
   (* Run *)
   (match debug_env with

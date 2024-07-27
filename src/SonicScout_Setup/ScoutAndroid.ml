@@ -8,7 +8,7 @@ let clean areas =
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
   if List.mem `DkSdkSourceCode areas then begin
     start_step "Cleaning SonicScoutAndroid DkSDK source code";
-    DkFs_C99.Path.rm ~recurse:() ~force:()
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
       Fpath.
         [
           projectdir / "fetch" / "dkml-compiler";
@@ -27,13 +27,13 @@ let clean areas =
   end;
   if List.mem `DkSdkCMake areas then begin
     start_step "Cleaning SonicScoutAndroid dksdk-cmake source code";
-    DkFs_C99.Path.rm ~recurse:() ~force:()
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
       Fpath.[ projectdir / "fetch" / "dksdk-cmake" ]
     |> rmsg
   end;
   if List.mem `Builds areas then begin
     start_step "Cleaning SonicScoutAndroid build artifacts";
-    DkFs_C99.Path.rm ~recurse:() ~force:()
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
       Fpath.
         [
           projectdir / "dkconfig" / "build";

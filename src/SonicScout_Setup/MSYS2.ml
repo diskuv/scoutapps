@@ -169,7 +169,9 @@ module Installer = struct
   let install_msys2 { msys2_base; target_msys2_dir; cache_dir; select_msys2; _ }
       =
     (* Example: DELETE Z:\temp\prefix\tools\MSYS2 *)
-    let* () = DkFs_C99.Path.rm ~force:() ~recurse:() [ target_msys2_dir ] in
+    let* () =
+      DkFs_C99.Path.rm ~force:() ~recurse:() ~kill:() [ target_msys2_dir ]
+    in
     let* destfile =
       match select_msys2 with
       | Download_msys2
@@ -200,7 +202,8 @@ module Installer = struct
           Fpath.(target_msys2_parent_fp / msys2_basename)
         in
         let* () =
-          DkFs_C99.Path.rm ~force:() ~recurse:() [ target_msys2_extract_fp ]
+          DkFs_C99.Path.rm ~force:() ~recurse:() ~kill:()
+            [ target_msys2_extract_fp ]
         in
         let* () =
           OS.Cmd.run

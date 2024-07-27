@@ -1,13 +1,57 @@
 open Utils
 
+let ask_signup () =
+  let url =
+    "https://buy.stripe.com/28ocPd2u1bVQ4wM5ko?prefilled_promo_code=SONIC24SCOUT"
+  in
+  let rec ask () =
+    Printf.printf
+      {|
+Before proceeding further you will need a "DkSDK GitLab token".
+
+First Robotics team mentors can sign up as DkSDK subscribers for
+free. As a team mentor you will receive a DkSDK GitLab token every
+six (6) months that you can share with your team.
+
+Not a team mentor? Please stop, get your team mentor, and then come
+back!
+
+In exchange for the free token, your team has a responsibility to
+share any SonicScout modifications with the broader First Robotics
+community at the end of each robotics season.
+
+Menu
+----
+
+1. Receive your team's DkSDK GitLab token by completing the free
+   signup at
+   %s
+   in your web browser.
+2. Your team already has a DkSDK GitLab token.
+3. Exit this program.
+
+Enter 1, 2 or 3: |}
+      url;
+    StdIo.flush StdIo.stdout;
+    try
+      match StdIo.input_line StdIo.stdin with
+      | "1" ->
+          DkNet_Std.Browser.open_url ~os:Tr1HostMachine.os (Uri.of_string url)
+          |> rmsg
+      | "2" -> ()
+      | "3" -> raise StopProvisioning
+      | _ -> ask ()
+    with End_of_file ->
+      StdIo.print_endline "<terminal or standard input closed> ... exiting";
+      raise StopProvisioning
+  in
+  ask ()
+
 let ask_gitlab_token () =
   let rec ask () =
     StdIo.print_string
       {|
-Enter the DkSDK GitLab token you received at https://diskuv.com/pricing.
-First Robotics teams can get one for free by emailing jonah AT diskuv.com.
-
-Enter GitLab token (it starts with 'glpat-'): |};
+Enter your team's DkSDK GitLab token (it starts with 'glpat-'): |};
     StdIo.flush StdIo.stdout;
     try
       match StdIo.input_line StdIo.stdin with
@@ -33,6 +77,7 @@ let run ~dksdk_data_home () =
         l "Re-using dksdk-access configuration at %a" Fpath.pp repository_ini)
   end
   else begin
+    ask_signup ();
     match ask_gitlab_token () with
     | None -> raise StopProvisioning
     | Some token ->

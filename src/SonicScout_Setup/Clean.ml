@@ -1,5 +1,31 @@
 let clean (_ : Tr1Logs_Term.TerminalCliOptions.t) areas =
   try
+    if List.mem `DkCoderWork areas then begin
+      match (Sys.win32, Sys.getenv_opt "LOCALAPPDATA") with
+      | true, Some localappdata when localappdata <> "" ->
+          (* From [dk.cmd]. We don't support [dk] since not the main SonicScout
+             platform and the logic for its [tools_dir] is complex.
+             [./dk dksdk.project.get] is legacy and will be replaced anyway. *)
+          let dkshare = Fpath.(v localappdata / "Programs" / "DkCoder") in
+          let work = Fpath.(dkshare / "work") in
+          Utils.start_step "Cleaning DkCoder work directories";
+          DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+            Fpath.
+              [
+                (* Avoid:
+                    ./dk dksdk.project.get
+                    -- Fetching dependencies into Y:/source/scoutapps/us/SonicScoutAndroid/fetch ...
+                    CMake Error at C:/Users/beckf/AppData/Local/Programs/DkCoder/work/dksdk___project___get/dksdk-access-subbuild/dksdk-access-populate-prefix/tmp/dksdk-access-populate-gitupdate.cmake:203 (message):
+                    Failed to rebase in:
+                    'C:/Users/beckf/AppData/Local/Programs/DkCoder/work/dksdk___project___get/dksdk-access-src'.
+                    Output from the attempted rebase follows:
+                    fatal: It seems that there is already a rebase-merge directory, and
+                    I wonder if you are in the middle of another rebase. *)
+                work / "dksdk___project___get";
+              ]
+          |> Utils.rmsg
+      | _ -> ()
+    end;
     ScoutBackend.clean areas;
     ScoutAndroid.clean areas;
     Utils.done_steps "Cleaning"
@@ -50,7 +76,10 @@ module Cli = struct
               [ "dksdk-cmake" ] );
           ( [ `Builds ],
             info ~docs:s_areas ~doc:"Clean the build artifacts." [ "builds" ] );
-          ( [ `Builds; `DkSdkSourceCode ],
+          ( [ `DkCoderWork ],
+            info ~docs:s_areas ~doc:"Clean the DkCoder work directories."
+              [ "dkcoder-work" ] );
+          ( [ `Builds; `DkSdkSourceCode; `DkCoderWork ],
             info ~docs:s_areas ~doc:"Cleans everything." [ "all" ] );
         ]
     in

@@ -238,20 +238,26 @@ endif()
 add_custom_target(ManagerApp_ALL)
 add_dependencies(ManagerApp_ALL ManagerAppReader)
 target_link_libraries(ManagerAppReader
-    SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml)
+    SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
+    # required for executables that embed OCaml
+    DkSDK::OCaml::ForStaticBinary)
 if (TARGET Qt::Gui)
     add_dependencies(ManagerApp_ALL ManagerAppQtReader)
     target_link_libraries(ManagerAppQtReader
         SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
         # for caml_c_thread_register()
-        DkSDK::OCaml::Compile)
+        DkSDK::OCaml::Compile
+        # required for executables that embed OCaml
+        DkSDK::OCaml::ForStaticBinary)
 endif()
 if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
     add_dependencies(ManagerApp_ALL ManagerAppQtCamReader)
     target_link_libraries(ManagerAppQtCamReader
         SquirrelScout::ManagerApp_c SquirrelScout::ManagerApp_ml
         # for caml_c_thread_register()
-        DkSDK::OCaml::Compile)
+        DkSDK::OCaml::Compile
+        # required for executables that embed OCaml
+        DkSDK::OCaml::ForStaticBinary)
 endif()
 
 list(POP_BACK CMAKE_MESSAGE_INDENT)

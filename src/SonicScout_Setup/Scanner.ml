@@ -26,7 +26,7 @@ let run ~slots () =
     | Some v -> Printf.sprintf "%s%s%s" (Fpath.to_string qt_bin) path_sep v
     | None -> Fpath.to_string qt_bin
   in
-  let env = OSEnvMap.remove "PATH" env |> OSEnvMap.add "PATH" env_PATH in
+  let env = OSEnvMap.add "PATH" env_PATH env in
 
   (* Run the scanner *)
   OS.Cmd.run ~env Cmd.(v (p scanner_exe)) |> rmsg

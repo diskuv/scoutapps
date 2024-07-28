@@ -1,8 +1,23 @@
 (** {1 Options} *)
 
-type opts = { next : bool; fetch_siblings : bool }
+type opts = {
+  next : bool;
+  fetch_siblings : bool;
+  build_type : [ `Debug | `Release ];
+      (** On Windows the [`Debug] build type is not redistributable
+          (can't be moved to other machines).
+          It will only work if ["ucrtbased.dll"] and other debug DLLs
+          can be located, and that usually only if Visual Studio is installed
+          on the user's PC. We can't copy the "d" DLLs either because
+          Microsoft restricts redistribution of the debug DLLS. *)
+}
 
-let default_opts : opts = { next = false; fetch_siblings = false }
+(** [default_opts] are the default options.
+
+    The default build type is [`Release] since [`Debug] is not redistributable
+    on Windows. *)
+let default_opts : opts =
+  { next = false; fetch_siblings = false; build_type = `Release }
 
 (** {1 Progress} *)
 

@@ -146,6 +146,11 @@ let cmake_properties ~cwd ~(opts : Utils.opts) slots : string list =
     | Some fpath -> [ Fmt.str "-DDKSDK_MSYS2_DIR=%a" Fpath.pp fpath ]
     | None -> []
   in
+  let cprops =
+    Fmt.str "-DCMAKE_BUILD_TYPE=%s"
+      (match opts.build_type with `Debug -> "Debug" | `Release -> "Release")
+    :: cprops
+  in
   let open Utils in
   let cprops =
     match opts with

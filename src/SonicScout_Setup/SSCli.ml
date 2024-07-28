@@ -76,10 +76,40 @@ let fetch_siblings_t =
   in
   Arg.(value & flag & info ~docs:s_advanced ~doc [ "fetch-siblings" ])
 
+let build_type_t =
+  let default =
+    match Utils.default_opts.build_type with
+    | `Debug -> "Debug"
+    | `Release -> "Release"
+  in
+  let enum =
+    [
+      (* The first entry is the default. Aka it is a hack for the option's absent rendering *)
+      (default, None);
+      ("Debug", Some `Debug);
+      ("Release", Some `Release);
+    ]
+  in
+  let type_ = Arg.enum enum in
+  let enum_alts = Arg.doc_alts_enum List.(tl enum) in
+  let doc =
+    Printf.sprintf
+      "The type of build. The Debug build type has some ability to be \
+       debugged, but Debug builds can't be shared with other computers (your \
+       team mates!) easily. If a Debug build is shared, the programs may not \
+       start. `%s` is the default. $(docv) must be %s."
+      default enum_alts
+  in
+  let t =
+    Arg.(value & opt type_ None & info [ "build-type" ] ~docv:"BUILDTYPE" ~doc)
+  in
+  Term.(const (Option.value ~default:Utils.default_opts.build_type) $ t)
+
 let opts_t =
   Term.(
-    const (fun next fetch_siblings : Utils.opts -> { next; fetch_siblings })
-    $ next_t $ fetch_siblings_t)
+    const (fun next fetch_siblings build_type : Utils.opts ->
+        { next; fetch_siblings; build_type })
+    $ next_t $ fetch_siblings_t $ build_type_t)
 
 let global_dkml_t =
   let doc =

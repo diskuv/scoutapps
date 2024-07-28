@@ -42,7 +42,21 @@ let clean areas =
           projectdir / "app" / "build";
           projectdir // user_presets_relfile;
         ]
-    |> rmsg
+    |> rmsg;
+    let ffijava = Fpath.(projectdir / "fetch" / "dksdk-ffi-java") in
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+      Fpath.
+        [
+          ffijava / "buildSrc" / "build";
+          ffijava / "core" / "abi" / "build";
+          ffijava / "core" / "gradle" / "build";
+          ffijava / "ffi-java" / "build";
+          ffijava / "ffi-java-android" / "build";
+          ffijava / "ffi-java-android-standalone" / "build";
+          ffijava / "ffi-java-jdk8" / "build";
+          ffijava / "ffi-java-jdk11" / "build";
+        ]
+    |> Utils.rmsg
   end
 
 let run ?opts ~slots () =
@@ -52,15 +66,6 @@ let run ?opts ~slots () =
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
   let dk_env = Utils.dk_env ?opts () in
   let dk = Utils.dk ~env:dk_env ~slots in
-  let git args =
-    Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
-    let git_exe =
-      match Slots.git slots with
-      | Some exe -> Cmd.(v (p exe))
-      | None -> Cmd.v "git"
-    in
-    OS.Cmd.run Cmd.(git_exe %% of_list args) |> Utils.rmsg
-  in
   let dkmlHostAbi =
     match Tr1HostMachine.abi with
     | `darwin_x86_64 -> "darwin_x86_64"
@@ -86,8 +91,7 @@ let run ?opts ~slots () =
             l "NOTE: Extracting Gradle can take several minutes");
       dk [ "dksdk.gradle.download"; "ALL"; "NO_SYSTEM_PATH" ];
       dk [ "dksdk.android.ndk.download"; "NO_SYSTEM_PATH" ];
-      (* dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ]; *)
-      git [ "-C"; "fetch/dksdk-ffi-java"; "clean"; "-d"; "-x"; "-f" ];
+      (* was: dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ]; *)
       (* Display the Java toolchains. https://docs.gradle.org/current/userguide/toolchains.html *)
       RunGradle.run ~env:dk_env ~debug_env:() ~no_local_properties:()
         ~projectdir

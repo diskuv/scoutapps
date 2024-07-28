@@ -67,6 +67,18 @@ let slot_env ?env ~slots () =
   let sepstring_PATH = String.make 1 sepchar_PATH in
   OSEnvMap.add "PATH" (String.concat sepstring_PATH (slots_PATH @ env_PATH)) env
 
+(** {1 Running git} *)
+
+let git ~slots args =
+  let open Bos in
+  Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
+  let git_exe =
+    match Slots.git slots with
+    | Some exe -> Cmd.(v (p exe))
+    | None -> Cmd.v "git"
+  in
+  OS.Cmd.run Cmd.(git_exe %% of_list args) |> rmsg
+
 (** {1 Running ./dk} *)
 
 let dk ?env ~slots args =

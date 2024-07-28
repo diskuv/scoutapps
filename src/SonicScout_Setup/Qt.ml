@@ -94,6 +94,27 @@ let run_conda_string ~conda_exe ~projectdir args =
     |> OS.Cmd.out_string ~trim:true
     |> rmsg |> fst
 
+type qt_locations = {
+  host : string;
+  target : string;  (** [target] is the `aqt` target to download  *)
+  qt5_ver : string;
+  subdir : string;
+      (** [subdir] is the subdirectory under the QT5 version {!qt5_ver}  *)
+}
+
+let qt_locations () =
+  let host, target, subdir =
+    match Tr1HostMachine.abi with
+    | `darwin_x86_64 | `darwin_arm64 -> ("mac", "clang_64", "clang_64")
+    | `windows_x86_64 | `windows_x86 ->
+        ("windows", "win64_msvc2019_64", "msvc2019_64")
+    | `linux_x86_64 -> ("linux", "gcc_64", "gcc_64")
+    | _ ->
+        failwith "Currently your host machine is not supported by Sonic Scout"
+  in
+  let qt5_ver = "5.15.2" in
+  { host; target; qt5_ver; subdir }
+
 let run () =
   start_step "Installing Qt";
   let open Bos in
@@ -143,15 +164,7 @@ let run () =
      $ (source us/SonicScoutBackend/.tools/miniconda/bin/activate && conda run -n aqt aqt list-qt mac desktop --arch 5.15.2)
      clang_64 wasm_32
   *)
-  let host, target =
-    match Tr1HostMachine.abi with
-    | `darwin_x86_64 | `darwin_arm64 -> ("mac", "clang_64")
-    | `windows_x86_64 | `windows_x86 -> ("windows", "win64_msvc2019_64")
-    | `linux_x86_64 -> ("linux", "gcc_64")
-    | _ ->
-        failwith "Currently your host machine is not supported by Sonic Scout"
-  in
-  let qt5_ver = "5.15.2" in
+  let { host; target; qt5_ver; subdir = _ } = qt_locations () in
   if not (OS.Dir.exists Fpath.(projectdir / qt5_ver) |> rmsg) then begin
     Logs.info (fun l ->
         l "Installing Qt modules. This may take %s minutes ..."

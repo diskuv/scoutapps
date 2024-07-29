@@ -100,7 +100,24 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
 # >The install RPATH details should also be used at build time so that embedded frameworks are handled correctly.
 # by Professional CMake.
 
-    add_executable(ManagerAppQtCamReader MACOSX_BUNDLE WIN32 ZXingQtCamReader.cpp ZXingQtCamReader.qrc ZXingQtReader.h)
+    add_executable(ManagerAppQtCamReader MACOSX_BUNDLE
+        # Do not set `WIN32` since sets /SUBSYSTEM: to Windows Gui not Windows Console.
+        # That means console won't be allocated and OCaml's call of write() will fail
+        # at first console write. 
+        # [0x0]   ucrtbased!_write   0xebc0dff4f8   0xd041cb   
+        # [0x1]   SonicScoutQRScanner!caml_write_fd+0x3b   0xebc0dff500   0xfacdd0   
+        # [0x2]   SonicScoutQRScanner!caml_flush_partial+0x60   0xebc0dff540   0xfacea4   
+        # [0x3]   SonicScoutQRScanner!caml_flush+0x14   0xebc0dff590   0xfae2f0   
+        # [0x4]   SonicScoutQRScanner!caml_ml_flush+0x110   0xebc0dff5c0   0xfb1148   
+        # [0x5]   SonicScoutQRScanner!caml_c_call+0x28   0xebc0dff670   0x257a2d2beb8   
+        # [0x6]   0x257a2d2beb8!+   0xebc0dff678   0x257a2d09828   
+        # [0x7]   0x257a2d09828!+   0xebc0dff680   0x257a2d2af38   
+        # [0x8]   0x257a2d2af38!+   0xebc0dff688   0x104d908   
+        # [0x9]   SonicScoutQRScanner!camlStdlib__Format__pp_print_newline_937+0x18   0xebc0dff690   0x257a2d2af38   
+        # [0xa]   0x257a2d2af38!+   0xebc0dff698   0x10509ae   
+        # [0xb]   SonicScoutQRScanner!camlStdlib__Format__fun_2958+0x2e   0xebc0dff6a0   0x257a2d0a558   
+        # Confer: https://discourse.cmake.org/t/controlling-visual-studio-options-from-cmake/6581/4
+        ZXingQtCamReader.cpp ZXingQtCamReader.qrc ZXingQtReader.h)
     target_link_libraries(ManagerAppQtCamReader ZXing::ZXing Qt::Gui Qt::Multimedia Qt::Quick)
     set_target_properties(ManagerAppQtCamReader PROPERTIES
         # Doesn't work:

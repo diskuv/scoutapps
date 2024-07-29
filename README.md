@@ -32,14 +32,23 @@ It is inevitable that one robotics team may submit modifications that are in con
 
 > Prerequisite: A Windows 10 or Windows 11 PC with WSL installed. *Don't know if you have WSL? Follow <https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command> which is safe even if WSL is already installed.*
 
-If you haven't checked out this project onto your computer, you can do it now:
+If you haven't checked out this project onto your computer, you can do it now using **PowerShell on Windows**:
+
+```powershell
+# Windows setup
+git -C C:\ clone https://github.com/diskuv/scoutapps.git
+cd C:\scoutapps
+```
+
+or a **macOS terminal**:
 
 ```sh
-git clone https://gitlab.com/diskuv/sonicscout/scoutapps.git
+# macOS setup
+git clone https://github.com/diskuv/scoutapps.git
 cd scoutapps
 ```
 
-Then in either **PowerShell on Windows** or a **macOS terminal** run the following to build and **run Android Studio** (where you can run the Android app):
+Then in the same **PowerShell on Windows** or **macOS terminal** run the following to build and **run Android Studio** (where you can run the Android app):
 
 ```sh
 ./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml android

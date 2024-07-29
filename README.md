@@ -42,13 +42,13 @@ cd scoutapps
 Then in either **PowerShell on Windows** or a **macOS terminal** run the following to build and **run Android Studio** (where you can run the Android app):
 
 ```sh
-./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml android --next
+./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml android
 ```
 
 And/or run the following to build and **run the QR scanner** (the Scout Backend):
 
 ```sh
-./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml scanner --next
+./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml scanner
 ```
 
 When you are in Android Studio (`us/SonicScoutAndroid`) and you make a code change in
@@ -56,7 +56,7 @@ in the other software (like `us/SonicScoutBackend`), you should compile the enti
 so that your changes are visible:
 
 ```sh
-./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml compile --next
+./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml compile
 ```
 
 After the end of the robotics season, you can save space by doing:

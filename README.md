@@ -12,15 +12,25 @@ Squirrel Scout is a First Robotics team from Glacier Peak High School, Washingto
 - [Sonic Scout Apps](#sonic-scout-apps)
   - [Official Releases](#official-releases)
   - [Customizing](#customizing)
-    - [Quick Start](#quick-start)
+    - [Customizing Quick Start](#customizing-quick-start)
   - [Licenses](#licenses)
 
 ## Official Releases
 
-Each year the First Robotics competitions change. The "official" release of the scouting software will always be one year prior. To be one step ahead of the other robotics teams, your team should [**modify** the scouting software](#customizing).
+Each year the First Robotics competitions change. The "official" release of the scouting software will always be **one year prior**. To be one step ahead of the other robotics teams, your team should [**modify** the scouting software](#customizing).
 
-- TBD: Android App is in Play Store.
-- TBD: Windows app should be in Releases.
+| File                                                                                                                                      | Description                                              |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| [`SonicScoutAndroid.apk`](https://github.com/diskuv/scoutapps/releases/download/2024.07.29/SonicScoutAndroid.apk)                         | The Android application. You will need to sideload it.   |
+| [`SonicScoutBackend-1.0.0-win64.msi`](https://github.com/diskuv/scoutapps/releases/download/2024.07.29/SonicScoutBackend-1.0.0-win64.msi) | Windows installer for the QR scanning app and `sqlite3`. |
+| [`SonicScoutQRScanner.dmg`](https://github.com/diskuv/scoutapps/releases/download/2024.07.29/SonicScoutQRScanner.dmg)                     | macOS QR scanning app.                                   |
+
+<https://www.digitaltrends.com/mobile/how-to-sideload-an-apk/> has instructions how to sideload an Android application.
+
+The Windows installer will install:
+
+- a `SonicScoutBackend` folder in your Start Menu. You can launch the QR scanner from that (or just press the Windows key and start typing "Sonic Scout")
+- a `sqlite3` database shell at `C:\Program Files\SonicScoutBackend\bin\sqlite3.exe`. The QR scanning database file will be in the folder `%LOCALAPPDATA%\sonic-scout` (copy that into File Explorer)
 
 ## Customizing
 
@@ -28,7 +38,7 @@ The expectation is that any First Robotics team that uses and modifies the scout
 
 It is inevitable that one robotics team may submit modifications that are in conflict with modifications from another robotics team. Unfortunately there can only be one official release, and only one app submitted to the Google and Apple App Stores. To keep a healthy ["copyleft" open-source license](#licenses) for use by all robotics teams, Diskuv will moderate and decide which modification becomes part of the official release *and* your team will be asked to sign a [Contributor License Agreement](https://www.apache.org/licenses/contributor-agreements.html).
 
-### Quick Start
+### Customizing Quick Start
 
 > Prerequisite: A Windows 10 or Windows 11 PC with WSL installed. *Don't know if you have WSL? Follow <https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command> which is safe even if WSL is already installed.*
 

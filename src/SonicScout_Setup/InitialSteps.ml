@@ -26,7 +26,8 @@ Menu
 1. Receive your team's DkSDK GitLab token by completing the free
    signup at
    %s
-   in your web browser.
+   in your web browser. You'll get an email which has the token
+   (and many more things which you can ignore for now).
 2. Your team already has a DkSDK GitLab token.
 3. Exit this program.
 

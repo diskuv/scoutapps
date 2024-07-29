@@ -69,7 +69,7 @@ class RawMatchDataUiStateSerde {
                 return Schema.EClimb.HARMONY;
 
             case "Park":
-                return Schema.EClimb.PARKED;
+                return Schema.EClimb.PARK;
 
             default:
                 return Schema.EClimb._NOT_IN_SCHEMA;

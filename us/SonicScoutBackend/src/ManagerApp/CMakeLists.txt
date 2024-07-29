@@ -248,6 +248,14 @@ if (TARGET Qt::Multimedia AND TARGET Qt::Quick)
             )
         ")
         install(SCRIPT "${deployScanner}")
+        # Add shortcut for [Sonic Scout QR Scanner]. Only works for WIX packager
+        set_property(
+            INSTALL
+                bin/SonicScoutQRScanner.exe
+            PROPERTY
+                CPACK_START_MENU_SHORTCUTS
+                    "Sonic Scout QR Scanner"
+        )    
     endif()
 endif()
 

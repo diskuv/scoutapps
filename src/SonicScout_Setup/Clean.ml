@@ -92,7 +92,10 @@ module Cli = struct
     let man = [ `S Manpage.s_description; `Blocks help_secs ] in
     Cmd.v
       (Cmd.info ~doc ~man "Clean")
-      Term.(const clean $ Tr1Logs_Term.TerminalCliOptions.term $ areas_t)
+      Term.(
+        const clean
+        $ Tr1Logs_Term.TerminalCliOptions.term ~short_opts:() ()
+        $ areas_t)
 end
 
 let () =

@@ -56,8 +56,8 @@ module Cli = struct
             global_dkml =
               (match global_dkml with Some () -> true | None -> false);
           })
-      $ Tr1Logs_Term.TerminalCliOptions.term $ dksdk_data_home_t $ opts_t
-      $ global_dkml_t)
+      $ Tr1Logs_Term.TerminalCliOptions.term ~short_opts:() ()
+      $ dksdk_data_home_t $ opts_t $ global_dkml_t)
 
   let compile_cmd =
     let open SSCli in

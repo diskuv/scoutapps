@@ -1,18 +1,13 @@
 # Sonic Scout Apps
 
-Sonic Scout Apps is responsible for:
+*Sonic Scout* is scouting software for First Robotics competitions.
 
-1. Being the place for official releases.
-2. *For teams that want to [customize the scouting software](#customizing)*:
-   - Checking out the Android frontend and Windows backend subprojects.
-   - Generating source code that is shared by those subprojects.
-
-Squirrel Scout is a First Robotics team from Glacier Peak High School, Washington State, USA. Two high school juniors (Archit Kumar and Keyush Attarde) wrote the initial versions of the Sonic Scout software with some help from Diskuv. Keeping with the First Robotics value system, the software has been released for use by other robotics teams.
+*Squirrel Scout* is a First Robotics team from Glacier Peak High School, Washington State, USA. Two high school juniors (Archit Kumar and Keyush Attarde) wrote the initial versions of the Sonic Scout software with some help from Diskuv. Keeping with the First Robotics value system, the software has been released for use by other robotics teams.
 
 - [Sonic Scout Apps](#sonic-scout-apps)
   - [Official Releases](#official-releases)
   - [Customizing](#customizing)
-    - [Customizing Quick Start](#customizing-quick-start)
+    - [Quick Start for Customizers](#quick-start-for-customizers)
   - [Licenses](#licenses)
 
 ## Official Releases
@@ -38,7 +33,7 @@ The expectation is that any First Robotics team that uses and modifies the scout
 
 It is inevitable that one robotics team may submit modifications that are in conflict with modifications from another robotics team. Unfortunately there can only be one official release, and only one app submitted to the Google and Apple App Stores. To keep a healthy ["copyleft" open-source license](#licenses) for use by all robotics teams, Diskuv will moderate and decide which modification becomes part of the official release *and* your team will be asked to sign a [Contributor License Agreement](https://www.apache.org/licenses/contributor-agreements.html).
 
-### Customizing Quick Start
+### Quick Start for Customizers
 
 > Prerequisite: A Windows 10 or Windows 11 PC with WSL installed. *Don't know if you have WSL? Follow <https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command> which is safe even if WSL is already installed.*
 

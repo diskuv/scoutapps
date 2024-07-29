@@ -127,13 +127,13 @@ let package ~notarize () =
             % Fpath.to_string cmake_zip % Fpath.to_string tools_dir)
         |> rmsg);
 
-      (* Run CPack with ZIP *)
+      (* Run CPack with WIX *)
       let env =
         OS.Env.current () |> rmsg
         |> OSEnvMap.(add "WIX" (Fpath.to_string wixdir))
       in
       RunCPack.run ~cpack:cpack_new ~env ~projectdir ~builddir
-        [ "-G"; "ZIP"; "-D"; Fmt.str "CPACK_WIX_VERSION=%d" wixmajorver ];
+        [ "-G"; "WIX"; "-D"; Fmt.str "CPACK_WIX_VERSION=%d" wixmajorver ];
 
       Logs.app (fun l ->
           l "The Windows .msi for publishing is at %a" Fpath.pp

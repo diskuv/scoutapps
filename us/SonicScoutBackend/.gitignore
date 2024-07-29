@@ -56,6 +56,9 @@ user.envrc
 /aqtinstall.log
 /5.15.2
 
+# Parent `scoutapps`'s ./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Package.ml --notarize
+/sign/
+
 # --------------------------------------------------------------------------
 # JETBRAINS IDEs
 

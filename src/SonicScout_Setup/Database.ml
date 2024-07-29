@@ -18,6 +18,7 @@ let run ~slots () =
   in
 
   (* Run the scanner *)
+  Logs.info (fun l -> l "Opening database %a" Fpath.pp sqlite3_db);
   OS.Cmd.run
     Cmd.(
       v (p sqlite3_exe)

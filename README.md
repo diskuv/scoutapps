@@ -104,7 +104,7 @@ A DkSDK license token is necessary when you want to rebuild the applications wit
 customizations for your own robotics team. The token is free to any First Robotics team
 who has an adult sponsor (ex. a mentor) who also agrees to submit their team's code changes at the end of each robotics season (a "pull request") using an open-source
 [Contributor License Agreement](https://yahoo.github.io/oss-guide/docs/resources/what-is-cla.html).
-Contact jonah AT diskuv.com to get a token.
+You will be shown how to get a token when you run the commands in [Quick Start for Customizers](#quick-start-for-customizers).
 
 You do *not* need a token to run the Android app from the Google Play Store, nor do you
 need the license token to run the QR scanner backend app.

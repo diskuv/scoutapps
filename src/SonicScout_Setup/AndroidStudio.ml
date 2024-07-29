@@ -36,7 +36,7 @@ BUILDING INSIDE ANDROID STUDIO
 7. You will get very slow `Scanning index files`, `Loading symbols` and `Indexing` actions.
    To avoid these, right-click on any `\\wsl.localhost` based `build/DkSDKFiles` folders and
    **Mark Directory as Excluded**. That is shown on the picture:
-   https://gitlab.com/diskuv/sonicscout/scoutapps/-/blob/main/us/SonicScoutAndroid/static/exclude-DkSDKFiles.png
+   https://raw.githubusercontent.com/diskuv/scoutapps/ff400352dea7df67f83f46f21dd387acf3f07132/us/SonicScoutAndroid/static/exclude-DkSDKFiles.png
 
 Do you want to launch Android Studio now? (y/N) |};
     StdIo.flush StdIo.stdout;

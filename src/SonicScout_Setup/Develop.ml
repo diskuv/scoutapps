@@ -123,5 +123,7 @@ module Cli = struct
 end
 
 let () =
-  Tr1Logs_Term.TerminalCliOptions.init ();
-  StdExit.exit (Cmdliner.Cmd.eval Cli.groups_cmd)
+  if Tr1EntryName.module_id = __MODULE_ID__ then begin
+    Tr1Logs_Term.TerminalCliOptions.init ();
+    StdExit.exit (Cmdliner.Cmd.eval Cli.groups_cmd)
+  end

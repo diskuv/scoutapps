@@ -48,17 +48,25 @@ git clone https://github.com/diskuv/scoutapps.git
 cd scoutapps
 ```
 
-Then in the same **PowerShell on Windows** or **macOS terminal** run the following to build and **run Android Studio** (where you can run the Android app):
+**Then** either ...
 
-```sh
-./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml android
-```
+- in the same **PowerShell on Windows** or **macOS terminal** run the following to build and **run Android Studio** (where you can run the Android app):
 
-And/or run the following to build and **run the QR scanner** (the Scout Backend):
+  ```sh
+  ./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml android
+  ```
 
-```sh
-./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml scanner
-```
+- **or** run the following to build and **run the QR scanner** (the Scout Backend):
+
+  ```sh
+  ./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml scanner
+  ```
+
+- **or** run the following to build and **query the QR scanner database**:
+
+  ```sh
+  ./dk DkRun_V0_4.Run -- src/SonicScout_Setup/Develop.ml database
+  ```
 
 When you are in Android Studio (`us/SonicScoutAndroid`) and you make a code change in
 in the other software (like `us/SonicScoutBackend`), you should compile the entire project

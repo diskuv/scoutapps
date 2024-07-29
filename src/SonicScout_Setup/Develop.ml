@@ -43,6 +43,14 @@ let launch_scanner common =
     Utils.done_steps "Developing"
   with Utils.StopProvisioning -> ()
 
+let launch_database common =
+  try
+    let slots = compile_base ~skip_android:() common in
+    let slots = Database.run ~slots () in
+    ignore slots;
+    Utils.done_steps "Developing"
+  with Utils.StopProvisioning -> ()
+
 module Cli = struct
   open Cmdliner
 
@@ -90,6 +98,19 @@ module Cli = struct
     let man = [ `S Manpage.s_description; `Blocks help_secs ] in
     Cmd.v (Cmd.info ~doc ~man "scanner") Term.(const launch_scanner $ common_t)
 
+  let database_cmd =
+    let open SSCli in
+    let doc =
+      "Launch a shell to read the `sqlite3` database of QR code scans and \
+       export CSV files for Excel. Your machine will be setup with \
+       prerequisites, and code will be compiled (everything except Android), \
+       if it hasn't been already."
+    in
+    let man = [ `S Manpage.s_description; `Blocks help_secs ] in
+    Cmd.v
+      (Cmd.info ~doc ~man "database")
+      Term.(const launch_database $ common_t)
+
   let groups_cmd =
     let doc = "Develop the Sonic Scout software." in
     let man = [ `S Manpage.s_description; `Blocks SSCli.help_secs ] in
@@ -98,7 +119,7 @@ module Cli = struct
     in
     Cmd.group ~default
       (Cmd.info ~doc ~man ("./dk " ^ __MODULE_ID__))
-      [ compile_cmd; android_cmd; scanner_cmd ]
+      [ compile_cmd; android_cmd; scanner_cmd; database_cmd ]
 end
 
 let () =

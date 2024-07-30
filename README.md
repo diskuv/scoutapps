@@ -18,6 +18,10 @@ In the **top right** there is a scout at a First Robotics competition entering i
 
 The picture is from a YouTube video (`Develop Cross-Platform Software using 2+ Languages @ 04:35`) describing the technical underpinnings of the Sonic Scout software: <https://youtu.be/N9fVAIPMfKU?si=a6GVY1OXeqCHMQFH>.
 
+The Android tablet has the following workflow (top left to bottom right) for a scout to record match information:
+
+![Android tablet pages](docs/assets/AndroidTablet-Pages.png)
+
 ## Official Releases
 
 Each year the First Robotics competitions change. The "official" release of the scouting software will always be **one year prior**. To be one step ahead of the other robotics teams, your team should [**modify** the scouting software](#customizing).

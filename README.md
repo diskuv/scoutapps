@@ -16,7 +16,9 @@
 In the **top right** there is a scout at a First Robotics competition entering information into an Android tablet (that source code is in [us/SonicScoutAndroid/](us/SonicScoutAndroid/)) and **on the laptop screen** you will see the scouting "manager" capturing a QR code from another scout who has completed their scouting; the QR scanning desktop "Manager" software lives in [us/SonicScoutBackend/](us/SonicScoutBackend/):
 ![Windows desktop "manager" app](docs/assets/DesktopManagerApp-Live.png)
 
-The picture is from a YouTube video (`Develop Cross-Platform Software using 2+ Languages @ 04:35`) describing the technical underpinnings of the Sonic Scout software: <https://youtu.be/N9fVAIPMfKU?si=a6GVY1OXeqCHMQFH>.
+The picture is from a YouTube video (`Develop Cross-Platform Software using 2+ Languages @ 04:35`) describing the technical underpinnings of the Sonic Scout software:
+
+[![Develop Cross-Platform Software using 2+ Languages](https://img.youtube.com/vi/N9fVAIPMfKU/0.jpg)](https://www.youtube.com/watch?v=N9fVAIPMfKU)
 
 The Android tablet has the following workflow (top left to bottom right) for a scout to record match information:
 

@@ -5,10 +5,18 @@
 *Sonic Squirrels* is a First Robotics team from Glacier Peak High School, Washington State, USA. Two high school juniors (Archit Kumar and Keyush Attarde) wrote the initial versions of the Sonic Scout software with some help from Diskuv. Keeping with the First Robotics value system, the software has been released for use by other robotics teams.
 
 - [Sonic Scout Apps](#sonic-scout-apps)
+  - [Overview](#overview)
   - [Official Releases](#official-releases)
   - [Customizing](#customizing)
     - [Quick Start for Customizers](#quick-start-for-customizers)
   - [Licenses](#licenses)
+
+## Overview
+
+In the **top right** there is a scout at a First Robotics competition entering information into an Android tablet (that source code is in [us/SonicScoutAndroid/](us/SonicScoutAndroid/)) and **on the laptop screen** you will see the scouting "manager" capturing a QR code from another scout who has completed their scouting; the QR scanning desktop "Manager" software lives in [us/SonicScoutBackend/](us/SonicScoutBackend/):
+![Windows desktop "manager" app](docs/assets/DesktopManagerApp-Live.png)
+
+The picture is from a YouTube video (`Develop Cross-Platform Software using 2+ Languages @ 04:35`) describing the technical underpinnings of the Sonic Scout software: <https://youtu.be/N9fVAIPMfKU?si=a6GVY1OXeqCHMQFH>.
 
 ## Official Releases
 

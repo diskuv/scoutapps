@@ -7,6 +7,7 @@ let clean areas =
   let open Utils in
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
+  Qt.clean areas;
   if List.mem `DkSdkSourceCode areas then begin
     start_step "Cleaning SonicScoutBackend DkSDK source code";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
@@ -29,9 +30,17 @@ let clean areas =
     |> rmsg
   end;
   if List.mem `Builds areas then begin
-    start_step "Cleaning SonicScoutBackend build artifacts";
+    start_step
+      "Cleaning SonicScoutBackend build artifacts (this may take tens of \
+       minutes)";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
-      Fpath.[ projectdir // build_reldir; projectdir // user_presets_relfile ]
+      Fpath.
+        [
+          projectdir // build_reldir;
+          projectdir / "_build";
+          projectdir / ".tools";
+          projectdir // user_presets_relfile;
+        ]
     |> rmsg
   end
 

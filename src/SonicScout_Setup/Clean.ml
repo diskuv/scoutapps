@@ -26,7 +26,7 @@ let clean (_ : Tr1Logs_Term.TerminalCliOptions.t) areas =
           |> Utils.rmsg
       | _ -> ()
     end;
-    ScoutBackend.clean areas;
+    ScoutBackend.clean areas;    
     ScoutAndroid.clean areas;
     Utils.done_steps "Cleaning"
   with Utils.StopProvisioning -> ()
@@ -79,7 +79,10 @@ module Cli = struct
           ( [ `DkCoderWork ],
             info ~docs:s_areas ~doc:"Clean the DkCoder work directories."
               [ "dkcoder-work" ] );
-          ( [ `Builds; `DkSdkSourceCode; `DkCoderWork ],
+          ( [ `QtInstallation ],
+            info ~docs:s_areas ~doc:"Clean the Qt installation."
+              [ "qt-installation" ] );
+          ( [ `Builds; `DkSdkSourceCode; `DkCoderWork; `QtInstallation ],
             info ~docs:s_areas ~doc:"Cleans everything." [ "all" ] );
         ]
     in

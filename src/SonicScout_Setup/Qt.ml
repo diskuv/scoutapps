@@ -1,5 +1,18 @@
 open Utils
 
+let qt5_ver = "5.15.2"
+
+let clean areas =
+  let open Bos in
+  let cwd = OS.Dir.current () |> rmsg in
+  let projectdir = Fpath.(cwd / "us" / "SonicScoutBackend") in
+  if List.mem `QtInstallation areas then begin
+    start_step "Cleaning SonicScoutBackend Qt installation";
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+      Fpath.[ projectdir / qt5_ver ]
+    |> rmsg
+  end
+
 (** This does a global install of Miniconda3. We could do a local
     install using the {{:https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html}user guide}
     but it seems like overkill for Windows (where we already do
@@ -112,7 +125,6 @@ let qt_locations () =
     | _ ->
         failwith "Currently your host machine is not supported by Sonic Scout"
   in
-  let qt5_ver = "5.15.2" in
   { host; target; qt5_ver; subdir }
 
 let run () =

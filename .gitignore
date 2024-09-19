@@ -12,6 +12,7 @@
 
 # vscode
 /.vscode/settings-local.json
+/.vscode/tasks.json
 
 # scratch space
 /scratch/

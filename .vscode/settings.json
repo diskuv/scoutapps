@@ -1,6 +1,6 @@
 {
     "ocaml.sandbox": {
         "kind": "custom",
-        "template": "${firstWorkspaceFolder}/dk DkRun_V0_4.RunQuiet --log-level ERROR -- DkDev_Std.Exec -- $prog $args"
+        "template": "${firstWorkspaceFolder}/dk DkRun_Project.RunQuiet --log-level ERROR -- DkDev_Std.Exec -- $prog $args"
     }
 }

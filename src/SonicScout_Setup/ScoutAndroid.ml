@@ -31,11 +31,29 @@ let clean areas =
       Fpath.[ projectdir / "fetch" / "dksdk-cmake" ]
     |> rmsg
   end;
+  if List.mem `MavenRepository areas then begin
+    start_step "Cleaning Maven repositories (Java artifacts for DkSDK only)";
+    let m2repo =
+      if Sys.win32 then
+        Fpath.(v (Sys.getenv "USERPROFILE") / ".m2" / "repository")
+      else Fpath.(v (Sys.getenv "HOME") / ".m2" / "repository")
+    in
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+      Fpath.
+        [
+          m2repo / "com" / "diskuv" / "dksdk" / "core";
+          m2repo / "com" / "diskuv" / "dksdk" / "ffi";
+        ]
+    |> rmsg
+  end;
   if List.mem `Builds areas then begin
     start_step "Cleaning SonicScoutAndroid build artifacts";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
       Fpath.
         [
+          projectdir / ".ci";
+          projectdir / ".gradle";
+          projectdir / "local.properties";
           projectdir / "dkconfig" / "build";
           projectdir / "data" / ".cxx";
           projectdir / "data" / "build";

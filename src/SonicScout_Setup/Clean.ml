@@ -26,7 +26,7 @@ let clean (_ : Tr1Logs_Term.TerminalCliOptions.t) areas =
           |> Utils.rmsg
       | _ -> ()
     end;
-    ScoutBackend.clean areas;    
+    ScoutBackend.clean areas;
     ScoutAndroid.clean areas;
     Utils.done_steps "Cleaning"
   with Utils.StopProvisioning -> ()
@@ -82,7 +82,17 @@ module Cli = struct
           ( [ `QtInstallation ],
             info ~docs:s_areas ~doc:"Clean the Qt installation."
               [ "qt-installation" ] );
-          ( [ `Builds; `DkSdkSourceCode; `DkCoderWork; `QtInstallation ],
+          ( [ `MavenRepository ],
+            info ~docs:s_areas
+              ~doc:"Clean the DkSDK portions of the Maven repository."
+              [ "maven-repo" ] );
+          ( [
+              `Builds;
+              `DkSdkSourceCode;
+              `DkCoderWork;
+              `QtInstallation;
+              `MavenRepository;
+            ],
             info ~docs:s_areas ~doc:"Cleans everything." [ "all" ] );
         ]
     in

@@ -5,7 +5,7 @@
 ; Any .mld in the current directory will become part of the documentation.
 ; The index.mld, if any, will be the package entry documentation page.
 ; See https://dune.readthedocs.io/en/stable/documentation.html for more details.
-(documentation (package SquirrelScout_MainCLI))
+(documentation (package SonicScout_MainCLI))
 
 ; Can place .ml files not only in a directory as siblings to the `dune` file, but can
 ; also place .ml files in the `dune` subdirectories.

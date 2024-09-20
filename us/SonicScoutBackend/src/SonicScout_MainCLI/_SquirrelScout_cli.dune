@@ -43,7 +43,7 @@
 ; the CMake linked executable.
 (install
  (section lib_root)
- (package SquirrelScout_MainCLI)
+ (package SonicScout_MainCLI)
  (files
   (SquirrelScout_cli.exe%{ext_obj} as ocamldunear/SquirrelScout_cli.exe%{ext_obj})
   (SquirrelScout_cli.exe as ocamldunear/SquirrelScout_cli.exe)))

@@ -16,4 +16,4 @@ target_link_libraries(SquirrelScout_Objs PRIVATE
         SquirrelScout_Std
 
         # DkSDK::FFI::OCaml
-        Findlib::DkSDKFFIOCaml_Std)
+        Findlib::DkSDKFFI_OCaml)

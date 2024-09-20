@@ -2,10 +2,7 @@
 opam-version: "2.0"
 version: "1.0.0"
 synopsis:
-  "A simple Hello World executable that demonstrates how to use DkSDK CMake"
-description: """
-SquirrelScout_MainCLI is a TCP/IP echo server that repeats whatever you send it.
-You can clone the project using the './dk dksdk.project.new' command; see the DkSDK.md document for more information."""
+  "The project created within the PROJECT_NAME \"SonicScout\" project by a DkSDKProject_AddPackage() command in tests/Units/CMakeLists.txt that is missing a SUMMARY_ONELINER property"
 maintainer: ["Diskuv Support <support@diskuv.com>"]
 authors: ["Diskuv Support <support@diskuv.com>"]
 license: "DocumentRef-Diskuv-Commercial-1.0:LicenseRef-AllRightsReserved-1"
@@ -13,10 +10,9 @@ homepage: "https://diskuv.com/cmake/help/latest"
 bug-reports: "https://gitlab.com/diskuv/samples/SquirrelScout/-/issues"
 depends: [
   "dune" {>= "3.8"}
-  "ocaml" {>= "4.14.0"}
-  "cmdliner" {>= "1.1.0"}
-  "logs" {>= "0.7.0"}
-  "fmt" {>= "0.9.0"}
+  "ocaml" {>= "4.14.2"}
+  "tezt" {with-test & = "3.1.0"}
+  "lwt"
   "odoc" {with-doc}
 ]
 build: [

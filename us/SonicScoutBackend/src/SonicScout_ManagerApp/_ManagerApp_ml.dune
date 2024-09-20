@@ -38,7 +38,7 @@
 ; the CMake linked executable.
 (install
  (section lib_root)
- (package SquirrelScout_ManagerApp)
+ (package SonicScout_ManagerApp)
  (files
   (ManagerApp_ml.exe%{ext_obj} as ocamldunear/ManagerApp_ml.exe%{ext_obj})
   (ManagerApp_ml.exe as ocamldunear/ManagerApp_ml.exe)))

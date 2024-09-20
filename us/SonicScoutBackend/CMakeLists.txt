@@ -29,7 +29,7 @@ set(DKSDK_DUNE_LOCK_TIMEOUT_SECS 240 CACHE STRING "" FORCE)
 #         listed last per best practices
 #       * You do not need CXX (C++) compiler unless you bring in your own
 #         C++ code or dependencies
-project(SquirrelScout VERSION 1.0.0 LANGUAGES C CXX OCamlDune ${dksdk-cmake_LANG_ASM})
+project(SonicScout VERSION 1.0.0 LANGUAGES C CXX OCamlDune ${dksdk-cmake_LANG_ASM})
 
 # Project wide setup
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)

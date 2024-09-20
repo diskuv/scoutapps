@@ -12,7 +12,7 @@ bug-reports: "https://gitlab.com/diskuv/samples/SquirrelScout/-/issues"
 depends: [
   "dune" {>= "3.8"}
   "ocaml" {>= "4.14.2"}
-  "DkSDKFFIOCaml_Std"
+  "DkSDKFFI_OCaml"
   "odoc" {with-doc}
 ]
 build: [

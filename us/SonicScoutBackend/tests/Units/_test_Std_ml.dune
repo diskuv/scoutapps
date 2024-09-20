@@ -41,7 +41,7 @@
 ; the CMake linked executable.
 (install
  (section lib_root)
- (package SquirrelScout_Units)
+ (package SonicScout_Units)
  (files
   (test_Std_ml.exe%{ext_obj} as ocamldunear/test_Std_ml.exe%{ext_obj})
   (test_Std_ml.exe as ocamldunear/test_Std_ml.exe)))

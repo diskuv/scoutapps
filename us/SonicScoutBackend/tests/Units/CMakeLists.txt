@@ -1,4 +1,4 @@
-DkSDKProject_AddPackage(AUTO_OPAM_PACKAGE TESTS)
+DkSDKProject_AddPackage(OPAM_PACKAGE SonicScout_Units TESTS)
 
 include(DkSDKTest)
 

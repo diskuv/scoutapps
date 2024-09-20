@@ -74,7 +74,11 @@ module Cli = struct
                  will resynchronize dksdk-cmake from its upstream on the next \
                  SonicScout_Setup.Develop command."
               [ "dksdk-cmake" ] );
-          ( [ `Builds ],
+          ( [ `AndroidBuilds ],
+            info ~docs:s_areas ~doc:"Clean the Android build artifacts." [ "android-builds" ] );
+          ( [ `BackendBuilds ],
+            info ~docs:s_areas ~doc:"Clean the Backend build artifacts." [ "backend-builds" ] );
+          ( [ `AndroidBuilds; `BackendBuilds ],
             info ~docs:s_areas ~doc:"Clean the build artifacts." [ "builds" ] );
           ( [ `DkCoderWork ],
             info ~docs:s_areas ~doc:"Clean the DkCoder work directories."
@@ -87,7 +91,8 @@ module Cli = struct
               ~doc:"Clean the DkSDK portions of the Maven repository."
               [ "maven-repo" ] );
           ( [
-              `Builds;
+              `AndroidBuilds;
+              `BackendBuilds;
               `DkSdkSourceCode;
               `DkCoderWork;
               `QtInstallation;

@@ -46,7 +46,7 @@ let clean areas =
         ]
     |> rmsg
   end;
-  if List.mem `Builds areas then begin
+  if List.mem `AndroidBuilds areas then begin
     start_step "Cleaning SonicScoutAndroid build artifacts";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
       Fpath.

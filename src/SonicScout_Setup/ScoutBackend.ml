@@ -29,7 +29,7 @@ let clean areas =
       Fpath.[ projectdir / "fetch" / "dksdk-cmake" ]
     |> rmsg
   end;
-  if List.mem `Builds areas then begin
+  if List.mem `BackendBuilds areas then begin
     start_step
       "Cleaning SonicScoutBackend build artifacts (this may take tens of \
        minutes)";

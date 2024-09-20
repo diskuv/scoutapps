@@ -1,5 +1,5 @@
 open Tezt
-open DkSDKFFIOCaml_Std
+open DkSDKFFI_OCaml
 module ProjectSchema = SquirrelScout_Std.Schema.Make (ComMessage.C)
 
 let tags = [ "objs" ]

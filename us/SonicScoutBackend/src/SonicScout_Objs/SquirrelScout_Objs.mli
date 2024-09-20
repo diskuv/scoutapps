@@ -1,4 +1,4 @@
-open DkSDKFFIOCaml_Std
+open DkSDKFFI_OCaml
 open ComStandardSchema.Make(ComMessage.C)
 
 val register_objects :

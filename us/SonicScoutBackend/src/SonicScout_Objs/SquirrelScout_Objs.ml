@@ -1,6 +1,6 @@
 let () = print_endline "in SquirrelScout_Objs"
 
-open DkSDKFFIOCaml_Std
+open DkSDKFFI_OCaml
 open ComStandardSchema.Make (ComMessage.C)
 open Com.MakeClassBuilder (ComMessage.C)
 module ProjectSchema = SquirrelScout_Std.Schema.Make (ComMessage.C)

@@ -60,7 +60,7 @@ module Cli = struct
     let infos =
       Arg.
         [
-          ( [ `DkSdkSourceCode ],
+          ( [ `DkSdkCMake; `DkSdkSourceCode ],
             info ~docs:s_areas
               ~doc:
                 "Clean the DkSDK source code in fetch/ folders, which will \
@@ -74,10 +74,18 @@ module Cli = struct
                  will resynchronize dksdk-cmake from its upstream on the next \
                  SonicScout_Setup.Develop command."
               [ "dksdk-cmake" ] );
+          ( [ `DkSdkWsl2 ],
+            info ~docs:s_areas
+              ~doc:
+                "Clean the DkSDK WSL2 distributions used for the Android \
+                 Gradle Plugin."
+              [ "dksdk-wsl2" ] );
           ( [ `AndroidBuilds ],
-            info ~docs:s_areas ~doc:"Clean the Android build artifacts." [ "android-builds" ] );
+            info ~docs:s_areas ~doc:"Clean the Android build artifacts."
+              [ "android-builds" ] );
           ( [ `BackendBuilds ],
-            info ~docs:s_areas ~doc:"Clean the Backend build artifacts." [ "backend-builds" ] );
+            info ~docs:s_areas ~doc:"Clean the Backend build artifacts."
+              [ "backend-builds" ] );
           ( [ `AndroidBuilds; `BackendBuilds ],
             info ~docs:s_areas ~doc:"Clean the build artifacts." [ "builds" ] );
           ( [ `DkCoderWork ],
@@ -94,9 +102,11 @@ module Cli = struct
               `AndroidBuilds;
               `BackendBuilds;
               `DkSdkSourceCode;
+              `DkSdkCMake;
               `DkCoderWork;
               `QtInstallation;
               `MavenRepository;
+              `DkSdkWsl2;
             ],
             info ~docs:s_areas ~doc:"Cleans everything." [ "all" ] );
         ]

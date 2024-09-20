@@ -17,6 +17,20 @@ open Bos
 (* Ported from Utils since this script is standalone. *)
 let rmsg = function Ok v -> v | Error (`Msg msg) -> failwith msg
 
+let clean areas =
+  let open Utils in
+  if Sys.win32 && List.mem `DkSdkWsl2 areas then begin
+    start_step "Cleaning DkSDK WSL2 distributions";
+    let dksdk_distributions =
+      wsl2_list []
+      |> List.filter (fun distribution ->
+             String.starts_with ~prefix:"DkSDK-" distribution)
+    in
+    List.iter
+      (fun distribution -> wsl2 [ "--unregister"; distribution ])
+      dksdk_distributions
+  end
+
 (** Don't leak DkCoder OCaml environment to Android Gradle Plugin which will infect DkSDK CMake
     host detection of OCaml (`ocamlc -where` in dksdk-cmake/.../115-ocaml-config).
     In fact, don't leak any existing OCaml environment. *)

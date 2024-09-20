@@ -15,7 +15,6 @@ let clean areas =
           projectdir / "fetch" / "dkml-runtime-common";
           projectdir / "fetch" / "dkml-runtime-distribution";
           projectdir / "fetch" / "dksdk-access";
-          projectdir / "fetch" / "dksdk-cmake";
           projectdir / "fetch" / "dksdk-ffi-c";
           projectdir / "fetch" / "dksdk-ffi-java";
           projectdir / "fetch" / "dksdk-ffi-ocaml";
@@ -75,7 +74,8 @@ let clean areas =
           ffijava / "ffi-java-jdk11" / "build";
         ]
     |> Utils.rmsg
-  end
+  end;
+  RunGradle.clean areas
 
 let run ?opts ~slots () =
   let open Bos in

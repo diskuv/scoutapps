@@ -82,6 +82,28 @@ let slot_env ?env ~slots () =
   let sepstring_PATH = String.make 1 sepchar_PATH in
   OSEnvMap.add "PATH" (String.concat sepstring_PATH (slots_PATH @ env_PATH)) env
 
+(** {1 Running wsl2} *)
+
+let wsl2_list args =
+  let open Bos in
+  Logs.info (fun l ->
+      l "wsl --list%s%a"
+        (if args = [] then "" else " ")
+        (Fmt.list ~sep:Fmt.sp Fmt.string)
+        args);
+  let lines, _status =
+    OS.Cmd.run_out Cmd.(v "wsl" % "--list" %% of_list args)
+    |> OS.Cmd.out_lines |> rmsg
+  in
+  List.filter
+    (fun s -> not (String.equal "Windows Subsystem for Linux Distributions:" s))
+    (List.map String.trim lines)
+
+let wsl2 args =
+  let open Bos in
+  Logs.info (fun l -> l "wsl %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
+  OS.Cmd.run Cmd.(v "wsl" %% of_list args) |> rmsg
+
 (** {1 Running git} *)
 
 let git ~slots args =

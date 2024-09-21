@@ -45,8 +45,11 @@
         // in the fetch/ subfolder of this project on the build machine. That means you can edit the
         // dependency's source code regardless of the build machine.
         "urls": [
-          // The first URL is for when SonicScoutBackend is a `git subtree` of sonicapps/.
-          "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../../${dependencyName}",
+          // The first two URLs are for when SonicScoutBackend is a `git subtree` or `git submodule` of some
+          // `<other_project=sonicapps>/vendor/SonicScoutBackend`, and when SonicScoutBackend is integration tested by
+          // tests/build-and-test/CMakeLists.txt in `<SonicScoutBackend>/build/_bt/p`.
+          "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../fetch/${dependencyName}",
+          "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../../fetch/${dependencyName}",
           "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/${dependencyName}",
           "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceDir}/fetch/${dependencyName}"
         ]

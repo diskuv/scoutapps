@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "ocamllabs.ocaml-platform"
+        "ocamllabs.ocaml-platform",
+        "fredericbonnet.cmake-test-adapter"
     ]
 }

@@ -2,5 +2,6 @@
     "ocaml.sandbox": {
         "kind": "custom",
         "template": "${firstWorkspaceFolder}/dk DkRun_Project.RunQuiet --log-level ERROR -- DkDev_Std.Exec -- $prog $args"
-    }
+    },
+    "cmakeExplorer.buildDir": "us/SonicScoutBackend/build_dev"
 }

@@ -59,11 +59,11 @@
       "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
       "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
       "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
-      // The remaining dependencies are third-party open source projects (TODO: not all of them are needed)
+      // The remaining dependencies are third-party open source projects
       "dkml-runtime-common": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-runtime-common.git" ] },
       "dkml-runtime-distribution": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-runtime-distribution.git" ] },
       "dkml-compiler": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-compiler.git" ] },
-      "opam-overlays": { "inherits": "_local", "urls": [ "https://github.com/dune-universe/opam-overlays.git#master" ] },
-      "opam-repository": { "inherits": "_local", "urls": [ "https://github.com/ocaml/opam-repository.git#master" ] }
+      "opam-repository-ocaml": { "inherits": "_local", "urls": [ "https://github.com/ocaml/opam-repository.git#master" ] },
+      "opam-repository-dune-universe": { "inherits": "_local", "urls": [ "https://github.com/dune-universe/opam-overlays.git#master" ] }
     }
   }

@@ -13,10 +13,6 @@
         "CMAKE_BUILD_TYPE": "Release",
         "DKSDK_GOLDEN_SOURCE_CODE": "ON",
         "DKSDK_DEV_TOOLS": "OFF",
-        "DKSDK_CENTRAL_OPAM_REPOSITORY": "git+file://${sourceDir}/fetch/opam-repository/.git",
-        "DKSDK_OPAM_REPOSITORY": "git+file://${sourceDir}/fetch/dksdk-opam-repository/.git",
-        "DKSDK_OPAM_REPOSITORY_JS": "git+file://${sourceDir}/fetch/dksdk-opam-repository-js/.git",
-        "DUNIVERSE_OPAM_REPOSITORY": "git+file://${sourceDir}/fetch/opam-overlays/.git",
         "FETCHCONTENT_SOURCE_DIR_DKML-COMPILER": {
           "type": "FILEPATH",
           "value": "${sourceDir}/fetch/dkml-compiler"

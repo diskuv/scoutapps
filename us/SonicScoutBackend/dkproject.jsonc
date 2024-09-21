@@ -67,6 +67,7 @@
       "dkml-runtime-distribution": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-runtime-distribution.git" ] },
       "dkml-compiler": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-compiler.git" ] },
       "opam-repository-ocaml": { "inherits": "_local", "urls": [ "https://github.com/ocaml/opam-repository.git#master" ] },
-      "opam-repository-dune-universe": { "inherits": "_local", "urls": [ "https://github.com/dune-universe/opam-overlays.git#master" ] }
+      //  Temporary until https://github.com/dune-universe/opam-overlays/pull/217
+      "opam-repository-dune-universe": { "inherits": "_local", "urls": [ "https://github.com/jonahbeckford/opam-overlays.git#remove-submodule" ] }
     }
   }

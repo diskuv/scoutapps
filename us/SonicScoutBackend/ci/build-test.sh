@@ -43,13 +43,6 @@ else
     export PATH="$PWD/.ci/sd4/opamrun:$PATH"
 fi
 
-# Install CMake, Ninja and Android Command Line Tools if not pre-installed
-# and necessary
-cmdrun sh -cx './dk dksdk.ninja.copy && dksdk.cmake.copy && ./dk dksdk.android.ndk.download'
-
-# Clone private dependencies
-cmdrun sh ./dk dksdk.project.get
-
 # Accessors
 
 cmake_run() {

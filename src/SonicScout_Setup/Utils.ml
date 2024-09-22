@@ -84,25 +84,63 @@ let slot_env ?env ~slots () =
 
 (** {1 Running wsl2} *)
 
-let wsl2_list args =
+let wsl2_env ~env () =
   let open Bos in
+  let env =
+    match env with Some env -> env | None -> OS.Env.current () |> rmsg
+  in
+  (* UTF-16 encoding by default. https://stackoverflow.com/a/72324672/21513816.
+     But not all WSL versions support it. So we do [recode_into_utf8] as well. *)
+  OSEnvMap.add "WSL_UTF8" "1" env
+
+(* https://erratique.ch/software/uutf/doc/Uutf/index.html *)
+let recode ?nln ?encoding out_encoding
+    (src : [ `Channel of in_channel | `String of string ])
+    (dst : [ `Channel of out_channel | `Buffer of Buffer.t ]) =
+  let rec loop d e =
+    match Uutf.decode d with
+    | `Uchar _ as u ->
+        ignore (Uutf.encode e u);
+        loop d e
+    | `End -> ignore (Uutf.encode e `End)
+    | `Malformed _ ->
+        ignore (Uutf.encode e (`Uchar Uutf.u_rep));
+        loop d e
+    | `Await -> assert false
+  in
+  let d = Uutf.decoder ?nln ?encoding src in
+  let e = Uutf.encoder out_encoding dst in
+  loop d e
+
+let recode_into_utf8 str =
+  let dst = Buffer.create (String.length str) in
+  recode ~nln:(`ASCII (Uchar.of_char '\n')) `UTF_8 (`String str) (`Buffer dst);
+  Buffer.contents dst
+
+let wsl2_list ?env args =
+  let open Bos in
+  let env = wsl2_env ~env () in
   Logs.info (fun l ->
       l "wsl --list%s%a"
         (if args = [] then "" else " ")
         (Fmt.list ~sep:Fmt.sp Fmt.string)
         args);
-  let lines, _status =
-    OS.Cmd.run_out Cmd.(v "wsl" % "--list" %% of_list args)
-    |> OS.Cmd.out_lines |> rmsg
+  let out, _status =
+    OS.Cmd.run_out ~env Cmd.(v "wsl" % "--list" %% of_list args)
+    |> OS.Cmd.out_string |> rmsg
+  in
+  let lines =
+    recode_into_utf8 out |> Stringext.split ~on:'\n' |> List.map String.trim
   in
   List.filter
     (fun s -> not (String.equal "Windows Subsystem for Linux Distributions:" s))
-    (List.map String.trim lines)
+    lines
 
-let wsl2 args =
+let wsl2 ?env args =
   let open Bos in
+  let env = wsl2_env ~env () in
   Logs.info (fun l -> l "wsl %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
-  OS.Cmd.run Cmd.(v "wsl" %% of_list args) |> rmsg
+  OS.Cmd.run ~env Cmd.(v "wsl" %% of_list args) |> rmsg
 
 (** {1 Running git} *)
 

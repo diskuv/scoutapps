@@ -65,6 +65,38 @@ let run ?debug_env ?env ?global_dkml ~projectdir ~name ~slots args =
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $ErrorActionPreference='Stop';
+
+# Clear out any parent VsDev/vcvarsall environment variables. We only want
+# the `-VsInstallPath <installation>` selected.
+Function Remove-EnvItem {
+    param ( [string]$Name )
+    if (Test-Path "$Name") {
+      Remove-Item "$Name"
+    }
+}
+Remove-EnvItem Env:__devinit_path
+Remove-EnvItem Env:__VCVARS_REDIST_VERSION
+Remove-EnvItem Env:__VSCMD_PREINIT_PATH
+Remove-EnvItem Env:__VSCMD_PREINIT_VCToolsVersion
+Remove-EnvItem Env:DevEnvDir
+Remove-EnvItem Env:EXTERNAL_INCLUDE
+Remove-EnvItem Env:INCLUDE
+Remove-EnvItem Env:LIB
+Remove-EnvItem Env:LIBPATH
+Remove-EnvItem Env:VCIDEInstallDir
+Remove-EnvItem Env:VCINSTALLDIR
+Remove-EnvItem Env:VCToolsInstallDir
+Remove-EnvItem Env:VCToolsRedistDir
+Remove-EnvItem Env:VCToolsVersion
+Remove-EnvItem Env:VS160COMNTOOLS
+Remove-EnvItem Env:VS170COMNTOOLS
+Remove-EnvItem Env:VSCMD_ARG_app_plat
+Remove-EnvItem Env:VSCMD_ARG_HOST_ARCH
+Remove-EnvItem Env:VSCMD_ARG_TGT_ARCH
+Remove-EnvItem Env:VSCMD_DEBUG
+Remove-EnvItem Env:VSCMD_VER
+Remove-EnvItem Env:VSINSTALLDIR
+
 Import-Module '%a\Common7\Tools\Microsoft.VisualStudio.DevShell.dll';
 Enter-VsDevShell -VsInstallPath '%a' -DevCmdArguments '-arch=amd64';
 & %s;

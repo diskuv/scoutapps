@@ -47,8 +47,9 @@
       // in the fetch/ subfolder of this project on the build machine. That means you can edit the
       // dependency's source code regardless of the build machine.
       "urls": [
-        // The first URL is for when SonicScoutAndroid is a `git subtree` of sonicapps/.
+        // The first two URLs are for when SonicScoutAndroid is a `git subtree`: sonicapps/us/SonicScoutAndroid.
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../../${dependencyName}",
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../fetch/${dependencyName}",
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/${dependencyName}",
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceDir}/fetch/${dependencyName}"
       ]
@@ -60,14 +61,17 @@
     "dksdk-ffi-c": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },
     "dksdk-ffi-java": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-java_REPOSITORY}" ] },
     "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
-    "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
-    "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
+    "dksdk-opam-repository-core": { "inherits": "_mirror", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
+    "dksdk-opam-repository-js": { "inherits": "_mirror", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
     // The remaining dependencies are sister projects in the same application
     "ocaml-backend": {
-      "inherits": "_mirror",
       "urls": [
-        // The first URL is for when SonicScoutAndroid is a `git subtree` of sonicapps/.
-        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../us/SonicScoutBackend",
+        // The first three URLs are for when SonicScoutAndroid is a `git subtree`: sonicapps/us/SonicScoutAndroid.
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/SonicScoutBackend",
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../../${dependencyName}",
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../fetch/${dependencyName}",
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/${dependencyName}",
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceDir}/fetch/${dependencyName}",
         "git@github.com:SquirrelScout/ocaml-backend.git",
         "https://github.com/SquirrelScout/ocaml-backend.git"
       ]

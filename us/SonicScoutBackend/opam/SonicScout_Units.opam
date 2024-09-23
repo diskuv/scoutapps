@@ -2,7 +2,7 @@
 opam-version: "2.0"
 version: "1.0.0"
 synopsis:
-  "The project created within the PROJECT_NAME \"SonicScout\" project by a DkSDKProject_AddPackage() command in tests/Units/CMakeLists.txt that is missing a SUMMARY_ONELINER property"
+  "The project created within the PROJECT_NAME \"SonicScout\" project by a DkSDKProject_AddPackage() command in tests/SonicScout_Units/CMakeLists.txt that is missing a SUMMARY_ONELINER property"
 maintainer: ["Diskuv Support <support@diskuv.com>"]
 authors: ["Diskuv Support <support@diskuv.com>"]
 license: "DocumentRef-Diskuv-Commercial-1.0:LicenseRef-AllRightsReserved-1"

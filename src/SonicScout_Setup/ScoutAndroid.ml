@@ -108,8 +108,22 @@ let run ?opts ~slots () =
         Logs.info (fun l ->
             l "NOTE: Extracting Gradle can take several minutes");
       dk [ "dksdk.gradle.download"; "ALL"; "NO_SYSTEM_PATH" ];
+
+      (* Packages: NDK (Side by side) + Android SDK Platform *)
       dk [ "dksdk.android.ndk.download"; "NO_SYSTEM_PATH" ];
-      (* was: dk [ "dksdk.android.gradle.configure"; "OVERWRITE" ]; *)
+      (* Package: Google APIs Intel x86_64 Atom System Image *)
+      dk
+        [
+          "dksdk.android.pkg.download";
+          "PACKAGE";
+          (* Encode [system-images;android-31;google_apis;x86_64] *)
+          "system-images#android-31#google_apis#x86_64";
+        ];
+      (* Package: Android Emulator *)
+      dk [ "dksdk.android.pkg.download"; "PACKAGE"; "emulator" ];
+      (* Package: Android SDK Platform-Tools (not the same as Android SDK Platform!) *)
+      dk [ "dksdk.android.pkg.download"; "PACKAGE"; "platform-tools" ];
+
       (* Display the Java toolchains. https://docs.gradle.org/current/userguide/toolchains.html *)
       RunGradle.run ~env:dk_env ~debug_env:() ~no_local_properties:()
         ~projectdir

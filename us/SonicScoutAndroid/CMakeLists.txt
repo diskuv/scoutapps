@@ -30,9 +30,9 @@ if(NOT GENERATE_CAPNP_ONLY)
     DkSDKProject_AddProject(
             MAINTAINER "Diskuv Support <support@diskuv.com>"
             LICENSE "DocumentRef-Diskuv-Commercial-1.0:LicenseRef-AllRightsReserved-1"
-            SOURCE_URI "git+https://gitlab.com/diskuv/samples/SquirrelScout.git"
-            HOMEPAGE_URL "https://diskuv.com/cmake/help/latest"
-            BUG_REPORTS_URL "https://gitlab.com/diskuv/samples/SquirrelScout/-/issues"
+            SOURCE_URI "git+https://github.com/diskuv/scoutapps.git"
+            HOMEPAGE_URL "https://github.com/diskuv/scoutapps#readme"
+            BUG_REPORTS_URL "https://github.com/diskuv/scoutapps/issues"
             DUNE_VERSION 3.8
     )
 endif()

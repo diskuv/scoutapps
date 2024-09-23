@@ -13,9 +13,9 @@
 
 (license "DocumentRef-Diskuv-Commercial-1.0:LicenseRef-AllRightsReserved-1")
 (maintainers "Diskuv Support <support@diskuv.com>")
-(homepage "https://diskuv.com/cmake/help/latest")
-(bug_reports "https://gitlab.com/diskuv/samples/SquirrelScout/-/issues")
-(source (uri "git+https://gitlab.com/diskuv/samples/SquirrelScout.git"))
+(homepage "https://github.com/diskuv/scoutapps#readme")
+(bug_reports "https://github.com/diskuv/scoutapps/issues")
+(source (uri "git+https://github.com/diskuv/scoutapps.git"))
 (authors
   "Diskuv Support <support@diskuv.com>")
 

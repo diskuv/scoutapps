@@ -13,7 +13,7 @@ DkSDKProject_CreateMainC(OUTPUT ${DKSDK_TESTING_MAIN_C})
 #   and influence `dune-project`. We want source code idempotency; that is,
 #   the generated source code (ex. `dune-project`) should not vary simply
 #   because BUILD_TESTING is ON or OFF.
-add_subdirectory(Units)
+add_subdirectory(SonicScout_Units)
 
 # The following integration tests do not modify source code. We save time by
 # not configuring them when BUILD_TESTING is OFF.

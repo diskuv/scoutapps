@@ -3,7 +3,13 @@
 # You can and should edit this file as you add new libraries.
 
 add_subdirectory(SonicScout_Std)
-add_subdirectory(SonicScout_Objs)
-add_subdirectory(SonicScout_ObjsLib)
-add_subdirectory(SonicScout_MainCLI)
-add_subdirectory(SonicScout_ManagerApp)
+if(NOT SONIC_SCOUT_BACKEND_FEATURES OR "Objs" IN_LIST SONIC_SCOUT_BACKEND_FEATURES)
+    add_subdirectory(SonicScout_Objs)
+    add_subdirectory(SonicScout_ObjsLib)
+endif()
+if(NOT SONIC_SCOUT_BACKEND_FEATURES OR "CLI" IN_LIST SONIC_SCOUT_BACKEND_FEATURES)
+    add_subdirectory(SonicScout_MainCLI)
+endif()
+if(NOT SONIC_SCOUT_BACKEND_FEATURES OR "ManagerApp" IN_LIST SONIC_SCOUT_BACKEND_FEATURES)
+    add_subdirectory(SonicScout_ManagerApp)
+endif()

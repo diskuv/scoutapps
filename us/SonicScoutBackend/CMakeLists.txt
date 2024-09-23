@@ -59,6 +59,7 @@ DkSDKProject_AddProject(
 add_subdirectory(dependencies)
 
 # Main targets built by this project
+set(SONIC_SCOUT_BACKEND_FEATURES "Objs;CLI;ManagerApp" CACHE STRING "Semicolon separated list of features to build: Objs, CLI, ManagerApp")
 add_subdirectory(src)
 
 # Typically needed only if we are the top level project

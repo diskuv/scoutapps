@@ -9,8 +9,8 @@ You can clone the project using the './dk dksdk.project.new' command; see the Dk
 maintainer: ["Diskuv Support <support@diskuv.com>"]
 authors: ["Diskuv Support <support@diskuv.com>"]
 license: "DocumentRef-Diskuv-Commercial-1.0:LicenseRef-AllRightsReserved-1"
-homepage: "https://diskuv.com/cmake/help/latest"
-bug-reports: "https://gitlab.com/diskuv/samples/SquirrelScout/-/issues"
+homepage: "https://github.com/diskuv/scoutapps#readme"
+bug-reports: "https://github.com/diskuv/scoutapps/issues"
 depends: [
   "dune" {>= "3.8"}
   "ocaml" {>= "4.14.2"}
@@ -42,4 +42,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://gitlab.com/diskuv/samples/SquirrelScout.git"
+dev-repo: "git+https://github.com/diskuv/scoutapps.git"

@@ -56,7 +56,7 @@ wsl -d Debian git config --global credential.credentialStore secretservice
 # use a directory that is on a native Linux filesystem. If you don't know what
 # that means, just use the commands below!
 install -d ~/source
-git -C ~/source clone https://gitlab.com/diskuv/samples/SquirrelScout.git
+git -C ~/source clone https://github.com/diskuv/scoutapps.git
 ```
 
 #### Setup WSL2 Graphics and IDEs

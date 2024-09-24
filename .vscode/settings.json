@@ -3,5 +3,22 @@
         "kind": "custom",
         "template": "${firstWorkspaceFolder}/dk DkRun_Project.RunQuiet --log-level ERROR -- DkDev_Std.Exec -- $prog $args"
     },
+    // CMake is for SonicScoutBackend since SonicScoutAndroid has indeterminate
+    // build directory and, on Windows, it is inside the DkSDK WSL2 virtual machine.
+    //
+    // Configure Preset used by ScoutBackend:
+    //  Dev Windows 64-bit + local OCaml
+    //  Dev Linux x86_64
+    //  Dev Apple Intel
+    "cmake.cmakePath": "${workspaceFolder}/us/SonicScoutBackend/.ci/cmake/bin/cmake",
+    "cmake.buildDirectory": "${workspaceFolder}/us/SonicScoutBackend/build_dev",
+    "cmake.configureArgs": [
+        "-DDKSDK_MSYS2_DIR=${workspaceFolder}/.tools/msys2", 
+        "-DCMAKE_BUILD_TYPE=Release"
+        // "--trace-expand"
+    ],
+    "cmake.sourceDirectory": "${workspaceFolder}/us/SonicScoutBackend",
+    "cmake.useCMakePresets": "always",
+    "cmakeExplorer.cmakeIntegration": true,
     "cmakeExplorer.buildDir": "us/SonicScoutBackend/build_dev"
 }

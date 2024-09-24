@@ -227,6 +227,7 @@ let run ?(opts = Utils.default_opts) ?global_dkml ~slots () =
           "DkSDK_DevTools";
           "DkSDKTest_UnitTests_ALL";
           "ManagerApp_ALL";
+          "SquirrelScout_ObjsLib";
         ])
     ()
   |> rmsg;

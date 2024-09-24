@@ -18,7 +18,8 @@ let run ~slots () =
       | `Windows -> Fpath.(v "SonicScoutQRScanner.exe")
       | _ -> Fpath.(v "SonicScoutQRScanner")
     in
-    Fpath.(ScoutBackend.build_reldir / "src" / "ManagerApp" // subpath)
+    Fpath.(
+      ScoutBackend.build_reldir / "src" / "SonicScout_ManagerApp" // subpath)
   in
   let { host = _; target = _; qt5_ver; subdir } : Qt.qt_locations =
     Qt.qt_locations ()

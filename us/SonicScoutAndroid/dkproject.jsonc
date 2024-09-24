@@ -67,7 +67,7 @@
     "ocaml-backend": {
       "urls": [
         // The first three URLs are for when SonicScoutAndroid is a `git subtree`: sonicapps/us/SonicScoutAndroid.
-        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/SonicScoutBackend",
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/SonicScoutBackend&immutable",
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../../${dependencyName}",
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../fetch/${dependencyName}",
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/${dependencyName}",

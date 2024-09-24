@@ -12,7 +12,7 @@ if(GENERATE_CAPNP_ONLY)
     endif()
 
     # Create a Java package that contains Schema.java from ocaml-backend
-    configure_file(${ocaml-backend_SOURCE_DIR}/src/Std/Schema.java
+    configure_file(${ocaml-backend_SOURCE_DIR}/src/SonicScout_Std/Schema.java
         ${GENERATE_CAPNP_DIR}/com/example/squirrelscout/data/capnp/Schema.java
         COPYONLY)
 else()

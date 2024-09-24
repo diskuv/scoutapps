@@ -30,6 +30,23 @@ which invokes:
 cmake -D CMAKE_INSTALL_PREFIX=Y:/source/scoutapps/us/SonicScoutAndroid/fetch/ocaml-backend -P C:/Users/beckf/AppData/Local/Programs/DkCoder/work/dksdk___project___get/dksdk-access-src/cmake/run/CloneSource.cmake
 ```
 
+#### IMMUTABLE Variation: us/SonicScoutAndroid/fetch/ocaml-backend-6ed153/
+
+With [us/SonicScoutAndroid/dkproject.jsonc](../../us/SonicScoutAndroid/dkproject.jsonc)
+configuration:
+
+```json
+urls:[
+  "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/SonicScoutBackend&immutable"
+]
+```
+
+the IMMUTABLE flag is used. That will first calculate the MD5 checksum of the source files,
+and add 6 characters of the MD5 checksum to the destination directory (`ocaml-backend-6ed153`).
+
+By doing this, it is trivial for CMake to detect changes when `ocaml-backend-6ed153` is
+used as a source directory in subsequent steps.
+
 ### Destination: /home/dksdkbob/source/ded2cc2f/fetch/ocaml-backend
 
 > - Log into the DkSDK WSL2 container with `wsl -d DkSDK-1.0-Debian-12-NDK-23.1.7779620 -e /usr/bin/bash`
@@ -51,7 +68,7 @@ You can rerun the CMake configure:
 
 ```sh
 rm -rf /home/dksdkbob/source/ded2cc2f/build/_deps/ocaml-backend-*
-OPAMNODEPEXTS=1 /usr/bin/ninja -C /home/dksdkbob/source/ded2cc2f/build rebuild_cache
+DKCODER_TTL_MINUTES=0 OPAMNODEPEXTS=1 /usr/bin/ninja -C /home/dksdkbob/source/ded2cc2f/build rebuild_cache
 ```
 
 The CMake configure will include the
@@ -117,3 +134,5 @@ the `_deps/` build folder.
 has an update. It simply copies the local directory URL to
 `/home/dksdkbob/source/ded2cc2f/build/_deps/ocaml-backend-src`
 **if and only if it is missing**.
+
+This poor change detection is avoided with the [IMMUTABLE variation](#immutable-variation-ussonicscoutandroidfetchocaml-backend-6ed153).

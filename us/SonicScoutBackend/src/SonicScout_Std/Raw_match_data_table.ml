@@ -13,7 +13,7 @@ module type Fetchable_Data = sig
 
     val missing_data :
       Sqlite3.db ->
-      (int * SquirrelScout_Std_intf.Types.robot_position list) list
+      (int * Intf.Types.robot_position list) list
 
     val all_match_numbers_in_db : Sqlite3.db -> int list
     val teams_for_match_number : Sqlite3.db -> int -> int list
@@ -32,7 +32,6 @@ end
 
 (*Code which can be edited for each specific season*)
 module Table : Table_type = struct
-  let x = ""
   let table_name = "raw_match_data"
 
   (*Code which can be modified based on what data points are wanted for
@@ -174,7 +173,7 @@ module Table : Table_type = struct
     Db_utils.create_table db ~table_name ~colums:colums_in_order ~primary_keys
       ~to_name:colum_name ~to_datatype:colum_datatype
 
-  let drop_table db = Db_utils.Failed
+  let drop_table _db = Db_utils.Failed
 
   let already_contains_record db ~team_number ~match_number ~scouter_name =
     let to_select = colum_name Team_number in
@@ -229,7 +228,7 @@ module Table : Table_type = struct
       | Undefined _ -> "UNDEFINED"
     in
 
-    let alliance_to_string : ProjectSchema.Reader.RobotPosition.t -> string = function
+    (* let alliance_to_string : ProjectSchema.Reader.RobotPosition.t -> string = function
       | Red1 -> "RED1"
       | Red2 -> "RED2"
       | Red3 -> "RED3"
@@ -237,7 +236,7 @@ module Table : Table_type = struct
       | Blue2 -> "BLUE2"
       | Blue3 -> "BLUE3"
       | Undefined _ -> "UNDEFINED"
-    in
+    in *)
 
     let string_to_cmd_line_form s = "\"" ^ s ^ "\"" in
 
@@ -345,11 +344,11 @@ module Table : Table_type = struct
       Db_utils.Select.select_ints_where db ~table_name ~to_select ~where
 
     let missing_data db =
-      let scheduled_matches =
+      (* let scheduled_matches =
         Match_schedule_table.Table.Fetch.get_all_match_numbers db
-      in
+      in *)
 
-      let all_matches_in_db = all_match_numbers_in_db db in
+      (* let all_matches_in_db = all_match_numbers_in_db db in *)
 
       let latest_match = latest_match_number db in
 

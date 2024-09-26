@@ -1,6 +1,6 @@
 open Tezt
 open DkSDKFFI_OCaml
-module ProjectSchema = SquirrelScout_Std.Schema.Make (ComMessage.C)
+module ProjectSchema = StdEntry.Schema.Make (ComMessage.C)
 
 let tags = [ "objs" ]
 
@@ -42,7 +42,7 @@ module DatabaseTest = struct
   class database _clazz inst =
     object
       method get_team_for_match_and_position (matchnum : int)
-          (position : SquirrelScout_Std.Types.robot_position) =
+          (position : StdEntry.Types.robot_position) =
         let args =
           let open ProjectSchema.Builder in
           let pos : RobotPosition.t =

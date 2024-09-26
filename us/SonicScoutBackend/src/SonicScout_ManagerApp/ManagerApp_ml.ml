@@ -28,7 +28,7 @@ let hex_encode (bytearray : bytes) : string =
   Bytes.to_string buf
 
 let process_qr db qr_format qr_bytes =
-  let module Db = (val db : SquirrelScout_Std.Database_actions_type) in
+  let module Db = (val db : StdEntry.Database_actions_type) in
   let rc = Db.process_qr_code qr_bytes in
 
   match rc with
@@ -50,7 +50,7 @@ let main () =
 
   (* Parse command line options *)
   let db_path =
-    if Array.length Sys.argv < 2 then SquirrelScout_Std.default_db_path ()
+    if Array.length Sys.argv < 2 then StdEntry.default_db_path ()
     else Fpath.v Sys.argv.(1)
   in
 
@@ -61,11 +61,11 @@ let main () =
 
   (* Create the database module *)
   let db_obj =
-    SquirrelScout_Std.create_object ~db_path:(Fpath.to_string db_path) ()
+    StdEntry.create_object ~db_path:(Fpath.to_string db_path) ()
   in
   let module Db = (val db_obj) in
   (* Process QR codes *)
   Callback.register "squirrel_scout_manager_process_qr"
-    (process_qr (module Db : SquirrelScout_Std.Database_actions_type))
+    (process_qr (module Db : StdEntry.Database_actions_type))
 
 let () = main ()

@@ -93,29 +93,46 @@ let wsl2_env ~env () =
      But not all WSL versions support it. So we do [recode_into_utf8] as well. *)
   OSEnvMap.add "WSL_UTF8" "1" env
 
-(* https://erratique.ch/software/uutf/doc/Uutf/index.html *)
-let recode ?nln ?encoding out_encoding
-    (src : [ `Channel of in_channel | `String of string ])
-    (dst : [ `Channel of out_channel | `Buffer of Buffer.t ]) =
-  let rec loop d e =
-    match Uutf.decode d with
-    | `Uchar _ as u ->
-        ignore (Uutf.encode e u);
-        loop d e
-    | `End -> ignore (Uutf.encode e `End)
-    | `Malformed _ ->
-        ignore (Uutf.encode e (`Uchar Uutf.u_rep));
-        loop d e
-    | `Await -> assert false
-  in
-  let d = Uutf.decoder ?nln ?encoding src in
-  let e = Uutf.encoder out_encoding dst in
-  loop d e
+(* Similar to https://erratique.ch/software/uutf/doc/Uutf/index.html#examples
+   but using UTF functions in OCaml 4.14.
 
-let recode_into_utf8 str =
-  let dst = Buffer.create (String.length str) in
-  recode ~nln:(`ASCII (Uchar.of_char '\n')) `UTF_8 (`String str) (`Buffer dst);
-  Buffer.contents dst
+   nit: Duplicated in dksdk-coder\src\Gen\capnp\capnp_render.ml.
+   If duplicated one more time, this function needs to be elevated to a
+   Tr1String_* library. *)
+let utf8_lines_of_unicode (src : string) =
+  match String.length src with
+  | 0 -> []
+  | src_len ->
+      let decoder =
+        (* Check first bytes to see if UTF-8.
+            We'll use a full string check for detecting UTF-16 endianness. *)
+        if Uchar.utf_decode_is_valid (String.get_utf_8_uchar src 0) then
+          String.get_utf_8_uchar
+        else if String.is_valid_utf_16be src then String.get_utf_16be_uchar
+        else if String.is_valid_utf_16le src then String.get_utf_16le_uchar
+        else failwith "The UTF encoding could not be determined"
+      in
+      let rec loop i buf acc =
+        if i >= src_len then List.rev (Buffer.contents buf :: acc)
+        else
+          let d = decoder src i in
+          let i_next = i + Uchar.utf_decode_length d in
+          let u = Uchar.utf_decode_uchar d in
+          match Uchar.to_int u with
+          | 0x000D ->
+              (* skip carriage return *)
+              loop i_next buf acc
+          | 0x000A ->
+              (* newline *)
+              let line = Buffer.contents buf in
+              Buffer.clear buf;
+              loop i_next buf (line :: acc)
+          | _ ->
+              (* accumulate *)
+              Buffer.add_utf_8_uchar buf u;
+              loop i_next buf acc
+      in
+      loop 0 (Buffer.create 512) []
 
 let wsl2_list ?env args =
   let open Bos in
@@ -130,7 +147,7 @@ let wsl2_list ?env args =
     |> OS.Cmd.out_string |> rmsg
   in
   let lines =
-    recode_into_utf8 out |> Stringext.split ~on:'\n' |> List.map String.trim
+    utf8_lines_of_unicode out |> List.map String.trim
   in
   List.filter
     (fun s -> not (String.equal "Windows Subsystem for Linux Distributions:" s))

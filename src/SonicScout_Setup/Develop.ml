@@ -8,10 +8,10 @@ let compile_base ?skip_android { dksdk_data_home; opts; global_dkml } =
   let global_dkml = if global_dkml then Some () else None in
 
   InitialSteps.run ~dksdk_data_home ();
-  Qt.run ();
-  Sqlite3.run ();
   let slots = Slots.create () in
   let slots = DkML.run ?global_dkml ~slots () in
+  Qt.run ();
+  Sqlite3.run ();
   let slots = ScoutBackend.run ?global_dkml ~opts ~slots () in
   let slots =
     match skip_android with

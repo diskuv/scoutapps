@@ -209,7 +209,7 @@ let run ?(opts = Utils.default_opts) ?global_dkml ~slots () =
       dk ~slots [ "dksdk.project.get" ];
       dk ~slots [ "dksdk.cmake.link"; "QUIET" ];
       (* You can ignore the error if you got 'failed to create symbolic link' for dksdk.ninja.link *)
-      dk ~slots [ "dksdk.ninja.link"; "QUIET" ];
+      dk ~slots [ "dksdk.ninja.copy"; "QUIET" ];
       let user_presets = Fpath.v "CMakeUserPresets.json" in
       if not (OS.File.exists user_presets |> rmsg) then
         OS.File.write user_presets

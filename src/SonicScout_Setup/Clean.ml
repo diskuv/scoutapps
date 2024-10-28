@@ -26,8 +26,8 @@ let clean (_ : Tr1Logs_Term.TerminalCliOptions.t) areas =
           |> Utils.rmsg
       | _ -> ()
     end;
-    ScoutBackend.clean areas;
     ScoutAndroid.clean areas;
+    ScoutBackend.clean areas;
     Utils.done_steps "Cleaning"
   with Utils.StopProvisioning -> ()
 

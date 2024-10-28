@@ -6,28 +6,44 @@ let clean areas =
   let open Bos in
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
+  let fetch = Fpath.(projectdir / "fetch") in
   if List.mem `DkSdkSourceCode areas then begin
     start_step "Cleaning SonicScoutAndroid DkSDK source code";
+    let more_paths =
+      let exists = OS.Dir.exists fetch |> rmsg in
+      if exists then
+        (* Get rid of `fetch / ocaml-backend-6ed153`, etc. *)
+        let subdirs = OS.Dir.contents ~rel:true fetch |> rmsg in
+        List.map
+          (fun p ->
+            if String.starts_with ~prefix:"ocaml-backend-" (Fpath.basename p)
+            then Fpath.[ fetch // p ]
+            else [])
+          subdirs
+        |> List.flatten
+      else []
+    in
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
-      Fpath.
-        [
-          projectdir / "fetch" / "dkml-compiler";
-          projectdir / "fetch" / "dkml-runtime-common";
-          projectdir / "fetch" / "dkml-runtime-distribution";
-          projectdir / "fetch" / "dksdk-access";
-          projectdir / "fetch" / "dksdk-ffi-c";
-          projectdir / "fetch" / "dksdk-ffi-java";
-          projectdir / "fetch" / "dksdk-ffi-ocaml";
-          projectdir / "fetch" / "dksdk-opam-repository-core";
-          projectdir / "fetch" / "dksdk-opam-repository-js";
-          projectdir / "fetch" / "ocaml-backend";
-        ]
+      Fpath.(
+        more_paths
+        @ [
+            fetch / "dkml-compiler";
+            fetch / "dkml-runtime-common";
+            fetch / "dkml-runtime-distribution";
+            fetch / "dksdk-access";
+            fetch / "dksdk-ffi-c";
+            fetch / "dksdk-ffi-java";
+            fetch / "dksdk-ffi-ocaml";
+            fetch / "dksdk-opam-repository-core";
+            fetch / "dksdk-opam-repository-js";
+            fetch / "ocaml-backend";
+          ])
     |> rmsg
   end;
   if List.mem `DkSdkCMake areas then begin
     start_step "Cleaning SonicScoutAndroid dksdk-cmake source code";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
-      Fpath.[ projectdir / "fetch" / "dksdk-cmake" ]
+      Fpath.[ fetch / "dksdk-cmake" ]
     |> rmsg
   end;
   if List.mem `MavenRepository areas then begin
@@ -60,7 +76,7 @@ let clean areas =
           projectdir // user_presets_relfile;
         ]
     |> rmsg;
-    let ffijava = Fpath.(projectdir / "fetch" / "dksdk-ffi-java") in
+    let ffijava = Fpath.(fetch / "dksdk-ffi-java") in
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
       Fpath.
         [

@@ -1,5 +1,14 @@
 let () = print_endline "in SquirrelScout_Objs"
 
+module _ = DkSDKFFI_OCaml
+(** The bridge between OCaml and other programming languages.
+
+    {[ `v1 [
+          `sec [ `scheme "dkcoder" ];
+          `blib ["https://gitlab.com/api/v4/projects/62703194/packages/generic/@DKML_TARGET_ABI@/2.1.4/@DKML_TARGET_ABI@-4.14.2-DkSDKFFI_OCaml-2.1.4-none.blib.zip"];
+          `clib ["https://gitlab.com/api/v4/projects/62703194/packages/generic/@DKML_TARGET_ABI@/2.1.4/@DKML_TARGET_ABI@-4.14.2-DkSDKFFI_OCaml-2.1.4-none.clib.zip"]
+        ] ]} *)
+
 open DkSDKFFI_OCaml
 open ComStandardSchema.Make (ComMessage.C)
 open Com.MakeClassBuilder (ComMessage.C)
@@ -85,35 +94,33 @@ let insert_scouted_data ~self v args =
       ProjectSchema.Builder.MaybeError.success_set bldr true;
       Ret.v_capnp v bldr
 
+let load_json_match_schedule ~self v args =
+  let module Db = (val self : StdEntry.Database_actions_type) in
+  let bldr = ProjectSchema.Builder.MaybeError.init_root () in
 
-  let load_json_match_schedule ~self v args = 
-    let module Db = (val self : StdEntry.Database_actions_type) in
-
-    let bldr = ProjectSchema.Builder.MaybeError.init_root () in 
-
-    let json_contents = Reader.St.(i1_get (of_message args)) in
-    match Db.insert_match_json ~json_contents:json_contents () with 
-    | Failed -> 
+  let json_contents = Reader.St.(i1_get (of_message args)) in
+  match Db.insert_match_json ~json_contents () with
+  | Failed ->
       ProjectSchema.Builder.MaybeError.success_set bldr false;
-      ProjectSchema.Builder.MaybeError.message_if_error_set bldr "match schedule json could not be loaded";
-      Ret.v_capnp v bldr 
-
-    | Successful -> 
+      ProjectSchema.Builder.MaybeError.message_if_error_set bldr
+        "match schedule json could not be loaded";
+      Ret.v_capnp v bldr
+  | Successful ->
       ProjectSchema.Builder.MaybeError.success_set bldr true;
-      Ret.v_capnp v bldr 
-
+      Ret.v_capnp v bldr
 
 let register_objects com =
   register com ~classname:"SquirrelScout::Database"
     [
       class_method ~name:"create_object" ~f:create_object ();
-
       instance_method ~name:"get_team_for_match_and_position"
         ~f:get_team_for_match_and_position ();
       instance_method ~name:"insert_scouted_data" ~f:insert_scouted_data ();
-      instance_method ~name:"load_json_match_schedule" ~f:load_json_match_schedule ();
+      instance_method ~name:"load_json_match_schedule"
+        ~f:load_json_match_schedule ();
     ];
   register com ~classname:"SquirrelScout::QR"
     [
-      class_method ~name:"qr_code_of_raw_match_data" ~f:qr_code_of_raw_match_data ();
+      class_method ~name:"qr_code_of_raw_match_data"
+        ~f:qr_code_of_raw_match_data ();
     ]

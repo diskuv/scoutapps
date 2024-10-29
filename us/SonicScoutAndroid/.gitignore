@@ -22,6 +22,9 @@
 .cxx/
 local.properties
 
+# ./dk dksdk.project.get
+/.z-dk/
+
 # ./dk
 /.ci/
 

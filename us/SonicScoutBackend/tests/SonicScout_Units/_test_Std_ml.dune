@@ -36,7 +36,15 @@
   SquirrelScout_Std
   ))
 
-; Install the C object file to a known location for CMake.
+; Install the C object file to a known location for CMake. This is the
+; artifact used by CMake to link with C, and for exporting nativecode
+; library artifacts.
+; Install the bytecode executable to a known location for CMake, for
+; exporting the bytecode library artifacts that together make the bytecode
+; executable. Building a .bc target will fail if the entry module indirectly
+; references a `external` OCaml expression ("The external function ... is not
+; available"). Instead, make an empty entry module for a one-off STATIC
+; library that has a target link to the STATIC library you are exporting.
 ; Install the Dune generated executable alongside it, to troubleshoot
 ; the CMake linked executable.
 (install
@@ -44,4 +52,5 @@
  (package SonicScout_Units)
  (files
   (test_Std_ml.exe%{ext_obj} as ocamldunear/test_Std_ml.exe%{ext_obj})
+  (test_Std_ml.bc%{ext_exe} as ocamldunear/test_Std_ml.bc%{ext_exe})
   (test_Std_ml.exe as ocamldunear/test_Std_ml.exe)))

@@ -4,6 +4,8 @@
 # can use this .gitignore to suggest directory exclusions
 # to avoid slowdowns of Android Studio.
 
+/.idea/gradle.xml
+
 *.iml
 .gradle
 /local.properties

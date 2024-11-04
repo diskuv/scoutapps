@@ -165,6 +165,14 @@ let dk ?env ~slots args =
   let script = if Sys.win32 then Cmd.v ".\\dk.cmd" else Cmd.v "./dk" in
   OS.Cmd.run ~env Cmd.(script %% of_list args) |> rmsg
 
+let dk_ninja_link_or_copy ~dk =
+  match Tr1HostMachine.abi with
+  | `windows_x86_64 | `windows_x86 ->
+    (* Avoid error 'failed to create symbolic link' for dksdk.ninja.link on Win32 *)
+    dk [ "dksdk.ninja.copy"; "QUIET" ]
+  | _ ->
+    dk [ "dksdk.ninja.link"; "QUIET" ]
+
 (** [sibling_dir_mixed] is the directory of the project [project]
     that is directly next (a "sibling") to the current directory [cwd].
 

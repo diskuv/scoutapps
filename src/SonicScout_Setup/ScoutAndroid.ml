@@ -116,8 +116,7 @@ let run ?opts ~slots () =
       let cmake = Fpath.(projectdir / ".ci" / "cmake" / "bin" / "cmake") in
       dk [ "dksdk.project.get" ];
       dk [ "dksdk.cmake.link"; "QUIET" ];
-      (* You can ignore the error if you got 'failed to create symbolic link' for dksdk.ninja.link *)
-      dk [ "dksdk.ninja.link"; "QUIET" ];
+      Utils.dk_ninja_link_or_copy ~dk;
       dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "8" ];
       dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "17" ];
       if Sys.win32 then

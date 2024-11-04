@@ -151,4 +151,4 @@ DkSDKProject_MakeAvailable(TEST
 
 add_subdirectory(zxing)
 
-DkSDKRequire_Add(FFI OCaml PRERELEASE)
+DkSDKRequire_Add(FFI OCaml)

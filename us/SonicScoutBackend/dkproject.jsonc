@@ -59,7 +59,7 @@
       // The next set of dependencies (dksdk-*) are available to DkSDK subscribers
       "dksdk-cmake": { "inherits": "_mirror", "urls": [ "${dksdk-cmake_REPOSITORY}" ] },
       "dksdk-ffi-c": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },
-      "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}#main-stable" ] },
+      "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
       "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
       "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
       // The remaining dependencies are third-party open source projects

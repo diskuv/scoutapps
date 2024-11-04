@@ -91,6 +91,22 @@ let clean areas =
         ]
     |> Utils.rmsg
   end;
+  if Sys.win32 && List.mem `DkSdkWsl2 areas then begin
+    start_step "Cleaning SonicScoutAndroid build artifacts referencing DkSDK WSL2";
+    (* Avoids:
+        [CXX1409]
+        C:\scoutapps\us\SonicScoutAndroid\data\.cxx\Debug\5b4k3l6q\arm64-v8a\android_gradle_build.json
+        debug|arm64-v8a :
+        expected buildFiles file
+        '\\wsl.localhost\DkSDK-1.0-Debian-12-NDK-23.1.7779620\home\dksdkbob\source\34880665\build\_deps\c-capnproto-src\CMakeLists.txt'
+        to exist *)
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+      Fpath.
+        [
+          projectdir / "data" / ".cxx";
+        ]
+    |> rmsg;
+  end;
   RunGradle.clean areas
 
 let run ?opts ~slots () =

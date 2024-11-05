@@ -127,6 +127,7 @@ The copyright is owned jointly by:
 
 - Archit Kumar
 - Keyush Attarde
+- Cordelia Notbohm
 - Diskuv, Inc.
 
 Do *not* submit a customized scouting application to an App Store (Apple, Google, Microsoft, Samsung, Huawei, Tencent, Oppo, etc.). You do not have a license to submit to those App Stores, and you don't own the copyright.

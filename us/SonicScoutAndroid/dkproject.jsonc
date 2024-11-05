@@ -66,6 +66,8 @@
     // The remaining dependencies are sister projects in the same application
     "ocaml-backend": {
       "urls": [
+        // HACK ALERT: This is to get around sandbox restrictions of the new dksdk-access
+        "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceDir}/../SonicScoutBackend&immutable",
         // The first three URLs are for when SonicScoutAndroid is a `git subtree`: sonicapps/us/SonicScoutAndroid.
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/SonicScoutBackend&immutable",
         "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceParentDir}/../../${dependencyName}",

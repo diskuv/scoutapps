@@ -246,58 +246,65 @@ is_cygwin_build_machine() {
 
 # Tries to find the host ABI.
 #
-# Beware: This function uses `uname` probing which is inaccurate during
-# cross-compilation.
+# Beware: This function uses `uname` probing may be inaccurate for dual-arch
+# CPUs like Apple Silicon with Rosetta.
+#
+# Inputs:
+# - env:DKML_HOST_ABI - Optional but recommended. If set, then BUILDHOST_ARCH will be set to the same.
 #
 # Outputs:
 # - env:BUILDHOST_ARCH will contain the host ABI.
 autodetect_buildhost_arch() {
-    # Set DKMLSYS_*
-    autodetect_system_binaries
+    if [ -n "${DKML_HOST_ABI:-}" ]; then
+        BUILDHOST_ARCH=$DKML_HOST_ABI
+    else
+        # Set DKMLSYS_*
+        autodetect_system_binaries
 
-    autodetect_buildhost_arch_SYSTEM=$("$DKMLSYS_UNAME" -s)
-    autodetect_buildhost_arch_MACHINE=$("$DKMLSYS_UNAME" -m)
-    # list from https://en.wikipedia.org/wiki/Uname and https://stackoverflow.com/questions/45125516/possible-values-for-uname-m
-    case "${autodetect_buildhost_arch_SYSTEM}-${autodetect_buildhost_arch_MACHINE}" in
-        Linux-armv7*)
-            BUILDHOST_ARCH=linux_arm32v7;;
-        Linux-armv6* | Linux-arm)
-            BUILDHOST_ARCH=linux_arm32v6;;
-        Linux-aarch64 | Linux-arm64 | Linux-armv8*)
-            BUILDHOST_ARCH=linux_arm64;;
-        Linux-i386 | Linux-i686)
-            BUILDHOST_ARCH=linux_x86;;
-        Linux-x86_64)
-            BUILDHOST_ARCH=linux_x86_64;;
-        Darwin-arm64)
-            BUILDHOST_ARCH=darwin_arm64;;
-        Darwin-x86_64)
-            BUILDHOST_ARCH=darwin_x86_64;;
-        *-i386 | *-i686)
-            if is_unixy_windows_build_machine; then
-                BUILDHOST_ARCH=windows_x86
-            else
+        autodetect_buildhost_arch_SYSTEM=$("$DKMLSYS_UNAME" -s)
+        autodetect_buildhost_arch_MACHINE=$("$DKMLSYS_UNAME" -m)
+        # list from https://en.wikipedia.org/wiki/Uname and https://stackoverflow.com/questions/45125516/possible-values-for-uname-m
+        case "${autodetect_buildhost_arch_SYSTEM}-${autodetect_buildhost_arch_MACHINE}" in
+            Linux-armv7*)
+                BUILDHOST_ARCH=linux_arm32v7;;
+            Linux-armv6* | Linux-arm)
+                BUILDHOST_ARCH=linux_arm32v6;;
+            Linux-aarch64 | Linux-arm64 | Linux-armv8*)
+                BUILDHOST_ARCH=linux_arm64;;
+            Linux-i386 | Linux-i686)
+                BUILDHOST_ARCH=linux_x86;;
+            Linux-x86_64)
+                BUILDHOST_ARCH=linux_x86_64;;
+            Darwin-arm64)
+                BUILDHOST_ARCH=darwin_arm64;;
+            Darwin-x86_64)
+                BUILDHOST_ARCH=darwin_x86_64;;
+            *-i386 | *-i686)
+                if is_unixy_windows_build_machine; then
+                    BUILDHOST_ARCH=windows_x86
+                else
+                    printf "%s\n" "FATAL: Unsupported build machine type obtained from 'uname -s' and 'uname -m': $autodetect_buildhost_arch_SYSTEM and $autodetect_buildhost_arch_MACHINE" >&2
+                    exit 1
+                fi
+                ;;
+            *-x86_64)
+                if is_unixy_windows_build_machine; then
+                    BUILDHOST_ARCH=windows_x86_64
+                else
+                    printf "%s\n" "FATAL: Unsupported build machine type obtained from 'uname -s' and 'uname -m': $autodetect_buildhost_arch_SYSTEM and $autodetect_buildhost_arch_MACHINE" >&2
+                    exit 1
+                fi
+                ;;
+            *)
+                # Since:
+                # 1) MSYS2 does not run on ARM/ARM64 (https://www.msys2.org/docs/environments/)
+                # 2) MSVC does not use ARM/ARM64 as host machine (https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-160)
+                # we do not support Windows ARM/ARM64 as a build machine
                 printf "%s\n" "FATAL: Unsupported build machine type obtained from 'uname -s' and 'uname -m': $autodetect_buildhost_arch_SYSTEM and $autodetect_buildhost_arch_MACHINE" >&2
                 exit 1
-            fi
-            ;;
-        *-x86_64)
-            if is_unixy_windows_build_machine; then
-                BUILDHOST_ARCH=windows_x86_64
-            else
-                printf "%s\n" "FATAL: Unsupported build machine type obtained from 'uname -s' and 'uname -m': $autodetect_buildhost_arch_SYSTEM and $autodetect_buildhost_arch_MACHINE" >&2
-                exit 1
-            fi
-            ;;
-        *)
-            # Since:
-            # 1) MSYS2 does not run on ARM/ARM64 (https://www.msys2.org/docs/environments/)
-            # 2) MSVC does not use ARM/ARM64 as host machine (https://docs.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-160)
-            # we do not support Windows ARM/ARM64 as a build machine
-            printf "%s\n" "FATAL: Unsupported build machine type obtained from 'uname -s' and 'uname -m': $autodetect_buildhost_arch_SYSTEM and $autodetect_buildhost_arch_MACHINE" >&2
-            exit 1
-            ;;
-    esac
+                ;;
+        esac
+    fi
 }
 
 # A function that will try to print an ISO8601 timestamp, but will fallback to
@@ -371,7 +378,7 @@ sha256compute() {
         # Confer: https://www.thomas-krenn.com/en/wiki/Perl_warning_Setting_locale_failed_in_Debian
         # Confer: https://stackoverflow.com/a/52004330/21513816
         #   shellcheck disable=SC2016
-        LANG=C LC_ALL=C /usr/bin/shasum -a 256 "$sha256compute_FILE" | "$DKMLSYS_AWK" '{print $1}'
+        LC_ALL=C /usr/bin/shasum -a 256 "$sha256compute_FILE" | "$DKMLSYS_AWK" '{print $1}'
     elif [ -x /usr/bin/sha256sum ]; then # Linux, MSYS2
         #   shellcheck disable=SC2016
         /usr/bin/sha256sum "$sha256compute_FILE" | "$DKMLSYS_AWK" '{print $1}'
@@ -397,10 +404,12 @@ sha256check() {
         # On Debian shasum is a perl script, and perl needs locale settings or it will complain.
         # Confer: https://www.thomas-krenn.com/en/wiki/Perl_warning_Setting_locale_failed_in_Debian
         # Confer: https://stackoverflow.com/a/52004330/21513816
+        # Note: shasum 5.96 (ex. conanio/gcc7:1.64.1) has no --quiet option.
         #   shellcheck disable=SC2016
-        printf "%s  %s" "$sha256check_SUM" "$sha256check_FILE" | LANG=C LC_ALL=C /usr/bin/shasum --quiet -a 256 -c >&2
+        printf "%s  %s" "$sha256check_SUM" "$sha256check_FILE" | LC_ALL=C /usr/bin/shasum -a 256 -c >&2
     elif [ -x /usr/bin/sha256sum ]; then # Linux, MSYS2
-        printf "%s  %s" "$sha256check_SUM" "$sha256check_FILE" | /usr/bin/sha256sum --quiet -c >&2
+        # Note: BusyBox v1.35.0 sha256sum has no --quiet option.
+        printf "%s  %s" "$sha256check_SUM" "$sha256check_FILE" | /usr/bin/sha256sum -c >&2
     elif [ -x /sbin/sha256 ]; then # FreeBSD
         /sbin/sha256 --quiet -c "$sha256check_SUM" "$sha256check_FILE" >&2
     else
@@ -491,8 +500,8 @@ fi
 #   2. Check if CI since many CI providers can only cache content in a subdirectory
 #      of the project.
 if [ -z "$tools_dir" ] && [ "${CI:-}" = true ]; then
-  install -d "$PROJ_DIR/.dkcoder"
-  tools_dir="$PROJ_DIR/.dkcoder"
+  install -d "$PROJ_DIR/.z-dk/tools"
+  tools_dir="$PROJ_DIR/.z-dk/tools"
 fi
 #   3. Check in locations rooted under /opt/diskuv
 #      We look under a /opt/diskuv early because
@@ -537,13 +546,16 @@ fi
 
 cmake_majmin_ver=3.25
 cmake_majminpat_ver=3.25.2
-cmake_cksum256_linux_x86_64="783da74f132fd1fea91b8236d267efa4df5b91c5eec1dea0a87f0cf233748d99"
-cmake_cksum256_linux_x86="715ef82e81b48db3e4c7744614c15ff361d53f6987fd70b1b66b0880595f2e2c"
-cmake_cksum256_linux_arm64="9216ecf0449ade700e66e0def11eeaebf9fa7d4428c02f49cb59f11418d3f8a5"
 cmake_cksum256_darwin_universal="a988e2a69c1d105987f12782ee0fa80d6be941b3e1a68b4bd6a661f0fdb56d75"
+cmake_cksum256_linux_arm64="98cbec4d939adecc0a52b0bf2d537ebbcd629f9ac4d935b399619faa4d4f0d44"
+cmake_cksum256_linux_x86_64="6fc551dcd74ca93e155b54b5537f5659e072031e8dc07160b9d4e92f5ee375b8"
+cmake_cksum256_linux_x86="0e4b95fd912896e5f85480a2c0a09e863d4f6d44acf1e5070ef257fe041d1d0c"
 
-ninja_majminpat_ver=1.11.1
-ninja_cksum256_darwin_universal="482ecb23c59ae3d4f158029112de172dd96bb0e97549c4b1ca32d8fad11f873e"
+ninja_majminpat_ver=1.12.1
+ninja_cksum256_darwin_universal="89a287444b5b3e98f88a945afa50ce937b8ffd1dcc59c555ad9b1baf855298c9"
+ninja_cksum256_linux_arm64="70d0c5f7dfc0d2aa6af85b1190e75cd01275d2cb9f010df227256829c92a8ee3"
+ninja_cksum256_linux_x86_64="7223fda005b060cec765868576c0db5035fdb8fa1cce2d89ab9ca95045e55122"
+ninja_cksum256_linux_x86="abe169ccb576c9983537cf94fd144b36f9f3ce712f240ced45ad9488399c7e29"
 
 install_linux_prog() {
   install_linux_prog_NAME=$1
@@ -647,14 +659,7 @@ esac
 # -----
 #   We need a valid CMAKE_GENERATOR to do FetchContent_Populate() in script mode
 
-# Haven't done extensive testing for direct Ninja download on Linux.
-# Use package manager for now.
 NINJA_EXE=
-case "$BUILDHOST_ARCH" in
-  linux_*)
-    install_linux_prog ninja ninja-build ninja
-    NINJA_EXE=$DK_PROG_INSTALLED_LOCATION;;
-esac
 
 ninja_destdir=$tools_dir/ninja-$ninja_majminpat_ver
 install -d "$tools_dir/dl"
@@ -665,13 +670,33 @@ download_ninja() {
       downloadfile \
         "https://github.com/ninja-build/ninja/releases/download/v$ninja_majminpat_ver/ninja-mac.zip" \
         "$tools_dir/dl/ninja.zip" \
-        $ninja_cksum256_darwin_universal
+        $ninja_cksum256_darwin_universal ;;
+    linux_x86_64)
+      printf_maybe_quiet "%s\n\n" "-- Downloading ninja-v$ninja_majminpat_ver for Linux x86_64"
+      downloadfile \
+        "https://github.com/diskuv/dkcoder/releases/download/ninja-$ninja_majminpat_ver/ninja-linux_x86_64" \
+        "$tools_dir/dl/ninja" \
+        $ninja_cksum256_linux_x86_64 ;;
+    linux_x86)
+      printf_maybe_quiet "%s\n\n" "-- Downloading ninja-v$ninja_majminpat_ver for Linux x86"
+      downloadfile \
+        "https://github.com/diskuv/dkcoder/releases/download/ninja-$ninja_majminpat_ver/ninja-linux_x86" \
+        "$tools_dir/dl/ninja" \
+        $ninja_cksum256_linux_x86 ;;
+    linux_arm64)
+      printf_maybe_quiet "%s\n\n" "-- Downloading ninja-v$ninja_majminpat_ver for Linux arm64"
+      downloadfile \
+        "https://github.com/diskuv/dkcoder/releases/download/ninja-$ninja_majminpat_ver/ninja-linux_arm64" \
+        "$tools_dir/dl/ninja" \
+        $ninja_cksum256_linux_arm64 ;;
   esac
 }
 export_ninja_vars() {
   if [ -z "${NINJA_EXE:-}" ]; then
     case "$BUILDHOST_ARCH" in
       darwin_*)
+        NINJA_EXE="$ninja_destdir/bin/ninja" ;;
+      linux_*)
         NINJA_EXE="$ninja_destdir/bin/ninja" ;;
     esac
   fi
@@ -687,8 +712,12 @@ fi
 if [ $have_correct_ninja -eq 0 ]; then
   download_ninja
 fi
-#   Handle zip
-if [ -e "$tools_dir/dl/ninja.zip" ]; then
+#   Handle executable or zip
+if [ -e "$tools_dir/dl/ninja" ]; then
+  install -d "$ninja_destdir/bin"
+  install "$tools_dir/dl/ninja" "$ninja_destdir/bin/"
+elif [ -e "$tools_dir/dl/ninja.zip" ]; then
+  # Only macOS at this point. And macOS distributes 'unzip'.
   rm -rf "$tools_dir/ninja-$ninja_majminpat_ver"
   cd "$tools_dir/dl"
   rm -f ninja
@@ -712,22 +741,16 @@ fi
 # CMAKE
 # -----
 
-case "$BUILDHOST_ARCH" in
-  linux_*)
-    #   This is for CMake to do FetchContent()
-    install_linux_prog git git git ;;
-esac
-case "$BUILDHOST_ARCH" in
-  linux_x86)
-    #   This is for Python wheel extraction
-    install_linux_prog unzip unzip unzip ;;
-esac
-
 cmake_base=
 cmake_bindir=
 cmake_destdir=$tools_dir/cmake-$cmake_majminpat_ver
 install -d "$tools_dir/dl"
 download_cmake() {
+  case "$BUILDHOST_ARCH" in
+    linux_x86_64) cmake_cksum256_linux=$cmake_cksum256_linux_x86_64 ;;
+    linux_x86) cmake_cksum256_linux=$cmake_cksum256_linux_x86 ;;
+    linux_arm64) cmake_cksum256_linux=$cmake_cksum256_linux_arm64
+  esac
   case "$BUILDHOST_ARCH" in
     darwin_*)
       cmake_base="cmake-$cmake_majminpat_ver-macos10.10-universal"
@@ -738,55 +761,23 @@ download_cmake() {
         $cmake_cksum256_darwin_universal
       cmake_bindir="$cmake_destdir/bin"
       ;;
-    linux_x86_64)
-      if [ -x /sbin/apk ]; then
-        install_linux_prog cmake cmake cmake
-      else
-        cmake_base="cmake-$cmake_majminpat_ver-linux-x86_64"
-        printf_maybe_quiet "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux x86_64"
-        downloadfile \
-          "https://github.com/Kitware/CMake/releases/download/v$cmake_majminpat_ver/$cmake_base.tar.gz" \
-          "$tools_dir/dl/cmake.tar.gz" \
-          $cmake_cksum256_linux_x86_64
-        cmake_bindir="$cmake_destdir/bin"
-      fi ;;
-    linux_x86)
-      if [ -x /sbin/apk ]; then
-        install_linux_prog cmake cmake cmake
-      else
-        # CMake does not provide 32-bit binaries. But pypi does at https://pypi.org/project/cmake/
-        printf_maybe_quiet "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux x86"
-        downloadfile \
-          https://files.pythonhosted.org/packages/11/6e/aeeddf2f5b16542b6a30ceab4896421e8705d8e9a9296dba79395db11b00/cmake-3.25.2-py2.py3-none-manylinux_2_17_i686.manylinux2014_i686.whl \
-          "$tools_dir/dl/cmake.whl" \
-          $cmake_cksum256_linux_x86
-        cmake_bindir="$cmake_destdir/bin"
-      fi ;;
-    linux_arm64)
-      if [ -x /sbin/apk ]; then
-        install_linux_prog cmake cmake cmake
-      else
-        cmake_base="cmake-$cmake_majminpat_ver-linux-aarch64"
-        printf_maybe_quiet "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for Linux ARM64"
-        downloadfile \
-          "https://github.com/Kitware/CMake/releases/download/v$cmake_majminpat_ver/$cmake_base.tar.gz" \
-          "$tools_dir/dl/cmake.tar.gz" \
-          $cmake_cksum256_linux_arm64
-        cmake_bindir="$cmake_destdir/bin"
-      fi ;;
+    linux_x86_64|linux_x86|linux_arm64)
+      cmake_base=.
+      printf_maybe_quiet "%s\n\n" "-- Downloading cmake-$cmake_majminpat_ver for $BUILDHOST_ARCH"
+      downloadfile \
+        "https://github.com/diskuv/dkcoder/releases/download/cmake-$cmake_majminpat_ver/cmake-$BUILDHOST_ARCH.tar.gz" \
+        "$tools_dir/dl/cmake.tar.gz" \
+        "$cmake_cksum256_linux"
+      cmake_bindir="$cmake_destdir/bin"
+      ;;
   esac
 }
 export_cmake_vars() {
   case "$BUILDHOST_ARCH" in
     darwin_*)
-      cmake_bindir="$cmake_destdir/bin"
-      ;;
+      cmake_bindir="$cmake_destdir/bin" ;;
     linux_x86_64|linux_x86|linux_arm64)
-      if [ -x /sbin/apk ]; then
-        cmake_bindir=/usr/bin
-      else
-        cmake_bindir="$cmake_destdir/bin"
-      fi ;;
+      cmake_bindir="$cmake_destdir/bin" ;;
   esac
 }
 have_correct_cmake=0
@@ -804,48 +795,19 @@ fi
 if [ -e "$tools_dir/dl/cmake.tar.gz" ] && [ -n "$cmake_base" ]; then
   rm -rf "$tools_dir/cmake-$cmake_majminpat_ver"
   install -d "$cmake_destdir"
-  tar xCfz "$cmake_destdir" "$tools_dir/dl/cmake.tar.gz"
+  #   nit: BusyBox has a strict command line argument parsing ...
+  #   tar c|x|t [-ZzJjahmvokO] [-f TARFILE] [-C DIR] [-T FILE] [-X FILE] [LONGOPT]... [FILE]...
+  tar x -z -f "$tools_dir/dl/cmake.tar.gz" -C "$cmake_destdir"
   rm -f "$tools_dir/dl/cmake.tar.gz"
   set +f
-  if [ -e "$cmake_destdir/$cmake_base/CMake.app" ]; then
-      mv "$cmake_destdir/$cmake_base/CMake.app/Contents"/* "$cmake_destdir/"
-  else
-      mv "$cmake_destdir/$cmake_base"/* "$cmake_destdir/"
+  if [ ! "." = "$cmake_base" ]; then
+    if [ -e "$cmake_destdir/$cmake_base/CMake.app" ]; then
+        mv "$cmake_destdir/$cmake_base/CMake.app/Contents"/* "$cmake_destdir/"
+    else
+        mv "$cmake_destdir/$cmake_base"/* "$cmake_destdir/"
+    fi
   fi
   set -f
-fi
-#   Handle Python wheel
-if [ -e "$tools_dir/dl/cmake.whl" ]; then
-  rm -rf "$tools_dir/cmake-$cmake_majminpat_ver"
-  cd "$tools_dir/dl"
-  rm -rf cmake/data
-  #     Don't want cmake/data/{aclocal,bash-completion,emacs,vim}
-  unzip -q cmake.whl 'cmake/data/bin/**'
-  unzip -q cmake.whl 'cmake/data/doc/**'
-  #     Don't want cmake/data/share/cmake-$cmake_majmin_ver/Help
-  unzip -q cmake.whl "cmake/data/share/cmake-$cmake_majmin_ver/"'include/**'
-  unzip -q cmake.whl "cmake/data/share/cmake-$cmake_majmin_ver/"'Modules/**'
-  unzip -q cmake.whl "cmake/data/share/cmake-$cmake_majmin_ver/"'Templates/**'
-  rm -f cmake.whl
-  cd - > /dev/null
-  set +f
-  install -d "$cmake_destdir/share" "$cmake_destdir/doc" "$cmake_destdir/bin"
-  mv "$tools_dir/dl/cmake/data/bin"/* "$cmake_destdir/bin/"
-  rm -rf "$cmake_destdir/share/cmake-$cmake_majmin_ver" "$cmake_destdir/doc/cmake-$cmake_majmin_ver" "$cmake_destdir/doc/cmake"
-  mv "$tools_dir/dl/cmake/data/share/cmake-$cmake_majmin_ver" "$cmake_destdir/share/"
-  if [ -e "$tools_dir/dl/cmake/data/doc/cmake" ]; then # Windows wheel
-    mv "$tools_dir/dl/cmake/data/doc/cmake" "$cmake_destdir/doc/"
-  fi
-  if [ -e "$tools_dir/dl/cmake/data/doc/cmake-$cmake_majmin_ver" ]; then # Linux wheel
-    mv "$tools_dir/dl/cmake/data/doc/cmake-$cmake_majmin_ver" "$cmake_destdir/doc/"
-  fi
-  set -f
-  #   other dirs: aclocal bash-completion emacs vim
-  rm -rf "$tools_dir/dl/cmake/data/share"
-  #   be pedantic. if we don't know about a directory, it may be important. so error
-  #   if some directory is non-empty
-  rmdir "$tools_dir/dl/cmake/data/bin" "$tools_dir/dl/cmake/data/doc"
-  rmdir "$tools_dir/dl/cmake/data"
 fi
 
 # Put cmake in PATH

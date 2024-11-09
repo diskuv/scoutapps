@@ -23,6 +23,7 @@
 local.properties
 
 # ./dk
+/.z-dk/
 /.ci/
 
 # Dune

@@ -16,3 +16,5 @@ module Sys = Tr1Stdlib_V414CRuntime.Sys
 (* Maintain compatibility with unshadowed OCaml *)
 let prerr_endline = Tr1Stdlib_V414Io.StdIo.prerr_endline
 let print_endline = Tr1Stdlib_V414Io.StdIo.print_endline
+let open_out = Tr1Stdlib_V414Io.StdIo.open_out
+let close_out = Tr1Stdlib_V414Io.StdIo.close_out

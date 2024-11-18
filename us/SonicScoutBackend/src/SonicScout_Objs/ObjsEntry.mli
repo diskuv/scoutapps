@@ -6,3 +6,5 @@ val register_objects :
     Capnp.MessageSig.ro MessageWrapper.Slice.t option )
   Com.t ->
   unit
+
+include DkCoder_Std.SCRIPT

@@ -80,14 +80,14 @@ set(__DkRun_V0_4_SHA256_windows_x86_64 394f897d7cfc791f115e5bf427c7f56e054b510cb
 set(__DkRun_V0_4_SHA256_windows_x86    d0561ee1b49728b05e008df16146bd6e282199d40fd9e67c21f059eee3aa3469)
 set(__DkRun_V0_4_EOL_YYYY_MM_DD "2025-06-30")
 set(__DkRun_V0_4_EOG_YYYY_MM_DD "2025-12-30")
-set(__DkRun_V2_1_COMPILE_VERSION 2.1.4-r9)
+set(__DkRun_V2_1_COMPILE_VERSION 2.1.4-r10)
 set(__DkRun_V2_1_URL_BASE https://gitlab.com/api/v4/projects/52918795/packages/generic/stdexport/${__DkRun_V2_1_COMPILE_VERSION})
-set(__DkRun_V2_1_SHA256_linux_x86_64   e33938ca264043a71acbeb58fcbe6f19e541281463f342bf9ecf056b751d6eaf)
-set(__DkRun_V2_1_SHA256_linux_x86      31dfdcab0fc1139b0dc22b50614aa1d9d4a4b80e7cdb6414bbcf7958d4381ed3)
-set(__DkRun_V2_1_SHA256_darwin_x86_64  4eb63df3b227160c54415be86500506fa28abe749f87fc55a0c94fbebc2c9f7d)
-set(__DkRun_V2_1_SHA256_darwin_arm64   ab05c9260883e3883b0bd0214f97b0ead1683f1918ff4db68a27b9a1b6ba3986)
-set(__DkRun_V2_1_SHA256_windows_x86_64 63a80464ae7bca7714588518d556b558f4f24c972edebdb5e03aa2972c6b80ce)
-set(__DkRun_V2_1_SHA256_windows_x86    139101637bd9a0c8f7f8c9f85727e196835aec9c32b3304355f1d91e7e4d6841)
+set(__DkRun_V2_1_SHA256_linux_x86_64   7eccebbbc7fb9030577162c82bc86ca9ad1105d18f834fd5f2fc1d0b504cbd25)
+set(__DkRun_V2_1_SHA256_linux_x86      2f3e875348f81b45501d96e6a861e277bcf02631959df470f947d73aaf881431)
+set(__DkRun_V2_1_SHA256_darwin_x86_64  c3fc736e645cdf49cf2b4365a87845c84eecffe2e2386b7264d670b6c36cbd1a)
+set(__DkRun_V2_1_SHA256_darwin_arm64   d2b1b6715b891cfec7b050f6492cd72638a3518432c86b5bece2102dc40f87d9)
+set(__DkRun_V2_1_SHA256_windows_x86_64 01ae44e396ea336f2633e1e0bf70eea3f79fe9ba0971df368fb8336076526031)
+set(__DkRun_V2_1_SHA256_windows_x86    1c6a11a9647f9f8e801b570f424f8bcafb1994ca02f098fcfc66deb6bfa7d395)
 set(__DkRun_V2_1_EOL_YYYY_MM_DD "2025-08-30")
 set(__DkRun_V2_1_EOG_YYYY_MM_DD "2026-02-30")
 #   `Env` is a valid DkCoder version if $DKRUN_ENV_URL_BASE exists. Typically it is a file:// URL.
@@ -351,21 +351,25 @@ endfunction()
 #   QUIET
 #   VERSION - `Env` or `V0_2`. `Project` is not valid.
 #   LOGLEVEL
+#   DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME - The name of a variable that will be set to ON if OCAMLRUN is required to run DKCODER_RUN
+#
 # Read-only Filesystem Outputs: (never modify the files or mutate the directories. On macOS part of a Bundle)
+#   Authoritative documentation: ./dk DkRun_Project.Run --help
 # - DKCODER - location of the `dkcoder` executable
 # - DKCODER_VERSION - dotted form of DkCoder like 0.2.0.1
-# - DKCODER_RUN - location of the `DkCoder_Edge-Run.bc` bytecode executable (here "Edge" means the latest version for the VERSION; aka. the VERSION itself)
+# - DKCODER_RUN - location of the `DkCoder_Edge-Run` executable (here "Edge" means the latest version for the VERSION; aka. the VERSION itself)
 # - DKCODER_RUN_VERSION - `Env` or `V0_2`. Whatever was used to launch in `./dk DkRun_V0_2.Run` (etc.)
 # - DKCODER_HELPERS - location of bin directory or DkCoder.bundle/Contents/Helpers on macOS
 # - DKCODER_ETC - location of etc/dkcoder directory
-# - DKCODER_SITELIB - location of lib/ directory containing lib/ocaml/ and other libraries compatible with dkcoder
+# - DKCODER_BASE_SITELIB - location of lib/ directory containing the base system that at minimum includes the ocaml-system (ie. lib/ocaml/)
+# - DKCODER_EXT_SITELIB - may be empty. location of lib/ directory containing the extended system, if it exists.
 # - DKCODER_SHARE - location of share directory
 # - DKCODER_OCAMLC - location of ocamlc compatible with dkcoder
 # - DKCODER_OCAMLRUN - location of ocamlrun compatible with dkcoder
 # - DKCODER_DUNE - location of dune compatible with dkcoder
 function(__dkcoder_install)
     set(noValues)
-    set(singleValues ABI VERSION LOGLEVEL QUIET)
+    set(singleValues ABI VERSION LOGLEVEL QUIET DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME)
     set(multiValues)
     cmake_parse_arguments(PARSE_ARGV 0 ARG "${noValues}" "${singleValues}" "${multiValues}")
 
@@ -564,9 +568,15 @@ stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWL
     # Export binaries.
     #   ocamlc, ocamlrun and dune must be in the same directory as dkcoder.
     find_program(DKCODER_OCAMLC NAMES ocamlc REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
-    find_program(DKCODER_OCAMLRUN NAMES ocamlrun REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
     find_program(DKCODER_DUNE NAMES dune REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
-    find_program(DKCODER_RUN NAMES DkCoder_Edge-Run.bc REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_resourcesdir}/bytecode)
+    find_program(DKCODER_OCAMLRUN NAMES ocamlrun REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
+    if(compile_version VERSION_GREATER_EQUAL 2.1.4.10 OR compile_version STREQUAL Env)
+        find_program(DKCODER_RUN NAMES DkCoder_Edge__Run REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
+        set("${ARG_DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME}" OFF PARENT_SCOPE)
+    else()
+        find_program(DKCODER_RUN NAMES DkCoder_Edge-Run.bc REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_resourcesdir}/bytecode)
+        set("${ARG_DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME}" ON PARENT_SCOPE)
+    endif()
 
     set(problem_solution "Problem: The DkCoder installation is corrupted. Solution: Remove the directory ${DKCODER_HOME} and try again.")
 
@@ -589,11 +599,12 @@ stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWL
     set(DKCODER_ETC "${dkcoder_etc}" PARENT_SCOPE)
 
     # Export lib
-    cmake_path(APPEND dkcoder_resourcesdir lib OUTPUT_VARIABLE dkcoder_sitelib)
-    if(NOT IS_DIRECTORY "${dkcoder_sitelib}")
+    cmake_path(APPEND dkcoder_resourcesdir lib OUTPUT_VARIABLE dkcoder_base_sitelib)
+    if(NOT IS_DIRECTORY "${dkcoder_base_sitelib}")
         message(FATAL_ERROR "${problem_solution}")
     endif()
-    set(DKCODER_SITELIB "${dkcoder_sitelib}" PARENT_SCOPE)
+    set(DKCODER_BASE_SITELIB "${dkcoder_base_sitelib}" PARENT_SCOPE)
+    set(DKCODER_EXT_SITELIB "" PARENT_SCOPE)
 
     # Export share
     cmake_path(APPEND dkcoder_resourcesdir share OUTPUT_VARIABLE dkcoder_share)
@@ -650,7 +661,7 @@ function(__dkcoder_delegate)
     set(noValues)
     set(singleValues PACKAGE_NAMESPACE PACKAGE_QUALIFIER
         FULLY_QUALIFIED_MODULE ARGUMENT_LIST_VARIABLE
-        VERSION)
+        VERSION DKCODER_RUN_REQUIRES_OCAMLRUN)
     set(multiValues)
     cmake_parse_arguments(PARSE_ARGV 0 ARG "${noValues}" "${singleValues}" "${multiValues}")
 
@@ -660,7 +671,7 @@ function(__dkcoder_delegate)
     #   compiling a bytecode executable, we have to do union of environments for
     #   both ocamlc + ocamlrun.
     __dkcoder_prep_environment()
-    __dkcoder_add_environment_set("OCAMLLIB=${DKCODER_SITELIB}/ocaml")
+    __dkcoder_add_environment_set("OCAMLLIB=${DKCODER_BASE_SITELIB}/ocaml")
     if(ARG_VERSION VERSION_LESS_EQUAL 0.4.0.1)
         #   Assumptions.ocamlfind_configuration_available_to_ocaml_compiler_in_coder_run
         __dkcoder_add_environment_set("OCAMLFIND_CONF=${DKCODER_OCAMLFIND_CONF}")
@@ -673,10 +684,16 @@ function(__dkcoder_delegate)
         __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_HELPERS}/stublibs")
         __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_HELPERS}/stublibs")
     else()
-        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_SITELIB}/stublibs")
-        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_SITELIB}/ocaml/stublibs")
-        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_SITELIB}/stublibs")
-        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_SITELIB}/ocaml/stublibs")
+        if(DKCODER_EXT_SITELIB)
+            __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_EXT_SITELIB}/stublibs")
+        endif()
+        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_BASE_SITELIB}/stublibs")
+        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_BASE_SITELIB}/ocaml/stublibs")
+        if(DKCODER_EXT_SITELIB)
+            __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_EXT_SITELIB}/stublibs")
+        endif()
+        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_BASE_SITELIB}/stublibs")
+        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_BASE_SITELIB}/ocaml/stublibs")
     endif()
     #   Assumptions.coder_run_has_environment_for_compiling_bytecode
     #
@@ -693,11 +710,19 @@ function(__dkcoder_delegate)
     #   detection of ABI (ex. ./dk downloads x86_64 for macOS but ABI is detected as arm64).
     cmake_path(NATIVE_PATH DKCODER_HELPERS NORMALIZE DKCODER_HELPERS_NATIVE)
     cmake_path(NATIVE_PATH DKCODER_SHARE NORMALIZE DKCODER_SHARE_NATIVE)
-    cmake_path(NATIVE_PATH DKCODER_SITELIB NORMALIZE DKCODER_SITELIB_NATIVE)
+    cmake_path(NATIVE_PATH DKCODER_BASE_SITELIB NORMALIZE DKCODER_BASE_SITELIB_NATIVE)
+    if(DKCODER_EXT_SITELIB)
+        cmake_path(NATIVE_PATH DKCODER_EXT_SITELIB NORMALIZE DKCODER_EXT_SITELIB_NATIVE)
+    else()
+        set(DKCODER_EXT_SITELIB_NATIVE)
+    endif()
     __dkcoder_add_environment_set("DKCODER_HELPERS=${DKCODER_HELPERS_NATIVE}")
     __dkcoder_add_environment_set("DKCODER_SHARE=${DKCODER_SHARE_NATIVE}")
-    if(ARG_VERSION VERSION_GREATER 0.4.0.1 OR ARG_VERSION STREQUAL Env)
-        __dkcoder_add_environment_set("DKCODER_SITELIB=${DKCODER_SITELIB_NATIVE}")
+    if(ARG_VERSION VERSION_GREATER_EQUAL 2.1.4.10 OR ARG_VERSION STREQUAL Env)
+        __dkcoder_add_environment_set("DKCODER_BASE_SITELIB=${DKCODER_BASE_SITELIB_NATIVE}")
+        __dkcoder_add_environment_set("DKCODER_EXT_SITELIB=${DKCODER_EXT_SITELIB_NATIVE}")
+    elseif(ARG_VERSION VERSION_GREATER 0.4.0.1)
+        __dkcoder_add_environment_set("DKCODER_SITELIB=${DKCODER_BASE_SITELIB_NATIVE}")
     endif()
     __dkcoder_add_environment_set("DKCODER_RUN_VERSION=${DKCODER_RUN_VERSION}")
     __dkcoder_add_environment_set("DKCODER_RUN_ENV_URL_BASE=${__DkRun_Env_URL_BASE}")
@@ -743,9 +768,13 @@ function(__dkcoder_delegate)
     endif()
 
     # Write postscript launch script.
+    set(entryExec_PRECOMMAND)
     if(CMAKE_HOST_WIN32)
         cmake_path(NATIVE_PATH CMAKE_COMMAND CMAKE_COMMAND_NATIVE)
-        cmake_path(NATIVE_PATH DKCODER_OCAMLRUN DKCODER_OCAMLRUN_NATIVE)
+        cmake_path(NATIVE_PATH DKCODER_OCAMLRUN DKCODER_OCAMLRUN_NATIVE)        
+        if(DKCODER_RUN_REQUIRES_OCAMLRUN)
+            set(entryExec_PRECOMMAND "\"${DKCODER_OCAMLRUN_NATIVE}\" ")
+        endif()
         cmake_path(NATIVE_PATH entryExec entryExec_NATIVE)
         file(CONFIGURE OUTPUT "${DKCODER_POST_SCRIPT}" CONTENT [[REM @ECHO OFF
 REM Clear "SET" variables from dk.cmd. They are not part of DkCoder API.
@@ -778,10 +807,13 @@ SET DK_WORKDIR=
 REM Clear variables that influence __dk.cmake. They are not part of DkCoder API.
 SET DKRUN_ENV_URL_BASE=
 
-"@CMAKE_COMMAND_NATIVE@" -E env @envMods_DOS@ -- "@DKCODER_OCAMLRUN_NATIVE@" "@entryExec_NATIVE@" @dkcoder_ARGS@
+"@CMAKE_COMMAND_NATIVE@" -E env @envMods_DOS@ -- @entryExec_PRECOMMAND@"@entryExec_NATIVE@" @dkcoder_ARGS@
 ]]
             @ONLY NEWLINE_STYLE DOS)
     else()
+        if(DKCODER_RUN_REQUIRES_OCAMLRUN)
+            set(entryExec_PRECOMMAND "'${DKCODER_OCAMLRUN}' ")
+        endif()
         #   + Clear "export" variables from dk
         file(CONFIGURE OUTPUT "${DKCODER_POST_SCRIPT}" CONTENT [[#!/bin/sh
 set -euf
@@ -793,7 +825,7 @@ unset DK_PROG_INSTALLED_LOCATION
 # Clear variables that influence __dk.cmake. They are not part of DkCoder API.
 unset DKRUN_ENV_URL_BASE
 
-exec '@CMAKE_COMMAND@' -E env @envMods_DOS@ -- '@DKCODER_OCAMLRUN@' '@entryExec@' @dkcoder_ARGS@
+exec '@CMAKE_COMMAND@' -E env @envMods_DOS@ -- @entryExec_PRECOMMAND@'@entryExec@' @dkcoder_ARGS@
 ]]
             @ONLY NEWLINE_STYLE UNIX)
     endif()
@@ -967,18 +999,21 @@ Environment variables:
             QUIET "${quiet}")
 
         # Do DkCoder install
+        #   __dkrun_compile_version (ex. 2.1.4-r10 or Env) -> DKCODER_VERSION (ex. 2.1.4.10 or Env)
         __dkcoder_install(
             ABI "${abi}"
             LOGLEVEL "${__dkcoder_log_level}"
             VERSION "${__dkrun_compile_version}"
-            QUIET "${quiet}")
+            QUIET "${quiet}"
+            DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME dkcoder_run_requires_ocamlrun)
 
         # Do DkCoder delegation
         __dkcoder_delegate(
             PACKAGE_NAMESPACE "${package_namespace}"
             PACKAGE_QUALIFIER "${package_qualifier}"
             FULLY_QUALIFIED_MODULE "${module}"
-            VERSION "${__dkrun_compile_version}"
+            VERSION "${DKCODER_VERSION}"
+            DKCODER_RUN_REQUIRES_OCAMLRUN "${dkcoder_run_requires_ocamlrun}"
             ARGUMENT_LIST_VARIABLE argument_list)
         return()
     endif()

@@ -4,6 +4,7 @@
 /dune-project
 /dune-workspace
 /.z-dk-dune-project
+/.merlin
 
 # Opam and conventional OCaml development
 /_opam/

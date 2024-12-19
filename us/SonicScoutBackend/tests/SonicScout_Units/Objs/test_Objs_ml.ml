@@ -1,6 +1,6 @@
 open Tezt
 open DkSDKFFI_OCaml
-module ProjectSchema = StdEntry.Schema.Make (ComMessage.C)
+module ProjectSchema = StdEntry.Schema.Make (ComMessageC)
 
 let tags = [ "objs" ]
 
@@ -8,7 +8,7 @@ let tags = [ "objs" ]
    The Java code is the real code, but the Java code should do the same Capnp
    conversions as this test! *)
 module QRTest = struct
-  open ComStandardSchema.Make (ComMessage.C)
+  open ComStandardSchema.Make (ComMessageC)
   let create com = Com.borrow_class_until_finalized com "SquirrelScout::QR"
   let method_qr_code_of_raw_match_data = Com.method_id "qr_code_of_raw_match_data"
 
@@ -29,7 +29,7 @@ end
    The Java code is the real code, but the Java code should do the same Capnp
    conversions as this test! *)
 module DatabaseTest = struct
-  open ComStandardSchema.Make (ComMessage.C)
+  open ComStandardSchema.Make (ComMessageC)
 
   let create com = Com.borrow_class_until_finalized com "SquirrelScout::Database"
   let method_create_object = Com.method_id "create_object"

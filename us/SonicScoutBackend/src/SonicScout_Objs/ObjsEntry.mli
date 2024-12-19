@@ -1,5 +1,5 @@
 open DkSDKFFI_OCaml
-open ComStandardSchema.Make(ComMessage.C)
+open ComStandardSchema.Make(ComMessageC)
    
 val register_objects :
   ( Capnp.MessageSig.rw message_t,

@@ -10,9 +10,9 @@ module _ = DkSDKFFI_OCaml
         ] ]} *)
 
 open DkSDKFFI_OCaml
-open ComStandardSchema.Make (ComMessage.C)
-open Com.MakeClassBuilder (ComMessage.C)
-module ProjectSchema = SonicScout_Std.StdEntry.Schema.Make (ComMessage.C)
+open ComStandardSchema.Make (ComMessageC)
+open Com.MakeClassBuilder (ComMessageC)
+module ProjectSchema = SonicScout_Std.StdEntry.Schema.Make (ComMessageC)
 
 (* args: [TEXT]. return: <new object> *)
 let create_object v args =

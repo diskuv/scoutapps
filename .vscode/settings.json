@@ -1,7 +1,8 @@
 {
     "ocaml.sandbox": {
         "kind": "custom",
-        "template": "${firstWorkspaceFolder}/dk DkRun_Project.RunQuiet --log-level ERROR -- MlStd_Std.Exec -- $prog $args"
+        "template": "${firstWorkspaceFolder}/.ci/cmake/bin/cmake -E env DKRUN_ENV_URL_BASE=file://Y:/source/dksdk-coder -- ${firstWorkspaceFolder}/dk.cmd DkRun_Env.RunQuiet --log-level ERROR --fixed-length-modules false -- MlStd_Std.Exec --merlin -- $prog $args"
+        // "template": "${firstWorkspaceFolder}/dk.cmd DkRun_Project.RunQuiet --log-level ERROR --fixed-length-modules false -- MlStd_Std.Exec --merlin -- $prog $args"
     },
     // CMake is for SonicScoutBackend since SonicScoutAndroid has indeterminate
     // build directory and, on Windows, it is inside the DkSDK WSL2 virtual machine.

@@ -142,9 +142,9 @@ let wsl2_list ?env args =
         (if args = [] then "" else " ")
         (Fmt.list ~sep:Fmt.sp Fmt.string)
         args);
-  let out, _status =
+  let out =
     OS.Cmd.run_out ~env Cmd.(v "wsl" % "--list" %% of_list args)
-    |> OS.Cmd.out_string |> rmsg
+    |> OS.Cmd.out_string |> OS.Cmd.success |> rmsg
   in
   let lines =
     utf8_lines_of_unicode out |> List.map String.trim

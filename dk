@@ -24,11 +24,12 @@ set -euf
 
 dk_pwd=$PWD
 
-# --- Quiet mode detection ---
+# --- Quiet or Away mode detection ---
 # Any command like ./dk DkRun_V0_1.RunQuiet that ends in "Quiet".
 # However, for user safety won't quiet a command if `sudo` is required.
 
-DKCODER_FORCE_QUIET=
+DKCODER_QUIET=0
+DKCODER_AWAY=0
 run_maybe_quiet() {
   "$@" >&2 # Always redirect stdout to stderr in this script
 }
@@ -40,19 +41,21 @@ printf_maybe_quiet() {
 if [ $# -ge 1 ]; then
   case "$1" in
     *Quiet)
-      DKCODER_FORCE_QUIET=true
+      DKCODER_QUIET=1
       run_maybe_quiet() {
         "$@" > /dev/null 2> /dev/null
       }
       printf_maybe_quiet() {
         true
-      }
+      } ;;
+    *Away)
+      DKCODER_AWAY=1
   esac
 fi
 
 # --- Imports of dkml-runtime-common's crossplatform-functions.sh ---
 # Changes:
-# 1. In download_file() use [ "${DKCODER_FORCE_QUIET:-}" = true ]
+# 1. In download_file() use [ "${DKCODER_QUIET:-}" -eq 1 ]
 # 2. In log_trace() replace non-FATAL `printf ... >&2` with `printf_maybe_quiet ...`
 # 3. In sha256check() all shasum/* use --quiet option (this should be upstreamed)
 
@@ -446,7 +449,7 @@ downloadfile() {
             $DKMLSYS_RM -f "$downloadfile_FILE"
         fi
     fi
-    if [ "${CI:-}" = true ] || [ "${DKCODER_FORCE_QUIET:-}" = true ]; then
+    if [ "${CI:-}" = true ] || [ "${DKCODER_QUIET:-}" -eq 1 ]; then
         if [ -n "$DKMLSYS_CURL" ]; then
             log_trace "$DKMLSYS_CURL" -L -s "$downloadfile_URL" -o "$downloadfile_FILE".tmp
         elif [ -n "$DKMLSYS_WGET" ]; then
@@ -853,7 +856,8 @@ fi
 
 dk_work=$tools_dir/work
 
-cd "$PROJ_DIR"
+if [ "$DKCODER_AWAY" -eq 0 ]; then cd "$PROJ_DIR"; fi
+
 "$cmake_bindir/cmake" \
   -D CMAKE_GENERATOR=Ninja -D CMAKE_MAKE_PROGRAM="$NINJA_EXE" \
   -D "DKCODER_PWD:FILEPATH=$dk_pwd" \
@@ -862,7 +866,7 @@ cd "$PROJ_DIR"
   -D "DKCODER_NONCE:STRING=$dk_nonce" \
   -D "DKCODER_TTY:STRING=$dk_tty" \
   -D "DKCODER_CMDLINE:STRING=$*" \
-  -P __dk.cmake
+  -P "$PROJ_DIR/__dk.cmake"
 
 # --------------- Execute post-command outside of CMake --------------
 # Sometimes a command wants to own the terminal or the command line arguments.

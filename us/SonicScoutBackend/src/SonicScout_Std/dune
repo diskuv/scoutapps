@@ -19,6 +19,17 @@
 (library
  (flags
   (:standard -warn-error -A))
+ ; -dllib -lSquirrelScout_Std-shared: record the .dll (or .so)
+ ;     in SquirrelScout_Std.cma so that when ocamlrun (ex. a toplevel)
+ ;     runs bytecode, the named shared library can be loaded
+ ;     from the lib/stublibs/ folder.
+ ;     Not needed for DkSDK CMake.
+ ;     For non-DkSDK builds, the .dll or .so
+ ;     must be placed in the stublibs directory;
+ ;     confer
+ ;     https://gitlab.com/diskuv/registries/public-opam-pkgs/-/blob/main/README.md.
+ ;     The SquirrelScout_Std.opam file is responsible for the installation.
+ (ocamlc_flags (:standard -dllib -lSquirrelScout_Std-shared))
  ; -S: keep camlasm*.asm/camlasm*.S intermediate assembly
  ;     source code available for IDE debugging
  (ocamlopt_flags
@@ -42,3 +53,17 @@
   bos
   lwt.unix)
  (modules StdEntry Intf Qr_manager Aws_manager Main Db_utils Schema Match_schedule_table Raw_match_data_table Robot_pictures_table Team_names_table))
+
+(rule
+ (alias build-byte-SquirrelScout_Std)
+ (deps SquirrelScout_Std.cma)
+ (targets )
+ (action (echo "Built SquirrelScout_Std.cma and bytecode dependencies
+")))
+
+(rule
+ (alias build-native-SquirrelScout_Std)
+ (deps SquirrelScout_Std.cmxa)
+ (targets )
+ (action (echo "Built SquirrelScout_Std.cmxa and nativecode dependencies
+")))

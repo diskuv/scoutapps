@@ -21,5 +21,6 @@
     "cmake.sourceDirectory": "${workspaceFolder}/us/SonicScoutBackend",
     "cmake.useCMakePresets": "always",
     "cmakeExplorer.cmakeIntegration": true,
-    "cmakeExplorer.buildDir": "us/SonicScoutBackend/build_dev"
+    "cmakeExplorer.buildDir": "us/SonicScoutBackend/build_dev",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

@@ -20,6 +20,7 @@ let clean areas =
           projectdir / "fetch" / "dksdk-ffi-ocaml";
           projectdir / "fetch" / "dksdk-opam-repository-core";
           projectdir / "fetch" / "dksdk-opam-repository-js";
+          projectdir / "fetch" / "dksdk-port-ocaml-ctypes";
           projectdir / "fetch" / "ocaml-backend";
         ]
     |> rmsg
@@ -100,7 +101,7 @@ let run ?opts ~slots () =
     (fun () ->
       let cmake = Fpath.(projectdir / ".ci" / "cmake" / "bin" / "cmake") in
       (match opts with
-      | Some { skip_fetch = true; _ } ->
+      | Some { skip_fetch = false; _ } ->
           let project_get =
             match opts with
             | Some { next = true; _ } -> [ "DKSDK_CMAKE_GITREF"; "next" ]

@@ -66,6 +66,7 @@
     "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
     "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
     "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+    "dksdk-port-ocaml-ctypes": { "inherits": "_mirror", "urls": [ "${dksdk-port-ocaml-ctypes_REPOSITORY}#feature-msvc-pr-rebased-on-avsm-dune-port" ] },
     // The remaining dependencies are sister projects in the same application
     "ocaml-backend": {
       "urls": [

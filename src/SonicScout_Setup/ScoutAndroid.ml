@@ -46,6 +46,15 @@ let clean areas =
         ]
     |> rmsg
   end;
+  if List.mem `AndroidGradleCxx areas then begin
+    start_step "Cleaning SonicScoutAndroid Android Gradle C++ artifacts";
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+      Fpath.
+        [
+          projectdir / "data" / ".cxx";
+        ]
+    |> rmsg
+  end;
   if List.mem `AndroidBuilds areas then begin
     start_step "Cleaning SonicScoutAndroid build artifacts";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
@@ -55,7 +64,6 @@ let clean areas =
           projectdir / ".gradle";
           projectdir / "local.properties";
           projectdir / "dkconfig" / "build";
-          projectdir / "data" / ".cxx";
           projectdir / "data" / "build";
           projectdir / "app" / "build";
           projectdir // user_presets_relfile;

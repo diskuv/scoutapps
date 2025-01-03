@@ -74,13 +74,14 @@ module Cli = struct
                  will resynchronize dksdk-cmake from its upstream on the next \
                  SonicScout_Setup.Develop command."
               [ "dksdk-cmake" ] );
-          ( [ `DkSdkWsl2 ],
+          ( [ `DkSdkWsl2; `AndroidGradleCxx ],
             info ~docs:s_areas
               ~doc:
                 "Clean the DkSDK WSL2 distributions used for the Android \
-                 Gradle Plugin."
+                 Gradle Plugin, and the Android Gradle C++ artifacts that \
+                 depend on those WSL2 distributions."
               [ "dksdk-wsl2" ] );
-          ( [ `AndroidBuilds ],
+          ( [ `AndroidBuilds; `AndroidGradleCxx ],
             info ~docs:s_areas ~doc:"Clean the Android build artifacts."
               [ "android-builds" ] );
           ( [ `BackendBuilds ],
@@ -100,6 +101,7 @@ module Cli = struct
               [ "maven-repo" ] );
           ( [
               `AndroidBuilds;
+              `AndroidGradleCxx;
               `BackendBuilds;
               `DkSdkSourceCode;
               `DkSdkCMake;

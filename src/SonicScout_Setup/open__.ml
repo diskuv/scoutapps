@@ -22,3 +22,5 @@ module Unix = Tr1Stdlib_V414CRuntime.Unix
 module Buffer = Tr1Stdlib_V414Base.Buffer
 module Uchar = Tr1Stdlib_V414Base.Uchar
 module Ezjsonm = Tr1Json_Std.Ezjsonm
+module Fpath = Tr1Fpath_Std.Fpath
+module Cmdliner = Tr1Cmdliner_Std.Cmdliner

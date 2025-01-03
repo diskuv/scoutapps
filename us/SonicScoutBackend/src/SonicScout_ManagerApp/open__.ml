@@ -3,6 +3,7 @@ module Bos = Tr1Bos_Std.Bos
 module Bytes = Tr1Stdlib_V414Base.Bytes
 module Callback = Tr1Stdlib_V414CRuntime.Callback
 module Format = Tr1Stdlib_V414CRuntime.Format
+module Fpath = Tr1Fpath_Std.Fpath
 module Logs = Tr1Logs_Std.Logs
 module Printf = Tr1Stdlib_V414CRuntime.Printf
 module Result = Tr1Stdlib_V414Base.Result

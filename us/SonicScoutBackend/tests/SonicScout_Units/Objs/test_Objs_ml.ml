@@ -89,7 +89,7 @@ module DatabaseTest = struct
 end
 
 let com = Com.create_c ()
-let () = SquirrelScout_Objs.register_objects com
+let () = ObjsEntry.register_objects com
 let qr_cls = QRTest.create com
 let database_cls = DatabaseTest.create com
 

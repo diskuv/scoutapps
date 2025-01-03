@@ -28,12 +28,12 @@ module _ = DkSDKFFI_OCaml
 open DkSDKFFI_OCaml
 open ComStandardSchema.Make (ComMessageC)
 open Com.MakeClassBuilder (ComMessageC)
-module ProjectSchema = SonicScout_Std.StdEntry.Schema.Make (ComMessageC)
+module ProjectSchema = StdEntry.Schema.Make (ComMessageC)
 
 (* args: [TEXT]. return: <new object> *)
 let create_object v args =
   let db_path = Reader.St.(i1_get (of_message args)) in
-  let obj = SonicScout_Std.StdEntry.create_object ~db_path () in
+  let obj = StdEntry.create_object ~db_path () in
   Ret.v_new v obj
 
 (* args: [RawMatchData]. return: [DATA] *)
@@ -45,7 +45,7 @@ let qr_code_of_raw_match_data v args =
   (* The QR code needs binary data, so serialize the RawMatchData
      into bytes *)
   let blob = ComCodecs.serialize ~compression:`None args in
-  match SonicScout_Std.StdEntry.generate_qr_code blob with
+  match StdEntry.generate_qr_code blob with
   | Error msg -> failwith msg
   | Ok qrcode ->
       (* Now that we have the QR code as a SVG image, wrap it
@@ -60,12 +60,12 @@ let qr_code_of_raw_match_data v args =
 
 (* args: [MatchAndPosition]. return: [Int16 where -1 is not found] *)
 let get_team_for_match_and_position ~self v args =
-  let module Db = (val self : SonicScout_Std.StdEntry.Database_actions_type) in
+  let module Db = (val self : StdEntry.Database_actions_type) in
   let matchnum, position =
     let open ProjectSchema.Reader in
     let m = MatchAndPosition.of_message args in
     let matchnum = MatchAndPosition.match_get m in
-    let position : SonicScout_Std.StdEntry.Types.robot_position =
+    let position : StdEntry.Types.robot_position =
       match MatchAndPosition.position_get m with
       | Red1 -> Red_1
       | Red2 -> Red_2
@@ -89,7 +89,7 @@ let get_team_for_match_and_position ~self v args =
 
 (* args: [RawMatchData]. return: [MaybeError] *)
 let insert_scouted_data ~self v args =
-  let module Db = (val self : SonicScout_Std.StdEntry.Database_actions_type) in
+  let module Db = (val self : StdEntry.Database_actions_type) in
   (* For some reason Db.insert_scouted_data uses a string rather than Capnp.
      So we just validate that [args] is RawMatchData.
      TODO: fix that *)
@@ -111,7 +111,7 @@ let insert_scouted_data ~self v args =
       Ret.v_capnp v bldr
 
 let load_json_match_schedule ~self v args =
-  let module Db = (val self : SonicScout_Std.StdEntry.Database_actions_type) in
+  let module Db = (val self : StdEntry.Database_actions_type) in
   let bldr = ProjectSchema.Builder.MaybeError.init_root () in
 
   let json_contents = Reader.St.(i1_get (of_message args)) in

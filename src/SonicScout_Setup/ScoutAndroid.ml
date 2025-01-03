@@ -98,7 +98,12 @@ let run ?opts ~slots () =
   OS.Dir.with_current projectdir
     (fun () ->
       let cmake = Fpath.(projectdir / ".ci" / "cmake" / "bin" / "cmake") in
-      dk [ "dksdk.project.get" ];
+      let project_get =
+        match opts with
+        | Some { next = true; _ } -> [ "DKSDK_CMAKE_GITREF"; "next" ]
+        | _ -> []
+      in
+      dk ("dksdk.project.get" :: project_get);
       dk [ "dksdk.cmake.link"; "QUIET" ];
       (* You can ignore the error if you got 'failed to create symbolic link' for dksdk.ninja.link *)
       dk [ "dksdk.ninja.link"; "QUIET" ];

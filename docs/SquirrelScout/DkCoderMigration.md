@@ -27,5 +27,9 @@ These will compile all of the packages with DkCoder:
 This will compile with DkSDK CMake:
 
 ```powershell
+./dk src/SonicScout_Setup/Clean.ml --builds
+./dk src/SonicScout_Setup/Develop.ml android --next
+
+./dk src/SonicScout_Setup/Clean.ml --builds
 ./dk src/SonicScout_Setup/Develop.ml android
 ```

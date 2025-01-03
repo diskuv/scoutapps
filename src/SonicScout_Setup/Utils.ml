@@ -146,9 +146,7 @@ let wsl2_list ?env args =
     OS.Cmd.run_out ~env Cmd.(v "wsl" % "--list" %% of_list args)
     |> OS.Cmd.out_string |> OS.Cmd.success |> rmsg
   in
-  let lines =
-    utf8_lines_of_unicode out |> List.map String.trim
-  in
+  let lines = utf8_lines_of_unicode out |> List.map String.trim in
   List.filter
     (fun s -> not (String.equal "Windows Subsystem for Linux Distributions:" s))
     lines
@@ -209,16 +207,7 @@ let dk_env ?(opts = default_opts) () =
       (Printf.sprintf "%s_REPO_1_0" project_upcase_underscore)
       (Printf.sprintf "file://%s/.git" (sibling_dir_mixed ~cwd ~project))
   in
-  match (opts.next, opts.fetch_siblings) with
-  | _, true ->
-      (sib "dksdk-cmake") env
-      |> sib "dksdk-ffi-c" |> sib "dksdk-ffi-java" |> sib "dksdk-ffi-ocaml"
-  | true, false ->
-      (* Setting just the branch means dksdk-access can read repository.ini
-         and add the authentication token. *)
-      Bos.OSEnvMap.(
-        add "DKSDK_CMAKE_BRANCH_1_0" "next" env
-        |> add "DKSDK_FFI_C_BRANCH_1_0" "next"
-        |> add "DKSDK_FFI_JAVA_BRANCH_1_0" "next"
-        |> add "DKSDK_FFI_OCAML_BRANCH_1_0" "next")
-  | false, false -> env
+  if opts.fetch_siblings then
+    (sib "dksdk-cmake") env
+    |> sib "dksdk-ffi-c" |> sib "dksdk-ffi-java" |> sib "dksdk-ffi-ocaml"
+  else env

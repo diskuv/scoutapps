@@ -206,7 +206,10 @@ let run ?(opts = Utils.default_opts) ?global_dkml ~slots () =
   in
   OS.Dir.with_current projectdir
     (fun () ->
-      dk ~slots [ "dksdk.project.get" ];
+      let project_get =
+        if opts.next then [ "DKSDK_CMAKE_GITREF"; "next" ] else []
+      in
+      dk ~slots ("dksdk.project.get" :: project_get);
       dk ~slots [ "dksdk.cmake.link"; "QUIET" ];
       (* You can ignore the error if you got 'failed to create symbolic link' for dksdk.ninja.link *)
       dk ~slots [ "dksdk.ninja.copy"; "QUIET" ];

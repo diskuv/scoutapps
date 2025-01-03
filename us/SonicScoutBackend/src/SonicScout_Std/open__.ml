@@ -32,3 +32,5 @@ module _ = DkSDKFFI_OCaml
             ]
           )
         ] ]} *)
+
+module DkSDKFFI_OCaml0 = DkSDKFFI_OCaml

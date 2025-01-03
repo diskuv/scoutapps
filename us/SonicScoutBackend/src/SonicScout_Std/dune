@@ -52,7 +52,7 @@
   fpath
   bos
   lwt.unix)
- (modules StdEntry Intf Qr_manager Aws_manager Main Db_utils Schema Match_schedule_table Raw_match_data_table Robot_pictures_table Team_names_table DkSDKFFI_OCaml))
+ (modules StdEntry Intf Qr_manager Aws_manager Main Db_utils Schema Match_schedule_table Raw_match_data_table Robot_pictures_table Team_names_table DkSDKFFI_OCaml0))
 
 (rule
  (alias build-byte-SquirrelScout_Std)

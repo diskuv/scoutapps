@@ -40,7 +40,7 @@
  (libraries
   SquirrelScout_Std
   DkSDKFFI_OCaml)
- (modules ObjsEntry))
+ (modules ObjsEntry DkCoder_Std))
 
 (rule
  (alias build-byte-SquirrelScout_Objs)

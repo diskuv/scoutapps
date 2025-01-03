@@ -6,7 +6,9 @@ DkSDKProject_AddPackage(
 )
 
 add_library(SquirrelScout_Objs OBJECT
-        ObjsEntry.ml)
+        ObjsEntry.ml
+        # Since this is a library id, will be ignored by DkCoder
+        DkCoder_Std.ml)
 target_sources(SquirrelScout_Objs INTERFACE ObjsEntry.mli)
 add_library(SquirrelScout::Objs ALIAS SquirrelScout_Objs)
 set_target_properties(SquirrelScout_Objs PROPERTIES EXPORT_NAME Objs)

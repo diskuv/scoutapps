@@ -36,6 +36,9 @@ add_library(SquirrelScout_Std OBJECT
         Raw_match_data_table.ml
         Robot_pictures_table.ml
         Team_names_table.ml
+
+        # This can be removed once DkCoder integrated into DkSDK CMake
+        DkSDKFFI_OCaml.ml
         )
 add_library(SquirrelScout::Std ALIAS SquirrelScout_Std)
 set_target_properties(SquirrelScout_Std PROPERTIES EXPORT_NAME Std)

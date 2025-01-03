@@ -65,6 +65,7 @@ let clean areas =
       Fpath.
         [
           ffijava / "buildSrc" / "build";
+          ffijava / "core" / "buildSrc" / "build";
           ffijava / "core" / "abi" / "build";
           ffijava / "core" / "gradle" / "build";
           ffijava / "ffi-java" / "build";

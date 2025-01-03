@@ -10,6 +10,7 @@ type opts = {
           can be located, and that usually only if Visual Studio is installed
           on the user's PC. We can't copy the "d" DLLs either because
           Microsoft restricts redistribution of the debug DLLS. *)
+  skip_fetch : bool;
 }
 
 (** [default_opts] are the default options.
@@ -17,7 +18,12 @@ type opts = {
     The default build type is [`Release] since [`Debug] is not redistributable
     on Windows. *)
 let default_opts : opts =
-  { next = false; fetch_siblings = false; build_type = `Release }
+  {
+    next = false;
+    fetch_siblings = false;
+    build_type = `Release;
+    skip_fetch = true;
+  }
 
 (** {1 Progress} *)
 

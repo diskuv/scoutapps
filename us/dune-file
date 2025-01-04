@@ -1,0 +1,3 @@
+(dirs) ; Don't scan subdirectories
+(vendored_dirs SonicScoutBackend)
+; SonicScoutAndroid

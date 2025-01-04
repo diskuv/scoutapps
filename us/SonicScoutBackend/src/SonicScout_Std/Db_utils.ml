@@ -162,21 +162,21 @@ module Select = struct
     (* FIXME add back as a cli option? *)
     (* print_endline ("SQL === " ^ sql); *)
     let stmt = Sqlite3.prepare db sql in
-    let data_vector = Vector.create ~dummy:(String "") in
+    let data_vector = Queue.create () in
 
     while Sqlite3.step stmt = Sqlite3.Rc.ROW do
       let value = Sqlite3.column stmt 0 in
 
       match Sqlite3.Data.to_int value with
-      | Some n -> Vector.append data_vector (Vector.make 1 ~dummy:(Int n))
+      | Some n -> Queue.add (Int n) data_vector
       | None -> (
           match Sqlite3.Data.to_string value with
           | Some s ->
-              Vector.append data_vector (Vector.make 1 ~dummy:(String s))
+              Queue.add (String s) data_vector
           | None -> failwith "didnt get int or string")
     done;
 
-    Vector.to_list data_vector
+    List.of_seq (Queue.to_seq data_vector)
 
   (* ------------ *)
 

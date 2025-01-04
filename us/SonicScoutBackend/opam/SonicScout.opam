@@ -11,10 +11,7 @@ homepage: "https://github.com/diskuv/scoutapps#readme"
 bug-reports: "https://github.com/diskuv/scoutapps/issues"
 depends: [
   "dune" {>= "3.8"}
-  "capnp" {>= "3.5.0"}
-  "menhir" {>= "20230608"}
-  "ocaml-lsp-server" {>= "1.16.1"}
-  "ocamlformat" {= "0.26.1"}
+  "capnp"
   "odoc" {with-doc}
 ]
 build: [

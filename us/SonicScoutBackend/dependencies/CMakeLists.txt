@@ -128,15 +128,6 @@ DkSDKProject_MakeAvailable(
         xdg
         fpath
         bos
-
-        # "Development tools".
-        # Implementation: Built by Dune.
-        # Semantically, very little difference from Build tools, except
-        # they are built for both the host and the target
-        # ABIs. The target ABI is almost always useless.
-        #odoc
-        ocaml_lsp_server
-        ocamlformat
 )
 DkSDKFetchContent_MakeAvailableNoInstall(
         # "Build tools" that must run on the build host.

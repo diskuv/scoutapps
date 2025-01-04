@@ -54,20 +54,30 @@
           "file://${projectDir}/fetch/${dependencyName}?mirror=${sourceDir}/fetch/${dependencyName}"
         ]
       },
-        // DkSDK Access is needed to get any other dependencies
+      // DkSDK Access is needed to get any other dependencies
+      //    manylinux Docker container only mounts the project, so _all_ dependencies are needed inside fetch/
       "dksdk-access": { "inherits": "_mirror", "urls": [ "https://gitlab.com/diskuv/dksdk-access.git#main" ] },
       // The next set of dependencies (dksdk-*) are available to DkSDK subscribers
-      "dksdk-cmake": { "inherits": "_mirror", "urls": [ "${dksdk-cmake_REPOSITORY}" ] },
-      "dksdk-ffi-c": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },
-      "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
-      "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
-      "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
+      //    dksdk-cmake is the source of DKSDK_VERSION_MAJMIN.
+      //    dksdk-cmake_GITREF defaults to 'main' but can be overridden with `./dk dksdk.project.get DKSDK_CMAKE_GITREF <ref>`
+      "dksdk-cmake": { "inherits": "_mirror", "urls": [ "${dksdk-cmake_REPOSITORY}#${dksdk-cmake_GITREF}" ] },
+      "dksdk-ffi-c": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-c_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+      "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+      "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+      "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
       // The remaining dependencies are third-party open source projects
       "dkml-runtime-common": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-runtime-common.git" ] },
       "dkml-runtime-distribution": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-runtime-distribution.git" ] },
       "dkml-compiler": { "inherits": "_local", "urls": [ "https://github.com/diskuv/dkml-compiler.git" ] },
-      "opam-repository-ocaml": { "inherits": "_local", "urls": [ "https://github.com/ocaml/opam-repository.git#master" ] },
-      //  Temporary until https://github.com/dune-universe/opam-overlays/pull/217
-      "opam-repository-dune-universe": { "inherits": "_local", "urls": [ "https://github.com/jonahbeckford/opam-overlays.git#remove-submodule" ] }
+      //  @2024-11-11: Remove test/opam-overlays/packages symlink
+      //  earlier: need https://github.com/dune-universe/opam-overlays/pull/217
+      "opam-repository-dune-universe": { "inherits": "_local", "urls": [ "https://github.com/jonahbeckford/opam-overlays.git#dkcoder" ] },
+      //  @2024-12-16: (for DkCoder) need ocaml-lsp-server.1.20.1-4.14
+      //  @2024-11-30: (for DkCoder) need ocaml-lsp-server.1.20.0-4.14
+      //  @2024-11-13: (for DkCoder) need res.5.0.2
+      //  @2024-11-11: (from dksdk-coder) need https://github.com/mirage/ocaml-tar/pull/150 (tar 3.1.1)
+      "opam-repository-ocaml": { "inherits": "_local", "urls": [ "https://github.com/ocaml/opam-repository.git#ef2fa30ecdfacbdf4dc3742f39753750a49974ee" ] },
+      //  @2024-11-12: 2.1.3 +28 commits. Use old conf-sdl2.1 that works with MSVC
+      "opam-repository-dkml": { "inherits": "_local", "urls": [ "https://github.com/diskuv/diskuv-opam-repository.git#c0b7cd9badd9e1e29a6b4646cdad4c1b1b008494" ] }
     }
   }

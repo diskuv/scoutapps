@@ -206,7 +206,11 @@ let run ?(opts = Utils.default_opts) ?global_dkml ~slots () =
   in
   OS.Dir.with_current projectdir
     (fun () ->
-      dk ~slots [ "dksdk.project.get" ];
+      (if not opts.skip_fetch then
+         let project_get =
+           if opts.next then [ "DKSDK_CMAKE_GITREF"; "next" ] else []
+         in
+         dk ~slots ("dksdk.project.get" :: project_get));
       dk ~slots [ "dksdk.cmake.link"; "QUIET" ];
       Utils.dk_ninja_link_or_copy ~dk:(dk ~slots);
       let user_presets = Fpath.v "CMakeUserPresets.json" in

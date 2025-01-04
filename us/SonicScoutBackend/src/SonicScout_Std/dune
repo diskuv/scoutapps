@@ -52,16 +52,18 @@
   fpath
   bos
   lwt.unix)
- (modules SquirrelScout_Std SquirrelScout_Std_intf qr_manager aws_manager main db_utils schema match_schedule_table raw_match_data_table robot_pictures_table team_names_table))
+ (modules StdEntry Intf Qr_manager Aws_manager Main Db_utils Schema Match_schedule_table Raw_match_data_table Robot_pictures_table Team_names_table DkSDKFFI_OCaml0))
 
 (rule
  (alias build-byte-SquirrelScout_Std)
  (deps SquirrelScout_Std.cma)
  (targets )
- (action (echo Built SquirrelScout_Std.cma and bytecode dependencies)))
+ (action (echo "Built SquirrelScout_Std.cma and bytecode dependencies
+")))
 
 (rule
  (alias build-native-SquirrelScout_Std)
  (deps SquirrelScout_Std.cmxa)
  (targets )
- (action (echo Built SquirrelScout_Std.cmxa and nativecode dependencies)))
+ (action (echo "Built SquirrelScout_Std.cmxa and nativecode dependencies
+")))

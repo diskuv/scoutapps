@@ -6,7 +6,8 @@ type common = {
 
 let _compile_backend ~slots { opts; global_dkml; _ } =
   let global_dkml = if global_dkml then Some () else None in
-  Qt.run ();
+  let slots = Python.run ~slots () in
+  Qt.run ~slots ();
   Sqlite3.run ();
   ScoutBackend.run ?global_dkml ~opts ~slots ()
 

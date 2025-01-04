@@ -40,10 +40,7 @@
   ; It is expected that many dev tools will not be used in any `dune` files
   (allow_empty)
   (depends 
-    capnp
-    (menhir (>= 20230608))
-    (ocaml-lsp-server (>= 1.16.1))
-    (ocamlformat (= 0.26.1))))
+    capnp))
 
 (package
   (name SonicScout_Std)

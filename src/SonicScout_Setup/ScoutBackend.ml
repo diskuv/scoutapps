@@ -20,6 +20,12 @@ let clean areas =
           projectdir / "fetch" / "dksdk-cmake";
           projectdir / "fetch" / "dksdk-ffi-c";
           projectdir / "fetch" / "dksdk-ffi-ocaml";
+          projectdir / "fetch" / "dksdk-opam-repository-core";
+          projectdir / "fetch" / "dksdk-opam-repository-js";
+          (* These aren't DkSDK source code but they need to be deleted somewhere ... *)
+          projectdir / "fetch" / "opam-repository-dkml";
+          projectdir / "fetch" / "opam-repository-dune-universe";
+          projectdir / "fetch" / "opam-repository-ocaml";
         ]
     |> rmsg
   end;

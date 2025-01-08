@@ -20,28 +20,31 @@ DkSDKProject_AddPackage(
 # will use; even other OCaml projects can use this library if you publish
 # it to an opam repository.
 add_library(SquirrelScout_Std OBJECT
-        SquirrelScout_Std.ml
-        SquirrelScout_Std_intf.ml
+        StdEntry.ml
+        Intf.ml
 
-        qr_manager.ml
-        aws_manager.ml
-        main.ml
+        Qr_manager.ml
+        Aws_manager.ml
+        Main.ml
 
-        db_utils.ml
+        Db_utils.ml
 
-        schema.ml
-        schema.mli
+        Schema.ml
+        Schema.mli
 
-        match_schedule_table.ml
-        raw_match_data_table.ml
-        robot_pictures_table.ml
-        team_names_table.ml
+        Match_schedule_table.ml
+        Raw_match_data_table.ml
+        Robot_pictures_table.ml
+        Team_names_table.ml
+
+        # This can be removed once DkCoder integrated into DkSDK CMake
+        DkSDKFFI_OCaml0.ml
         )
 add_library(SquirrelScout::Std ALIAS SquirrelScout_Std)
 set_target_properties(SquirrelScout_Std PROPERTIES EXPORT_NAME Std)
 
 target_sources(SquirrelScout_Std INTERFACE
-        SquirrelScout_Std.mli)
+        StdEntry.mli)
 target_link_libraries(SquirrelScout_Std PRIVATE
         Findlib::fmt
 
@@ -75,9 +78,9 @@ target_link_libraries(SquirrelScout_Std PRIVATE
 # Then `capnpc-ocaml` binary can generate a correct
 # `Schema`.
 if(NOT DKSDK_GOLDEN_SOURCE_CODE)
-    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml)
-        file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml
-            "let () = failwith {|placeholder until ${CMAKE_CURRENT_SOURCE_FILE} generates the real schema.ml|}")
+    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Schema.ml)
+        file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/Schema.ml
+            "let () = failwith {|placeholder until ${CMAKE_CURRENT_SOURCE_FILE} generates the real Schema.ml|}")
     endif()
 endif()
 
@@ -94,8 +97,8 @@ set(import_DEPENDS
 # --------------
 if(NOT DKSDK_GOLDEN_SOURCE_CODE)
     add_custom_command(OUTPUT
-        ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml
-        ${CMAKE_CURRENT_SOURCE_DIR}/schema.mli
+        ${CMAKE_CURRENT_SOURCE_DIR}/Schema.ml
+        ${CMAKE_CURRENT_SOURCE_DIR}/Schema.mli
         MAIN_DEPENDENCY
         schema.capnp
         DEPENDS
@@ -151,6 +154,6 @@ endif()
 
 add_custom_target(Squirrel-Scout-GenerateCapnp ALL
     DEPENDS
-    ${CMAKE_CURRENT_SOURCE_DIR}/schema.ml
-    ${CMAKE_CURRENT_SOURCE_DIR}/schema.mli
+    ${CMAKE_CURRENT_SOURCE_DIR}/Schema.ml
+    ${CMAKE_CURRENT_SOURCE_DIR}/Schema.mli
     ${CMAKE_CURRENT_SOURCE_DIR}/Schema.java)

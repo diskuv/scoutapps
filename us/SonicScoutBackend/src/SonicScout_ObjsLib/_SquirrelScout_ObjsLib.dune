@@ -28,6 +28,7 @@
   (:standard -dstartup -S))
  (modules
   SquirrelScout_ObjsLib
+  Init
   )
  (libraries
   SquirrelScout_Objs

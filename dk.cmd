@@ -37,7 +37,7 @@ SET DK_7Z_MINVER=01
 SET DK_7Z_DOTVER=%DK_7Z_MAJVER%.%DK_7Z_MINVER%
 SET DK_7Z_VER=%DK_7Z_MAJVER%%DK_7Z_MINVER%
 SET DK_CMAKE_VER=3.25.3
-SET DK_NINJA_VER=1.11.1
+SET DK_NINJA_VER=1.12.1
 SET DK_BUILD_TYPE=Release
 SET DK_PROJ_DIR=%~dp0
 SET DK_PWD=%CD%
@@ -45,15 +45,18 @@ SET DK_PWD=%CD%
 SET DK_CKSUM_7ZR=72c98287b2e8f85ea7bb87834b6ce1ce7ce7f41a8c97a81b307d4d4bf900922b
 SET DK_CKSUM_7ZEXTRA=db3a1cbe57a26fac81b65c6a2d23feaecdeede3e4c1fe8fb93a7b91d72d1094c
 SET DK_CKSUM_CMAKE=d129425d569140b729210f3383c246dec19c4183f7d0afae1837044942da3b4b
-SET DK_CKSUM_NINJA=524b344a1a9a55005eaf868d991e090ab8ce07fa109f1820d40e74642e289abc
+SET DK_CKSUM_NINJA=f550fec705b6d6ff58f2db3c374c2277a37691678d6aba463adcbb129108467a
 
-REM --------- Quiet Detection ---------
-REM Enabled? If suffix of the first argument is "Quiet".
+REM --------- Quiet and Away Detection ---------
+REM Enabled? If suffix of the first argument is "Quiet" or "Away"
 REM Example: DkRun_Project.RunQuiet
+REM Example: DkRun_Project.RunAway
 
 SET DK_ARG1=%1
 SET DK_QUIET=0
+SET DK_AWAY=0
 IF "%DK_ARG1:~-5%" == "Quiet" SET DK_QUIET=1
+IF "%DK_ARG1:~-4%" == "Away" SET DK_AWAY=1
 SET DK_ARG1=
 
 REM --------- Data Home ---------
@@ -203,8 +206,8 @@ REM -------------- Run finder --------------
 
 SET DK_WORKDIR=%DK_DATA_HOME%\work
 
-CD /d %DK_PROJ_DIR%
-"%DK_CMAKE_EXE%" -D CMAKE_GENERATOR=Ninja -D "CMAKE_MAKE_PROGRAM=%DK_NINJA_EXE%" -D "DKCODER_PWD:FILEPATH=%DK_PWD%" -D "DKCODER_DATA_HOME:FILEPATH=%DK_DATA_HOME%" -D "DKCODER_WORKDIR:FILEPATH=%DK_WORKDIR%" -D "DKCODER_NONCE:STRING=%DK_NONCE%" -D "DKCODER_TTY:STRING=%DK_TTY%" -D "DKCODER_CMDLINE:STRING=%DK_CMDLINE%" -P __dk.cmake
+IF %DK_AWAY% EQU 0 CD /D %DK_PROJ_DIR%
+"%DK_CMAKE_EXE%" -D CMAKE_GENERATOR=Ninja -D "CMAKE_MAKE_PROGRAM=%DK_NINJA_EXE%" -D "DKCODER_PWD:FILEPATH=%DK_PWD%" -D "DKCODER_DATA_HOME:FILEPATH=%DK_DATA_HOME%" -D "DKCODER_WORKDIR:FILEPATH=%DK_WORKDIR%" -D "DKCODER_NONCE:STRING=%DK_NONCE%" -D "DKCODER_TTY:STRING=%DK_TTY%" -D "DKCODER_CMDLINE:STRING=%DK_CMDLINE%" -P "%DK_PROJ_DIR%__dk.cmake"
 IF %ERRORLEVEL% NEQ 0 EXIT /B %ERRORLEVEL%
 
 REM --------------- Execute post-command outside of CMake --------------
@@ -212,12 +215,16 @@ REM Sometimes a command wants to own the terminal or the command line arguments.
 REM CMake, for example, intercepts the Ctrl-C signal in buggy ways:
 REM https://stackoverflow.com/questions/75071180/pass-ctrlc-to-cmake-custom-command-under-vscode
 
+REM     Both DK_WORKDIR and DK_NONCE can be zeroed by the nonce script so capture it
+SET DKTEMP_NONCE=%DK_WORKDIR%\%DK_NONCE%.cmd
+
 REM     We don't use nested parentheses or else we'd have to be concerned about delayed
 REM     variable expansion. https://stackoverflow.com/questions/24866477/if-call-exit-and-errorlevel-in-a-bat
-IF EXIST "%DK_WORKDIR%\%DK_NONCE%.cmd" CALL "%DK_WORKDIR%\%DK_NONCE%.cmd" %*
+IF EXIST "%DKTEMP_NONCE%" CALL "%DKTEMP_NONCE%" %*
 @ECHO OFF
 SET CALLERROR=%ERRORLEVEL%
-IF EXIST "%DK_WORKDIR%\%DK_NONCE%.cmd" DEL /Q /F "%DK_WORKDIR%\%DK_NONCE%.cmd"
+IF EXIST "%DKTEMP_NONCE%" DEL /Q /F "%DKTEMP_NONCE%"
+SET DKTEMP_NONCE=
 EXIT /B %CALLERROR%
 
 REM ------ SUBROUTINE [downloadFile]

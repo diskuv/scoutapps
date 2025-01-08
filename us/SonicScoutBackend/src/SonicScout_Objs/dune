@@ -40,16 +40,18 @@
  (libraries
   SquirrelScout_Std
   DkSDKFFI_OCaml)
- (modules SquirrelScout_Objs))
+ (modules ObjsEntry DkCoder_Std))
 
 (rule
  (alias build-byte-SquirrelScout_Objs)
  (deps SquirrelScout_Objs.cma)
  (targets )
- (action (echo Built SquirrelScout_Objs.cma and bytecode dependencies)))
+ (action (echo "Built SquirrelScout_Objs.cma and bytecode dependencies
+")))
 
 (rule
  (alias build-native-SquirrelScout_Objs)
  (deps SquirrelScout_Objs.cmxa)
  (targets )
- (action (echo Built SquirrelScout_Objs.cmxa and nativecode dependencies)))
+ (action (echo "Built SquirrelScout_Objs.cmxa and nativecode dependencies
+")))

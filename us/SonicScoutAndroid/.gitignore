@@ -28,7 +28,11 @@ local.properties
 /.z-dk/
 
 # ./dk
+/.z-dk/
 /.ci/
+
+# Android Studio
+/.settings/org.eclipse.buildship.core.prefs
 
 # Dune
 /_build/

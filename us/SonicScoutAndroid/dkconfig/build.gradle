@@ -3,7 +3,7 @@ import com.diskuv.dksdk.core.gradle.tasks.DkSDKCmakeNdkEmulator
 
 buildscript {
     dependencies {
-        classpath 'com.diskuv.dksdk.core:gradle:1.0.0-SNAPSHOT'
+        classpath 'com.diskuv.dksdk.core:gradle:2.2.1-SNAPSHOT'
     }
     configurations.all {
         // Don't wait forever if using -SNAPSHOT in the above dependencies.

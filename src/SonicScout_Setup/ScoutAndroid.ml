@@ -36,6 +36,7 @@ let clean areas =
             fetch / "dksdk-ffi-ocaml";
             fetch / "dksdk-opam-repository-core";
             fetch / "dksdk-opam-repository-js";
+            fetch / "dksdk-port-ocaml-ctypes";
             fetch / "ocaml-backend";
           ])
     |> rmsg
@@ -61,6 +62,15 @@ let clean areas =
         ]
     |> rmsg
   end;
+  if List.mem `AndroidGradleCxx areas then begin
+    start_step "Cleaning SonicScoutAndroid Android Gradle C++ artifacts";
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+      Fpath.
+        [
+          projectdir / "data" / ".cxx";
+        ]
+    |> rmsg
+  end;
   if List.mem `AndroidBuilds areas then begin
     start_step "Cleaning SonicScoutAndroid build artifacts";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
@@ -70,7 +80,6 @@ let clean areas =
           projectdir / ".gradle";
           projectdir / "local.properties";
           projectdir / "dkconfig" / "build";
-          projectdir / "data" / ".cxx";
           projectdir / "data" / "build";
           projectdir / "app" / "build";
           projectdir // user_presets_relfile;
@@ -81,6 +90,7 @@ let clean areas =
       Fpath.
         [
           ffijava / "buildSrc" / "build";
+          ffijava / "core" / "buildSrc" / "build";
           ffijava / "core" / "abi" / "build";
           ffijava / "core" / "gradle" / "build";
           ffijava / "ffi-java" / "build";
@@ -130,7 +140,15 @@ let run ?opts ~slots () =
   OS.Dir.with_current projectdir
     (fun () ->
       let cmake = Fpath.(projectdir / ".ci" / "cmake" / "bin" / "cmake") in
-      dk [ "dksdk.project.get" ];
+      (match opts with
+      | Some { skip_fetch = false; _ } ->
+          let project_get =
+            match opts with
+            | Some { next = true; _ } -> [ "DKSDK_CMAKE_GITREF"; "next" ]
+            | _ -> []
+          in
+          dk ("dksdk.project.get" :: project_get)
+      | _ -> ());
       dk [ "dksdk.cmake.link"; "QUIET" ];
       Utils.dk_ninja_link_or_copy ~dk;
       dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "8" ];

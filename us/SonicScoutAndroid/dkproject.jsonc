@@ -55,14 +55,18 @@
       ]
     },
     // DkSDK Access is needed to get any other dependencies
+    //    manylinux Docker container only mounts the project, so _all_ dependencies are needed inside fetch/
     "dksdk-access": { "inherits": "_mirror", "urls": [ "https://gitlab.com/diskuv/dksdk-access.git#main" ] },
     // The next set of dependencies (dksdk-*) are available to DkSDK subscribers
-    "dksdk-cmake": { "inherits": "_mirror", "urls": [ "${dksdk-cmake_REPOSITORY}" ] },
-    "dksdk-ffi-c": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-c_REPOSITORY}" ] },
-    "dksdk-ffi-java": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-java_REPOSITORY}" ] },
-    "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}" ] },
-    "dksdk-opam-repository-core": { "inherits": "_mirror", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}" ] },
-    "dksdk-opam-repository-js": { "inherits": "_mirror", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}" ] },
+    //    dksdk-cmake is the source of DKSDK_VERSION_MAJMIN.
+    //    dksdk-cmake_GITREF defaults to 'main' but can be overridden with `./dk dksdk.project.get DKSDK_CMAKE_GITREF <ref>`
+    "dksdk-cmake": { "inherits": "_mirror", "urls": [ "${dksdk-cmake_REPOSITORY}#${dksdk-cmake_GITREF}" ] },
+    "dksdk-ffi-c": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-c_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+    "dksdk-ffi-java": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-java_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+    "dksdk-ffi-ocaml": { "inherits": "_mirror", "urls": [ "${dksdk-ffi-ocaml_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+    "dksdk-opam-repository-core": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-core_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+    "dksdk-opam-repository-js": { "inherits": "_local", "urls": [ "${dksdk-opam-repository-js_REPOSITORY}#${DKSDK_VERSION_MAJMIN}" ] },
+    "dksdk-port-ocaml-ctypes": { "inherits": "_mirror", "urls": [ "${dksdk-port-ocaml-ctypes_REPOSITORY}#feature-msvc-pr-rebased-on-avsm-dune-port" ] },
     // The remaining dependencies are sister projects in the same application
     "ocaml-backend": {
       "urls": [

@@ -10,6 +10,7 @@ type opts = {
           can be located, and that usually only if Visual Studio is installed
           on the user's PC. We can't copy the "d" DLLs either because
           Microsoft restricts redistribution of the debug DLLS. *)
+  skip_fetch : bool;
 }
 
 (** [default_opts] are the default options.
@@ -17,7 +18,12 @@ type opts = {
     The default build type is [`Release] since [`Debug] is not redistributable
     on Windows. *)
 let default_opts : opts =
-  { next = false; fetch_siblings = false; build_type = `Release }
+  {
+    next = false;
+    fetch_siblings = false;
+    build_type = `Release;
+    skip_fetch = true;
+  }
 
 (** {1 Progress} *)
 
@@ -93,29 +99,46 @@ let wsl2_env ~env () =
      But not all WSL versions support it. So we do [recode_into_utf8] as well. *)
   OSEnvMap.add "WSL_UTF8" "1" env
 
-(* https://erratique.ch/software/uutf/doc/Uutf/index.html *)
-let recode ?nln ?encoding out_encoding
-    (src : [ `Channel of in_channel | `String of string ])
-    (dst : [ `Channel of out_channel | `Buffer of Buffer.t ]) =
-  let rec loop d e =
-    match Uutf.decode d with
-    | `Uchar _ as u ->
-        ignore (Uutf.encode e u);
-        loop d e
-    | `End -> ignore (Uutf.encode e `End)
-    | `Malformed _ ->
-        ignore (Uutf.encode e (`Uchar Uutf.u_rep));
-        loop d e
-    | `Await -> assert false
-  in
-  let d = Uutf.decoder ?nln ?encoding src in
-  let e = Uutf.encoder out_encoding dst in
-  loop d e
+(* Similar to https://erratique.ch/software/uutf/doc/Uutf/index.html#examples
+   but using UTF functions in OCaml 4.14.
 
-let recode_into_utf8 str =
-  let dst = Buffer.create (String.length str) in
-  recode ~nln:(`ASCII (Uchar.of_char '\n')) `UTF_8 (`String str) (`Buffer dst);
-  Buffer.contents dst
+   nit: Duplicated in dksdk-coder\src\Gen\capnp\capnp_render.ml.
+   If duplicated one more time, this function needs to be elevated to a
+   Tr1String_* library. *)
+let utf8_lines_of_unicode (src : string) =
+  match String.length src with
+  | 0 -> []
+  | src_len ->
+      let decoder =
+        (* Check first bytes to see if UTF-8.
+            We'll use a full string check for detecting UTF-16 endianness. *)
+        if Uchar.utf_decode_is_valid (String.get_utf_8_uchar src 0) then
+          String.get_utf_8_uchar
+        else if String.is_valid_utf_16be src then String.get_utf_16be_uchar
+        else if String.is_valid_utf_16le src then String.get_utf_16le_uchar
+        else failwith "The UTF encoding could not be determined"
+      in
+      let rec loop i buf acc =
+        if i >= src_len then List.rev (Buffer.contents buf :: acc)
+        else
+          let d = decoder src i in
+          let i_next = i + Uchar.utf_decode_length d in
+          let u = Uchar.utf_decode_uchar d in
+          match Uchar.to_int u with
+          | 0x000D ->
+              (* skip carriage return *)
+              loop i_next buf acc
+          | 0x000A ->
+              (* newline *)
+              let line = Buffer.contents buf in
+              Buffer.clear buf;
+              loop i_next buf (line :: acc)
+          | _ ->
+              (* accumulate *)
+              Buffer.add_utf_8_uchar buf u;
+              loop i_next buf acc
+      in
+      loop 0 (Buffer.create 512) []
 
 let wsl2_list ?env args =
   let open Bos in
@@ -125,13 +148,11 @@ let wsl2_list ?env args =
         (if args = [] then "" else " ")
         (Fmt.list ~sep:Fmt.sp Fmt.string)
         args);
-  let out, _status =
+  let out =
     OS.Cmd.run_out ~env Cmd.(v "wsl" % "--list" %% of_list args)
-    |> OS.Cmd.out_string |> rmsg
+    |> OS.Cmd.out_string |> OS.Cmd.success |> rmsg
   in
-  let lines =
-    recode_into_utf8 out |> Stringext.split ~on:'\n' |> List.map String.trim
-  in
+  let lines = utf8_lines_of_unicode out |> List.map String.trim in
   List.filter
     (fun s -> not (String.equal "Windows Subsystem for Linux Distributions:" s))
     lines
@@ -147,12 +168,117 @@ let wsl2 ?env args =
 let git ~slots args =
   let open Bos in
   Logs.info (fun l -> l "git %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
-  let git_exe =
+  let the_exe =
     match Slots.git slots with
     | Some exe -> Cmd.(v (p exe))
     | None -> Cmd.v "git"
   in
-  OS.Cmd.run Cmd.(git_exe %% of_list args) |> rmsg
+  OS.Cmd.run Cmd.(the_exe %% of_list args) |> rmsg
+
+(** {1 Running uv} *)
+
+(** Never use system cache directory so we get repeatability *)
+let _uv_cache_args ~slots args =
+  match Slots.uv_cache slots with
+  | None -> "--no-cache" :: args
+  | Some cache_dir -> "--cache-dir" :: Fpath.to_string cache_dir :: args
+
+let _uv_more_args ~slots args =
+  let args =
+    (* Allow use in corporate environments, even if slower on macOS. *)
+    "--native-tls" ::
+    (* Repeatable *)
+    "--no-config" ::
+    (* Never use the system Python, since it may have pip-installed packages that conflict with what this project needs *)
+    "--python-preference" :: "only-managed" ::
+    args
+  in
+  (* Never use system cache directory for repeatability *)
+  _uv_cache_args ~slots args
+  [@ocamlformat "disable"]
+
+let uv ?env ~slots args =
+  let open Bos in
+  let args = _uv_more_args ~slots args in
+  Logs.info (fun l -> l "uv %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
+  let the_exe =
+    match Slots.uv slots with Some exe -> Cmd.(v (p exe)) | None -> Cmd.v "uv"
+  in
+  OS.Cmd.run ?env Cmd.(the_exe %% of_list args) |> rmsg
+
+let uv_out_string ?env ~slots args =
+  let open Bos in
+  let args = _uv_more_args ~slots args in
+  Logs.info (fun l -> l "uv %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
+  let the_exe =
+    match Slots.uv slots with Some exe -> Cmd.(v (p exe)) | None -> Cmd.v "uv"
+  in
+  OS.Cmd.run_out ?env Cmd.(the_exe %% of_list args)
+  |> OS.Cmd.out_string ~trim:true
+  |> OS.Cmd.success |> rmsg
+
+let _uv_run_env ?global_pip_config () =
+  let open Bos in
+  let env = OS.Env.current () |> rmsg in
+  (* nit: Does this work in [uv]? *)
+  match global_pip_config with
+  | Some () -> env
+  | None ->
+      if Sys.win32 then OSEnvMap.(add "PIP_CONFIG_FILE" "nul" env)
+      else OSEnvMap.(add "PIP_CONFIG_FILE" "/dev/null" env)
+
+let _uv_run_args ?exclude_newer ~slots () =
+  let a =
+    [
+      "--no-env-file";
+      "--no-config";
+      "--native-tls";
+      "--python-preference";
+      "only-managed";
+    ]
+  in
+  let a =
+    match exclude_newer with
+    | None -> a
+    | Some date -> a @ [ "--exclude-newer"; date ]
+  in
+  _uv_cache_args ~slots a
+
+(* [uv_run ?global_pip_config ~slots args] runs the Python script.
+
+   By default we disable any global/user pip config file. Sometimes private
+   repository credentials are needed in a users' pip configuration,
+   but here we use public repositories for reproducibility.
+   You can use the global/user pip config file by setting
+   [~global_pip_config:()].
+   https://pip.pypa.io/en/stable/topics/configuration/
+
+   For reproducibility you should set [exclude_newer] to a fixed
+   RFC 3339 timestamp like ["2006-12-02T02:07:43Z"]. That limits
+   candidate packages to those that were uploaded prior to the given
+   timestamp. *)
+let uv_run ?global_pip_config ?exclude_newer ~slots args =
+  let env = _uv_run_env ?global_pip_config () in
+  uv ~env ~slots (("run" :: _uv_run_args ?exclude_newer ~slots ()) @ args)
+
+(* [uv_run_out_string ?global_pip_config ~slots args] runs the Python script
+   and returns the standard output as a string.
+
+   By default we disable any global/user pip config file. Sometimes private
+   repository credentials are needed in a users' pip configuration,
+   but here we use public repositories for reproducibility.
+   You can use the global/user pip config file by setting
+   [~global_pip_config:()].
+   https://pip.pypa.io/en/stable/topics/configuration/
+
+   For reproducibility you should set [exclude_newer] to a fixed
+   RFC 3339 timestamp like ["2006-12-02T02:07:43Z"]. That limits
+   candidate packages to those that were uploaded prior to the given
+   timestamp. *)
+let uv_run_out_string ?global_pip_config ?exclude_newer ~slots args =
+  let env = _uv_run_env ?global_pip_config () in
+  uv_out_string ~env ~slots
+    (("run" :: _uv_run_args ?exclude_newer ~slots ()) @ args)
 
 (** {1 Running ./dk} *)
 
@@ -168,10 +294,9 @@ let dk ?env ~slots args =
 let dk_ninja_link_or_copy ~dk =
   match Tr1HostMachine.abi with
   | `windows_x86_64 | `windows_x86 ->
-    (* Avoid error 'failed to create symbolic link' for dksdk.ninja.link on Win32 *)
-    dk [ "dksdk.ninja.copy"; "QUIET" ]
-  | _ ->
-    dk [ "dksdk.ninja.link"; "QUIET" ]
+      (* Avoid error 'failed to create symbolic link' for dksdk.ninja.link on Win32 *)
+      dk [ "dksdk.ninja.copy"; "QUIET" ]
+  | _ -> dk [ "dksdk.ninja.link"; "QUIET" ]
 
 (** [sibling_dir_mixed] is the directory of the project [project]
     that is directly next (a "sibling") to the current directory [cwd].
@@ -200,16 +325,7 @@ let dk_env ?(opts = default_opts) () =
       (Printf.sprintf "%s_REPO_1_0" project_upcase_underscore)
       (Printf.sprintf "file://%s/.git" (sibling_dir_mixed ~cwd ~project))
   in
-  match (opts.next, opts.fetch_siblings) with
-  | _, true ->
-      (sib "dksdk-cmake") env
-      |> sib "dksdk-ffi-c" |> sib "dksdk-ffi-java" |> sib "dksdk-ffi-ocaml"
-  | true, false ->
-      (* Setting just the branch means dksdk-access can read repository.ini
-         and add the authentication token. *)
-      Bos.OSEnvMap.(
-        add "DKSDK_CMAKE_BRANCH_1_0" "next" env
-        |> add "DKSDK_FFI_C_BRANCH_1_0" "next"
-        |> add "DKSDK_FFI_JAVA_BRANCH_1_0" "next"
-        |> add "DKSDK_FFI_OCAML_BRANCH_1_0" "next")
-  | false, false -> env
+  if opts.fetch_siblings then
+    (sib "dksdk-cmake") env
+    |> sib "dksdk-ffi-c" |> sib "dksdk-ffi-java" |> sib "dksdk-ffi-ocaml"
+  else env

@@ -144,7 +144,7 @@ module Cli = struct
       [ compile_cmd; compile_backend_cmd; android_cmd; scanner_cmd; database_cmd ]
 end
 
-let () =
+let __init () =
   if Tr1EntryName.module_id = __MODULE_ID__ then begin
     Tr1Logs_Term.TerminalCliOptions.init ();
     StdExit.exit (Cmdliner.Cmd.eval Cli.groups_cmd)

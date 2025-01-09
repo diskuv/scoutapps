@@ -57,6 +57,7 @@ If you haven't checked out this project onto your computer, you can do it now us
 # Windows setup
 git -C C:\ clone https://github.com/diskuv/scoutapps.git
 cd C:\scoutapps
+packaging\install-shortcuts.ps1
 ```
 
 or a **macOS terminal**:
@@ -71,19 +72,22 @@ cd scoutapps
 
 - in the same **PowerShell on Windows** or **macOS terminal** run the following to build and **run Android Studio** (where you can run the Android app):
 
-  ```sh
+  ```powershell
+  cd C:\scoutapps # Use correct directory on macOS or linux
   ./dk src/SonicScout_Setup/Develop.ml android
   ```
 
 - **or** run the following to build and **run the QR scanner** (the Scout Backend):
 
-  ```sh
+  ```powershell
+  cd C:\scoutapps # Use correct directory on macOS or linux
   ./dk src/SonicScout_Setup/Develop.ml scanner
   ```
 
 - **or** run the following to build and **query the QR scanner database**:
 
-  ```sh
+  ```powershell
+  cd C:\scoutapps # Use correct directory on macOS or linux
   ./dk src/SonicScout_Setup/Develop.ml database
   ```
 
@@ -91,13 +95,15 @@ When you are in Android Studio (`us/SonicScoutAndroid`) and you make a code chan
 in the other software (like `us/SonicScoutBackend`), you should compile the entire project
 so that your changes are visible:
 
-```sh
+```powershell
+cd C:\scoutapps # Use correct directory on macOS or linux
 ./dk src/SonicScout_Setup/Develop.ml compile
 ```
 
 After the end of the robotics season, you can save space by doing:
 
-```sh
+```powershell
+cd C:\scoutapps # Use correct directory on macOS or linux
 ./dk src/SonicScout_Setup/Clean.ml --all
 ```
 

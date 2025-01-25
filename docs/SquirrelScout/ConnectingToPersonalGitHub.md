@@ -23,3 +23,10 @@ FIFTH, in your Terminal (replace the "FirstName LastInitial" and "BLAHBLAH+BLEEB
 git config user.name "FirstName LastInitial"
 git config user.email "BLAHBLAH+BLEEBLEE@users.noreply.github.com"
 ```
+
+SIXTH, in your Terminal:
+
+```powershell
+git push origin main
+git branch --set-upstream-to origin/main
+```

@@ -6,28 +6,45 @@ let clean areas =
   let open Bos in
   let cwd = OS.Dir.current () |> rmsg in
   let projectdir = Fpath.(cwd / "us" / "SonicScoutAndroid") in
+  let fetch = Fpath.(projectdir / "fetch") in
   if List.mem `DkSdkSourceCode areas then begin
     start_step "Cleaning SonicScoutAndroid DkSDK source code";
+    let more_paths =
+      let exists = OS.Dir.exists fetch |> rmsg in
+      if exists then
+        (* Get rid of `fetch / ocaml-backend-6ed153`, etc. *)
+        let subdirs = OS.Dir.contents ~rel:true fetch |> rmsg in
+        List.map
+          (fun p ->
+            if String.starts_with ~prefix:"ocaml-backend-" (Fpath.basename p)
+            then Fpath.[ fetch // p ]
+            else [])
+          subdirs
+        |> List.flatten
+      else []
+    in
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
-      Fpath.
-        [
-          projectdir / "fetch" / "dkml-compiler";
-          projectdir / "fetch" / "dkml-runtime-common";
-          projectdir / "fetch" / "dkml-runtime-distribution";
-          projectdir / "fetch" / "dksdk-access";
-          projectdir / "fetch" / "dksdk-ffi-c";
-          projectdir / "fetch" / "dksdk-ffi-java";
-          projectdir / "fetch" / "dksdk-ffi-ocaml";
-          projectdir / "fetch" / "dksdk-opam-repository-core";
-          projectdir / "fetch" / "dksdk-opam-repository-js";
-          projectdir / "fetch" / "ocaml-backend";
-        ]
+      Fpath.(
+        more_paths
+        @ [
+            fetch / "dkml-compiler";
+            fetch / "dkml-runtime-common";
+            fetch / "dkml-runtime-distribution";
+            fetch / "dksdk-access";
+            fetch / "dksdk-ffi-c";
+            fetch / "dksdk-ffi-java";
+            fetch / "dksdk-ffi-ocaml";
+            fetch / "dksdk-opam-repository-core";
+            fetch / "dksdk-opam-repository-js";
+            fetch / "dksdk-port-ocaml-ctypes";
+            fetch / "ocaml-backend";
+          ])
     |> rmsg
   end;
   if List.mem `DkSdkCMake areas then begin
     start_step "Cleaning SonicScoutAndroid dksdk-cmake source code";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
-      Fpath.[ projectdir / "fetch" / "dksdk-cmake" ]
+      Fpath.[ fetch / "dksdk-cmake" ]
     |> rmsg
   end;
   if List.mem `MavenRepository areas then begin
@@ -45,6 +62,15 @@ let clean areas =
         ]
     |> rmsg
   end;
+  if List.mem `AndroidGradleCxx areas then begin
+    start_step "Cleaning SonicScoutAndroid Android Gradle C++ artifacts";
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+      Fpath.
+        [
+          projectdir / "data" / ".cxx";
+        ]
+    |> rmsg
+  end;
   if List.mem `AndroidBuilds areas then begin
     start_step "Cleaning SonicScoutAndroid build artifacts";
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
@@ -54,17 +80,17 @@ let clean areas =
           projectdir / ".gradle";
           projectdir / "local.properties";
           projectdir / "dkconfig" / "build";
-          projectdir / "data" / ".cxx";
           projectdir / "data" / "build";
           projectdir / "app" / "build";
           projectdir // user_presets_relfile;
         ]
     |> rmsg;
-    let ffijava = Fpath.(projectdir / "fetch" / "dksdk-ffi-java") in
+    let ffijava = Fpath.(fetch / "dksdk-ffi-java") in
     DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
       Fpath.
         [
           ffijava / "buildSrc" / "build";
+          ffijava / "core" / "buildSrc" / "build";
           ffijava / "core" / "abi" / "build";
           ffijava / "core" / "gradle" / "build";
           ffijava / "ffi-java" / "build";
@@ -74,6 +100,22 @@ let clean areas =
           ffijava / "ffi-java-jdk11" / "build";
         ]
     |> Utils.rmsg
+  end;
+  if Sys.win32 && List.mem `DkSdkWsl2 areas then begin
+    start_step "Cleaning SonicScoutAndroid build artifacts referencing DkSDK WSL2";
+    (* Avoids:
+        [CXX1409]
+        C:\scoutapps\us\SonicScoutAndroid\data\.cxx\Debug\5b4k3l6q\arm64-v8a\android_gradle_build.json
+        debug|arm64-v8a :
+        expected buildFiles file
+        '\\wsl.localhost\DkSDK-1.0-Debian-12-NDK-23.1.7779620\home\dksdkbob\source\34880665\build\_deps\c-capnproto-src\CMakeLists.txt'
+        to exist *)
+    DkFs_C99.Path.rm ~recurse:() ~force:() ~kill:()
+      Fpath.
+        [
+          projectdir / "data" / ".cxx";
+        ]
+    |> rmsg;
   end;
   RunGradle.clean areas
 
@@ -98,10 +140,17 @@ let run ?opts ~slots () =
   OS.Dir.with_current projectdir
     (fun () ->
       let cmake = Fpath.(projectdir / ".ci" / "cmake" / "bin" / "cmake") in
-      dk [ "dksdk.project.get" ];
+      (match opts with
+      | Some { skip_fetch = false; _ } ->
+          let project_get =
+            match opts with
+            | Some { next = true; _ } -> [ "DKSDK_CMAKE_GITREF"; "next" ]
+            | _ -> []
+          in
+          dk ("dksdk.project.get" :: project_get)
+      | _ -> ());
       dk [ "dksdk.cmake.link"; "QUIET" ];
-      (* You can ignore the error if you got 'failed to create symbolic link' for dksdk.ninja.link *)
-      dk [ "dksdk.ninja.link"; "QUIET" ];
+      Utils.dk_ninja_link_or_copy ~dk;
       dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "8" ];
       dk [ "dksdk.java.jdk.download"; "NO_SYSTEM_PATH"; "JDK"; "17" ];
       if Sys.win32 then

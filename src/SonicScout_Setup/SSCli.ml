@@ -76,6 +76,14 @@ let fetch_siblings_t =
   in
   Arg.(value & flag & info ~docs:s_advanced ~doc [ "fetch-siblings" ])
 
+let skip_fetch_t =
+  let doc =
+    "Skip the git clones into the `fetch/` subdirectory of SonicScoutBackend \
+     and SonicScoutAndroid. Your build will fail if the step has not already \
+     been performed. Useful when editing the fetch subdirectories."
+  in
+  Arg.(value & flag & info ~docs:s_advanced ~doc [ "skip-fetch" ])
+
 let build_type_t =
   let default =
     match Utils.default_opts.build_type with
@@ -107,9 +115,9 @@ let build_type_t =
 
 let opts_t =
   Term.(
-    const (fun next fetch_siblings build_type : Utils.opts ->
-        { next; fetch_siblings; build_type })
-    $ next_t $ fetch_siblings_t $ build_type_t)
+    const (fun next fetch_siblings build_type skip_fetch : Utils.opts ->
+        { next; fetch_siblings; build_type; skip_fetch })
+    $ next_t $ fetch_siblings_t $ build_type_t $ skip_fetch_t)
 
 let global_dkml_t =
   let doc =

@@ -105,6 +105,18 @@ let add_java_env ~projectdir env =
                else java_bin ^ ":" ^ path))
       env)
 
+let add_ninja_env ~projectdir env =
+  let ninja_bin = Fpath.(projectdir / ".ci" / "ninja" / "bin") |> Fpath.to_string in
+  OSEnvMap.(
+    update "PATH"
+      (function
+        | None -> Some ninja_bin
+        | Some path ->
+            Some
+              (if Sys.win32 then ninja_bin ^ ";" ^ path
+               else ninja_bin ^ ":" ^ path))
+      env)
+
 let find_gradle_binary ~projectdir =
   let binary_opt =
     let home = Fpath.(projectdir / ".ci" / "local" / "share" / "gradle") in
@@ -231,6 +243,10 @@ and run ?stopcycle ?env ?debug_env ?no_local_properties ~projectdir args =
 
   (* Add JAVA_HOME and Java to PATH *)
   let env = add_java_env ~projectdir env in
+
+  (* Add Ninja to PATH.
+     Fixes: [CXX1416] Could not find Ninja on PATH or in SDK CMake bin folders. *)
+  let env = add_ninja_env ~projectdir env in
 
   (* Find Gradle *)
   let gradle = find_gradle_binary ~projectdir in

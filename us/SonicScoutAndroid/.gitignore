@@ -4,6 +4,8 @@
 # can use this .gitignore to suggest directory exclusions
 # to avoid slowdowns of Android Studio.
 
+/.idea/gradle.xml
+
 *.iml
 .gradle
 /local.properties
@@ -22,8 +24,15 @@
 .cxx/
 local.properties
 
+# ./dk dksdk.project.get
+/.z-dk/
+
 # ./dk
+/.z-dk/
 /.ci/
+
+# Android Studio
+/.settings/org.eclipse.buildship.core.prefs
 
 # Dune
 /_build/

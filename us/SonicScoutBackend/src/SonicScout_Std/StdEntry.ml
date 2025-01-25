@@ -1,4 +1,7 @@
-include SquirrelScout_Std_intf
+include Intf
+let __init () = ()
+module DkCoderHackPublicPrivateExports1 = Db_utils
+module DkCoderHackPublicPrivateExports2 = Schema
 
 (* module Match_schedule_table = Match_schedule_table  *)
 
@@ -37,8 +40,8 @@ let test_function db_name () =
 
   print_endline ""
 
-let create_capnp_string ~team_number ~team_name ~match_number mobility auto_cone
-    auto_cube tele_cone tele_cube =
+let create_capnp_string ~team_number ~team_name ~match_number _mobility _auto_cone
+    _auto_cube _tele_cone _tele_cube =
   let module ProjectSchema = Schema.Make (Capnp.BytesMessage) in
   let rw = ProjectSchema.Builder.RawMatchData.init_root () in
 

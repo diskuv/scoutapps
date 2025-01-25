@@ -5,7 +5,7 @@ import com.diskuv.dksdk.core.gradle.tasks.DisplayAllSourcesTask
 
 buildscript {
     dependencies {
-        classpath 'com.diskuv.dksdk.core:gradle:1.0.0-SNAPSHOT'
+        classpath 'com.diskuv.dksdk.core:gradle:2.2.1-SNAPSHOT'
     }
     configurations.all {
         // Don't wait forever if using -SNAPSHOT in the above dependencies.
@@ -26,7 +26,7 @@ configurations {
 }
 
 dependencies {
-    api 'com.diskuv.dksdk.ffi:ffi-java-android:1.0.0-SNAPSHOT'
+    api 'com.diskuv.dksdk.ffi:ffi-java-android:2.2.1-SNAPSHOT'
     api 'com.caverock:androidsvg-aar:1.4'
 
     implementation 'androidx.startup:startup-runtime:1.1.1'

@@ -23,7 +23,7 @@ module type Database_actions_type = sig
   val process_qr_code : bytes -> Db_utils.return_code
 end
 
-(* This is the module type that SquirrelScout_Std.ml implements *)
+(* This is the module type that StdEntry.ml implements *)
 module type Intf = sig
   module type Database_actions_type = Database_actions_type
 

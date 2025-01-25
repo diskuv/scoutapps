@@ -60,6 +60,10 @@ let run ?env ?debug_env ~projectdir args =
   (* Add JAVA_HOME and Java to PATH (not part of original `dksdk.android.studio.run`) *)
   let env = RunGradle.add_java_env ~projectdir env in
 
+  (* Add Ninja to PATH (not part of original `dksdk.android.studio.run`).
+     Fixes: [CXX1416] Could not find Ninja on PATH or in SDK CMake bin folders. *)
+  let env = RunGradle.add_ninja_env ~projectdir env in
+
   (* Find Android Studio *)
   let studio = find_studio_binary ~projectdir in
 

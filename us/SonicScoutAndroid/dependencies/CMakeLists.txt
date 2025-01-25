@@ -8,24 +8,25 @@ get_property(dksdk-BASE_REPOSITORY_URL GLOBAL PROPERTY DKSDK_BASE_REPOSITORY_URL
 ## START DKSDK ~~~~~~~~~~~~~~~~~
 
 # TODO: This belongs in DkSDKAccess or something similar
-macro(use_dksdk_ffi_repository UPPER_NAME LOWER_NAME)
-    if(DEFINED ENV{DKSDK_FFI_${UPPER_NAME}_REPO_${REQUEST_DKSDK_VERSION_underscore}}) # override repository with environment variable
+macro(use_dksdk_repository UPPER_NAME LOWER_NAME)
+    if(DEFINED ENV{DKSDK_${UPPER_NAME}_REPO_${REQUEST_DKSDK_VERSION_underscore}}) # override repository with environment variable
         # potential sensitive user data
-        set(dksdk-ffi-${LOWER_NAME}_REPOSITORY "$ENV{DKSDK_FFI_${UPPER_NAME}_REPO_${REQUEST_DKSDK_VERSION_underscore}}")
-        message(STATUS "Using DkSDK FFI ${LOWER_NAME} repository from the DKSDK_FFI_${UPPER_NAME}_REPO_${REQUEST_DKSDK_VERSION_underscore} environment variable")
-    elseif(NOT dksdk-ffi-${LOWER_NAME}_REPOSITORY)
-        set(dksdk-ffi-${LOWER_NAME}_REPOSITORY "${dksdk-BASE_REPOSITORY_URL}/dksdk-ffi-${LOWER_NAME}.git")
+        set(dksdk-${LOWER_NAME}_REPOSITORY "$ENV{DKSDK_${UPPER_NAME}_REPO_${REQUEST_DKSDK_VERSION_underscore}}")
+        message(STATUS "Using DkSDK FFI ${LOWER_NAME} repository from the DKSDK_${UPPER_NAME}_REPO_${REQUEST_DKSDK_VERSION_underscore} environment variable")
+    elseif(NOT dksdk-${LOWER_NAME}_REPOSITORY)
+        set(dksdk-${LOWER_NAME}_REPOSITORY "${dksdk-BASE_REPOSITORY_URL}/dksdk-${LOWER_NAME}.git")
     endif()
 
     if(DEFINED ENV{DKSDK_TOKEN_${REQUEST_DKSDK_VERSION_underscore}}) # ie. authentication for properly configured CI
         # potential sensitive user data
         string(REGEX REPLACE "^https://" "https://oauth2:$ENV{DKSDK_TOKEN_${REQUEST_DKSDK_VERSION_underscore}}@"
-                dksdk-ffi-${LOWER_NAME}_REPOSITORY "${dksdk-ffi-${LOWER_NAME}_REPOSITORY}")
-        message(STATUS "Adding token from DKSDK_TOKEN_${REQUEST_DKSDK_VERSION_underscore} environment variable to the DkSDK FFI ${UPPER_NAME} repository")
+                dksdk-${LOWER_NAME}_REPOSITORY "${dksdk-${LOWER_NAME}_REPOSITORY}")
+        message(STATUS "Adding token from DKSDK_TOKEN_${REQUEST_DKSDK_VERSION_underscore} environment variable to the DkSDK ${UPPER_NAME} repository")
     endif()
 endmacro()
-use_dksdk_ffi_repository(JAVA java)
-use_dksdk_ffi_repository(OCAML ocaml)
+use_dksdk_repository(FFI_JAVA ffi-java)
+use_dksdk_repository(FFI_OCAML ffi-ocaml)
+use_dksdk_repository(PORT_OCAML_CTYPES port-ocaml-ctypes)
 
 # --- Fetch dksdk-ffi-java
 
@@ -35,6 +36,15 @@ DkSDKFetchContent_DeclareSecondParty(NAME dksdk-ffi-java
     GIT_TAG next)
 if(NOT GENERATE_CAPNP_ONLY)
     DkSDKFetchContent_MakeAvailableNoInstall(dksdk-ffi-java)
+endif()
+
+# --- Fetch dksdk-port-ocaml-ctypes
+
+DkSDKFetchContent_DeclareSecondParty(NAME dksdk-port-ocaml-ctypes
+    GIT_REPOSITORY "${dksdk-port-ocaml-ctypes_REPOSITORY}"
+    GIT_TAG next)
+if(NOT GENERATE_CAPNP_ONLY)
+    DkSDKFetchContent_MakeAvailableNoInstall(dksdk-port-ocaml-ctypes)
 endif()
 
 ## END DKSDK ~~~~~~~~~~~~~~~~~

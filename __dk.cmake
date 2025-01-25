@@ -40,16 +40,6 @@ string(TIMESTAMP now_YYYY_MM_DD "%Y-%m-%d" UTC)
 #   EOL = End of Life
 #   EOG = End of Grace Period (6 months past EOL usually)
 #   EOL > EOG. EOL starts the warning to upgrade but continues. EOG errors out.
-set(__DkRun_V0_1_COMPILE_VERSION 0.1.0-4)
-set(__DkRun_V0_1_URL_BASE https://gitlab.com/api/v4/projects/52918795/packages/generic/stdexport/${__DkRun_V0_1_COMPILE_VERSION})
-set(__DkRun_V0_1_SHA256_windows_x86_64 ef49d016468db34d39f6f0a90231d9ff15bb482ec3ba91d329646185d6ae9002)
-set(__DkRun_V0_1_SHA256_windows_x86    cddc4ddd7a907769582e3593069f50fa21f04fedae3a8fecb5cfad8e01e725e9)
-set(__DkRun_V0_1_SHA256_linux_x86_64   1573e460ea4805da255ecd981aa505881968b1ffc4f188c37c9da9273367ce04)
-set(__DkRun_V0_1_SHA256_linux_x86      todo_v0_1_release)
-set(__DkRun_V0_1_SHA256_darwin_x86_64  5ffd147bb4131c86dcffe9e186cc3459d4f73e0c1c1f19460dd053f21d49f5d0)
-set(__DkRun_V0_1_SHA256_darwin_arm64   159826b6977a2ff9e70dd20abd71ca7b92d9753840a2b88fa40bab71b2c5ea00)
-set(__DkRun_V0_1_EOL_YYYY_MM_DD "2024-03-30")
-set(__DkRun_V0_1_EOG_YYYY_MM_DD "2024-09-30")
 set(__DkRun_V0_2_COMPILE_VERSION 0.2.0-3)
 set(__DkRun_V0_2_URL_BASE https://gitlab.com/api/v4/projects/52918795/packages/generic/stdexport/${__DkRun_V0_2_COMPILE_VERSION})
 set(__DkRun_V0_2_SHA256_linux_x86_64   b66a7f1409ede57ff22ca5c9946d288e9eae0784a7dc9eede25833ed64ea8553)
@@ -80,16 +70,26 @@ set(__DkRun_V0_4_SHA256_windows_x86_64 394f897d7cfc791f115e5bf427c7f56e054b510cb
 set(__DkRun_V0_4_SHA256_windows_x86    d0561ee1b49728b05e008df16146bd6e282199d40fd9e67c21f059eee3aa3469)
 set(__DkRun_V0_4_EOL_YYYY_MM_DD "2025-06-30")
 set(__DkRun_V0_4_EOG_YYYY_MM_DD "2025-12-30")
-set(__DkRun_V2_1_COMPILE_VERSION 2.1.3-2)
+set(__DkRun_V2_1_COMPILE_VERSION 2.1.4-r10)
 set(__DkRun_V2_1_URL_BASE https://gitlab.com/api/v4/projects/52918795/packages/generic/stdexport/${__DkRun_V2_1_COMPILE_VERSION})
-set(__DkRun_V2_1_SHA256_linux_x86_64   36099d2d42a72bc55e6386b5eff077fcb07fc865f97c84b3ab1dbe9bb0fcdd43)
-set(__DkRun_V2_1_SHA256_linux_x86      todo_v2_2_release)
-set(__DkRun_V2_1_SHA256_darwin_x86_64  b6cf85606020987e89e00674dada44f4f9d20edcc396cec458c43f41c1c76289)
-set(__DkRun_V2_1_SHA256_darwin_arm64   7747de19a4e01438c3faced4762fd97316299c469e2af4203201562ab35d7837)
-set(__DkRun_V2_1_SHA256_windows_x86_64 f5673acde35ecaaa1c331989b87b1c36b6f834fb681fb5693d6ca05f3606efbd)
-set(__DkRun_V2_1_SHA256_windows_x86    06747d2dbffffc4a4875fe78cdd795dc4fc04410dd6bb5dacda2c5a80dd8b4be)
-set(__DkRun_V2_1_EOL_YYYY_MM_DD "2025-07-30")
-set(__DkRun_V2_1_EOG_YYYY_MM_DD "2026-01-30")
+set(__DkRun_V2_1_SHA256_linux_x86_64   7eccebbbc7fb9030577162c82bc86ca9ad1105d18f834fd5f2fc1d0b504cbd25)
+set(__DkRun_V2_1_SHA256_linux_x86      2f3e875348f81b45501d96e6a861e277bcf02631959df470f947d73aaf881431)
+set(__DkRun_V2_1_SHA256_darwin_x86_64  c3fc736e645cdf49cf2b4365a87845c84eecffe2e2386b7264d670b6c36cbd1a)
+set(__DkRun_V2_1_SHA256_darwin_arm64   d2b1b6715b891cfec7b050f6492cd72638a3518432c86b5bece2102dc40f87d9)
+set(__DkRun_V2_1_SHA256_windows_x86_64 01ae44e396ea336f2633e1e0bf70eea3f79fe9ba0971df368fb8336076526031)
+set(__DkRun_V2_1_SHA256_windows_x86    1c6a11a9647f9f8e801b570f424f8bcafb1994ca02f098fcfc66deb6bfa7d395)
+set(__DkRun_V2_1_EOL_YYYY_MM_DD "2025-08-30")
+set(__DkRun_V2_1_EOG_YYYY_MM_DD "2026-02-30")
+set(__DkRun_V2_2_COMPILE_VERSION 2.2.1-4)
+set(__DkRun_V2_2_URL_BASE https://gitlab.com/api/v4/projects/52918795/packages/generic/stdexport/${__DkRun_V2_2_COMPILE_VERSION})
+set(__DkRun_V2_2_SHA256_darwin_x86_64  f2a24f8bebeca982871a1eabd28a6aa654267b44ee4baf4d083596d52bee4752)
+set(__DkRun_V2_2_SHA256_darwin_arm64   3b4d1ec7f6339103c7292b9d375d90daddcb7fc550143eb9590ba93689628c5c)
+set(__DkRun_V2_2_SHA256_linux_x86_64   5119e99fe88979aa0832a1854dc048466c327f7e452776dea626585333852eae)
+set(__DkRun_V2_2_SHA256_linux_x86      0e58b135593c0369844841453b501d972a2e47d8fe1cd5a62d02d2ebee934231)
+set(__DkRun_V2_2_SHA256_windows_x86_64 711a3cfdad82f0b868a08bc21afaad933771208dadcdc4f989fd22bd70bb4ae0)
+set(__DkRun_V2_2_SHA256_windows_x86    c6011016d5c142e99a220e924224ae0d186273c3613b8cbbc57d2b1a352559e3)
+set(__DkRun_V2_2_EOL_YYYY_MM_DD "2025-12-30")
+set(__DkRun_V2_2_EOG_YYYY_MM_DD "2026-06-30")
 #   `Env` is a valid DkCoder version if $DKRUN_ENV_URL_BASE exists. Typically it is a file:// URL.
 set(__DkRun_Env_URL_BASE)
 if(DEFINED ENV{DKRUN_ENV_URL_BASE})
@@ -102,7 +102,7 @@ endif()
 #   The last LTS version is what ./dk uses by default, so keep this chronologically sorted
 #   by oldest to newest.
 #   The last LTS version _is_ the project version.
-set(__DkRun_LTS_VERSIONS V0_1 V0_2 V0_3 V0_4 V2_1) # do not erase this line: this can be parsed externally to discover project version. must be on single line!
+set(__DkRun_LTS_VERSIONS V0_2 V0_3 V0_4 V2_1 V2_2) # do not erase this line: this can be parsed externally to discover project version. must be on single line!
 list(GET __DkRun_LTS_VERSIONS -1 __DkRun_LTS_VERSION) # ie. the latest Vx_y
 
 # ocamlc.exe, ocamlrun.exe, ocamldep.exe, dune.exe, dkcoder.exe all are compiled with
@@ -149,10 +149,10 @@ function(__dkcoder_install_vc_redist)
 
     set(redist_URL "https://aka.ms/vs/17/release/vc_redist.${vcarch}.exe")
     message(${ARG_LOGLEVEL} "Downloading Visual C++ Redistributable from ${redist_URL}")
-    file(DOWNLOAD ${redist_URL} ${CMAKE_CURRENT_BINARY_DIR}/vc_redist.exe)
+    file(DOWNLOAD "${redist_URL}" "${CMAKE_CURRENT_BINARY_DIR}/vc_redist.exe")
     execute_process(
         # https://github.com/aaronparker/vcredist/blob/main/VcRedist/VisualCRedistributables.json
-        COMMAND ${CMAKE_CURRENT_BINARY_DIR}/vc_redist.exe /install /passive /norestart
+        COMMAND "${CMAKE_CURRENT_BINARY_DIR}/vc_redist.exe" /install /passive /norestart
         RESULT_VARIABLE vc_redist_errcode
     )
     if(vc_redist_errcode EQUAL 0)
@@ -248,7 +248,8 @@ function(__dkcoder_abi)
             if(NOT ARG_QUIET AND DEFINED ENV{DKML_HOST_ABI})
                 message(${ARG_LOGLEVEL} "WARNING: On Linux machines and devices the environment variable DKML_HOST_ABI must be `linux_x86`, `linux_x86_64` or `linux_arm64`. It was ignored because it was: `$ENV{DKML_HOST_ABI}`")
             endif()
-            execute_process(COMMAND /usr/bin/uname -m
+            find_program(UNAME NAMES uname PATHS /usr/bin /bin NO_DEFAULT_PATH REQUIRED)
+            execute_process(COMMAND "${UNAME}" -m
                     OUTPUT_VARIABLE host_machine_type
                     OUTPUT_STRIP_TRAILING_WHITESPACE
                     COMMAND_ERROR_IS_FATAL ANY)
@@ -338,7 +339,7 @@ ARE YOU THE SCRIPT AUTHOR? If so run wrapper.upgrade twice, test
         set(prompted "${CMAKE_CURRENT_BINARY_DIR}/eol/${now_YYYY_MM_DD}")
         if(NOT EXISTS "${prompted}")
             file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/eol")
-            execute_process(COMMAND ${CMAKE_COMMAND} -E sleep 60)
+            execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep 60)
             file(TOUCH "${prompted}")
         endif()
     endif()
@@ -350,21 +351,25 @@ endfunction()
 #   QUIET
 #   VERSION - `Env` or `V0_2`. `Project` is not valid.
 #   LOGLEVEL
+#   DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME - The name of a variable that will be set to ON if OCAMLRUN is required to run DKCODER_RUN
+#
 # Read-only Filesystem Outputs: (never modify the files or mutate the directories. On macOS part of a Bundle)
-# - DKCODER - location of the `dkcoder` executable
+#   Authoritative documentation: ./dk DkRun_Project.Run --help
+# - DKCODER_TOOL - location of the `dkcoder-tool` executable
 # - DKCODER_VERSION - dotted form of DkCoder like 0.2.0.1
-# - DKCODER_RUN - location of the `DkCoder_Edge-Run.bc` bytecode executable (here "Edge" means the latest version for the VERSION; aka. the VERSION itself)
+# - DKCODER_RUN - location of the `DkCoder_Edge-Run` executable (here "Edge" means the latest version for the VERSION; aka. the VERSION itself)
 # - DKCODER_RUN_VERSION - `Env` or `V0_2`. Whatever was used to launch in `./dk DkRun_V0_2.Run` (etc.)
 # - DKCODER_HELPERS - location of bin directory or DkCoder.bundle/Contents/Helpers on macOS
 # - DKCODER_ETC - location of etc/dkcoder directory
-# - DKCODER_SITELIB - location of lib/ directory containing lib/ocaml/ and other libraries compatible with dkcoder
+# - DKCODER_BASE_SITELIB - location of lib/ directory containing the base system that at minimum includes the ocaml-system (ie. lib/ocaml/)
+# - DKCODER_EXT_SITELIB - may be empty. location of lib/ directory containing the extended system, if it exists.
 # - DKCODER_SHARE - location of share directory
 # - DKCODER_OCAMLC - location of ocamlc compatible with dkcoder
 # - DKCODER_OCAMLRUN - location of ocamlrun compatible with dkcoder
 # - DKCODER_DUNE - location of dune compatible with dkcoder
 function(__dkcoder_install)
     set(noValues)
-    set(singleValues ABI VERSION LOGLEVEL QUIET)
+    set(singleValues ABI VERSION LOGLEVEL QUIET DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME)
     set(multiValues)
     cmake_parse_arguments(PARSE_ARGV 0 ARG "${noValues}" "${singleValues}" "${multiValues}")
 
@@ -417,6 +422,12 @@ function(__dkcoder_install)
         __dkcoder_error_wrong_version("You were using DkCoder version ${V_id}. ")
     endif()
 
+    # Convert version to dotted form
+    if(NOT compile_version STREQUAL "Env")
+        string(REPLACE "-" "." compile_version "${compile_version}") # 0.2.0-1 -> 0.2.0.1
+        string(REGEX REPLACE "[A-Za-z]" "" compile_version "${compile_version}") # 2.1.4.r3 -> 2.1.4.3
+    endif()
+
     # Make a work directory
     set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/_dkcoder__${compile_version}")
 
@@ -424,15 +435,19 @@ function(__dkcoder_install)
     set(dkml_host_abi "${ARG_ABI}")
 
     # Location where ocamlfind.conf should be
-    if(DKCODER_VERSION VERSION_LESS_EQUAL 0.4.0.1)
+    if(compile_version VERSION_LESS_EQUAL 0.4.0.1 AND NOT compile_version STREQUAL "Env")
         set(ocamlfind_conf "${DKCODER_HOME}/findlib.conf")
     endif()
 
     # URL to download DkCoder if not installed
-    if(dkml_host_abi MATCHES "^windows_.*" OR dkml_host_abi MATCHES "^darwin_.*")
-        set(out_exp .zip)
+    if(compile_version VERSION_GREATER_EQUAL 2.1.4.3 OR compile_version STREQUAL "Env")
+        set(out_exp .zip) # Always zip because is portable, unlike GNU/BSD tar version+format incompatibilities
     else()
-        set(out_exp .tar.gz)
+        if(dkml_host_abi MATCHES "^windows_.*" OR dkml_host_abi MATCHES "^darwin_.*")
+            set(out_exp .zip)
+        else()
+            set(out_exp .tar.gz)
+        endif()
     endif()
     set(download_URL "${url_base}/stdexport-${dkml_host_abi}${out_exp}")
 
@@ -442,7 +457,7 @@ function(__dkcoder_install)
         set(download_DEST "${CMAKE_MATCH_1}")
         set(download_REMOVE OFF)
         set(download_LOCAL ON)
-        message(${ARG_LOGLEVEL} "Checksumming local DkCoder tarball")
+        message(${ARG_LOGLEVEL} "Checksumming local DkCoder archive")
         file(SHA256 "${download_DEST}" download_SHA256)
     else()
         set(download_DEST "${CMAKE_CURRENT_BINARY_DIR}/stdexport${out_exp}")
@@ -454,7 +469,7 @@ function(__dkcoder_install)
     # Find if DkCoder already installed
     set(hints "${DKCODER_HOME}/DkCoder.bundle/Contents/Helpers" "${DKCODER_HOME}/bin")
     set(find_program_ARGS NO_DEFAULT_PATH)
-    find_program(DKCODER NAMES dkcoder HINTS ${hints} ${find_program_ARGS})
+    find_program(DKCODER_TOOL NAMES dkcoder-tool HINTS ${hints} ${find_program_ARGS})
 
     # Re-install if the file:// tarball has changed.
     set(reinstall)
@@ -470,7 +485,7 @@ function(__dkcoder_install)
         endif()
     endif()
 
-    if(NOT DKCODER OR reinstall)
+    if(NOT DKCODER_TOOL OR reinstall)
         # Download into ${DKCODER_HOME} (which is one of the HINTS)
         set(downloaded)
 
@@ -507,7 +522,7 @@ function(__dkcoder_install)
         endif()
 
         # Post-install: Configure findlib.conf to point to macOS bundle or Unix/Win32 extraction
-        if(DKCODER_VERSION VERSION_LESS_EQUAL 0.4.0.1)
+        if(compile_version VERSION_LESS_EQUAL 0.4.0.1 AND NOT compile_version STREQUAL "Env")
             if(CMAKE_HOST_WIN32)
                 # Windows needs entries like: destdir="C:\\TARBALL\\lib"
                 cmake_path(NATIVE_PATH DKCODER_HOME DKCODER_HOME_NATIVE)
@@ -531,14 +546,15 @@ stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWL
 
             # Cleanup
             message(${ARG_LOGLEVEL} "Cleaning DkCoder intermediate files")
-            file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/stdexport${out_exp})
+            file(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/stdexport${out_exp}")
+        endif() # if(compile_version VERSION_LESS_EQUAL 0.4.0.1)
 
-            find_program(DKCODER NAMES dkcoder REQUIRED HINTS ${hints} ${find_program_ARGS})
-            message(${ARG_LOGLEVEL} "DkCoder installed.")
-        endif()
-    endif()
+        # Get and verify DKCODER_TOOL is present
+        find_program(DKCODER_TOOL NAMES dkcoder-tool REQUIRED HINTS ${hints} ${find_program_ARGS})
+        message(${ARG_LOGLEVEL} "DkCoder installed.")
+    endif() # if(NOT DKCODER_TOOL OR reinstall)
 
-    cmake_path(GET DKCODER PARENT_PATH dkcoder_helpers)
+    cmake_path(GET DKCODER_TOOL PARENT_PATH dkcoder_helpers)
 
     # macOS requires a code signing separation between executables (including shared libraries)
     # and non-executables (include bytecode). The latter will be in macOS bundle Resources/.
@@ -552,14 +568,20 @@ stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWL
     # Export binaries.
     #   ocamlc, ocamlrun and dune must be in the same directory as dkcoder.
     find_program(DKCODER_OCAMLC NAMES ocamlc REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
-    find_program(DKCODER_OCAMLRUN NAMES ocamlrun REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
     find_program(DKCODER_DUNE NAMES dune REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
-    find_program(DKCODER_RUN NAMES DkCoder_Edge-Run.bc REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_resourcesdir}/bytecode)
+    find_program(DKCODER_OCAMLRUN NAMES ocamlrun REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
+    if(compile_version VERSION_GREATER_EQUAL 2.1.4.10 OR compile_version STREQUAL Env)
+        find_program(DKCODER_RUN NAMES DkCoder_Edge__Run REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_helpers})
+        set("${ARG_DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME}" OFF PARENT_SCOPE)
+    else()
+        find_program(DKCODER_RUN NAMES DkCoder_Edge-Run.bc REQUIRED NO_DEFAULT_PATH HINTS ${dkcoder_resourcesdir}/bytecode)
+        set("${ARG_DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME}" ON PARENT_SCOPE)
+    endif()
 
     set(problem_solution "Problem: The DkCoder installation is corrupted. Solution: Remove the directory ${DKCODER_HOME} and try again.")
 
     # Export ocamlfind.conf
-    if(DKCODER_VERSION VERSION_LESS_EQUAL 0.4.0.1)
+    if(compile_version VERSION_LESS_EQUAL 0.4.0.1 AND NOT compile_version STREQUAL "Env")
         set(DKCODER_OCAMLFIND_CONF "${ocamlfind_conf}" PARENT_SCOPE)
     endif()
 
@@ -577,11 +599,12 @@ stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWL
     set(DKCODER_ETC "${dkcoder_etc}" PARENT_SCOPE)
 
     # Export lib
-    cmake_path(APPEND dkcoder_resourcesdir lib OUTPUT_VARIABLE dkcoder_sitelib)
-    if(NOT IS_DIRECTORY "${dkcoder_sitelib}")
+    cmake_path(APPEND dkcoder_resourcesdir lib OUTPUT_VARIABLE dkcoder_base_sitelib)
+    if(NOT IS_DIRECTORY "${dkcoder_base_sitelib}")
         message(FATAL_ERROR "${problem_solution}")
     endif()
-    set(DKCODER_SITELIB "${dkcoder_sitelib}" PARENT_SCOPE)
+    set(DKCODER_BASE_SITELIB "${dkcoder_base_sitelib}" PARENT_SCOPE)
+    set(DKCODER_EXT_SITELIB "" PARENT_SCOPE)
 
     # Export share
     cmake_path(APPEND dkcoder_resourcesdir share OUTPUT_VARIABLE dkcoder_share)
@@ -591,8 +614,7 @@ stdlib="@DKCODER_HOME@/DkCoder.bundle/Contents/Resources/lib/ocaml"]] @ONLY NEWL
     set(DKCODER_SHARE "${dkcoder_share}" PARENT_SCOPE)
 
     # Export version
-    string(REPLACE "-" "." compile_version_dotted "${compile_version}") # 0.2.0-1 -> 0.2.0.1
-    set(DKCODER_VERSION "${compile_version_dotted}" PARENT_SCOPE)
+    set(DKCODER_VERSION "${compile_version}" PARENT_SCOPE)
 
     # Export run vid (Env or V0_1)
     set(DKCODER_RUN_VERSION "${V_id}" PARENT_SCOPE)
@@ -637,7 +659,9 @@ endfunction()
 # Confer: https://stackoverflow.com/questions/75071180/pass-ctrlc-to-cmake-custom-command-under-vscode
 function(__dkcoder_delegate)
     set(noValues)
-    set(singleValues PACKAGE_NAMESPACE PACKAGE_QUALIFIER FULLY_QUALIFIED_MODULE ARGUMENT_LIST_VARIABLE)
+    set(singleValues PACKAGE_NAMESPACE PACKAGE_QUALIFIER
+        FULLY_QUALIFIED_MODULE ARGUMENT_LIST_VARIABLE
+        VERSION DKCODER_RUN_REQUIRES_OCAMLRUN)
     set(multiValues)
     cmake_parse_arguments(PARSE_ARGV 0 ARG "${noValues}" "${singleValues}" "${multiValues}")
 
@@ -647,8 +671,8 @@ function(__dkcoder_delegate)
     #   compiling a bytecode executable, we have to do union of environments for
     #   both ocamlc + ocamlrun.
     __dkcoder_prep_environment()
-    __dkcoder_add_environment_set("OCAMLLIB=${DKCODER_SITELIB}/ocaml")
-    if(DKCODER_VERSION VERSION_LESS_EQUAL 0.4.0.1)
+    __dkcoder_add_environment_set("OCAMLLIB=${DKCODER_BASE_SITELIB}/ocaml")
+    if(ARG_VERSION VERSION_LESS_EQUAL 0.4.0.1)
         #   Assumptions.ocamlfind_configuration_available_to_ocaml_compiler_in_coder_run
         __dkcoder_add_environment_set("OCAMLFIND_CONF=${DKCODER_OCAMLFIND_CONF}")
     endif()
@@ -660,16 +684,22 @@ function(__dkcoder_delegate)
         __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_HELPERS}/stublibs")
         __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_HELPERS}/stublibs")
     else()
-        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_SITELIB}/stublibs")
-        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_SITELIB}/ocaml/stublibs")
-        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_SITELIB}/stublibs")
-        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_SITELIB}/ocaml/stublibs")
+        if(DKCODER_EXT_SITELIB)
+            __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_EXT_SITELIB}/stublibs")
+        endif()
+        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_BASE_SITELIB}/stublibs")
+        __dkcoder_add_environment_mod("CAML_LD_LIBRARY_PATH=path_list_prepend:${DKCODER_BASE_SITELIB}/ocaml/stublibs")
+        if(DKCODER_EXT_SITELIB)
+            __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_EXT_SITELIB}/stublibs")
+        endif()
+        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_BASE_SITELIB}/stublibs")
+        __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_BASE_SITELIB}/ocaml/stublibs")
     endif()
     #   Assumptions.coder_run_has_environment_for_compiling_bytecode
     #
     #   PATH=path_list_prepend? Assumptions.coder_compatible_dune_is_at_front_of_coder_run_path
     __dkcoder_add_environment_mod("PATH=path_list_prepend:${DKCODER_HELPERS}")
-    if(DKCODER_VERSION VERSION_GREATER 0.2.0.1 OR DKCODER_VERSION STREQUAL Env)
+    if(ARG_VERSION VERSION_GREATER 0.2.0.1 OR ARG_VERSION STREQUAL Env)
         __dkcoder_add_environment_set("DKCODER_CMAKE_EXE=${CMAKE_COMMAND}")
         __dkcoder_add_environment_set("DKCODER_NINJA_EXE=${CMAKE_MAKE_PROGRAM}")
     endif()
@@ -680,11 +710,19 @@ function(__dkcoder_delegate)
     #   detection of ABI (ex. ./dk downloads x86_64 for macOS but ABI is detected as arm64).
     cmake_path(NATIVE_PATH DKCODER_HELPERS NORMALIZE DKCODER_HELPERS_NATIVE)
     cmake_path(NATIVE_PATH DKCODER_SHARE NORMALIZE DKCODER_SHARE_NATIVE)
-    cmake_path(NATIVE_PATH DKCODER_SITELIB NORMALIZE DKCODER_SITELIB_NATIVE)
+    cmake_path(NATIVE_PATH DKCODER_BASE_SITELIB NORMALIZE DKCODER_BASE_SITELIB_NATIVE)
+    if(DKCODER_EXT_SITELIB)
+        cmake_path(NATIVE_PATH DKCODER_EXT_SITELIB NORMALIZE DKCODER_EXT_SITELIB_NATIVE)
+    else()
+        set(DKCODER_EXT_SITELIB_NATIVE)
+    endif()
     __dkcoder_add_environment_set("DKCODER_HELPERS=${DKCODER_HELPERS_NATIVE}")
     __dkcoder_add_environment_set("DKCODER_SHARE=${DKCODER_SHARE_NATIVE}")
-    if(DKCODER_VERSION VERSION_GREATER 0.4.0.1 OR DKCODER_VERSION STREQUAL Env)
-        __dkcoder_add_environment_set("DKCODER_SITELIB=${DKCODER_SITELIB_NATIVE}")
+    if(ARG_VERSION VERSION_GREATER_EQUAL 2.1.4.10 OR ARG_VERSION STREQUAL Env)
+        __dkcoder_add_environment_set("DKCODER_BASE_SITELIB=${DKCODER_BASE_SITELIB_NATIVE}")
+        __dkcoder_add_environment_set("DKCODER_EXT_SITELIB=${DKCODER_EXT_SITELIB_NATIVE}")
+    elseif(ARG_VERSION VERSION_GREATER 0.4.0.1)
+        __dkcoder_add_environment_set("DKCODER_SITELIB=${DKCODER_BASE_SITELIB_NATIVE}")
     endif()
     __dkcoder_add_environment_set("DKCODER_RUN_VERSION=${DKCODER_RUN_VERSION}")
     __dkcoder_add_environment_set("DKCODER_RUN_ENV_URL_BASE=${__DkRun_Env_URL_BASE}")
@@ -712,7 +750,7 @@ function(__dkcoder_delegate)
         if(ARG_FULLY_QUALIFIED_MODULE STREQUAL Run)
             set(entryExec "${DKCODER_RUN}")
         else()
-            message(FATAL_ERROR "Problem: DkCoder only supports the Run entrypoint. Solution: Was there a typo? Try DkRun_${__DkRun_LTS_VERSION}.Run instead.")
+            message(FATAL_ERROR "Problem: DkCoder only supports the Run entrypoint, not ${ARG_FULLY_QUALIFIED_MODULE}. Solution: Was there a typo? Try DkRun_${__DkRun_LTS_VERSION}.Run instead.")
         endif()
     else()
         # If not explicitly a built-in DkCoder entry then use the [Run] entry.
@@ -730,11 +768,15 @@ function(__dkcoder_delegate)
     endif()
 
     # Write postscript launch script.
+    set(entryExec_PRECOMMAND)
     if(CMAKE_HOST_WIN32)
         cmake_path(NATIVE_PATH CMAKE_COMMAND CMAKE_COMMAND_NATIVE)
-        cmake_path(NATIVE_PATH DKCODER_OCAMLRUN DKCODER_OCAMLRUN_NATIVE)
+        cmake_path(NATIVE_PATH DKCODER_OCAMLRUN DKCODER_OCAMLRUN_NATIVE)        
+        if(DKCODER_RUN_REQUIRES_OCAMLRUN)
+            set(entryExec_PRECOMMAND "\"${DKCODER_OCAMLRUN_NATIVE}\" ")
+        endif()
         cmake_path(NATIVE_PATH entryExec entryExec_NATIVE)
-        file(CONFIGURE OUTPUT "${DKCODER_POST_SCRIPT}" CONTENT [[REM @ECHO OFF
+        file(CONFIGURE OUTPUT "${DKCODER_POST_SCRIPT}" CONTENT [[
 REM Clear "SET" variables from dk.cmd. They are not part of DkCoder API.
 
 SET DK_7Z_DOTVER=
@@ -757,6 +799,7 @@ SET DK_NONCE=
 SET DK_PROJ_DIR=
 SET DK_PWD=
 SET DK_QUIET=
+SET DK_AWAY=
 SET DK_DATA_HOME=
 SET DK_TTY=
 SET DK_UNZIP_DEST=
@@ -765,10 +808,13 @@ SET DK_WORKDIR=
 REM Clear variables that influence __dk.cmake. They are not part of DkCoder API.
 SET DKRUN_ENV_URL_BASE=
 
-"@CMAKE_COMMAND_NATIVE@" -E env @envMods_DOS@ -- "@DKCODER_OCAMLRUN_NATIVE@" "@entryExec_NATIVE@" @dkcoder_ARGS@
+"@CMAKE_COMMAND_NATIVE@" -E env @envMods_DOS@ -- @entryExec_PRECOMMAND@"@entryExec_NATIVE@" @dkcoder_ARGS@
 ]]
             @ONLY NEWLINE_STYLE DOS)
     else()
+        if(DKCODER_RUN_REQUIRES_OCAMLRUN)
+            set(entryExec_PRECOMMAND "'${DKCODER_OCAMLRUN}' ")
+        endif()
         #   + Clear "export" variables from dk
         file(CONFIGURE OUTPUT "${DKCODER_POST_SCRIPT}" CONTENT [[#!/bin/sh
 set -euf
@@ -780,7 +826,7 @@ unset DK_PROG_INSTALLED_LOCATION
 # Clear variables that influence __dk.cmake. They are not part of DkCoder API.
 unset DKRUN_ENV_URL_BASE
 
-exec '@CMAKE_COMMAND@' -E env @envMods_DOS@ -- '@DKCODER_OCAMLRUN@' '@entryExec@' @dkcoder_ARGS@
+exec '@CMAKE_COMMAND@' -E env @envMods_DOS@ -- @entryExec_PRECOMMAND@'@entryExec@' @dkcoder_ARGS@
 ]]
             @ONLY NEWLINE_STYLE UNIX)
     endif()
@@ -947,6 +993,11 @@ Environment variables:
             set(quiet ON)
         endif()
 
+        # Rename RunAway to Run
+        if(package_namespace STREQUAL "Dk" AND package_qualifier STREQUAL "Run" AND module STREQUAL "RunAway")
+            set(module Run)
+        endif()
+        
         # Detect ABI
         __dkcoder_abi(
             ABI_VARIABLE abi
@@ -954,17 +1005,21 @@ Environment variables:
             QUIET "${quiet}")
 
         # Do DkCoder install
+        #   __dkrun_compile_version (ex. 2.1.4-r10 or Env) -> DKCODER_VERSION (ex. 2.1.4.10 or Env)
         __dkcoder_install(
             ABI "${abi}"
             LOGLEVEL "${__dkcoder_log_level}"
             VERSION "${__dkrun_compile_version}"
-            QUIET "${quiet}")
+            QUIET "${quiet}"
+            DKCODER_RUN_REQUIRES_OCAMLRUN_VARNAME dkcoder_run_requires_ocamlrun)
 
         # Do DkCoder delegation
         __dkcoder_delegate(
             PACKAGE_NAMESPACE "${package_namespace}"
             PACKAGE_QUALIFIER "${package_qualifier}"
             FULLY_QUALIFIED_MODULE "${module}"
+            VERSION "${DKCODER_VERSION}"
+            DKCODER_RUN_REQUIRES_OCAMLRUN "${dkcoder_run_requires_ocamlrun}"
             ARGUMENT_LIST_VARIABLE argument_list)
         return()
     endif()
@@ -973,7 +1028,7 @@ Environment variables:
     set(dot_function_names)
     file(GLOB_RECURSE command_files
             LIST_DIRECTORIES FALSE
-            RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts
+            RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts"
             cmake/scripts/*.cmake)
     foreach(command_file IN LISTS command_files)
         # Exclude files and directories that start with: __dk-
@@ -1063,26 +1118,36 @@ endfunction()
         endif()
         if(NOT tstamp_EPOCHSECS OR tstamp_EPOCHSECS LESS_EQUAL min_valid_EPOCHSECS)
             # Cache miss. Time to update dkcoder.
+            file(REMOVE_RECURSE "${dkcoder_subbuild_dir}")
             FetchContent_Populate(dkcoder
                 QUIET
                 SOURCE_DIR "${dkcoder_src_dir}"
                 SUBBUILD_DIR "${dkcoder_subbuild_dir}"
-                GIT_REPOSITORY https://github.com/diskuv/dkcoder.git
-                GIT_TAG 1.0
-                # As of 3.25.3 the bug https://gitlab.kitware.com/cmake/cmake/-/issues/24578
-                # has still not been fixed. That means empty strings get removed.
-                # ExternalProject_Add(GIT_SUBMODULES) in dkcoder-subbuild/CMakeLists.txt
-                # means fetch all submodules.
-                # https://gitlab.kitware.com/cmake/cmake/-/issues/20579#note_734045
-                # has a workaround.
-                GIT_SUBMODULES cmake # Non-git-submodule dir that already exists
-                GIT_SUBMODULES_RECURSE OFF)
+
+                # METHOD 1: GIT
+                # But Git is not always available, especially inside Docker containers.
+                #
+                # GIT_REPOSITORY https://github.com/diskuv/dkcoder.git
+                # GIT_TAG 1.0
+                # # As of 3.25.3 the bug https://gitlab.kitware.com/cmake/cmake/-/issues/24578
+                # # has still not been fixed. That means empty strings get removed.
+                # # ExternalProject_Add(GIT_SUBMODULES) in dkcoder-subbuild/CMakeLists.txt
+                # # means fetch all submodules.
+                # # https://gitlab.kitware.com/cmake/cmake/-/issues/20579#note_734045
+                # # has a workaround.
+                # GIT_SUBMODULES cmake # Non-git-submodule dir that already exists
+                # GIT_SUBMODULES_RECURSE OFF
+
+                # METHOD 2: Download source archive
+                # Why [.zip] rather than [.tar.gz]? Because [.tar.gz] might be some bleeding
+                # edge GNU tarball that isn't supported by CMake. [.zip] is a reliable, simple format.
+                URL https://github.com/diskuv/dkcoder/archive/refs/heads/1.0.zip)
         endif()
         file(GLOB_RECURSE system_command_files
             LIST_DIRECTORIES FALSE
-            RELATIVE ${dkcoder_src_dir}/cmake/scripts
-            ${dkcoder_src_dir}/cmake/scripts/dkml/*.cmake
-            ${dkcoder_src_dir}/cmake/scripts/dksdk/*.cmake)
+            RELATIVE "${dkcoder_src_dir}/cmake/scripts"
+            "${dkcoder_src_dir}/cmake/scripts/dkml/*.cmake"
+            "${dkcoder_src_dir}/cmake/scripts/dksdk/*.cmake")
         foreach(command_file IN LISTS system_command_files)
             # Normalize and lowercase
             cmake_path(NORMAL_PATH command_file)

@@ -1,0 +1,6 @@
+# Since we use [Utils.uv_run ~exclude_newer:"2025-01-04T00:00:00Z"]
+# we technically should not require version numbers.
+# But to allow for special cases, and to inject a bit of documentation,
+# we make the version numbers explicit.
+
+aqtinstall==3.1.21

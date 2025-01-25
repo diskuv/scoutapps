@@ -193,6 +193,6 @@ You should copy the contents of `CMakeUserPresets-SUGGESTED.json` into
 
 ## TODO
 
-1. Make Objects around src/Std/SquirrelScout_Std.ml's Database_actions.
+1. Make Objects around src/Std/StdEntryml's Database_actions.
    1. Part of that will be adding to the schema.capnp and converting from `int option` (etc.)
       back and forth to Capn' Proto. 

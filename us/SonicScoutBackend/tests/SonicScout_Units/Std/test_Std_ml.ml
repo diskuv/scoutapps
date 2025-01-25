@@ -1,5 +1,5 @@
 open Tezt
-open SquirrelScout_Std
+open StdEntry
 
 let tags = [ "std" ]
 

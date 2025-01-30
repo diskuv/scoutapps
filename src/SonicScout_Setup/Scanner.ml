@@ -21,7 +21,7 @@ let run ~slots () =
     Fpath.(
       ScoutBackend.build_reldir / "src" / "SonicScout_ManagerApp" // subpath)
   in
-  let { host = _; target = _; qt5_ver; subdir } : Qt.qt_locations =
+  let { qt_ver; aqt_subdir; _ } : Qt.qt_locations =
     Qt.qt_locations ()
   in
 
@@ -50,8 +50,8 @@ let run ~slots () =
   in
 
   (* Make Qt5 shared libraries available. *)
-  let qt_bin = Fpath.(projectdir / qt5_ver / subdir / "bin") in
-  let qt_projectrel_lib = Fpath.(v qt5_ver / subdir / "lib") in
+  let qt_bin = Fpath.(projectdir / qt_ver / aqt_subdir / "bin") in
+  let qt_projectrel_lib = Fpath.(v qt_ver / aqt_subdir / "lib") in
   let env = OS.Env.current () |> rmsg in
   let env =
     match Tr1HostMachine.os with

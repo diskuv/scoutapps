@@ -183,7 +183,7 @@ let _uv_cache_args ~slots args =
   | None -> "--no-cache" :: args
   | Some cache_dir -> "--cache-dir" :: Fpath.to_string cache_dir :: args
 
-let _uv_more_args ~slots args =
+let _uv_core_args ~slots args =
   let args =
     (* Allow use in corporate environments, even if slower on macOS. *)
     "--native-tls" ::
@@ -195,11 +195,11 @@ let _uv_more_args ~slots args =
   in
   (* Never use system cache directory for repeatability *)
   _uv_cache_args ~slots args
-  [@ocamlformat "disable"]
+  [@@ocamlformat "disable"]
 
 let uv ?env ~slots args =
   let open Bos in
-  let args = _uv_more_args ~slots args in
+  let args = _uv_core_args ~slots args in
   Logs.info (fun l -> l "uv %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
   let the_exe =
     match Slots.uv slots with Some exe -> Cmd.(v (p exe)) | None -> Cmd.v "uv"
@@ -208,7 +208,7 @@ let uv ?env ~slots args =
 
 let uv_out_string ?env ~slots args =
   let open Bos in
-  let args = _uv_more_args ~slots args in
+  let args = _uv_core_args ~slots args in
   Logs.info (fun l -> l "uv %a" (Fmt.list ~sep:Fmt.sp Fmt.string) args);
   let the_exe =
     match Slots.uv slots with Some exe -> Cmd.(v (p exe)) | None -> Cmd.v "uv"
@@ -229,18 +229,9 @@ let _uv_run_env ?global_pip_config () =
 
 let _uv_run_args ?exclude_newer ~slots () =
   let a =
-    [
-      "--no-env-file";
-      "--no-config";
-      "--native-tls";
-      "--python-preference";
-      "only-managed";
-    ]
-  in
-  let a =
     match exclude_newer with
-    | None -> a
-    | Some date -> a @ [ "--exclude-newer"; date ]
+    | None -> [ "--no-env-file" ]
+    | Some date -> [ "--no-env-file"; "--exclude-newer"; date ]
   in
   _uv_cache_args ~slots a
 

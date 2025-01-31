@@ -78,9 +78,9 @@ let sha256_and_sha1_file file =
       feedloop (f ()))
     ()
 
-(** Subdirectories (called "addons" in Qt6) of https://mirrors.ocf.berkeley.edu/qt/online/qtsdkrepository/windows_x86/desktop/qt5_5152/
+(** Subdirectories (called "addons" in Qt6) of https://qtproject.mirror.liquidtelecom.com/online/qtsdkrepository/windows_x86/desktop/qt5_5152/
     that are not in the base directory
-    https://mirrors.ocf.berkeley.edu/qt/online/qtsdkrepository/windows_x86/desktop/qt5_5152/qt.qt5.5152.win64_msvc2019_64/
+    https://qtproject.mirror.liquidtelecom.com/online/qtsdkrepository/windows_x86/desktop/qt5_5152/qt.qt5.5152.win64_msvc2019_64/
     
     See https://doc.qt.io/qt-6/qtmodules.html and
     https://aqtinstall.readthedocs.io/en/latest/getting_started.html#installing-a-subset-of-qt-archives-advanced *)
@@ -99,16 +99,16 @@ let qt_nonbase_modules =
     "qtwebglplugin";
   ]
 
-let show_archive_server_contents ~archives_dir ~qt_abi ~qt_downloadver
-    ~qt_updatever ~aqt_target =
+let show_asset_spec_contents ~archives_dir ~qt_abi ~qt_downloadver ~qt_updatever
+    ~aqt_target =
   let open Bos in
   let f_contents fpath acc =
     let basename = Fpath.basename fpath in
     (* https://github.com/miurahr/aqtinstall/blob/7917b2d725f56e8ceb6ba17b41ea0571506c7320/aqt/archives.py#L492-L499 *)
     (* Example base:
-       https://mirrors.ocf.berkeley.edu/qt/online/qtsdkrepository/windows_x86/desktop/qt5_5152/qt.qt5.5152.win64_msvc2019_64/5.15.2-0-202011130602qtconnectivity-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z *)
+       https://qtproject.mirror.liquidtelecom.com/online/qtsdkrepository/windows_x86/desktop/qt5_5152/qt.qt5.5152.win64_msvc2019_64/5.15.2-0-202011130602qtconnectivity-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z *)
     (* Example nonbase:
-       https://mirrors.ocf.berkeley.edu/qt/online/qtsdkrepository/windows_x86/desktop/qt5_5152/qt.qt5.5152.qtwebengine.win64_msvc2019_64/5.15.2-0-202011130602qtwebengine-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z *)
+       https://qtproject.mirror.liquidtelecom.com/online/qtsdkrepository/windows_x86/desktop/qt5_5152/qt.qt5.5152.qtwebengine.win64_msvc2019_64/5.15.2-0-202011130602qtwebengine-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64.7z *)
     let nonbase =
       List.find_map
         (fun nonbase_module ->
@@ -118,7 +118,7 @@ let show_archive_server_contents ~archives_dir ~qt_abi ~qt_downloadver
         qt_nonbase_modules
     in
     (* Example debuginfo:
-       https://mirrors.ocf.berkeley.edu/qt/online/qtsdkrepository/windows_x86/desktop/qt5_5152/qt.qt5.5152.debug_info.win64_msvc2019_64/5.15.2-0-202011130602qt3d-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64-debug-symbols.7z *)
+       https://qtproject.mirror.liquidtelecom.com/online/qtsdkrepository/windows_x86/desktop/qt5_5152/qt.qt5.5152.debug_info.win64_msvc2019_64/5.15.2-0-202011130602qt3d-Windows-Windows_10-MSVC2019-Windows-Windows_10-X86_64-debug-symbols.7z *)
     let debuginfo = String.ends_with basename ~suffix:"-debug-symbols.7z" in
     let archive_path =
       (* qt5_5152 -> qt5.5152 *)
@@ -143,9 +143,17 @@ let show_archive_server_contents ~archives_dir ~qt_abi ~qt_downloadver
       let s256, s1 = sha256_and_sha1_file fpath |> Utils.rmsg in
       (Digestif.SHA256.to_hex s256, Digestif.SHA1.to_hex s1)
     in
-    let sha256_of_sha1 =
-      (* The content of a .sha1 file is the lowercase hex of the SHA1 with no CR or LF. *)
-      Digestif.SHA256.(to_hex (digest_string sha1))
+    let sha256_of_dot_sha1 =
+      (* The content of a .sha1 file is the lowercase hex of the SHA1 __with no CR or LF__.
+         Example: d59e7794267f0e42fd5d57f88c00c28fb86bc3a2 *)
+      let contents = sha1 in
+      Digestif.SHA256.(to_hex (digest_string contents))
+    in
+    let sha256_of_dot_sha256 =
+      (* The content of a .sha256 file is the lowercase hex of the SHA1 followed by two spaces and the basename(url), __with LF__.
+         Example: 0dc63ca9bb91cb204d479356edb89b30e3599f1c0bce469b1dd5a339134f25e2  5.15.2-0-202011130602d3dcompiler_47-x64.7z *)
+      let contents = sha256 ^ "  " ^ qt_updatever ^ basename ^ "\n" in
+      Digestif.SHA256.(to_hex (digest_string contents))
     in
     `O
       [
@@ -155,7 +163,12 @@ let show_archive_server_contents ~archives_dir ~qt_abi ~qt_downloadver
     :: `O
          [
            ("path_unencrypted", `String (archive_path ^ ".sha1"));
-           ("checksum", `O [ ("sha256", `String sha256_of_sha1) ]);
+           ("checksum", `O [ ("sha256", `String sha256_of_dot_sha1) ]);
+         ]
+    :: `O
+         [
+           ("path_unencrypted", `String (archive_path ^ ".sha256"));
+           ("checksum", `O [ ("sha256", `String sha256_of_dot_sha256) ]);
          ]
     :: acc
   in
@@ -167,7 +180,7 @@ let show_archive_server_contents ~archives_dir ~qt_abi ~qt_downloadver
   in
   print_endline (Ezjsonm.to_string ~minify:false (`A contents))
 
-let run ?create_archive ?host_abi ~slots () =
+let run ?create_asset_spec ?host_abi ~slots () =
   Utils.start_step "Installing Qt";
   let open Bos in
   let cwd = OS.Dir.current () |> Utils.rmsg in
@@ -194,19 +207,24 @@ let run ?create_archive ?host_abi ~slots () =
   let archives_dir = Fpath.(qt5_dir / aqt_subdir / "archives") in
   if
     (not (OS.Dir.exists qt5_dir |> Utils.rmsg))
-    || create_archive = Some ()
+    || create_asset_spec = Some ()
        && not (OS.Dir.exists archives_dir |> Utils.rmsg)
   then begin
     Logs.info (fun l ->
         l "Installing Qt modules. This may take %s minutes ..."
           (if Sys.win32 then "several" else "a few"));
+    Logs.info (fun l ->
+        l
+          "Debugging Qt downloads?@ Change 'level=INFO' to 'level=DEBUG' in@ \
+           %a/environments-v1/*/*/Lib/site-packages/aqt/logging.ini"
+          (Fmt.option Fpath.pp) (Slots.uv_cache slots));
     let python_version_args =
       match Slots.python_version slots with
       | None -> []
       | Some python_version -> [ "--python"; python_version ]
     in
     let archive_args =
-      if create_archive = Some () then
+      if create_asset_spec = Some () then
         (* https://aqtinstall.readthedocs.io/en/latest/configuration.html *)
         [ "--keep"; "--archive-dest"; Fpath.to_string archives_dir ]
       else []
@@ -219,6 +237,9 @@ let run ?create_archive ?host_abi ~slots () =
           Fpath.to_string
             Fpath.(projectdir / "dependencies" / "zxing" / "requirements.txt");
           "aqt";
+          (* config: Use a Diskuv hosted mirror of Qt *)
+          "--config";
+          Filename.concat (Tr1Assets.LocalDir.v ()) "qt-settings.ini";
           "install-qt";
           "-O";
           Fpath.to_string projectdir;
@@ -226,21 +247,20 @@ let run ?create_archive ?host_abi ~slots () =
           "desktop";
           qt_ver;
           aqt_target;
-          "--base";
-          "http://mirrors.ocf.berkeley.edu/qt/";
           "--modules";
           "all";
         ]
       @ archive_args)
   end;
-  if create_archive = Some () then
-    show_archive_server_contents ~archives_dir ~qt_abi ~qt_downloadver
-      ~qt_updatever ~aqt_target
+  if create_asset_spec = Some () then
+    show_asset_spec_contents ~archives_dir ~qt_abi ~qt_downloadver ~qt_updatever
+      ~aqt_target
 
 let __init () =
   if Array.length Sys.argv <= 1 then
     failwith
-      (Printf.sprintf "./dk %s windows_x86_64|darwin_arm64|..." __MODULE_ID__);
+      (Printf.sprintf "usage: ./dk %s windows_x86_64|darwin_arm64|..."
+         __MODULE_ID__);
   let host_abi =
     match Sys.argv.(1) with
     | "darwin_x86_64" -> `darwin_x86_64
@@ -254,4 +274,4 @@ let __init () =
   in
   let slots = Slots.create () in
   let slots = Python.run ~slots () in
-  run ~create_archive:() ~host_abi ~slots ()
+  run ~create_asset_spec:() ~host_abi ~slots ()

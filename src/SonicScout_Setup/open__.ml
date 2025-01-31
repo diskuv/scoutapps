@@ -24,3 +24,4 @@ module Uchar = Tr1Stdlib_V414Base.Uchar
 module Ezjsonm = Tr1Json_Std.Ezjsonm
 module Fpath = Tr1Fpath_Std.Fpath
 module Cmdliner = Tr1Cmdliner_Std.Cmdliner
+let print_endline = Tr1Stdlib_V414Io.StdIo.print_endline

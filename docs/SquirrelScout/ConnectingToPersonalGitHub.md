@@ -29,6 +29,5 @@ SIXTH, in Powershell:
 
 ```powershell
 git pull --ff-only
-git push origin main
-git branch --set-upstream-to origin/main
+git branch --set-upstream-to upstream/main
 ```

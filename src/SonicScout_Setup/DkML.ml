@@ -10,17 +10,6 @@ let find_dkml_win32 () =
 
 let run_win32 ?global_dkml ~slots () =
   let open Bos in
-  if
-    not
-      (OS.File.exists (Fpath.v {|C:\VS\Common7\Tools\VsDevCmd.bat|})
-      |> Utils.rmsg)
-  then
-    Winget.install
-      [
-        "Microsoft.VisualStudio.2019.BuildTools";
-        "--override";
-        {|--wait --passive --installPath C:\VS --addProductLang En-us --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended|};
-      ];
   let slots =
     if OS.Cmd.exists Cmd.(v "git") |> Utils.rmsg then slots
     else begin

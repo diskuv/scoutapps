@@ -16,6 +16,7 @@ let _compile_base ?skip_android ({ dksdk_data_home; opts; global_dkml } as commo
 
   InitialSteps.run ~dksdk_data_home ();
   let slots = Slots.create () in
+  let slots = VisualStudio.run ?global_dkml ~slots () in
   let slots = DkML.run ?global_dkml ~slots () in
   let slots = _compile_backend ~slots common in
   let slots =

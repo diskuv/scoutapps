@@ -157,17 +157,17 @@ let show_asset_spec_contents ~archives_dir ~qt_abi ~qt_downloadver ~qt_updatever
     in
     `O
       [
-        ("path_unencrypted", `String archive_path);
+        ("path", `String archive_path);
         ("checksum", `O [ ("sha256", `String sha256) ]);
       ]
     :: `O
          [
-           ("path_unencrypted", `String (archive_path ^ ".sha1"));
+           ("path", `String (archive_path ^ ".sha1"));
            ("checksum", `O [ ("sha256", `String sha256_of_dot_sha1) ]);
          ]
     :: `O
          [
-           ("path_unencrypted", `String (archive_path ^ ".sha256"));
+           ("path", `String (archive_path ^ ".sha256"));
            ("checksum", `O [ ("sha256", `String sha256_of_dot_sha256) ]);
          ]
     :: acc

@@ -5,6 +5,7 @@ let package ({ dksdk_data_home; opts; global_dkml } : Develop.common) notarize =
     Qt.run ();
     Sqlite3.run ();
     let slots = Slots.create () in
+    let slots = VisualStudio.run ?global_dkml ~slots () in
     let slots = DkML.run ?global_dkml ~slots () in
     let slots = ScoutBackend.run ?global_dkml ~opts ~slots () in
     ScoutBackend.package ~notarize ();
